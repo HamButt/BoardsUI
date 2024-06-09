@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root{
+  --header-background-color:#ff42b0;
+  --border-color: #202459;
+  --background-hover-color: #4149b4;
+  --background-link-color: #202459;
+}
+
+.header{
+  @apply flex items-center justify-between px-40 py-6
+}
+.login-link{
+  @apply border border-[var(--border-color)] shadow-md rounded-lg py-3 px-4 text-xl text-[var(--background-link-color)] hover:bg-[var(--background-link-color)] hover:text-white
+}
+.boards-create{
+  @apply border border-[var(--border-color)] shadow-md hover:bg-[var(--background-link-color)] text-xl text-[var(--background-link-color)] py-3 px-4  rounded-lg  hover:text-white
+}
+.occasion, .other-occasion {
+  @apply rounded-xl shadow-xl mx-5 text-center pt-10 mt-4
+}
+.occasion h1{
+  @apply text-3xl font-light text-white
+}
+.occasion div > p{
+  @apply text-lg font-light mt-2 text-white
+}
+.occasion > p{
+  @apply text-xl font-light mt-2 text-white
+}
+.occasion-image{
+  @apply mt-6 rounded-bl-xl rounded-br-xl object-cover 
+}
+.step{
+  @apply text-2xl 
+}
+.step-process{
+  @apply text-xl
+}
+
+.one, .two, .three{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 350px;
+  height: 400px;
+  /* background-color: var(--header-background-color); */
+  color: var(--background-link-color);
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  margin-top: 2rem;
+  border: 1px solid var(--background-link-color);
+}
+.separator{
+  align-items: center;
+  color: #dadcdf;
+  display: flex;
+  font-size: .9rem;
+  font-weight: 500;
+  margin: 20px 0;
+  text-align: center;
+}
+.separator:before, .separator:after{
+  border-bottom: 1px solid #dadcdf;
+  content: "";
+  flex: 1;
+  margin-inline: 5px;
+}
+.menu-items{
+  @apply mt-2 border-l-4 flex  items-center ps-4 mx-4 border-[var(--border-color)]  bg-[#e4f6fc] rounded-md py-3
+}
+.menu-items > p{
+  font-size: 16px;
+  color: grey;
+}
+.file-uploader .guZdik{
+  padding: 20px !important;
+  min-width: 100% !important;
+  border: 2px solid #D2D4D7;
+  height: 120px;
+  margin-top: 15px;
+}
+
+.guZdik input{
+  padding: 10px;
+}
+.jWkLDY span {
+  font-size: 20px;
+  padding-left: 10px;
+}
+.kFhUBM{
+  font-size: 20px !important;
+}
+.option{
+  @apply w-64 py-10 mx-2 cursor-pointer mt-3 bg-white hover:bg-[#dadcdf] p-5 flex flex-col items-center justify-between shadow-md rounded-lg
+  
+}
+.option > p{
+  @apply mt-4 text-xl w-40 text-ellipsis overflow-hidden whitespace-nowrap text-center
+}
+.occasion-img{
+  @apply object-cover w-full h-full
+}
+
+.gifs::-webkit-scrollbar {
+  width: 8px;
+}
+
+.gifs::-webkit-scrollbar-track {
+  display: none;
+}
+
+.gifs::-webkit-scrollbar-thumb {
+  background-color: var(--background-link-color);
+  border-radius: 100px;   
+}
+.board-next-button{
+  @apply btn glass  hover:bg-[#202459] bg-[#202459] w-5/12 mt-8 px-5 text-white rounded-lg shadow-lg text-xl
+}
+
+.img {
+  display: block;
+  width: 250px;
+  height: 300px;
+  margin-top: 2rem;
+  cursor: pointer;
+  /* padding: 10px; */
+}
+
+
+@keyframes colorTravel {
+  0%, 100% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 100% 0;
+  }
+}
+
+.cards-heading {
+  display: inline-block;
+  background: linear-gradient(50deg, rgb(250, 250, 250), rgb(230, 42, 255), rgb(105, 255, 11));
+  background-size: 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: colorTravel 1s linear infinite;
+}
+
+
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  right: 0;
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
