@@ -52,7 +52,7 @@ function BackgroundColorTab({setImageUrl, boardId, setUploadedImage, setOpenNav}
 
   return (
     <div data-offset='0' data-aos="fade-right"  data-aos-easing="ease-in-back" data-aos-duration="300">
-            <h1 className='text-black text-lg text-center'>Select your background color</h1>
+        <h1 className='text-black text-lg text-center'>Select your background color</h1>
         <div className='mt-2'>
             <ColorPicker hideInput={["rgb", "hsv"]} color={color} onChange={setColor}/>
         </div>

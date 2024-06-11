@@ -218,7 +218,7 @@ function Post() {
         
         <Link style={{padding:"5px 16px", boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px"}} data-tip="Create Board" href='/boards/create' className='rounded-full text-5xl bg-white board-btn cursor-pointer tooltip tooltip-left fixed bottom-3 right-3  ' >+</Link>
 
-        <div id="mySidenav" className="sidenav bg-white " style={{marginRight: openNav ? "0" : "-30rem"}}>
+        <div id="mySidenav" className="sidenav bg-white" style={{marginRight: openNav ? "0" : "-30rem"}}>
             <button onClick={() => setOpenNav(false)} className='text-gray-800 text-end pe-5 w-full text-3xl m-0'>&times;</button>
             <h1 className='text-black text-xl text-center'>Set background</h1>
             

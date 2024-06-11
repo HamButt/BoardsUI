@@ -155,7 +155,7 @@ const getBoard = () =>{
 
         <div className='transition-all ease-linear'>
 
-          <div className=''>
+          <div>
               <p className='font-light text-md text-black text-center '>Search Image that are appropriate for all audiences. We reserve the right to remove content without notice! </p>
               <input name='image' type="search" className="mt-3 text-black outline-none px-3 py-3 rounded-md bg-transparent text-sm border border-black w-full" value={imageSearchValue} placeholder={`Search...`} onChange={(e) => setImageSearchValue(e.target.value)} /> 
           </div>

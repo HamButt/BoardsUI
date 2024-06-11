@@ -135,7 +135,7 @@ function BoardsAll() {
                       day: '2-digit' 
                   };
                   const formattedDate = date.toLocaleDateString('en-US', options)
-                  const formattedImage = Buffer.from(board.image.data)
+                  const formattedImage = Buffer.from(board.uploaded_image.data)
 
                   return (
 
