@@ -15,6 +15,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { FaYoutube } from "react-icons/fa6";
 
 
+
 function CreatePost() {
     const router = useRouter()
     const [GIFCompnent, setGIFComponent] = React.useState(false); 
@@ -34,8 +35,9 @@ function CreatePost() {
     const [videoLink, setVideoLink] = React.useState('');
     const [gifSearchValue, setGifSearchValue] = React.useState('');
     const [imageSearchValue, setImageSearchValue] = React.useState('');
-    const [debounceTimerForImage, setDebounceTimerForImage] = React.useState('');
-    const [debounceTimerForGIf, setDebounceTimerForGIf] = React.useState('');
+    const [debounceTimerForImage, setDebounceTimerForImage] = React.useState(0);
+    const [debounceTimerForGIf, setDebounceTimerForGIf] = React.useState(0);
+    const [imagePage, setImagePage] = React.useState(1);
     const [gifData, setGifData] = React.useState([]);
     const [imageData, setImageData] = React.useState([]);
     const imageTypes = ["JPG", "PNG", "JPEG"];
@@ -49,7 +51,7 @@ function CreatePost() {
     
     const params = {
         query: imageSearchValue,
-        page:  1,
+        page:  imagePage,
         per_page: 12,
         client_id: process.env.clientId,
         orientation: 'portrait',
@@ -84,8 +86,9 @@ function CreatePost() {
     }, [gifSearchValue])
 
     React.useEffect(()=>{
-        setImageSection(true)
         if(imageSearchValue){
+            setImageSection(true)
+            setImagePage((imgPg) => imgPg + 1 )
             clearTimeout(debounceTimerForImage);
             const newDebounceTimer = setTimeout(() => {
                 axios.get(process.env.unsplashUrl, { params })
@@ -96,9 +99,7 @@ function CreatePost() {
                 .catch(error => console.error('Error:', error));
                 }, 500);
                 setDebounceTimerForImage(newDebounceTimer);
-              }else{
-                  setImageData("")
-                }
+              }
                 
                 return () => {
                     if (debounceTimerForImage) {
@@ -152,8 +153,10 @@ function CreatePost() {
         .then((res) => {
             if(res.status === 200){
                 router.push(`/boards/${boardId}`)
-                setIsLoading(false)
-            }
+                }
+                setTimeout(() => {
+                    setIsLoading(false)
+                }, 3000);
         }).catch((err) => {
             console.log(err);
             setIsLoading(false)
@@ -183,7 +186,7 @@ function CreatePost() {
     <div className='min-h-screen h-full bg-[#202459] '>
 
         <Head>
-            <title>Creat Post</title>
+            <title>Create card</title>
         </Head>
 
         <NavBar/>
@@ -202,7 +205,6 @@ function CreatePost() {
                 <div className="uploding-section flex flex-col items-center justify-center mt-7">
                     <div className="buttons w-full flex itmes-center justify-center space-x-5">
 
-                    
                         <div className="dropdown dropdown-hover image-section">
                             <div className="btn border-indigo-600 w-44 text-indigo-600 "> <IoImages className='text-xl text-indigo-600' /> Add an image</div>
                             <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40">
@@ -210,7 +212,6 @@ function CreatePost() {
                                 <li onClick={() => {setImageComponent('search'); setGIFComponent(false);  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setGifData("")}}><a className='font-semibold'>Search</a></li>
                             </ul>
                         </div>
-
                         <div className="dropdown dropdown-hover gif-section">
                             <div className="btn border-pink-500 w-36 text-pink-500 "> <PiGifFill className='text-2xl text-pink-500' />Add a GIF</div>
                             <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40">
@@ -269,9 +270,9 @@ function CreatePost() {
                         {imageSearchValue && imageData.length ?  
                             imageData.map((img, index)=>{ 
                                 return(
-                                    <div key={index} className='border-2 mt-2 cursor-pointer' style={{maxWidth:"250px", height:"200px"}} 
-                                        onClick={() => {setSplashImage(img.urls.small); setImageComponent(false); setImageSection(false)}}>
-                                        <img className='h-full w-full' src={img.urls.thumb} alt="IMAGE URL" />
+                                    <div key={index} className='mt-2 cursor-pointer ' style={{maxWidth:"200px", height:"160px"}} 
+                                        onClick={() => {setSplashImage(img.urls.regular); setImageComponent(false); setImageSection(false)}}>
+                                        <img className='h-full w-full rounded-md' src={img.urls.small} alt="IMAGE URL" />
                                     </div> 
                                 )})
                             : ""}
