@@ -11,8 +11,8 @@ function Header() {
             <Image src={Logo} alt='Logo' width={70} height={70}  sizes='(max-width: 200px) 100vw, 33vw'/>
           </Link>
           <div className='space-x-5'>
-            <Link href='/how-to' className=''>How to</Link>
-            <Link href='/auth/login' className='btn btn-md shadow bg-white text-lg font-light border-black rounded-2xl hover:shadow-xl hover:bg-white '>Login</Link>
+              
+            {/* <Link href='/auth/login' className='btn btn-md shadow bg-white text-lg font-light border-black rounded-2xl hover:shadow-xl hover:bg-white '>Login</Link> */}
           </div>
       </div>
     </header>

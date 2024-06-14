@@ -218,8 +218,9 @@ function CreatePost() {
         <div className="selected-title bg-gray-200 py-4 text-center ">
             <p className='text-2xl text-black ' >{title}</p>
         </div>
+        
         <div className='post flex items-center justify-center '>
-            <div className="h-auto post-modal bg-white mt-5 py-8 rounded-lg w-6/12">
+            <div className="h-auto post-modal bg-white mt-5 py-8 rounded-lg w-6/12" data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                
                 <div className="back-link-arrow flex items-center ps-6 space-x-2">
                     <Link href={`/boards/${boardId}`} className='text-3xl' ><IoMdArrowRoundBack/></Link>

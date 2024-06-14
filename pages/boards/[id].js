@@ -16,8 +16,12 @@ import Confetti from '../../public/confetti.jpg'
 import Logo from '../../public/logo.png'
 import Swal from 'sweetalert2'
 import 'animate.css';
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { motion } from 'framer-motion'
-
+import {Popover, PopoverTrigger, PopoverContent, Button} from "@nextui-org/react";
+import Copy from '../../public/copy.png'
+import { MdDeleteOutline } from "react-icons/md";
+import { FaPlus } from "react-icons/fa6";
 function Post() {
     const router = useRouter()
     const [title,setTitle] = useState('')
@@ -31,6 +35,7 @@ function Post() {
     const [isLoading,setIsLoading] = useState(false)
     const [openNav,setOpenNav] = useState(false)
     const [modal,setModal] = useState(false)
+    const [isPopoverOpen,setIsPopoverOpen] = useState(true)
     const [sideComponent,setSideComponent] = useState('color')
     
     // Fetching Board
@@ -162,7 +167,7 @@ function Post() {
     }
 
   return (
-    <div className={`min-h-screen h-full w-full bg-fixed bg-no-repeat bg-cover bg-center`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
+    <div className={`min-h-screen h-full w-full bg-fixed bg-no-repeat bg-cover bg-center transition-all ease-linear`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
         
         <Head>
             <title>Cards</title>
@@ -175,27 +180,56 @@ function Post() {
                 </Link>
             </div>
 
-            <Toaster theme='system' richColors={true} closeButton={true}  position="center-right" />
+            <Toaster theme='system' richColors={true} closeButton={true}  position="center" />
 
-            <div className="header-buttons space-x-5 flex items-end pe-4"> 
-                {userCookie &&
-                <>
-                    <p className='m-0 p-0 font-semibold text-black'>Card(s) {totalPost === 0 ? "0" : totalPost} - of 40 </p>
-                    <motion.button onClick={() => deleteBoard()} 
-                        className=' btn btn-sm hover-shadow-xl hover:bg-transparent bg-transparent border border-black  text-black text-md '>
-                            {isLoading ? "Processing..." : " Delete board"}
-                    </motion.button>
-                </>
-                }
-                <Link href={`/boards/${boardId ?? router.query.id}/ecard/create`} 
-                className='btn btn-sm bg-black text-md hover-shadow-xl text-white hover:text-black border border-black hover:bg-transparent '>+ Add a card</Link>
+            <div className="header-buttons space-x-3 flex items-end pe-3"> 
                 
-                <span  className='tooltip tooltip-left' data-tip="Share Board" >
-                    <FaShare  className=" text-black text-xl  share-button cursor-pointer" onClick={() => copyLink(boardId)} />
-                </span>
-                <span  className='tooltip tooltip-left' data-tip="Edit Board" >
-                    <CiEdit onClick={() => setOpenNav(true)} className=" text-black text-xl share-button cursor-pointer" />
-                </span>
+                <Link href={`/boards/${boardId ?? router.query.id}/ecard/create`} 
+                className='btn btn-sm bg-black font-normal text-md hover-shadow-xl text-white  border border-black hover:bg-black '><FaPlus /> Add a post</Link>
+
+                <Popover placement="bottom" offset={15} color='default' showArrow={true}>
+                    <PopoverTrigger onClick={() => setIsPopoverOpen(true)}>
+                        <Button  className='bg-transparent m-0 px-2 border-gray-300 h-8 border rounded-lg outline-none '>
+                            <BsThreeDotsVertical/>
+                        </Button>
+                    </PopoverTrigger>
+                {isPopoverOpen && 
+                    <PopoverContent >
+                        <div className="py-2 w-50 shadow-xl px-4 bg-white rounded-md">
+                            <div className="copy-and-customize  ">
+                                <div className='copy  hover:bg-gray-100 flex items-center justify-start cursor-pointer rounded-md p-2' onClick={() => copyLink(boardId)}>
+                                    <Image src={Copy} alt='Copy' width={20} height={20} className=" text-black share-button cursor-pointer"  />
+                                    <p className='text-sm font-semibold ps-3' >Copy board link</p>
+                                </div>
+                                <div onClick={() => {setOpenNav(true); setIsPopoverOpen(false)}} className='edit hover:bg-gray-100 flex items-center justify-start  mt-2 cursor-pointer  rounded-md p-2'>
+                                    <CiEdit  className="text-black share-button text-2xl cursor-pointer" />
+                                    <p className='text-sm font-semibold ps-3'>Customise board</p>
+                                </div>
+                                { userCookie && 
+                                <div className='delete bg-red-500 hover:bg-red-500 cursor-pointer flex items-center justify-start  mt-2 rounded-md p-2 hover:border-red-700 border-red-700 text-white ' onClick={()=>document.getElementById('delete_modal').showModal()}>
+                                    <MdDeleteOutline className='text-2xl' />  
+                                    <p className='text-sm font-semibold ps-3 '>Delete board</p>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </PopoverContent>
+                }
+                </Popover>
+
+                <dialog id="delete_modal" className="modal">
+                    <div className="modal-box">
+                        <h3 className="font-bold text-lg">You going to delete this board</h3>
+                        <p className="py-4">Are you sure you want to delete this?</p>
+                        <div className="modal-action">
+                        <form method="dialog">
+                            <button onClick={deleteBoard} className="btn hover:bg-red-500 bg-red-500 text-white">{isLoading ? "Processing..." : " Yes I'm sure"}</button>
+                            <button onClick={() => setIsPopoverOpen(true)} className="btn ms-2 bg-green-500 hover:bg-green-500 text-white">No I'm not</button>
+                        </form>
+                        </div>
+                    </div>
+                </dialog>
+                
           </div>
         </nav>
 
@@ -272,10 +306,10 @@ function Post() {
                     <div className='w-full h-screen flex items-start mt-10 justify-center'>
                         <div className=' bg-white flex items-center shadow-lg rounded-md justify-start flex-col' style={{width:"400px", maxWidth:"600px", height:"400px"}}>
                             <Image src={Confetti} alt='Confetti' className='mt-5' width={300} height={200} />
-                            <h3 className="font-bold text-2xl mt-12">Welcome to the praise board</h3>
-                            <p className="font-semibold text-md mt-1">Start creating cards</p>
+                            <h3 className="font-bold text-2xl mt-12">Welcome to the praise board of</h3>
+                            <p className="font-semibold text-md mt-1">{recipient}</p>
                             <Link href={`/boards/${boardId ?? router.query.id}/ecard/create`} 
-                            className='bg-black mt-5 text-white border border-black px-10 py-2 rounded-md text-xl '>Create</Link>
+                            className='btn hover:bg-black bg-black mt-5 text-white border border-black px-10 py-2 rounded-md text-xl font-light '>Add your post</Link>
                         </div>
                     </div>
                     }
@@ -283,11 +317,11 @@ function Post() {
             </div>
         </div>
         
-        <Link style={{padding:"5px 16px", boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px"}} data-tip="Create Board" href='/boards/create' className='rounded-full text-5xl bg-white board-btn cursor-pointer tooltip tooltip-left fixed bottom-3 right-3  ' >+</Link>
+        <Link style={{padding:"5px 16px", boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px"}} data-tip="Create Board" href='/boards/create' className='animate-pulse rounded-full text-5xl bg-white board-btn cursor-pointer tooltip tooltip-left fixed bottom-3 right-3  ' >+</Link>
 
         <div id="mySidenav" className="sidenav bg-white" style={{marginRight: openNav ? "0" : "-30rem"}}>
             <div className='flex flex-1 justify-end pe-5'>
-                <button onClick={() => setOpenNav(false)} className='text-gray-800 text-3xl m-0'>&times;</button>
+                <button onClick={() => {setOpenNav(false); setIsPopoverOpen(true)}} className='text-gray-800 text-3xl m-0'>&times;</button>
             </div>
             <h1 className='text-black text-xl text-center'>Set background</h1>
             

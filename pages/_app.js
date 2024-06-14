@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }) {
   }, []);
 
   return(
-    <main style={{fontFamily:"Bricolage Grotesque"}} className={poppins.className}>
+    <main style={{fontFamily:"Bricolage Grotesque"}}>
       <Component {...pageProps} />
     </main>
   )

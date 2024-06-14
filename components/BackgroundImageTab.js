@@ -148,7 +148,7 @@ const getBoard = () =>{
               /> 
             </div>  
             <div className="flex items-center justify-center ">
-              <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} className='p-3 text-sm font-semibold rounded-md text-black border border-black mt-4' >Apply changes</motion.button>
+              <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} className='p-3 text-sm font-semibold rounded-md text-black border border-border-gray-300 mt-4' >Apply changes</motion.button>
           </div>
         </div>
         
@@ -179,8 +179,8 @@ const getBoard = () =>{
           }
         
           <div className="flex items-end justify-evenly">
-            <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} className='border border-black p-3 rounded-md text-sm font-semibold text-black mt-4' >Apply changes</motion.button>
-            <motion.button whileTap={{ scale: 0.9 }} onClick={() => setUploadImageCompo(true)} className='border-b text-black border-black text-sm'>Want to upload?</motion.button>
+            <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} className='border border-gray-300 p-3 rounded-md text-sm font-semibold text-black mt-4' >Apply changes</motion.button>
+            <motion.button whileTap={{ scale: 0.9 }} onClick={() => setUploadImageCompo(true)} className='border-b text-indigo-950 border-indigo-950 text-sm'>Want to upload?</motion.button>
           </div>
         </div>
         }
