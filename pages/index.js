@@ -81,7 +81,6 @@ export default function Home() {
 
         <div className="flex items-center justify-center flex-col mt-16 py-16 bg-gray-100">
             <h1 className="text-black text-4xl"> Checkout our previews</h1>
-            
             <div className="flex itmes-center justify-evenly flex-wrap w-[900px] mt-10">
 
               <dialog id="retirement_modal" className="modal bg-white absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]" >

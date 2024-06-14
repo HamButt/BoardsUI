@@ -160,7 +160,7 @@ const getBoard = () =>{
               <input name='image' type="search" className="mt-3 text-black outline-none px-3 py-3 rounded-md bg-transparent text-sm border border-black w-full" value={imageSearchValue} placeholder={`Search...`} onChange={(e) => setImageSearchValue(e.target.value)} /> 
           </div>
           {
-            imageSection && imageSearchValue && 
+            imageSection && imageSearchValue &&
                 <div style={{maxHeight:"220px"}} className="my-3 splashImages-container flex flex-wrap overflow-auto items-start justify-center">
                   {imageData.length > 0 && <p className='text-sm text-black'>Select image and apply changes</p>}
                 

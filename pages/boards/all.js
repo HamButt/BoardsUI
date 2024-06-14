@@ -11,11 +11,9 @@ import Head from 'next/head'
 import Cookies from 'js-cookie';
 import { format } from 'timeago.js';
 import CircularProgress from '@mui/material/CircularProgress';
-// import { RiShare2Line } from "react-icons/ri";
 import { CiEdit } from "react-icons/ci";
 import { BiCustomize } from "react-icons/bi";
 import { LuView } from "react-icons/lu";
-// import { Toaster,toast } from 'sonner';
 
 function BoardsAll() {
   const router = useRouter();

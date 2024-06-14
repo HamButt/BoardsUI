@@ -283,7 +283,7 @@ function CreatePost() {
                         <img  className='shadow-lg rounded-lg' style={{maxWidth:"300px", height: "300px"}} src={splashImage} alt="Splash Image" />
                     </div>
 
-                    : "" }
+                    : ""}
 
                     { imageSection && imageSearchValue &&
 

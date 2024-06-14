@@ -30,7 +30,6 @@ function Message({decrementStep, boardData, setBoardData}) {
         const salt = crypto.randomBytes(16).toString('hex');
         const hash = crypto.createHmac('sha256', salt).update(boardData[2]).digest('hex');
         Cookies.set("Creator",hash, { expires: 7 })
-        
     }
     
     const createBoard = () => {
