@@ -1,21 +1,17 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import {MdArrowBackIos} from 'react-icons/md'
+import Logo from '../public/logo.png'
 
-function NavBar({decrementStep, firstComponent}) {
+function NavBar() {
   return (
     <div className='text-center py-3 bg-gray-200'>
         <header>
-            {/* <button onClick={decrementStep} className='flex items-center text-black'> 
-                {firstComponent ? "" :
-                <>
-                    <MdArrowBackIos />
-                    <span className='ms-2 text-lg'>Back</span>
-                </>
-                }
-            </button> */}
-            <div className="logo">
-                <Link href='/' className="text-3xl text-[#202459]">eBoards</Link>
+            <div className="logo flex items-center justify-center">
+                <Link href='/' className="">
+                    <Image src={Logo} alt='Logo' width={70} height={70}/>
+                </Link>
             </div>
         </header>
     </div>

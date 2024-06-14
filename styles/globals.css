@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
   
+* {
+  scrollbar-color: initial;
+}
+
 :root{
   --header-background-color:#ff42b0;
   --border-color: #202459;
@@ -38,7 +42,7 @@
 .step-process{
     @apply text-xl
   }
-  
+
 .one, .two, .three{
     display: flex;
     flex-direction: column;
@@ -46,14 +50,13 @@
     justify-content: space-evenly;
     width: 350px;
     height: 400px;
-    /* background-color: var(--header-background-color); */
     color: var(--background-link-color);
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     margin-top: 2rem;
     border: 1px solid var(--background-link-color);
   }
-  .separator{
+.separator{
     align-items: center;
     color: #dadcdf;
     display: flex;
@@ -62,39 +65,42 @@
     margin: 20px 0;
     text-align: center;
   }
-  .separator:before, .separator:after{
+.separator:before, .separator:after{
     border-bottom: 1px solid #dadcdf;
     content: "";
     flex: 1;
     margin-inline: 5px;
   }
-  .menu-items{
+.menu-items{
     @apply mt-2 border-l-4 flex  items-center ps-4 mx-4 border-[var(--border-color)]  bg-[#e4f6fc] rounded-md py-3
   }
-  .menu-items > p{
+.menu-items > p{
     font-size: 16px;
     color: grey;
   }
-  .file-uploader .guZdik{
+
+.file-uploader .guZdik{
     padding: 20px !important;
     min-width: 100% !important;
     border: 2px solid #D2D4D7;
     height: 120px;
     margin-top: 15px;
-  }
+}
   
-  .guZdik input{
+.guZdik input{
     padding: 10px;
-  }
-  .jWkLDY span {
+}
+  
+.jWkLDY span {
     font-size: 20px;
     padding-left: 10px;
-  }
-  .kFhUBM{
+}
+  
+.kFhUBM{
     font-size: 20px !important;
   }
 
-  .edit-board .guZdik{
+.edit-board .guZdik{
     padding: 20px !important;
     min-width: 100% !important;
     border: 1px solid black;
@@ -102,84 +108,84 @@
     margin-top: 15px;
   }
   
-  .edit-board .guZdik input{
+.edit-board .guZdik input{
     /* padding: 10px; */
   }
-  .edit-board .jWkLDY span {
+.edit-board .jWkLDY span {
     font-size: 12px;
     /* padding-left: 10px; */
     color: black;
     }
-  .edit-board .kFhUBM{
+.edit-board .kFhUBM{
     color: black;
     font-size: 12px !important;
   }
 
-  .option{
+.option{
     @apply w-64 py-10 mx-2 cursor-pointer mt-3 bg-white hover:bg-[#dadcdf] p-5 flex flex-col items-center justify-between shadow-md rounded-lg
     
   }
-  .option > p{
+.option > p{
     @apply mt-4 text-xl w-40 text-ellipsis overflow-hidden whitespace-nowrap text-center
   }
-  .occasion-img{
+.occasion-img{
     @apply object-cover w-full h-full
   }
   
-  .gifs::-webkit-scrollbar {
+.gifs::-webkit-scrollbar {
     width: 8px;
   }
   
-  .gifs::-webkit-scrollbar-track {
+.gifs::-webkit-scrollbar-track {
     display: none;
   }
   
-  .gifs::-webkit-scrollbar-thumb {
+.gifs::-webkit-scrollbar-thumb {
     background-color: rgb(199, 198, 198);
     border-radius: 100px;   
   }
 
-  .splashImage::-webkit-scrollbar {
+.splashImages-container::-webkit-scrollbar {
     width: 8px;
-  }
+}
   
-  .splashImage::-webkit-scrollbar-track {
+.splashImages-container::-webkit-scrollbar-track {
     display: none;
-  }
+}
   
-  .splashImage::-webkit-scrollbar-thumb {
-    background-color: rgb(199, 198, 198);
+.splashImages-container::-webkit-scrollbar-thumb {
+    background-color: rgb(142, 142, 142);
     border-radius: 100px;   
-  }
+} 
 
-  .board-next-button{
+.board-next-button{
     @apply btn glass  hover:bg-[#202459] bg-[#202459] w-5/12 mt-8 px-5 text-white rounded-lg shadow-lg text-xl
   }
   
-  .img {
+.img {
     display: block;
     width: 250px;
     height: 300px;
     margin-top: 2rem;
     cursor: pointer;
-    /* padding: 10px; */
   }
   
-  .sidenav {
-    height: 100%; /* 100% Full-height */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
+.sidenav {
+    height: 100%;
+    position: fixed;
+    z-index: 1; 
     width: 350px;
-    top: 0; /* Stay at the top */
+    top: 0; 
     right: 0;
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-  }
+    overflow-x: hidden; 
+    padding-top: 60px; 
+    transition: 0.5s;
+}
   
   
-  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-  @media screen and (max-height: 450px) {
+@media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
   }
+
+  

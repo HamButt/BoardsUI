@@ -13,7 +13,8 @@ import { PiGifFill } from "react-icons/pi";
 import { MdDelete, MdVideoLibrary } from "react-icons/md";
 import CircularProgress from '@mui/material/CircularProgress';
 import { FaYoutube } from "react-icons/fa6";
-
+import { motion} from 'framer-motion'
+import Logo from '../../../../public/logo.png'
 
 
 function CreatePost() {
@@ -38,14 +39,14 @@ function CreatePost() {
     const [debounceTimerForImage, setDebounceTimerForImage] = React.useState(0);
     const [debounceTimerForGIf, setDebounceTimerForGIf] = React.useState(0);
     const [imagePage, setImagePage] = React.useState(1);
+    const [gifOffset, setGifOffset] = React.useState(0);
     const [gifData, setGifData] = React.useState([]);
     const [imageData, setImageData] = React.useState([]);
+    const [error, setError] = React.useState(false);
     const imageTypes = ["JPG", "PNG", "JPEG"];
     const gifType = ["GIF"];
 
-    let offset = 0;
-    let limit = 12;
-    const gifUrl = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.apiKey}&q=${gifSearchValue}&limit=${limit}&offset=${offset}&rating=g&lang=en`;
+   
     
     // Unsplash Data
     
@@ -61,17 +62,13 @@ function CreatePost() {
     //N__QEvwNa0tajmkhL_IXojNYXiunOe0Q5CDQuQODh2w
 
     React.useEffect(()=>{
-        setGifSection(true)
-
+        
         if(gifSearchValue){
+            setGifSection(true)
             clearTimeout(debounceTimerForGIf);
             const newDebounceTimer = setTimeout(() => {
-                axios.get(gifUrl)
-                .then(response => {
-                    setGifData(response.data.data)
-                })
-                .catch(error => console.error('Error:', error));
-                }, 500);
+                fetchGifsFromGiphy()
+            }, 500);
                 setDebounceTimerForGIf(newDebounceTimer);
               }else{
                 setGifData("")
@@ -85,18 +82,27 @@ function CreatePost() {
        
     }, [gifSearchValue])
 
+    const fetchGifsFromGiphy = () => {
+        let offset = gifOffset;
+        let limit = 12;
+        setGifOffset((prevOffset) => prevOffset + limit)
+        const gifUrl = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.apiKey}&q=${gifSearchValue}&limit=${limit}&offset=${offset}&rating=g&lang=en`;
+        axios.get(gifUrl)
+            .then(response => {
+                setGifData(response.data.data)
+            })
+            .catch(error => setError(error.response.data));
+                
+    }
+
     React.useEffect(()=>{
         if(imageSearchValue){
             setImageSection(true)
             setImagePage((imgPg) => imgPg + 1 )
             clearTimeout(debounceTimerForImage);
             const newDebounceTimer = setTimeout(() => {
-                axios.get(process.env.unsplashUrl, { params })
-                .then(response => {
-                    console.log(response.data.results);
-                    setImageData(response.data.results)
-                })
-                .catch(error => console.error('Error:', error));
+                fetchImagesFromUnsplash
+                setGifSection(false)
                 }, 500);
                 setDebounceTimerForImage(newDebounceTimer);
               }
@@ -109,6 +115,20 @@ function CreatePost() {
 
        
     }, [imageSearchValue])
+
+    const fetchImagesFromUnsplash = () => {
+        axios.get(process.env.unsplashUrl, { params })
+            .then(response => {
+                console.log(response.data.results);
+                setImageData(response.data.results)
+            })
+            .catch(error =>{ 
+                setError(error.response.data)
+            })
+                
+    }
+
+    
 
     React.useEffect(()=>{
         if(videoLink){
@@ -183,16 +203,20 @@ function CreatePost() {
     }, [image])
 
   return (
-    <div className='min-h-screen h-full bg-[#202459] '>
+    <div className='min-h-screen h-full bg-gray-500 '>
 
         <Head>
             <title>Create card</title>
         </Head>
 
-        <NavBar/>
+        <div className="logo py-2 bg-white flex items-center justify-center">
+            <Link href='/' className="">
+                <Image src={Logo} alt='Logo' width={50} height={50}/>
+            </Link>
+        </div>
 
-        <div className="selected-title bg-[#4149b4] py-4 text-center ">
-            <p className='text-2xl text-white' >{title}</p>
+        <div className="selected-title bg-gray-200 py-4 text-center ">
+            <p className='text-2xl text-black ' >{title}</p>
         </div>
         <div className='post flex items-center justify-center '>
             <div className="h-auto post-modal bg-white mt-5 py-8 rounded-lg w-6/12">
@@ -248,7 +272,6 @@ function CreatePost() {
                         </div>
                         : ""
                     }
-
                     
                     {splashImage ?
                     
@@ -262,22 +285,31 @@ function CreatePost() {
 
                     : "" }
 
-                    {
-                        imageSection && 
+                    { imageSection && imageSearchValue &&
 
                     <div style={{maxHeight:"300px"}} className="mt-2 gifs mx-10 my-1 flex-wrap overflow-auto flex items-start justify-evenly">
-                        
                         {imageSearchValue && imageData.length ?  
                             imageData.map((img, index)=>{ 
                                 return(
-                                    <div key={index} className='mt-2 cursor-pointer ' style={{maxWidth:"200px", height:"160px"}} 
+                                    <div key={index} className='mt-2 cursor-pointer ' style={{minWidth:"120px", height:"160px"}} 
                                         onClick={() => {setSplashImage(img.urls.regular); setImageComponent(false); setImageSection(false)}}>
-                                        <img className='h-full w-full rounded-md' src={img.urls.small} alt="IMAGE URL" />
+                                        <motion.img whileTap={{scale:0.9}} className='h-full w-full rounded-md' src={img.urls.small} alt="IMAGE URL" />
                                     </div> 
                                 )})
-                            : ""}
+                            :  imageSearchValue && !imageData ? <div className='mt-2 font-semibold'>Searching...</div> 
+                            : <div className='mt-2 font-semibold' >Please be specific with your search</div>}
+                            { imageData.length > 0 && <motion.button whileTap={{ scale: 0.9 }} onClick={fetchImagesFromUnsplash} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button>}
                     </div>
                 }
+
+                    {error && (
+                        <div role="alert" className="alert alert-error">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>{error}</span>
+                        </div>
+                    )}
 
                     {GIFCompnent === "upload" ? 
                         <div className='text-center w-full mt-4'>
@@ -327,26 +359,28 @@ function CreatePost() {
                 </div>
 
                 {
-                    gifSection && 
+                    gifSection && gifSearchValue &&
 
-                    <div style={{maxHeight:"300px"}} className="gifs mx-10 my-1 flex-wrap overflow-auto flex items-start justify-evenly">
+                    <div style={{maxHeight:"330px"}} className="gifs mx-10 mt-4 flex-wrap overflow-auto flex items-start justify-evenly">
                         
                         {gifSearchValue && gifData.length ?  
                             gifData.map((gif, index)=>{ 
                                 return(
-                                    <div key={index} className='border-2 mt-2 cursor-pointer' style={{maxWidth:"180px"}} 
+                                    <div key={index} className='mt-2 cursor-pointer' style={{width:"180px", height:"200px"}}
                                         onClick={() => {setGif(gif.images.original.url); setGIFComponent(false); setGifSection(false)}}>
-                                        <img src={gif.images.original.url} alt="URL GIF" className='h-full w-full' />
+                                         <motion.img whileTap={{scale:0.9}} src={!gif.images.original.url ? "Loading.." : gif.images.original.url} alt="URL GIF"  className='text-black h-full w-full rounded-md' /> 
                                     </div> 
                                 )})
-                            : ""}
+                                : gifSearchValue && !gifData ? <div className='mt-2 font-semibold'>Searching...</div>
+                                : <div className='mt-2 font-semibold' >Please be specific with your search</div>}
+                            { gifData.length ? <motion.button whileTap={{ scale: 0.9 }} onClick={fetchGifsFromGiphy} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button> : ""}
                     </div>
                 }
 
                 <div className="inputs text-center mx-10 mt-6">
                     <input type="text" className="input input-bordered border-2 w-full" placeholder='Enter your name or post anonymously' value={creator} onChange={(e) => setCreator(e.target.value)}  />
                     <textarea style={{resize:"none"}} value={message} rows={4} className='w-full textarea textarea-bordered border-2 text-lg mt-3 outline-none px-4 py-5' type="text" name='message' required placeholder='(Required) Add a message...' onChange={(e) => setMessage(e.target.value)}  ></textarea>
-                    <button disabled={!videoLink && !message || !image && !message || !gif && !message ? true : false} onClick={createPost} className='btn glass font-light mt-4 hover:bg-[#202459] bg-[#202459] text-white text-xl w-2/4  rounded-lg'>{isLoading ? "Creating..." : "Create card"}</button>
+                    <button disabled={ !message ? true : false} onClick={createPost} className='btn btn-lg glass font-light mt-4 hover:bg-black bg-black text-white text-2xl  rounded-lg'>{isLoading ? "Creating..." : "Create card"}</button>
                 </div>
                 
             </div>

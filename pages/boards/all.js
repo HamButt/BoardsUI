@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { MdDeleteOutline } from "react-icons/md";
 import Swal from 'sweetalert2'
+import 'animate.css';
 import Head from 'next/head'
 import Cookies from 'js-cookie';
 import { format } from 'timeago.js';
@@ -14,7 +15,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { CiEdit } from "react-icons/ci";
 import { BiCustomize } from "react-icons/bi";
 import { LuView } from "react-icons/lu";
-import 'animate.css';
 // import { Toaster,toast } from 'sonner';
 
 function BoardsAll() {
@@ -80,6 +80,7 @@ function BoardsAll() {
           axios.get(`${process.env.basePath}/boards?board=${searchValue}`)
           .then((res)=>{
             setBoards(res.data.boards)
+            console.log(res.data.boards);
           }).catch((err) => {
             console.log(err);
           })
@@ -135,15 +136,26 @@ function BoardsAll() {
                       day: '2-digit' 
                   };
                   const formattedDate = date.toLocaleDateString('en-US', options)
-                  const formattedImage = Buffer.from(board.uploaded_image.data)
+                  let formattedImage ;
+                  let splashUrl;
+                  if(board.uploaded_image) {
+                    formattedImage = Buffer.from(board.uploaded_image.data)
+                  }else{
+                    splashUrl = board.unsplash_image
+                  }
 
                   return (
 
-                  <div key={board._id} className="eboards mt-5 p-4 shadow rounded-lg w-5/6" >
+                  <div key={board._id} className="eboards mt-5 p-4 shadow rounded-lg w-5/6">
                     <div className="board-structure flex ">
                     
                       <div className="image border rounded-md mt-2" style={{maxWidth:"170px",maxHeight:"170px"}}>
-                        <Image className="rounded-md w-full h-full" sizes='(max-width: 200px) 100vw, 33vw' src={`${process.env.basePath}/images/${formattedImage}`} alt={`${board.image}`}  width={10} height={10} />
+                       { 
+                        formattedImage ?
+                          <Image className="rounded-md w-full h-full" sizes='(max-width: 200px) 100vw, 33vw' src={`${process.env.basePath}/images/${formattedImage}`} alt={formattedImage}  width={10} height={10} />
+                        : 
+                          <Image className="rounded-md w-full h-full" sizes='(max-width: 200px) 100vw, 33vw' src={splashUrl} alt={"URL"}  width={10} height={10} />
+                        }
                       </div>
 
                       <div className="data flex-1 flex items-start justify-between" >

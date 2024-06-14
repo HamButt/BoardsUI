@@ -34,7 +34,7 @@ function Message({decrementStep, boardData, setBoardData}) {
     }
     
     const createBoard = () => {
-        setIsLoading(!isLoading)
+        setIsLoading(true)
         confetti({
             particleCount: 200,
             spread: 50,
@@ -53,12 +53,13 @@ function Message({decrementStep, boardData, setBoardData}) {
                 router.push(`/boards/${res.data.eBoard._id}`)
                 convertCookieIntoHash()
             }
-            setIsLoading(!isLoading)
         }).catch((err) => {
             console.log(err);
             setIsLoading(false)
         }).finally(()=>{
-            setIsLoading(false)
+            setTimeout(()=>{
+                setIsLoading(false)
+            }, 2000)
         })
     }
 
@@ -82,7 +83,7 @@ function Message({decrementStep, boardData, setBoardData}) {
                     <p>4/4</p>
                     <h1 className='text-2xl mt-2' >What should the title be?</h1>
                     <input className='input border-2 w-8/12 mt-5 border-gray-300 rounded-lg outline-none px-4' type="text" placeholder={`e.g. ${boardData[0]}`} value={title} name='title' onChange={(e) => setTitle(e.target.value)} required />
-                    <button disabled={!title ? true : false} onClick={createBoard} className='board-next-button'>{isLoading ? "Creating..." : "Create eBoard"}</button>
+                    <button disabled={!title ? true : false} onClick={createBoard} className='board-next-button'>{isLoading ? "Creating..." : "Create board"}</button>
                 </div> 
             </div>
         </div>

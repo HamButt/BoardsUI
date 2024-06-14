@@ -12,12 +12,16 @@ import { FaShare } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
 import BackgroundImageTab from '@/components/BackgroundImageTab';
 import BackgroundColorTab from '@/components/BackgroundColorTab';
-
+import Confetti from '../../public/confetti.jpg'
+import Logo from '../../public/logo.png'
+import Swal from 'sweetalert2'
+import 'animate.css';
+import { motion } from 'framer-motion'
 
 function Post() {
     const router = useRouter()
     const [title,setTitle] = useState('')
-    const [imageUrl,setImageUrl] = useState('')
+    const [imageUrl,setImageUrl] = useState(null)
     const [uploadedImage,setUploadedImage] = useState('')
     const [boardId,setBoardId] = useState('')
     const [posts,setPosts] = useState([])
@@ -26,6 +30,7 @@ function Post() {
     const [recipient,setRecipient] = useState('')
     const [isLoading,setIsLoading] = useState(false)
     const [openNav,setOpenNav] = useState(false)
+    const [modal,setModal] = useState(false)
     const [sideComponent,setSideComponent] = useState('color')
     
     // Fetching Board
@@ -48,7 +53,6 @@ function Post() {
                     setImageUrl(res.data.board.unsplash_image)
                 }else{
                     document.body.style.backgroundColor = res.data.board.color
-
                 }
             }).catch((err) => {
                 console.log(err);
@@ -57,7 +61,43 @@ function Post() {
 
         axios.get(`${process.env.basePath}/posts/${board_id}`)
         .then((res) => {
-            setPosts(res.data.allPosts.reverse())
+            if(res.data.allPosts.length){
+                setPosts(res.data.allPosts.reverse())
+            }else{
+                setModal(true)
+
+                const duration = 5 * 1000,
+                animationEnd = Date.now() + duration,
+                defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+                function randomInRange(min, max) {
+                    return Math.random() * (max - min) + min;
+                }
+
+                const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+
+                confetti(
+                    Object.assign({}, defaults, {
+                    particleCount,
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                    })
+                );
+
+                confetti(
+                    Object.assign({}, defaults, {
+                    particleCount,
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                    })
+                );
+                }, 250);
+            }
         }).catch((err) => {
             console.log(err);
         })
@@ -89,10 +129,33 @@ function Post() {
         setIsLoading(true)
         axios.delete(`${process.env.basePath}/boards/${boardId}`)
         .then((res) => {
-        router.push(`/boards/${boardId}`)
+            setTimeout(()=>{
+                setIsLoading(false)
+                router.push('/boards/create')
+                }, 3000)
+                  Swal.fire({
+                    title: "Board deleted",
+                    text: "Your Board is deleted successfully",
+                    icon: "success",
+                    showClass: {
+                      popup: `
+                        animate__animated
+                        animate__fadeInUp
+                        animate__faster
+                      `
+                    },
+                    hideClass: {
+                      popup: `
+                        animate__animated
+                        animate__fadeOutDown
+                        animate__faster
+                      `
+                    }
+                  });
         }).catch((err) => {
             console.log(err);
-            setIsLoading(false)
+
+      
         }).finally(() =>{
             setIsLoading(false)
         })
@@ -104,15 +167,17 @@ function Post() {
     }
 
   return (
-    <div className={`min-h-screen h-full w-full`} style={{backgroundImage:`url(${uploadedImage ? uploadedImage : imageUrl})`, backgroundRepeat:"no-repeat",backgroundAttachment:"fixed", backgroundSize:'cover',backgroundPosition:"center"}}>
+    <div className={`min-h-screen h-full w-full bg-fixed bg-no-repeat bg-cover bg-center`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
         
         <Head>
-            <title>Posts</title>
+            <title>Cards</title>
         </Head>
 
-        <nav  id='' className={`bg-gray-200 z-50 py-3 flex items-center justify-between fixed top-0 right-0 left-0 transition-all duration-300`}>
-            <div className="logo text-xl ps-10">
-                <Link href='/' className="text-2xl text-[#202459]"> eBoards</Link>
+        <nav  id='' className={`bg-white z-50 py-3 flex items-center justify-between fixed top-0 right-0 left-0 transition-all duration-300`}>
+            <div className="logo  ps-10">
+                <Link href='/' className=""> 
+                <Image src={Logo} className='m-0 p-0' alt='Logo' width={35} height={35} />
+                </Link>
             </div>
 
             <Toaster theme='system' richColors={true} closeButton={true}  position="center-right" />
@@ -120,37 +185,38 @@ function Post() {
             <div className="header-buttons space-x-5 flex items-end pe-4"> 
                 {userCookie &&
                 <>
-                    <p className='m-0 p-0 font-semibold'>Posts {totalPost === 0 ? "0" : totalPost} - of 40 </p>
-                    <button onClick={() => deleteBoard()} className='btn btn-sm hover:bg-transparent bg-transparent border border-[#202459]  text-[#202459] text-lg '>
-                            {isLoading ? "Processing..." : " Delete Board"}
-                    </button>
+                    <p className='m-0 p-0 font-semibold text-black'>Card(s) {totalPost === 0 ? "0" : totalPost} - of 40 </p>
+                    <motion.button onClick={() => deleteBoard()} 
+                        className=' btn btn-sm hover-shadow-xl hover:bg-transparent bg-transparent border border-black  text-black text-md '>
+                            {isLoading ? "Processing..." : " Delete board"}
+                    </motion.button>
                 </>
                 }
                 <Link href={`/boards/${boardId ?? router.query.id}/ecard/create`} 
-                className='btn btn-sm  glass bg-[#202459] text-lg text-white font-light hover:bg-[#202459] rounded-lg '>+ Add a card</Link>
+                className='btn btn-sm bg-black text-md hover-shadow-xl text-white hover:text-black border border-black hover:bg-transparent '>+ Add a card</Link>
                 
                 <span  className='tooltip tooltip-left' data-tip="Share Board" >
-                    <FaShare  className=" text-[#202459] text-xl  share-button cursor-pointer" onClick={() => copyLink(boardId)} />
+                    <FaShare  className=" text-black text-xl  share-button cursor-pointer" onClick={() => copyLink(boardId)} />
                 </span>
                 <span  className='tooltip tooltip-left' data-tip="Edit Board" >
-                    <CiEdit onClick={() => setOpenNav(true)} className=" text-[#202459] text-xl share-button cursor-pointer" />
+                    <CiEdit onClick={() => setOpenNav(true)} className=" text-black text-xl share-button cursor-pointer" />
                 </span>
           </div>
         </nav>
 
-        <div className="selected-title bg-[#202459]  mt-10 pt-8 pb-4">
-            <p className='m-0 p-0 font-light text-white ms-10 '>Add cards for <span className=''>{recipient}</span></p>
+        <div className="selected-title bg-gray-200  mt-10 pt-8 pb-4">
+            <p className='m-0 p-0 font-semibold text-black ms-10 '>Add cards for <span className=''>{recipient}</span></p>
                 
-            <div className="text-center editable-element hover:bg-[#4149b4] bg-[##202459] ">
+            <div className="text-center editable-element hover:bg-gray-300  ">
                 <input  type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
-                    className=' focus:border w-full text-3xl outline-none py-2 text-center bg-transparent text-white cursor-pointer'  />
+                    className=' focus:border border-black w-full text-3xl outline-none py-2 text-center bg-transparent text-gray-600 hover:text-black cursor-pointer'  />
             </div>
         </div>
 
         <div className="image-section px-10" data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
             <div className="image flex items-start justify-start flex-wrap" >
-                { posts.length ? 
+                { posts && 
                     posts.map((post,index) => {
                         
                         let formattedImage;
@@ -195,31 +261,39 @@ function Post() {
 
                                 </div>
                                 
-                                : post.message ? 
+                                :   
                                 
                                 <div className="mt-6 ms-4 px-3 py-6 bg-[#202459] rounded-lg shadow-md min-w-96">
                                     <p className='text-lg text-white'>{post.message}</p>
                                     <p className='text-sm flex flex-1 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
                                 </div>
-                                   : "Loading your posts..." }
+                                }
                             </div>
                         )
                     })
-                :
-                <div className='flex flex-1 flex-col items-center mt-40 justify-center'>
-                    <p className='text-2xl' >No card created yet</p>
-                    <Link href={`/boards/${boardId ?? router.query.id}/ecard/create`} 
-                    className=' border border-black px-10 py-2 rounded-md text-xl font-semibold text-black mt-3 '>Add a card</Link>
-                </div>
-                
                 }
+                
+                {modal && 
+                    <div className='w-full h-screen flex items-start mt-10 justify-center'>
+                        <div className=' bg-white flex items-center shadow-lg rounded-md justify-start flex-col' style={{width:"400px", maxWidth:"600px", height:"400px"}}>
+                            <Image src={Confetti} alt='Confetti' className='mt-5' width={300} height={200} />
+                            <h3 className="font-bold text-2xl mt-12">Welcome to the praise board</h3>
+                            <p className="font-semibold text-md mt-1">Start creating cards</p>
+                            <Link href={`/boards/${boardId ?? router.query.id}/ecard/create`} 
+                            className='bg-black mt-5 text-white border border-black px-10 py-2 rounded-md text-xl '>Create</Link>
+                        </div>
+                    </div>
+                    }
+                
             </div>
         </div>
         
         <Link style={{padding:"5px 16px", boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px"}} data-tip="Create Board" href='/boards/create' className='rounded-full text-5xl bg-white board-btn cursor-pointer tooltip tooltip-left fixed bottom-3 right-3  ' >+</Link>
 
         <div id="mySidenav" className="sidenav bg-white" style={{marginRight: openNav ? "0" : "-30rem"}}>
-            <button onClick={() => setOpenNav(false)} className='text-gray-800 text-end pe-5 w-full text-3xl m-0'>&times;</button>
+            <div className='flex flex-1 justify-end pe-5'>
+                <button onClick={() => setOpenNav(false)} className='text-gray-800 text-3xl m-0'>&times;</button>
+            </div>
             <h1 className='text-black text-xl text-center'>Set background</h1>
             
             <div className='rounded-md flex text-center mt-4 items-center justify-center p-1 mx-2 bg-gray-100' >
