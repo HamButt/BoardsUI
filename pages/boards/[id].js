@@ -22,6 +22,7 @@ import {Popover, PopoverTrigger, PopoverContent, Button} from "@nextui-org/react
 import Copy from '../../public/copy.png'
 import { MdDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
+
 function Post() {
     const router = useRouter()
     const [title,setTitle] = useState('')

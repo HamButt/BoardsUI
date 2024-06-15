@@ -140,7 +140,6 @@ export default function Home() {
                     <motion.button whileTap={{scale:0.9}} className="overlay-button btn border border-white outline-none rounded-lg text-white text-xl font-semibold  hover:shadow-xl" onClick={()=>document.getElementById('graduation_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
                 </div>
               </div>
-
               
               <dialog id="birthday_modal" className="modal bg-white absolute inset-0 -z-10 h-full w-full [background:radial-gradient(140%_110%_at_70%_10%,#fff_10%,#63e_100%)]">
                   <p className="text-2xl text-black" >Preview birthday cards</p>

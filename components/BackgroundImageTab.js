@@ -27,7 +27,6 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
 
   React.useEffect(()=>{
     if(imageSearchValue){
-      setImagePage((imgPg) => imgPg + 1 )
       setImageSection(true)
         clearTimeout(debounceTimerForImage);
         const newDebounceTimer = setTimeout(() => {
@@ -133,7 +132,6 @@ const getBoard = () =>{
 
     <div data-offset='0' data-aos="fade-left"  data-aos-easing="ease-in-back" data-aos-duration="300">
         <div className='flex flex-1 flex-col'>
-        
         {uploadImageCompo ? 
         
         <div className='edit-board text-center'>
@@ -150,7 +148,7 @@ const getBoard = () =>{
               /> 
             </div>  
             <div className="flex items-center justify-center ">
-              <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} className='p-3 text-sm font-semibold rounded-md text-gray-600 border border-gray-400 mt-4' >Apply changes</motion.button>
+              <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} className='p-3 text-sm font-semibold rounded-md text-black border border-border-gray-300 mt-4' >Apply changes</motion.button>
           </div>
         </div>
         
@@ -186,7 +184,7 @@ const getBoard = () =>{
           </div>
         </div>
         }
-      </div>
+          </div>
     </div>
   )
 }
