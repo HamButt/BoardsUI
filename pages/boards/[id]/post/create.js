@@ -47,8 +47,6 @@ function CreatePost() {
     const [error, setError] = React.useState(false);
     const imageTypes = ["JPG", "PNG", "JPEG"];
     const gifType = ["GIF"];
-
-   
     
     // Unsplash Data
     

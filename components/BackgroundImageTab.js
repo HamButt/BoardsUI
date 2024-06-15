@@ -133,6 +133,7 @@ const getBoard = () =>{
 
     <div data-offset='0' data-aos="fade-left"  data-aos-easing="ease-in-back" data-aos-duration="300">
         <div className='flex flex-1 flex-col'>
+        
         {uploadImageCompo ? 
         
         <div className='edit-board text-center'>
@@ -185,7 +186,7 @@ const getBoard = () =>{
           </div>
         </div>
         }
-          </div>
+      </div>
     </div>
   )
 }

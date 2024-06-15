@@ -40,7 +40,7 @@ function PreviewBoard({setPreview, occasion}) {
               <p className='text-xl font-semibold'>Celebrate {occasion} with PraiseBoard</p>
               <p className='text-lg'>Drive employee happiness by celebrating milestones with online {occasion} cards by PraiseBoard</p>
             </div>
-            <Link className='btn hover:bg-indigo-950 bg-indigo-950 text-white font-light' href='/boards/create'>Create Board</Link>
+            <Link className='btn hover:bg-black bg-black text-white font-light' href='/boards/create'>Create Board</Link>
           </div>
         </header>
 
@@ -60,12 +60,12 @@ function PreviewBoard({setPreview, occasion}) {
                             <>
                                 {
                                 
-                                <div style={{width: "400px", height:"auto"}} className="post  bg-[#202459] p-2 mt-3 ms-3 rounded-lg shadow-md " key={post._id}>
+                                <div style={{width: "400px", height:"auto"}} className="post  bg-[#202459]  mt-3 ms-3 rounded-lg shadow-md " key={post._id}>
                                     
                                     <div className="post-image">
                                        
                                         { post.image ? 
-                                            (<Image className='rounded-lg'
+                                            (<Image className='rounded-t-lg'
                                               sizes='(max-width: 200px) 100vw, 33vw'
                                               src={`${process.env.basePath}/images/${post.image}`}
                                               alt="Post image" width={500} height={500}/>)
@@ -74,7 +74,7 @@ function PreviewBoard({setPreview, occasion}) {
 
                                            ( <img className='rounded-t-lg' src={`${process.env.basePath}/images/${post.gif}`} alt="GIF" style={{width:"500px", height:"400px"}} />)
                                             : (
-                                              <video className='rounded-lg' autoPlay controls preload="none" >
+                                              <video className='rounded-t-lg' autoPlay controls preload="none" >
                                                 <source src={`${process.env.basePath}/images/${post.video}`} type="video/mp4" />
                                                   Your browser does not support the video tag.
                                               </video>
@@ -82,9 +82,9 @@ function PreviewBoard({setPreview, occasion}) {
                                         }
                                     </div>
 
-                                    <div className="message py-4">
-                                        <p className='text-lg ms-5 text-white'>{post.message}</p>
-                                        <p className='text-sm flex flex-1  items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                                    <div className="message py-6">
+                                        <p className='text-lg mx-5 text-white'>{post.message}</p>
+                                        <p className='text-sm flex flex-1 pe-5 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
                                     </div>
 
                                 </div>
