@@ -25,8 +25,8 @@ function HowTo() {
       <div className="three px-5 pb-5">
         <Image sizes='(max-width: 200px) 100vw, 33vw' src='https://static.123cards.com/images/how-it-works-img3.svg'  alt="Send" width={200} height={100}  />
         <p  className="text-3xl">Deliver</p>
-        <p className="step">Create cards and deliver to recipient </p>
-        <p className="step-process">Copy the link of board and share your card with them </p>
+        <p className="step">Create posts and deliver to recipient </p>
+        <p className="step-process">Copy the link of board and share your posts with them </p>
       </div>
     </div>
   </div>  )

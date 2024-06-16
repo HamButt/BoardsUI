@@ -57,7 +57,7 @@ function BackgroundColorTab({setImageUrl, boardId, setUploadedImage, setOpenNav}
             <ColorPicker hideInput={["rgb", "hsv"]} color={color} onChange={setColor}/>
         </div>
         <div className="flex items-center justify-center space-x-4">
-            <motion.button whileTap={{scale:0.9}}  className='border border-gray-400 p-3 rounded-md text-sm font-semibold text-gray-600 mt-3' onClick={changeBackground}>Apply changes</motion.button>
+            <motion.button whileTap={{scale:0.9}}  className='border border-gray-600 p-3 rounded-md text-sm font-semibold text-gray-600 mt-3' onClick={changeBackground}>Apply changes</motion.button>
         </div>
     </div>
   )

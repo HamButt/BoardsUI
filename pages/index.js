@@ -26,6 +26,26 @@ export default function Home() {
 
 
   React.useEffect(() => {
+    let btn;
+    const closeButton = document.getElementsByClassName('close-button');
+    for (let i = 0; i < closeButton.length; i++) {
+      btn = closeButton[i];
+      btn.addEventListener('click', handleCloseModal);
+    }
+
+    return () => {
+      btn.removeEventListener('click', handleCloseModal);
+    };
+  }, []);
+
+  const handleCloseModal = () => {
+    const previews = document.getElementById('previews');
+    if (previews) {
+      previews.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  React.useEffect(() => {
     let timeoutId;
 
     if (!isErasing) {
@@ -82,20 +102,21 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex items-center justify-center flex-col mt-16 py-16 bg-gray-100">
+        <div id="previews" className="flex items-center justify-center flex-col mt-16 py-16 bg-gray-100">
             <div className="text-center">
                 <h1 className="text-4xl font-semibold"> Explore our previews</h1>
                 <p className="text-xl mt-4">Uncover the potential of what we can design for you</p>
             </div>
 
             <div className="flex itmes-center justify-evenly flex-wrap w-[900px] mt-10">
-              <dialog id="retirement_modal" className="modal bg-white absolute inset-0 -z-10 h-full w-full [background:radial-gradient(140%_110%_at_70%_10%,#fff_10%,#63e_100%)]" >
-                    <p className="text-3xl text-black" >Preview retirement posts</p>
-                    <Image src={PreviewRetirementGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
+              <dialog id="retirement_modal" className="modal bg-gray-200 absolute inset-0 -z-10 h-full w-full" >
+                    <p className="text-4xl font-semibold text-gray-600" >Preview retirement posts</p>
+                    <Image src={PreviewRetirementGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
+                       width={0} height={0} className="img border-2 border-gray-500 rounded-box"/>
                       <form method="dialog">
-                        <motion.button whileTap={{scale:0.9}} className="border-none outline-none text-2xl text-black font-light absolute top-10 right-10">X</motion.button>
+                        <motion.button whileTap={{scale:0.9}} className="close-button hover:bg-gray-300 px-3 py-2 rounded-full border-none outline-none text-xl text-gray-600 font-light absolute top-10 right-10">X</motion.button>
                       </form>
-                    <motion.button whileTap={{scale:0.9}} className="btn bg-transparent w-52 border border-black outline-none rounded-lg text-black text-xl font-semibold hover:bg-transparent hover:shadow-xl hover:border-gray " onClick={() => {setPreview(true); setOccasion('retirement')}}>Preview <FiExternalLink /> </motion.button>
+                    <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500 " onClick={() => {setPreview(true); setOccasion('retirement')}}>Preview <FiExternalLink /> </motion.button>
               </dialog>
 
               <div className="image-container rounded-box">
@@ -107,11 +128,11 @@ export default function Home() {
               </div>
 
                 
-              <dialog id="thankyou_modal" className="modal bg-white absolute inset-0 -z-10 h-full w-full [background:radial-gradient(140%_110%_at_70%_10%,#fff_10%,#63e_100%)]">
-                  <p className="text-2xl text-black" >Preview thankyou cards</p>
+              <dialog id="thankyou_modal" className="modal bg-gray-300 absolute inset-0 -z-10 h-full w-full">
+                  <p className="text-2xl text-black" >Preview thankyou posts</p>
                   <Image  src={PreviewThankyouGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
                     <form method="dialog">
-                      <button className="border-none outline-none text-2xl text-black font-light absolute top-10 right-10" whileTap={{scale:0.9}}>X</button>
+                      <motion.button className="close-button border-none outline-none text-2xl text-black font-light absolute top-10 right-10" whileTap={{scale:0.9}}>X</motion.button>
                     </form>
                   <motion.button whileTap={{scale:0.9}} className="btn bg-transparent w-52 border border-black outline-none rounded-lg text-black text-xl font-semibold hover:bg-transparent hover:shadow-xl hover:border-gray" onClick={() => {setPreview(true); setOccasion('thankyou')}}>Preview<FiExternalLink /></motion.button>
               </dialog>
@@ -124,11 +145,11 @@ export default function Home() {
                 </div>
               </div>
                 
-              <dialog id="graduation_modal" className="modal bg-white absolute inset-0 -z-10 h-full w-full [background:radial-gradient(140%_110%_at_70%_10%,#fff_10%,#63e_100%)]">
-                  <p className="text-2xl text-black" >Preview graduation cards</p>
+              <dialog id="graduation_modal" className="modal bg-gray-300 absolute inset-0 -z-10 h-full w-full">
+                  <p className="text-2xl text-black" >Preview graduation posts</p>
                   <Image  src={PreviewGraduationGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
                     <form method="dialog">
-                      <button className="border-none outline-none text-2xl text-black font-light absolute top-10 right-10" whileTap={{scale:0.9}}>X</button>
+                      <motion.button className="close-button border-none outline-none text-2xl text-black font-light absolute top-10 right-10" whileTap={{scale:0.9}}>X</motion.button>
                     </form>
                   <motion.button whileTap={{scale:0.9}} className="btn bg-transparent w-52 border border-black outline-none rounded-lg text-black text-xl font-semibold hover:bg-transparent hover:shadow-xl hover:border-gray " onClick={() => {setPreview(true); setOccasion('graduation')}}>Preview<FiExternalLink /></motion.button>
               </dialog>
@@ -141,11 +162,11 @@ export default function Home() {
                 </div>
               </div>
               
-              <dialog id="birthday_modal" className="modal bg-white absolute inset-0 -z-10 h-full w-full [background:radial-gradient(140%_110%_at_70%_10%,#fff_10%,#63e_100%)]">
-                  <p className="text-2xl text-black" >Preview birthday cards</p>
+              <dialog id="birthday_modal" className="modal bg-gray-300 absolute inset-0 -z-10 h-full w-full">
+                  <p className="text-2xl text-black" >Preview birthday posts</p>
                   <Image  src={PreviewBirthdayGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
                     <form method="dialog">
-                      <button className="border-none outline-none text-2xl text-black font-light absolute top-10 right-10" whileTap={{scale:0.9}}>X</button>
+                      <motion.button className="close-button border-none outline-none text-2xl text-black font-light absolute top-10 right-10" whileTap={{scale:0.9}}>X</motion.button>
                     </form>
                   <motion.button whileTap={{scale:0.9}} className="btn bg-transparent w-52 border border-black outline-none rounded-lg text-black text-xl font-semibold hover:bg-transparent hover:shadow-xl hover:border-gray " onClick={() => {setPreview(true); setOccasion('birthday')}}>Preview<FiExternalLink /></motion.button>
                </dialog>
@@ -160,11 +181,11 @@ export default function Home() {
               </div>
 
               
-              <dialog id="farewell_modal" className="modal bg-white absolute inset-0 -z-10 h-full w-full [background:radial-gradient(140%_110%_at_70%_10%,#fff_10%,#63e_100%)]">
-                  <p className="text-2xl text-black" >Preview farewell cards</p>
+              <dialog id="farewell_modal" className="modal bg-gray-300 absolute inset-0 -z-10 h-full w-full">
+                  <p className="text-2xl text-black" >Preview farewell posts</p>
                   <Image  src={PreviewFarewellGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
                     <form method="dialog">
-                      <button className="border-none outline-none text-2xl text-black font-light absolute top-10 right-10" whileTap={{scale:0.9}}>X</button>
+                      <motion.button className="close-button border-none outline-none text-2xl text-black font-light absolute top-10 right-10" whileTap={{scale:0.9}}>X</motion.button>
                     </form>
                   <motion.button whileTap={{scale:0.9}} className="btn bg-transparent w-52 border border-black outline-none rounded-lg text-black text-xl font-semibold hover:bg-transparent hover:shadow-xl hover:border-gray " onClick={() => {setPreview(true); setOccasion('farewell')}}>Preview<FiExternalLink /></motion.button>
                </dialog>
@@ -179,11 +200,11 @@ export default function Home() {
               </div>
 
 
-               <dialog id="new_year_modal" className="modal bg-white absolute inset-0 -z-10 h-full w-full [background:radial-gradient(140%_110%_at_70%_10%,#fff_10%,#63e_100%)]">
-                  <p className="text-2xl text-black" >Preview new year cards</p>
+               <dialog id="new_year_modal" className="modal bg-gray-300 absolute inset-0 -z-10 h-full w-full">
+                  <p className="text-2xl text-black" >Preview new year posts</p>
                   <Image data-aos-duration="1000" src={PreviewNewYearGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
                     <form method="dialog">
-                      <button className="border-none outline-none text-2xl text-black font-light absolute top-10 right-10" whileTap={{scale:0.9}}>X</button>
+                      <motion.button className="close-button border-none outline-none text-2xl text-black font-light absolute top-10 right-10" whileTap={{scale:0.9}}>X</motion.button>
                     </form>
                   <motion.button whileTap={{scale:0.9}} className="btn bg-transparent w-52 border border-black outline-none rounded-lg text-black text-xl font-semibold hover:bg-transparent hover:shadow-xl hover:border-gray " onClick={() => {setPreview(true); setOccasion('new year')}}>Preview<FiExternalLink /></motion.button>
               </dialog>

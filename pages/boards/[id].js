@@ -4,11 +4,9 @@ import axios from 'axios';
 import Link from 'next/link'
 import Image from 'next/image'
 import Head from 'next/head'
-import CircularProgress from '@mui/material/CircularProgress';
 import Cookies from 'js-cookie';
 import {useRouter} from 'next/router'
 import { Toaster,toast } from 'sonner';
-import { FaShare } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
 import BackgroundImageTab from '@/components/BackgroundImageTab';
 import BackgroundColorTab from '@/components/BackgroundColorTab';
@@ -17,11 +15,11 @@ import Logo from '../../public/logo.png'
 import Swal from 'sweetalert2'
 import 'animate.css';
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { motion } from 'framer-motion'
 import {Popover, PopoverTrigger, PopoverContent, Button} from "@nextui-org/react";
 import Copy from '../../public/copy.png'
 import { MdDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Post() {
     const router = useRouter()
@@ -31,12 +29,12 @@ function Post() {
     const [boardId,setBoardId] = useState('')
     const [posts,setPosts] = useState([])
     const [userCookie,setUserCookie] = useState('')
-    const [totalPost,setTotalPost] = useState('')
+    // const [totalPost,setTotalPost] = useState('')
     const [recipient,setRecipient] = useState('')
     const [isLoading,setIsLoading] = useState(false)
     const [openNav,setOpenNav] = useState(false)
+    const [isPopover,setIsPopover] = useState(true)
     const [modal,setModal] = useState(false)
-    const [isPopoverOpen,setIsPopoverOpen] = useState(true)
     const [sideComponent,setSideComponent] = useState('color')
     
     // Fetching Board
@@ -48,9 +46,8 @@ function Post() {
         if(board_id){
             axios.get(`${process.env.basePath}/boards/${board_id}`)
             .then((res) => {
-                console.log(res.data.board);
                 setTitle(res.data.board.title)
-                setTotalPost(res.data.board.post)
+                // setTotalPost(res.data.board.post)
                 setRecipient(res.data.board.recipient)
                 if(res.data.board.uploaded_image){
                     const boardImage = Buffer.from(res.data.board.uploaded_image.data)
@@ -108,7 +105,7 @@ function Post() {
     useEffect(() => {
         const timer = setTimeout(() => {
             updateTitle()
-        }, 5000);
+        }, 3000);
     
         return () => clearTimeout(timer);
       }, [title]);
@@ -174,10 +171,10 @@ function Post() {
             <title>Posts</title>
         </Head>
 
-        <nav  id='' className={`bg-white z-50 py-3 flex items-center justify-between fixed top-0 right-0 left-0 transition-all duration-300`}>
+        <nav  className={`bg-white z-50 py-3 flex items-center justify-between fixed top-0 right-0 left-0 transition-all duration-300`}>
             <div className="logo  ps-10">
                 <Link href='/' className=""> 
-                <Image src={Logo} className='m-0 p-0' alt='Logo' width={35} height={35} />
+                    <Image src={Logo} className='m-0 p-0' alt='Logo' width={35} height={35} />
                 </Link>
             </div>
 
@@ -189,12 +186,12 @@ function Post() {
                 className='btn btn-sm bg-black font-normal text-md hover-shadow-xl text-white  border border-black hover:bg-black '><FaPlus /> Add a post</Link>
 
                 <Popover placement="bottom" offset={15} color='default' showArrow={true}>
-                    <PopoverTrigger onClick={() => setIsPopoverOpen(true)}>
+                    <PopoverTrigger>
                         <Button  className='bg-transparent m-0 px-2 border-gray-300 h-8 border rounded-lg outline-none '>
                             <BsThreeDotsVertical/>
                         </Button>
                     </PopoverTrigger>
-                {isPopoverOpen && 
+            { isPopover && 
                     <PopoverContent >
                         <div className="py-2 w-50 shadow-xl px-4 bg-white rounded-md">
                             <div className="copy-and-customize  ">
@@ -202,7 +199,7 @@ function Post() {
                                     <Image src={Copy} alt='Copy' width={20} height={20} className=" text-black share-button cursor-pointer"  />
                                     <p className='text-sm font-semibold ps-3' >Copy board link</p>
                                 </div>
-                                <div onClick={() => {setOpenNav(true); setIsPopoverOpen(false)}} className='edit hover:bg-gray-100 flex items-center justify-start  mt-2 cursor-pointer  rounded-md p-2'>
+                                <div onClick={() => {setOpenNav(true); setIsPopover(false)}} className='edit hover:bg-gray-100 flex items-center justify-start  mt-2 cursor-pointer  rounded-md p-2'>
                                     <CiEdit  className="text-black share-button text-2xl cursor-pointer" />
                                     <p className='text-sm font-semibold ps-3'>Customise board</p>
                                 </div>
@@ -215,7 +212,7 @@ function Post() {
                             </div>
                         </div>
                     </PopoverContent>
-                }
+                        }
                 </Popover>
 
                 <dialog id="delete_modal" className="modal">
@@ -223,10 +220,10 @@ function Post() {
                         <h3 className="font-bold text-lg">You going to delete this board</h3>
                         <p className="py-4">Are you sure you want to delete this?</p>
                         <div className="modal-action">
-                        <form method="dialog">
-                            <button onClick={deleteBoard} className="btn hover:bg-red-500 bg-red-500 text-white">{isLoading ? "Processing..." : " Yes I'm sure"}</button>
-                            <button onClick={() => setIsPopoverOpen(true)} className="btn ms-2 bg-green-500 hover:bg-green-500 text-white">No I'm not</button>
-                        </form>
+                            <form method="dialog">
+                                <button onClick={deleteBoard} className="btn hover:bg-red-500 bg-red-500 text-white">{isLoading ? "Processing..." : " Yes I'm sure"}</button>
+                                <button className="btn ms-2 bg-green-500 hover:bg-green-500 text-white">No I'm not</button>
+                            </form>
                         </div>
                     </div>
                 </dialog>
@@ -246,7 +243,7 @@ function Post() {
         <div className="image-section px-10" data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
             <div className="image flex items-start justify-start flex-wrap" >
-                { posts && 
+                { posts.length > 0 ?
                     posts.map((post,index) => {
                         
                         let formattedImage;
@@ -285,24 +282,34 @@ function Post() {
                                     </div>
 
                                     <div className="message py-5">
-                                        <p className='text-xl mx-4 text-white'>{post.message}</p>
+                                        <p className='text-xl mx-5 text-white'>{post.message}</p>
                                         <p className='text-sm flex pe-4 flex-1 items-end justify-end mt-8 text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
                                     </div>
                                            
-                                    </div>
-
+                                </div>
                                 
-                                :   
+                                : 
                                 
                                 <div className="mt-6 ms-4 px-3 py-6 bg-[#202459] rounded-lg shadow-md min-w-96">
                                     <p className='text-lg text-white'>{post.message}</p>
                                     <p className='text-sm flex flex-1 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
                                 </div>
-                                }
+
+                                 }
                             </div>
                         )
                     })
-                }
+                :  <div className='w-full h-screen flex items-start mt-40 justify-center'>
+                    <svg width={0} height={0}>
+                        <defs>
+                            <linearGradient id="my_gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="100%" stopColor="#1CB5E0" />
+                            </linearGradient>
+                        </defs>
+                        </svg>
+                        <CircularProgress sx={{ 'svg circle': { stroke: 'url(#my_gradient)' } }}/>
+                    </div>
+                    }
                 
                 {modal && 
                     <div className='w-full h-screen flex items-start mt-10 justify-center'>
@@ -323,7 +330,7 @@ function Post() {
 
         <div id="mySidenav" className="sidenav bg-white" style={{marginRight: openNav ? "0" : "-30rem"}}>
             <div className='flex flex-1 justify-end pe-5'>
-                <button onClick={() => {setOpenNav(false); setIsPopoverOpen(true)}} className='text-gray-800 text-3xl m-0'>&times;</button>
+                <button onClick={() => {setOpenNav(false); setIsPopover(true);}} className='text-gray-800 text-3xl m-0'>&times;</button>
             </div>
             <h1 className='text-black text-xl text-center'>Set background</h1>
             
@@ -340,7 +347,8 @@ function Post() {
             <div className='mt-4 px-6'>
                 {sideComponent === "image" ? <BackgroundImageTab setOpenNav={setOpenNav} setUploadedImage={setUploadedImage} imageUrl={imageUrl} setImageUrl={setImageUrl} boardId={boardId} /> : <BackgroundColorTab setOpenNav={setOpenNav} setUploadedImage={setUploadedImage} setImageUrl={setImageUrl} boardId={boardId}/>}
             </div>
-        </div>
+        </div> 
+
     </div>
   )
 }

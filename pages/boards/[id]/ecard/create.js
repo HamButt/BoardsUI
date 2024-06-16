@@ -206,7 +206,7 @@ function CreatePost() {
     <div className='min-h-screen h-full bg-gray-500 '>
 
         <Head>
-            <title>Create card</title>
+            <title>Create post</title>
         </Head>
 
         <div className="logo py-2 bg-white flex items-center justify-center">
@@ -224,7 +224,7 @@ function CreatePost() {
                
                 <div className="back-link-arrow flex items-center ps-6 space-x-2">
                     <Link href={`/boards/${boardId}`} className='text-3xl' ><IoMdArrowRoundBack/></Link>
-                    <p className='text-2xl'>Add a card</p>
+                    <p className='text-2xl'>Add a post</p>
                 </div>
 
                 <div className="uploding-section flex flex-col items-center justify-center mt-7">
@@ -381,7 +381,7 @@ function CreatePost() {
                 <div className="inputs text-center mx-10 mt-6">
                     <input type="text" className="input input-bordered border-2 w-full" placeholder='Enter your name or post anonymously' value={creator} onChange={(e) => setCreator(e.target.value)}  />
                     <textarea style={{resize:"none"}} value={message} rows={4} className='w-full textarea textarea-bordered border-2 text-lg mt-3 outline-none px-4 py-5' type="text" name='message' required placeholder='(Required) Add a message...' onChange={(e) => setMessage(e.target.value)}  ></textarea>
-                    <button disabled={ !message ? true : false} onClick={createPost} className='btn btn-lg glass font-light mt-4 hover:bg-black bg-black text-white text-2xl  rounded-lg'>{isLoading ? "Creating..." : "Create card"}</button>
+                    <button disabled={ !message ? true : false} onClick={createPost} className='btn btn-lg glass font-light mt-4 hover:bg-black bg-black text-white text-2xl  rounded-lg'>{isLoading ? "Creating..." : "Create post"}</button>
                 </div>
                 
             </div>

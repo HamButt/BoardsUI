@@ -148,7 +148,7 @@ const getBoard = () =>{
               /> 
             </div>  
             <div className="flex items-center justify-center ">
-              <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} className='p-3 text-sm font-semibold rounded-md text-black border border-border-gray-300 mt-4' >Apply changes</motion.button>
+              <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} className='p-3 text-sm font-semibold rounded-md text-gray-600 border border-gray-400 mt-4' >Apply changes</motion.button>
           </div>
         </div>
         
@@ -157,7 +157,7 @@ const getBoard = () =>{
         <div className='transition-all ease-linear'>
           <div>
               <p className='font-light text-md text-black text-center '>Search Image that are appropriate for all audiences. We reserve the right to remove content without notice! </p>
-              <input name='image' type="search" className="mt-3 text-black outline-none px-3 py-3 rounded-md bg-transparent text-sm border border-black w-full" value={imageSearchValue} placeholder={`Search...`} onChange={(e) => setImageSearchValue(e.target.value)} /> 
+              <input name='image' type="search" className="mt-3 text-black outline-none px-3 py-3 rounded-md bg-transparent text-sm border border-gray-400 w-full" value={imageSearchValue} placeholder={`Search...`} onChange={(e) => setImageSearchValue(e.target.value)} /> 
           </div>
           {
             imageSection && imageSearchValue &&
@@ -173,13 +173,13 @@ const getBoard = () =>{
                                 </div> 
                             )})
                         : imageSearchValue && !imageData ? <div className='mt-2 font-semibold text-sm'>Searching...</div> 
-                        : <div className='mt-2 font-semibold text-sm' >Please be specific with your search</div>}
+                        : <div className='mt-2 font-semibold text-sm' >No images found for "{imageSearchValue}"</div>}
                         {imageData.length > 0 && <motion.button whileTap={{ scale: 0.9 }} onClick={fetchImages} className='border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button>}
                 </div>
           }
         
           <div className="flex items-end justify-evenly">
-            <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} className='border border-gray-300 p-3 rounded-md text-sm font-semibold text-black mt-4' >Apply changes</motion.button>
+            <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} className='border border-gray-400 p-3 rounded-md text-sm font-semibold text-gray-600 mt-4' >Apply changes</motion.button>
             <motion.button whileTap={{ scale: 0.9 }} onClick={() => setUploadImageCompo(true)} className='border-b text-indigo-950 border-indigo-950 text-sm'>Want to upload?</motion.button>
           </div>
         </div>

@@ -37,17 +37,17 @@ function PreviewBoard({setPreview, occasion}) {
               <IoMdArrowRoundBack className='text-black text-3xl' onClick={() => setPreview(false)}/>
             </button>
             <div className="description-title">
-              <p className='text-xl font-semibold'>Celebrate {occasion} with PraiseBoard</p>
-              <p className='text-lg'>Drive employee happiness by celebrating milestones with online {occasion} cards by PraiseBoard</p>
+              <p className='text-2xl font-semibold'>Celebrate {occasion} emotion with Praise Board</p>
+              <p className='text-lg font-medium'>Drive employee happiness by celebrating milestones with online {occasion} posts by Praise Board</p>
             </div>
-            <Link className='btn hover:bg-black bg-black text-white font-light' href='/boards/create'>Create Board</Link>
+            <Link className='btn hover:bg-black bg-black text-white text-lg font-light' href='/boards/create'>Create Board</Link>
           </div>
         </header>
 
         <div className='' style={{backgroundImage: `url(${imageUrl})`,backgroundRepeat:"no-repeat",backgroundAttachment:"fixed", backgroundSize:'cover',backgroundPosition:"center"}}>
 
-          <div className="selected-title bg-[#202459]  mt-24 py-6">
-              <p className='text-3xl py-2 text-center text-white'>{title}</p>
+          <div className="selected-title bg-gray-200  mt-24 py-6">
+              <p className='text-3xl py-2 text-center text-black'>{title}</p>
           </div>
            
           <div className="image-section px-10" data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
@@ -60,7 +60,7 @@ function PreviewBoard({setPreview, occasion}) {
                             <>
                                 {
                                 
-                                <div style={{width: "400px", height:"auto"}} className="post  bg-[#202459]  mt-3 ms-3 rounded-lg shadow-md " key={post._id}>
+                                <div style={{width: "400px", height:"auto"}} className="post  bg-[#202459] mt-3 ms-3 rounded-lg shadow-md " key={post._id}>
                                     
                                     <div className="post-image">
                                        
@@ -73,6 +73,7 @@ function PreviewBoard({setPreview, occasion}) {
                                             : post.gif ?
 
                                            ( <img className='rounded-t-lg' src={`${process.env.basePath}/images/${post.gif}`} alt="GIF" style={{width:"500px", height:"400px"}} />)
+                                          
                                             : (
                                               <video className='rounded-t-lg' autoPlay controls preload="none" >
                                                 <source src={`${process.env.basePath}/images/${post.video}`} type="video/mp4" />
@@ -82,9 +83,9 @@ function PreviewBoard({setPreview, occasion}) {
                                         }
                                     </div>
 
-                                    <div className="message py-6">
+                                    <div className="message py-4">
                                         <p className='text-lg mx-5 text-white'>{post.message}</p>
-                                        <p className='text-sm flex flex-1 pe-5 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                                        <p className='text-sm flex flex-1 pe-4 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
                                     </div>
 
                                 </div>

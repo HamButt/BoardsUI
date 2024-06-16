@@ -107,7 +107,7 @@ html{
     padding: 20px !important;
     min-width: 100% !important;
     border: 1px solid rgb(156, 163, 175);
-    border: 1px solid rgb(226, 224, 224);
+    /* border: 1px solid rgb(226, 224, 224); */
     height: 120px;
     margin-top: 15px;
   }
@@ -213,6 +213,7 @@ html{
 
 .overlay-button {
   transition: background-color 0.3s ease;
+  padding: 0px 24px;
   background-color: #0088cc; /* Button hover color */
 }
 .overlay-button:hover{
@@ -224,5 +225,5 @@ html{
 }
 
 .image-container:hover .img {
-    opacity: 0.2;
+    opacity: 0.6;
   }
