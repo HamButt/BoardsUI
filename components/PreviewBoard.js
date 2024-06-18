@@ -26,33 +26,37 @@ function PreviewBoard({setPreview, occasion}) {
     }
 
   return (
-    <div >
+    <div style={{backgroundImage: `url(${imageUrl})`,backgroundRepeat:"no-repeat",backgroundAttachment:"fixed", backgroundSize:'cover',backgroundPosition:"center"}}>
         <Head>
           <title >{capitalizeTitle(occasion)}</title>
         </Head>
 
         <header className='fixed top-0 right-0 left-0 z-50 bg-white py-6 shadow'>
-          <div className="flex items-center justify-evenly">
+          <div className="flex items-center justify-between sm:justify-evenly">
             <button className='btn bg-transparent hover:bg-transparent border-none shadow-none'>
               <IoMdArrowRoundBack className='text-black text-3xl' onClick={() => setPreview(false)}/>
             </button>
-            <div className="description-title">
+            <div className="max-sm:hidden description-title">
               <p className='text-2xl font-semibold'>Celebrate {occasion} emotion with Praise Board</p>
               <p className='text-lg font-medium'>Drive employee happiness by celebrating milestones with online {occasion} posts by Praise Board</p>
             </div>
-            <Link className='btn hover:bg-black bg-black text-white text-lg font-light' href='/boards/create'>Create Board</Link>
+            <Link className='preview-board-create-btn btn hover:bg-black max-sm:me-5 bg-black text-white text-lg font-light' href='/boards/create'>Create Board</Link>
+          </div>
+          <div className="sm:hidden descrip-title text-start mx-5 mt-4">
+            <p className='text-lg font-semibold'>Celebrate {occasion} emotion with Praise Board</p>
+            <p className='text-md font-medium'>Drive employee happiness by celebrating milestones with online {occasion} posts by Praise Board</p>
           </div>
         </header>
 
-        <div className='' style={{backgroundImage: `url(${imageUrl})`,backgroundRepeat:"no-repeat",backgroundAttachment:"fixed", backgroundSize:'cover',backgroundPosition:"center"}}>
+        <div className='' >
 
-          <div className="selected-title bg-gray-200  mt-24 py-6">
-              <p className='text-3xl py-2 text-center text-black'>{title}</p>
+          <div className="selected-title bg-gray-200 mt-24 py-6">
+              <p className='text-xl sm:text-3xl py-1 sm:py-2 text-center text-black'>{title}</p>
           </div>
            
-          <div className="image-section px-10" data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+          <div className="image-section " data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
-             <div className="image flex items-start justify-start flex-wrap py-2" >
+             <div className="image flex items-start justify-center flex-wrap py-2" >
 
                   { posts.map((post,index) => {
                         
@@ -60,7 +64,7 @@ function PreviewBoard({setPreview, occasion}) {
                             <>
                                 {
                                 
-                                <div style={{width: "400px", height:"auto"}} className="post  bg-[#202459] mt-3 ms-3 rounded-lg shadow-md " key={post._id}>
+                                <div style={{width: "400px", height:"auto"}} className="post  bg-[#202459] mt-3 mx-3 rounded-lg shadow-md " key={post._id}>
                                     
                                     <div className="post-image">
                                        

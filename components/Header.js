@@ -8,11 +8,11 @@ function Header() {
     <header>
       <div className="header">
           <Link href='/' className="text-3xl text-black">
-            <Image src={Logo} alt='Logo' width={70} height={70}  sizes='(max-width: 200px) 100vw, 33vw'/>
+            <Image className='max-w-16' src={Logo} alt='Logo' width={0} height={0}  sizes='(max-width: 200px) 100vw, 33vw'/>
           </Link>
           <div className='space-x-5'>
               
-            <Link href='#how-to' className='btn btn-md shadow bg-white text-lg font-light border-black rounded-2xl hover:shadow-xl hover:bg-white '>How to</Link>
+            <Link href='#how-to' className='btn btn-md shadow bg-white text-lg font-light border-black rounded-2xl hover:shadow-xl hover:bg-white max-sm:hidden'>How to</Link>
           </div>
       </div>
     </header>

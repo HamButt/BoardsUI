@@ -16,7 +16,7 @@ html{
   --background-link-color: #202459;
 }
 .header{
-    @apply flex items-center justify-between px-40 py-6
+    @apply flex items-center justify-center sm:justify-between px-40 py-6
   }
 .login-link{
     @apply border border-[var(--border-color)] shadow-md rounded-lg py-3 px-4 text-xl text-[var(--background-link-color)] hover:bg-[var(--background-link-color)] hover:text-white
@@ -40,10 +40,10 @@ html{
     @apply mt-6 rounded-bl-xl rounded-br-xl object-cover 
   }
 .step{
-    @apply text-2xl 
+    @apply sm:text-2xl text-xl 
   }
 .step-process{
-    @apply text-xl
+    @apply sm:text-xl text-lg
   }
 
 .one, .two, .three{
@@ -59,6 +59,9 @@ html{
     margin-top: 2rem;
     border: 1px solid var(--background-link-color);
   }
+.process-img{
+  @apply w-32 sm:w-40
+}
 .separator{
     align-items: center;
     color: #dadcdf;
@@ -183,6 +186,45 @@ html{
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
   }
+@media screen and (max-width:1000px) {
+  .selected-title{
+    margin-top: 8rem;
+  }
+}
+@media screen and (max-width:750px) {
+  .selected-title{
+    margin-top: 10rem;
+  }
+}
+@media screen and (max-width:651px) {
+  .selected-title{
+    margin-top: 12rem;
+  }
+  .preview-board-create-btn{
+    padding: 0px 60px;
+    font-size: 20px;
+  }
+}
+@media screen and (max-width:640px) {
+  .selected-title{
+    margin-top: 11rem;
+  }
+  .preview-board-create-btn{
+    padding: 0px 60px;
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width:423px) {
+  .selected-title{
+    margin-top: 13rem;
+  }
+}
+@media screen and (max-width:418px) {
+  .selected-title{
+    margin-top: 14.5rem;
+  }
+}
 
   .image-container {
     position: relative;
