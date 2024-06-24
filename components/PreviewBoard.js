@@ -33,14 +33,14 @@ function PreviewBoard({setPreview, occasion}) {
 
         <header className='fixed top-0 right-0 left-0 z-50 bg-white py-6 shadow'>
           <div className="flex items-center justify-between sm:justify-evenly">
-            <button className='btn bg-transparent hover:bg-transparent border-none shadow-none'>
+            <button className='back-button btn bg-transparent hover:bg-transparent border-none shadow-none'>
               <IoMdArrowRoundBack className='text-black text-3xl' onClick={() => setPreview(false)}/>
             </button>
             <div className="max-sm:hidden description-title">
               <p className='text-2xl font-semibold'>Celebrate {occasion} emotion with Praise Board</p>
               <p className='text-lg font-medium'>Drive employee happiness by celebrating milestones with online {occasion} posts by Praise Board</p>
             </div>
-            <Link className='preview-board-create-btn btn hover:bg-black max-sm:me-5 bg-black text-white text-lg font-light' href='/boards/create'>Create Board</Link>
+            <Link className='preview-board-create-btn btn hover:bg-black max-md:me-5 bg-black text-white text-lg font-light' href='/boards/create'>Create Board</Link>
           </div>
           <div className="sm:hidden descrip-title text-start mx-5 mt-4">
             <p className='text-lg font-semibold'>Celebrate {occasion} emotion with Praise Board</p>
@@ -64,22 +64,22 @@ function PreviewBoard({setPreview, occasion}) {
                             <>
                                 {
                                 
-                                <div style={{width: "400px", height:"auto"}} className="post  bg-[#202459] mt-3 mx-3 rounded-lg shadow-md " key={post._id}>
+                                <div className="preview-posts  bg-[#202459] mt-3 mx-3 rounded-lg shadow-md" key={post._id}>
                                     
                                     <div className="post-image">
                                        
                                         { post.image ? 
-                                            (<Image className='rounded-t-lg'
+                                            (<Image className='preview-image rounded-t-lg'
                                               sizes='(max-width: 200px) 100vw, 33vw'
                                               src={`${process.env.basePath}/images/${post.image}`}
-                                              alt="Post image" width={500} height={500}/>)
+                                              alt="Post image"  width={0} height={0}/>)
                                            
                                             : post.gif ?
 
-                                           ( <img className='rounded-t-lg' src={`${process.env.basePath}/images/${post.gif}`} alt="GIF" style={{width:"500px", height:"400px"}} />)
+                                           ( <img className='preview-gif rounded-t-lg' src={`${process.env.basePath}/images/${post.gif}`} alt="GIF" />)
                                           
                                             : (
-                                              <video className='rounded-t-lg' autoPlay controls preload="none" >
+                                              <video className='preview-video rounded-t-lg' autoPlay controls preload="none" >
                                                 <source src={`${process.env.basePath}/images/${post.video}`} type="video/mp4" />
                                                   Your browser does not support the video tag.
                                               </video>

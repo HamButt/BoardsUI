@@ -23,23 +23,25 @@ function From({increaseStep,decrementStep,boardData, setBoardData}) {
 
   return (
 
-    <div className='h-screen'>
+    <div className='min-h-screen h-full'>
         <NavBar/>
 
-        <div className=" mt-6 flex items-center justify-center">
-            <div className='w-5/12'>
-                <BorderLinearProgress variant="determinate" value={percent}/>
+        <div className="w-full mt-6 flex items-center justify-center">
+            <div className='max-md:w-8/12 w-5/12'>
+                <BorderLinearProgress  variant="determinate" value={percent}/>
             </div>
         </div>
-        <div className='flex items-center justify-center mt-10' data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-            <button onClick={decrementStep} className=' me-2 bg-gray-200 shadow-md btn btn-circle text-black' > 
-                <MdArrowBackIos className='text-2xl ms-2' />
+
+        {/* //data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000" */}
+        <div className=' flex items-center justify-center mt-10 mx-2' >
+            <button onClick={decrementStep} className='me-2 bg-gray-200 shadow-md btn btn-circle text-black' > 
+                <MdArrowBackIos className='text-lg md:text-2xl ms-2' />
             </button>
-            <div className=" pb-10 pt-6 bg-white w-5/12 border shadow rounded-lg">
-                <div className="form flex items-center justify-center flex-col" >
+            <div className="pb-10 pt-6 bg-white sm:w-5/12 border shadow rounded-lg ">
+                <div className="form sm:w-full flex items-center justify-center flex-col" >
                     <p>2/4</p>
-                    <h1 className='text-2xl mt-2' >Let people know who is this from</h1>
-                    <input className='input border-2 w-8/12 mt-5 border-gray-300 rounded-lg outline-none px-4' type="text" placeholder='Name' value={creatorName} name='creator_name' onChange={(e) => setCreatorName(e.target.value)} required />
+                    <h1 className='sm:text-md md:text-lg lg:text-2xl mt-2 mx-auto px-2' >Let people know who is this from</h1>
+                    <input className='input border-2 md:w-8/12 mt-5 border-gray-300 rounded-lg outline-none px-4' type="text" placeholder='Name' value={creatorName} name='creator_name' onChange={(e) => setCreatorName(e.target.value)} required />
                     <button disabled={!creatorName ? true : false}  onClick={() => {increaseStep(); setBoardData([...boardData, creatorName])} } className="board-next-button" >Next</button>
                 </div> 
             </div>

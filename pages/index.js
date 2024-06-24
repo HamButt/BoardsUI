@@ -41,7 +41,7 @@ export default function Home() {
   const handleCloseModal = () => {
     const previews = document.getElementById('previews');
     if (previews) {
-      previews.scrollIntoView({ behavior: 'smooth' });
+      previews.scrollIntoView({ behavior: 'smooth' }); 
     }
   };
 
@@ -77,7 +77,7 @@ export default function Home() {
   return (
     <>
     
-      {preview ? <PreviewBoard setPreview={setPreview} occasion={occasion}/> : 
+      {preview ? <PreviewBoard setPreview={setPreview} occasion={occasion} /> : 
 
       <div className="absolute w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
 
@@ -120,8 +120,9 @@ export default function Home() {
                         <Image src={PreviewRetirementGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
                           width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
                           <form method="dialog">
-                            <motion.button whileTap={{scale:0.9}} className="close-button hover:bg-gray-300 px-3 py-2 
-                            rounded-full border-none outline-none text-xl text-gray-600 font-light absolute top-2 right-2 sm:top-10 sm:right-10">X</motion.button>
+                            <motion.button whileTap={{scale:0.9}} className="close-button hover:bg-gray-400 px-3 py-2 
+                            rounded-full border-none outline-none text-xl text-gray-600 
+                            font-light absolute top-2 right-2 sm:top-10 sm:right-10">X</motion.button>
                           </form>
                         <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" onClick={() => {setPreview(true); setOccasion('retirement')}}>Preview <FiExternalLink /> </motion.button>
                   </dialog>
@@ -130,7 +131,9 @@ export default function Home() {
                     <Image   src={PreviewRetirementGif} sizes='(max-width: 200px) 100vw, 33vw'  
                       alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
                     <div className="overlay">
-                        <motion.button whileTap={{scale:0.9}} className="overlay-button btn border border-white outline-none rounded-lg text-white text-xl font-semibold  hover:shadow-xl" onClick={()=>document.getElementById('retirement_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
+                        <motion.button whileTap={{scale:0.9}} 
+                          className="overlay-button btn border outline-none rounded-lg  text-lg font-semibold hover:shadow-xl" 
+                          onClick={()=>document.getElementById('retirement_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
                     </div>
                   </div>
                 </div>
@@ -142,7 +145,7 @@ export default function Home() {
                       <Image  src={PreviewThankyouGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage" 
                       width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
                         <form method="dialog">
-                          <motion.button className="close-button hover:bg-gray-300 px-3 py-2 
+                          <motion.button className="close-button hover:bg-gray-400 px-3 py-2 
                             rounded-full border-none outline-none text-xl text-gray-600 font-light absolute top-2 right-2 sm:top-10 sm:right-10" whileTap={{scale:0.9}}>X</motion.button>
                         </form>
                       <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" onClick={() => {setPreview(true); setOccasion('thankyou')}}>Preview<FiExternalLink /></motion.button>
@@ -152,7 +155,8 @@ export default function Home() {
                     <Image  src={PreviewThankyouGif} sizes='(max-width: 200px) 100vw, 33vw'  
                       alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
                     <div className="overlay">
-                        <motion.button whileTap={{scale:0.9}} className="overlay-button btn border border-white outline-none rounded-lg text-white text-xl font-semibold  hover:shadow-xl" onClick={()=>document.getElementById('thankyou_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
+                        <motion.button whileTap={{scale:0.9}} 
+                        className="overlay-button btn border outline-none rounded-lg  text-lg font-semibold hover:shadow-xl" onClick={()=>document.getElementById('thankyou_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
                     </div>
                   </div>
                 </div>
@@ -163,17 +167,19 @@ export default function Home() {
                       <Image  src={PreviewGraduationGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
                          width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
                         <form method="dialog">
-                          <motion.button className="close-button hover:bg-gray-300 px-3 py-2 
-                            rounded-full border-none outline-none text-xl text-gray-600 font-light absolute top-2 right-2 sm:top-10 sm:right-10" whileTap={{scale:0.9}}>X</motion.button>
+                          <motion.button className="close-button hover:bg-gray-400 px-3 py-2 
+                            rounded-full border-none outline-none text-gray-600 font-light absolute
+                             top-2 right-2 sm:top-10 sm:right-10" whileTap={{scale:0.9}}>X</motion.button>
                         </form>
-                      <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500 " onClick={() => {setPreview(true); setOccasion('graduation')}}>Preview<FiExternalLink /></motion.button>
+                      <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border text-xl border-gray-500 outline-none rounded-lg text-gray-600 font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500 " onClick={() => {setPreview(true); setOccasion('graduation')}}>Preview<FiExternalLink /></motion.button>
                   </dialog>
 
                   <div className="image-container rounded-box">
                     <Image src={PreviewGraduationGif} sizes='(max-width: 200px) 100vw, 33vw'  
                       alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
                     <div className="overlay">
-                        <motion.button whileTap={{scale:0.9}} className="overlay-button btn border border-white outline-none rounded-lg text-white text-xl font-semibold  hover:shadow-xl" onClick={()=>document.getElementById('graduation_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
+                        <motion.button whileTap={{scale:0.9}} 
+                        className="overlay-button btn border  outline-none rounded-lg text-lg font-semibold  hover:shadow-xl" onClick={()=>document.getElementById('graduation_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
                     </div>
                   </div>
                 </div>
@@ -184,7 +190,7 @@ export default function Home() {
                       <Image  src={PreviewBirthdayGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage" 
                       width={0} height={0} className="img rounded-box border-4 p-1 border-white"/>
                         <form method="dialog">
-                          <motion.button className="close-button hover:bg-gray-300 px-3 py-2 
+                          <motion.button className="close-button hover:bg-gray-400 px-3 py-2 
                             rounded-full border-none outline-none text-xl text-gray-600 font-light absolute top-2 right-2 sm:top-10 sm:right-10" whileTap={{scale:0.9}}>X</motion.button>
                         </form>
                       <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500 " onClick={() => {setPreview(true); setOccasion('birthday')}}>Preview<FiExternalLink /></motion.button>
@@ -194,7 +200,7 @@ export default function Home() {
                     <Image src={PreviewBirthdayGif} sizes='(max-width: 200px) 100vw, 33vw'  
                       alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
                     <div className="overlay">
-                        <motion.button whileTap={{scale:0.9}} className="overlay-button btn border border-white outline-none rounded-lg text-white text-xl font-semibold  hover:shadow-xl"
+                        <motion.button whileTap={{scale:0.9}} className="overlay-button btn border outline-none rounded-lg text-lg font-semibold  hover:shadow-xl"
                         onClick={()=>document.getElementById('birthday_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
                     </div>
                   </div>
@@ -206,7 +212,7 @@ export default function Home() {
                       <Image  src={PreviewFarewellGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage" 
                       width={0} height={0} className="img rounded-box border-4 p-1 border-white"/>
                         <form method="dialog">
-                          <motion.button className="close-button hover:bg-gray-300 px-3 py-2 
+                          <motion.button className="close-button hover:bg-gray-400 px-3 py-2 
                             rounded-full border-none outline-none text-xl text-gray-600 font-light absolute top-2 right-2 sm:top-10 sm:right-10" whileTap={{scale:0.9}}>X</motion.button>
                         </form>
                       <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500 " onClick={() => {setPreview(true); setOccasion('farewell')}}>Preview<FiExternalLink /></motion.button>
@@ -216,7 +222,7 @@ export default function Home() {
                     <Image src={PreviewFarewellGif} sizes='(max-width: 200px) 100vw, 33vw'  
                       alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
                     <div className="overlay">
-                        <motion.button whileTap={{scale:0.9}} className="overlay-button btn border border-white outline-none rounded-lg text-white text-xl font-semibold  hover:shadow-xl"
+                        <motion.button whileTap={{scale:0.9}} className="overlay-button btn border  outline-none rounded-lg text-lg font-semibold  hover:shadow-xl"
                         onClick={()=>document.getElementById('farewell_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
                     </div>
                   </div>
@@ -229,7 +235,7 @@ export default function Home() {
                       <Image data-aos-duration="1000" src={PreviewNewYearGif} sizes='(max-width: 200px) 100vw, 33vw' 
                       alt="RetirementImage" width={0} height={0} className="img rounded-box border-4 p-1 border-white"/>
                         <form method="dialog">
-                          <motion.button className="close-button hover:bg-gray-300 px-3 py-2 
+                          <motion.button className="close-button hover:bg-gray-400 px-3 py-2 
                             rounded-full border-none outline-none text-xl text-gray-600 font-light absolute top-2 right-2 sm:top-10 sm:right-10" whileTap={{scale:0.9}}>X</motion.button>
                         </form>
                       <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500 " onClick={() => {setPreview(true); setOccasion('new year')}}>Preview<FiExternalLink /></motion.button>
@@ -239,7 +245,7 @@ export default function Home() {
                     <Image src={PreviewNewYearGif} sizes='(max-width: 200px) 100vw, 33vw'  
                       alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
                     <div className="overlay">
-                        <motion.button whileTap={{scale:0.9}} className="overlay-button btn border border-white outline-none rounded-lg text-white text-xl font-semibold  hover:shadow-xl"
+                        <motion.button whileTap={{scale:0.9}} className="overlay-button btn border outline-none rounded-lg text-lg font-semibold  hover:shadow-xl"
                         onClick={()=>document.getElementById('new_year_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
                     </div>
                   </div>

@@ -115,9 +115,7 @@ html{
     margin-top: 15px;
   }
   
-.edit-board .guZdik input{
-    /* padding: 10px; */
-  }
+
 .edit-board .jWkLDY span {
     font-size: 12px;
     /* padding-left: 10px; */
@@ -181,91 +179,157 @@ html{
     padding-top: 60px; 
     transition: 0.5s;
 }
-  
-@media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-  }
-@media screen and (max-width:1000px) {
-  .selected-title{
-    margin-top: 8rem;
-  }
-}
-@media screen and (max-width:750px) {
-  .selected-title{
-    margin-top: 10rem;
-  }
-}
-@media screen and (max-width:651px) {
-  .selected-title{
-    margin-top: 12rem;
-  }
-  .preview-board-create-btn{
-    padding: 0px 60px;
-    font-size: 20px;
-  }
-}
-@media screen and (max-width:640px) {
-  .selected-title{
-    margin-top: 11rem;
-  }
-  .preview-board-create-btn{
-    padding: 0px 60px;
-    font-size: 20px;
-  }
+
+.preview-posts{
+  width: 400px;
 }
 
-@media screen and (max-width:423px) {
-  .selected-title{
-    margin-top: 13rem;
-  }
-}
-@media screen and (max-width:418px) {
-  .selected-title{
-    margin-top: 14.5rem;
-  }
+.post-image{
+  width: 100%;
+  height: auto;
 }
 
-  .image-container {
-    position: relative;
-    overflow: hidden;
-    margin-top: 1rem;
-  }
-  
-  .img {
-    width: 250px;
-    height: 320px;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
-  }
+.preview-image, .preview-gif, .preview-video{
+  width: 100%;
+}
 
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(27, 152, 168, 0.6); /* Semi-transparent background */
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
+.image-container {
+  position: relative;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.img {
+  padding: 4px;
+  width: 250px;
+  height: 320px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(227, 252, 268, 0.1); /* Semi-transparent background */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 
 .overlay-button {
   transition: background-color 0.3s ease;
+  color: black;
+  border: 2px solid rgb(156, 163, 175);
   padding: 0px 24px;
-  background-color: #0088cc; /* Button hover color */
+  background-color: rgb(230, 228, 228);
 }
 .overlay-button:hover{
-  background-color: #0088cc; /* Button hover color */
+  background-color: rgb(230, 228, 228);
+  border: 2px solid rgb(156, 163, 175);
 }
-    
+
 .image-container:hover .overlay {
   opacity: 1;
 }
 
 .image-container:hover .img {
-    opacity: 0.6;
+  opacity: 0.6;
+  border: 2px solid rgb(156, 163, 175);
+}
+
+
+.youtube-video{
+  width: 100%;
+  height: 200px;
+}
+.post-gif{
+  width: 100%;
+  height: 370px;
+}
+.unsplash-image{
+  width: 100%;
+  height: 370px;
+}
+
+/* @media screen and (max-width:1270px) {
+  .user-posts{
+    width: 390px;
   }
+  
+  }
+
+@media screen and (max-width:1190px) {
+  .user-posts{
+    width: 360px;
+  }
+  
+  }
+
+@media screen and (max-width:1090px) {
+  .user-posts{
+    width: 330px;
+  }
+  } */
+
+  @media screen and (max-width:850px) {
+    .post-image, .preview-posts{
+        width: 300px;
+      }
+      .message > p{
+        font-size: 14px;
+      }
+    }
+
+  @media screen and (max-width:650px) {
+    .post-image, .preview-posts{
+        width: 250px;
+      }
+    }
+
+
+  @media screen and (max-width:1000px) {
+    .selected-title{
+      margin-top: 8rem;
+    }
+  }
+
+  @media screen and (max-width:750px) {
+    .selected-title{
+      margin-top: 10rem;
+    }
+  }
+  @media screen and (max-width:651px) {
+    .selected-title{
+      margin-top: 12rem;
+    }
+    .preview-board-create-btn{
+      padding: 0px 60px;
+      font-size: 20px;
+    }
+  }
+  @media screen and (max-width:640px) {
+    .selected-title{
+      margin-top: 11rem;
+    }
+    .preview-board-create-btn{
+      padding: 0px 60px;
+      font-size: 20px;
+    }
+  }
+  
+  @media screen and (max-width:423px) {
+    .selected-title{
+      margin-top: 13rem;
+    }
+  }
+  @media screen and (max-width:418px) {
+    .selected-title{
+      margin-top: 14.5rem;
+    }
+  }
+  

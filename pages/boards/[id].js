@@ -19,8 +19,7 @@ import {Popover, PopoverTrigger, PopoverContent, Button} from "@nextui-org/react
 import Copy from '../../public/copy.png'
 import { MdDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
-import CircularProgress from '@mui/material/CircularProgress';
-
+import ImageLoading from '../../public/loading.gif'
 function Post() {
     const router = useRouter()
     const [title,setTitle] = useState('')
@@ -29,12 +28,12 @@ function Post() {
     const [boardId,setBoardId] = useState('')
     const [posts,setPosts] = useState([])
     const [userCookie,setUserCookie] = useState('')
-    // const [totalPost,setTotalPost] = useState('')
     const [recipient,setRecipient] = useState('')
     const [isLoading,setIsLoading] = useState(false)
     const [openNav,setOpenNav] = useState(false)
     const [isPopover,setIsPopover] = useState(true)
-    const [modal,setModal] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [handleNavigating, setHandleNavigating] = useState(false);
     const [sideComponent,setSideComponent] = useState('color')
     
     // Fetching Board
@@ -64,10 +63,10 @@ function Post() {
 
         axios.get(`${process.env.basePath}/posts/${board_id}`)
         .then((res) => {
+            setLoading(true);
             if(res.data.allPosts.length){
                 setPosts(res.data.allPosts.reverse())
             }else{
-                setModal(true)
                 const duration = 5 * 1000,
                 animationEnd = Date.now() + duration,
                 defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
@@ -98,10 +97,12 @@ function Post() {
             }
         }).catch((err) => {
             console.log(err);
-        })
+        }).finally(() =>{
+            setLoading(false);
+        }) 
 
     }, [])
-    
+
     useEffect(() => {
         const timer = setTimeout(() => {
             updateTitle()
@@ -118,7 +119,7 @@ function Post() {
                 setTitle(title);
             }
             }).catch((err) => {
-            console.log(err);
+                console.log(err);
             });
         }
     }
@@ -164,6 +165,10 @@ function Post() {
         toast.success('Link copied');
     }
 
+    const navigationToPage = () => {
+        setHandleNavigating(true)
+    }
+
   return (
     <div className={`min-h-screen h-full w-full bg-fixed bg-no-repeat bg-cover bg-center transition-all ease-linear`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
         
@@ -182,8 +187,9 @@ function Post() {
 
             <div className="header-buttons space-x-3 flex items-end pe-3"> 
                 
-                <Link href={`/boards/${boardId ?? router.query.id}/post/create`} 
-                className='btn btn-sm bg-black font-normal text-md hover-shadow-xl text-white  border border-black hover:bg-black '><FaPlus /> Add a post</Link>
+                <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
+                className='btn btn-sm bg-black font-normal text-md hover-shadow-xl text-white  border border-black hover:bg-black '>
+                <FaPlus /> {handleNavigating ? "Redirecting" : "Add a post"}</Link>
 
                 <Popover placement="bottom" offset={15} color='default' showArrow={true}>
                     <PopoverTrigger>
@@ -231,93 +237,113 @@ function Post() {
           </div>
         </nav>
 
-        <div className="selected-title bg-gray-200  mt-10 pt-8 pb-4">
-            <p className='m-0 p-0 font-semibold text-black ms-10 '>Add posts for <span>{recipient}</span></p>
+        <div className=" bg-gray-300  mt-10 pt-8 pb-4">
+            <div className='m-0 p-0 font-semibold text-black ms-10 flex items-center'>Add posts for 
+              { recipient ? <p className='ms-1'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
+            </div>
                 
-            <div className="text-center editable-element hover:bg-gray-300  ">
-                <input  type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
-                    className=' focus:border border-black w-full text-3xl outline-none py-2 text-center bg-transparent text-gray-600 hover:text-black cursor-pointer'  />
+            <div className="text-center editable-element hover:bg-gray-300 ">
+                {title ? <input  type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
+                    className=' focus:border border-black w-full text-3xl outline-none py-2 text-center bg-transparent
+                     text-gray-600 hover:text-black cursor-pointer'  /> : 
+                     <div className="skeleton h-10 rounded-md w-96 mx-auto pt-2 font-semibold"></div>
+                     }
             </div>
         </div>
 
-        <div className="image-section px-10" data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+        <div className="image-section flex justify-center" data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
-            <div className="image flex items-start justify-start flex-wrap" >
-                { posts.length > 0 ?
-                    posts.map((post,index) => {
-                        
-                        let formattedImage;
-                        if(post.image){
-                            formattedImage = Buffer.from(post.image.data)
-                        }
-                        
-                        return (
-                            <div key={post._id}>
-                                {
-                                    formattedImage || post.giphy || post.video || post.unsplashImage ? 
+            {posts.length > 0 ? 
+                <div className="board-posts grid grid-cols-12 py-2 place-items-start" >
+                    {posts.map((post,index) => {
+                    
+                    let formattedImage;
+                    if(post.image){
+                        formattedImage = Buffer.from(post.image.data)
+                    }
+                    
+                    return (
+                            <div key={post._id} className="user-posts col-span-12 md:col-span-6 w-[330px] sm:w-[450px] md:w-[380px] lg:w-[320px] xl:w-[410px]  lg:col-span-4 mt-3 bg-[#202459] mx-2 rounded-lg shadow-md">
+                            {
+                                formattedImage || post.giphy || post.video || post.unsplashImage ? 
+                            
+                            <div >
                                 
-                                <div style={{width: "400px",  height:"auto"}} className="post  bg-[#202459] my-5 ms-3 rounded-lg shadow-md " >
+                                <div className="post w-full">
                                     
-                                    <div className="post-image">
-                                       
-                                        { formattedImage ? 
-                                            (<Image className='rounded-t-lg'
-                                            sizes='(max-width: 200px) 100vw, 33vw'
-                                            src={`${process.env.basePath}/images/${formattedImage}`}
-                                            fetchPriority="high"
-                                            alt={formattedImage} width={500} height={500}/>)
-                                           
-                                            : post.giphy ?
-                                           ( <img fetchPriority="high" className='rounded-t-lg' src={post.giphy} alt="GIF" style={{width:"500px", height:"400px"}} />)
-                                           
-                                            : post.unsplashImage ?
-                                           ( 
-                                            <div style={{height:"400px"}} >
-                                                <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='object-cover rounded-t-lg w-full h-full' src={post.unsplashImage} alt="unsplashImage" width={0} height={0}/>
-                                            </div>
-                                            )
-                                           
-                                            : (<iframe className='rounded-t-lg' width="400" height="220" src={post.video} ></iframe>)
-                                        }
-                                    </div>
+                                    { formattedImage ? 
+                                        (<Image className={`post-uploaded-image rounded-t-lg w-full`}
+                                        sizes='(max-width: 200px) 100vw, 33vw'
+                                        src={formattedImage ? `${process.env.basePath}/images/${formattedImage}` : ImageLoading}
+                                        fetchPriority="high"
+                                        alt={formattedImage} width={0} height={0}/>)
+                                        
+                                        : post.giphy ?
 
-                                    <div className="message py-5">
-                                        <p className='text-xl mx-5 text-white'>{post.message}</p>
-                                        <p className='text-sm flex pe-4 flex-1 items-end justify-end mt-8 text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
-                                    </div>
-                                           
-                                </div>
-                                
-                                : 
-                                
-                                <div className="mt-6 ms-4 px-3 py-6 bg-[#202459] rounded-lg shadow-md min-w-96">
-                                    <p className='text-lg text-white'>{post.message}</p>
-                                    <p className='text-sm flex flex-1 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                                        <>
+                                            { post.giphy ?
+                                            <img fetchPriority="high" className='post-gif rounded-t-lg' src={post.giphy} alt="GIF" /> 
+                                            :<Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='post-gif rounded-t-lg' src={ImageLoading} alt="GIF" />
+                                            }
+                                        </>
+                                        
+                                        : post.unsplashImage ?
+                                        ( 
+                                            <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='rounded-t-lg unsplash-image' src={post.unsplashImage ? post.unsplashImage : ImageLoading} alt="unsplashImage" width={0} height={0}/>
+                                        )
+                                        
+                                        : 
+                                        <>
+                                            { post.video ?
+                                            <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
+                                            :<Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='post-gif rounded-t-lg' src={ImageLoading} alt="GIF" />
+                                            }
+                                        </>
+                                    }
                                 </div>
 
-                                 }
+                                <div className="message py-3">
+                                    <p className='text-xl mx-5 text-white'>{post.message}</p>
+                                    <p className='text-sm flex pe-4 flex-1 items-end justify-end mt-5 text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                                </div>
+                                        
                             </div>
-                        )
-                    })
-                :  ""
-                    }
-                
-                {modal && 
-                    <div className='w-full h-screen flex items-start mt-10 justify-center'>
-                        <div className=' bg-white flex items-center shadow-lg rounded-md justify-start flex-col' style={{width:"400px", maxWidth:"600px", height:"400px"}}>
-                            <Image src={Confetti} alt='Confetti' className='mt-5' width={300} height={200} />
-                            <h3 className="font-bold text-2xl mt-12">Welcome to the praise board of</h3>
-                            <p className="font-semibold text-md mt-1">{recipient}</p>
-                            <Link href={`/boards/${boardId ?? router.query.id}/post/create`} 
-                            className='btn hover:bg-black bg-black mt-5 text-white border border-black px-10 py-2 rounded-md text-xl font-light '>Add your post</Link>
-                        </div>
+                            
+                            : 
+                            
+                            <div className="mt-6 ms-4 px-3 py-6 bg-[#202459] rounded-lg shadow-md min-w-96">
+                                <p className='text-lg text-white'>{post.message}</p>
+                                <p className='text-sm flex flex-1 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                            </div>
+
+                                }
+                            </div> 
+                    )
+                })}
+                </div>
+                : loading ? 
+
+                <div className='flex items-center justify-center h-screen'>
+                    <progress className="progress w-96 h-4"></progress>
+                </div>
+                :
+                <div className='w-full h-screen flex items-start mt-10 justify-center'>
+                    <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col' style={{ width: "400px", maxWidth: "600px", height: "400px" }}>
+                    <Image src={Confetti} alt='Confetti' className='mt-5' width={300} height={200} />
+                    <h3 className="font-bold text-2xl mt-12">Welcome to the praise board of</h3>
+                    <p className="font-semibold text-md mt-1">{recipient}</p>
+                    <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
+                        className='btn hover:bg-black bg-black mt-5 text-white border border-black px-10 py-2 rounded-md text-xl font-light'>
+                        {handleNavigating ? "Redirecting..." : "Add your post"}
+                    </Link>
                     </div>
-                    }
+                </div> 
+            }
                 
-            </div>
+                
         </div>
         
-        <Link style={{padding:"5px 16px", boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px"}} data-tip="Create Board" href='/boards/create' className='animate-pulse rounded-full text-5xl bg-white board-btn cursor-pointer tooltip tooltip-left fixed bottom-3 right-3  ' >+</Link>
+        <Link style={{padding:"5px 16px", boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px"}} data-tip="Create Board" href='/boards/create' className='animate-pulse rounded-full text-3xl sm:text-5xl bg-white board-btn cursor-pointer tooltip tooltip-left fixed bottom-3 right-3  ' >+</Link>
 
         <div id="mySidenav" className="sidenav bg-white" style={{marginRight: openNav ? "0" : "-30rem"}}>
             <div className='flex flex-1 justify-end pe-5'>
