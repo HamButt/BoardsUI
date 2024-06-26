@@ -20,6 +20,7 @@ import Copy from '../../public/copy.png'
 import { MdDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import ImageLoading from '../../public/loading.gif'
+
 function Post() {
     const router = useRouter()
     const [title,setTitle] = useState('')
@@ -197,8 +198,8 @@ function Post() {
                             <BsThreeDotsVertical/>
                         </Button>
                     </PopoverTrigger>
-            { isPopover && 
-                    <PopoverContent >
+                { isPopover && 
+                    <PopoverContent>
                         <div className="py-2 w-50 shadow-xl px-4 bg-white rounded-md">
                             <div className="copy-and-customize  ">
                                 <div className='copy  hover:bg-gray-100 flex items-center justify-start cursor-pointer rounded-md p-2' onClick={() => copyLink(boardId)}>
@@ -289,7 +290,7 @@ function Post() {
                                         
                                         : post.unsplashImage ?
                                         ( 
-                                            <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='rounded-t-lg unsplash-image' src={post.unsplashImage ? post.unsplashImage : ImageLoading} alt="unsplashImage" width={0} height={0}/>
+                                            <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='object-cover rounded-t-lg unsplash-image' src={post.unsplashImage ? post.unsplashImage : ImageLoading} alt="unsplashImage" width={0} height={0}/>
                                         )
                                         
                                         : 
@@ -327,7 +328,7 @@ function Post() {
                     <progress className="progress w-96 h-4"></progress>
                 </div>
                 :
-                <div className='w-full h-screen flex items-start mt-10 justify-center'>
+                <div className='w-80 md:w-full h-screen flex items-start mt-10 justify-center'>
                     <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col' style={{ width: "400px", maxWidth: "600px", height: "400px" }}>
                     <Image src={Confetti} alt='Confetti' className='mt-5' width={300} height={200} />
                     <h3 className="font-bold text-2xl mt-12">Welcome to the praise board of</h3>

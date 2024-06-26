@@ -31,6 +31,15 @@ function Message({decrementStep, boardData, setBoardData}) {
         const hash = crypto.createHmac('sha256', salt).update(boardData[2]).digest('hex');
         Cookies.set("Creator",hash, { expires: 7 })
     }
+
+
+    React.useEffect(()=>{
+        if(boardData[0]){
+            return (()=>{
+                    setBoardData("")
+            })
+    }
+    }, [])
     
     const createBoard = () => {
         setIsLoading(true)

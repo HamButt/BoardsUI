@@ -85,9 +85,31 @@ html{
     color: grey;
   }
 
-.file-uploader .guZdik{
+  /* file uploader */
+
+  .file-uploader .upload-input {
+    max-width: 190px;
+    display: none;
+  }
+  
+ .file-uploader .labelFile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+    height: 150px;
+    /* border: 1px solid #D2D4D7; */
+    align-items: center;
+    text-align: center;
+    color: #404040;
+    cursor: pointer;
+  }
+  
+
+.file-uploader .input{
     padding: 20px !important;
-    min-width: 100% !important;
+    /* min-width: 100% !important; */
     border: 2px solid #D2D4D7;
     height: 120px;
     margin-top: 15px;
@@ -106,11 +128,11 @@ html{
     font-size: 20px !important;
   }
 
+
 .edit-board .guZdik{
     padding: 20px !important;
     min-width: 100% !important;
     border: 1px solid rgb(156, 163, 175);
-    /* border: 1px solid rgb(226, 224, 224); */
     height: 120px;
     margin-top: 15px;
   }
@@ -256,25 +278,6 @@ html{
   height: 370px;
 }
 
-/* @media screen and (max-width:1270px) {
-  .user-posts{
-    width: 390px;
-  }
-  
-  }
-
-@media screen and (max-width:1190px) {
-  .user-posts{
-    width: 360px;
-  }
-  
-  }
-
-@media screen and (max-width:1090px) {
-  .user-posts{
-    width: 330px;
-  }
-  } */
 
   @media screen and (max-width:850px) {
     .post-image, .preview-posts{

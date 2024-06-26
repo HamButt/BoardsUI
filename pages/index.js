@@ -90,9 +90,9 @@ export default function Home() {
         <div className="main mt-10">
           <div className="max-w-3xl mx-auto mt-6 flex flex-col items-center text-center justify-center">
             {/* <p className="text-4xl">Create group memories with personalized recognition cards and leave a lasting impression!</p> */}
-            <p className="sm:text-4xl text-2xl font-bold sm:px-5">Celebrate your team members and people you admire</p>
+            <p className="sm:text-4xl text-2xl font-bold ">Celebrate your team members and people you admire</p>
             {/* <p className="text-2xl mt-5">Personalized praise boards with every occasion <span className="text-lg font-semibold">{displayedText}</span> </p> */}
-            <p className="sm:text-2xl text-md max-sm:font-semibold mt-5 sm:px-5">Beautiful, collaborative personalized online boards to celebrate your team and friends <span className="text-sm sm:text-lg font-semibold">{displayedText}</span> </p>
+            <p className="text-lg sm:text-2xl max-sm:font-semibold mt-5 max-sm:px-5">Beautiful, collaborative personalized online boards to celebrate your team and friends <span className="text-sm sm:text-lg font-semibold">{displayedText}</span> </p>
             {/* <p className="text-4xl">Create group memories with personalized recognition cards and leave a lasting impression!</p> */}
             {/* <p className="text-2xl mt-5">Personalized praise boards with every occasion <span className="text-lg font-semibold">{displayedText}</span> </p> */}
             <Link rel="stylesheet" className="mt-6 btn btn-md sm:btn-lg text-md font-semibold sm:text-xl sm:font-medium border hover:shadow-xl border-black rounded-2xl hover:bg-white bg-white" 
