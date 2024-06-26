@@ -252,7 +252,7 @@ function CreatePost() {
                                     <DropdownItem textValue='Search'>
                                         <div className='search hover:bg-indigo-100 flex items-center justify-start  mt-2 cursor-pointer  rounded-md p-2'>
                                             <RiStackFill className='text-xl text-indigo-600' />
-                                            <p className='text-sm font-semibold ps-3' onClick={() => { setImageComponent('search'); setGIFComponent(false);  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setGifData("")}}>Search with library</p>
+                                            <p className='text-sm font-semibold ps-3' onClick={() => { setImageComponent('search'); setGIFComponent(false);  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setGifData("")}}>Search with unsplash</p>
                                         </div>
                                     </DropdownItem>
                                 </DropdownMenu>
@@ -277,7 +277,7 @@ function CreatePost() {
                                     <DropdownItem textValue='Search'>
                                         <div className='search hover:bg-pink-100 flex items-center justify-start mt-2 cursor-pointer rounded-md p-1 md:p-2'>
                                             <RiStackFill className='text-xl text-pink-600' />
-                                            <p className='text-sm font-semibold ps-3' onClick={() => {setGIFComponent('search'); setImageComponent(false); setImageSection(false); setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setImageData("")}}>Search with library</p>
+                                            <p className='text-sm font-semibold ps-3' onClick={() => {setGIFComponent('search'); setImageComponent(false); setImageSection(false); setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setImageData("")}}>Search with giphy</p>
                                         </div>
                                     </DropdownItem>
                                 </DropdownMenu>
@@ -303,7 +303,6 @@ function CreatePost() {
                             <label htmlFor="file" className="labelFile border-2 border-gray-300 rounded-lg px-4 "><span><BsCloudUpload className="text-2xl" /></span>
                                 <div className='mt-2 w-full'>
                                     <p className='upload-image' >drag and drop your image file here or click to select a file</p>
-                                    {/* {image && <p>Want to upload another one?</p> } */}
                                     <p className='text-end text-xs font-semibold mt-3' >JPG, PNG, JPEG</p>
                                 </div>
                             </label>                         
@@ -366,7 +365,6 @@ function CreatePost() {
                                 <label htmlFor="file" className="labelFile border-2 border-gray-300 rounded-lg px-4 "><span><BsCloudUpload className="text-2xl" /></span>
                                     <div className='mt-2 w-full'>
                                         <p className='upload-gif'>drag and drop your GIF here or click to select</p>
-                                        {/* {image && <p>Want to upload another one?</p> } */}
                                         <p className='text-end text-xs font-semibold' >GIF</p>
                                     </div>
                                 </label>                         

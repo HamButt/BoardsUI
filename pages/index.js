@@ -14,8 +14,86 @@ import PreviewFarewellGif from '../preview-assets/farewell.gif'
 import PreviewNewYearGif from '../preview-assets/newyear.gif'
 import { FiExternalLink } from "react-icons/fi";
 import Logo from '../public/logo.png'
-import {motion} from 'framer-motion'
+// import {motion} from 'framer-motion'
+import useMeasure from "react-use-measure";
+import { useDragControls, useMotionValue, useAnimate, motion} from "framer-motion";
 
+const DragCloseDrawer = ({ open, setOpen, children }) => {
+  const [scope, animate] = useAnimate();
+  const [drawerRef, { height }] = useMeasure();
+
+  const y = useMotionValue(0);
+  const controls = useDragControls();
+
+  const handleClose = async () => {
+    animate(scope.current, {
+      opacity: [1, 0],
+    });
+
+    const yStart = typeof y.get() === "number" ? y.get() : 0;
+
+    await animate("#drawer", {
+      y: [yStart, height],
+    });
+
+    setOpen(false);
+  };
+
+  return (
+    <>
+      {open && (
+        <motion.div
+          ref={scope}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          onClick={handleClose}
+          className="fixed inset-0 z-50 bg-neutral-950/70"
+        >
+          <motion.div
+            id="drawer"
+            ref={drawerRef}
+            onClick={(e) => e.stopPropagation()}
+            initial={{ y: "100%" }}
+            animate={{ y: "0%" }}
+            transition={{
+              ease: "easeInOut",
+            }}
+            className="absolute bottom-0 h-[75vh] w-full overflow-hidden rounded-t-3xl bg-gray-800"
+            style={{ y }}
+            drag="y"
+            dragControls={controls}
+            onDragEnd={() => {
+              if (y.get() >= 100) {
+                handleClose();
+              }
+            }}
+            dragListener={false}
+            dragConstraints={{
+              top: 0,
+              bottom: 0,
+            }}
+            dragElastic={{
+              top: 0,
+              bottom: 0.5,
+            }}
+          >
+            <div className="absolute left-0 right-0 top-0 z-10 flex justify-center bg-gray-700 p-4">
+              <button
+                onPointerDown={(e) => {
+                  controls.start(e);
+                }}
+                className="h-2 w-14 cursor-grab touch-none rounded-full bg-gray-200 active:cursor-grabbing"
+              ></button>
+            </div>
+            <div className="relative z-0 h-full overflow-y-scroll p-4 pt-12">
+              {children}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </>
+  );
+};
 export default function Home() {
   const categories = ['Happy Birthday!', 'Anniversary!', 'Congratulations!', 'Graduation!', 'Thank You!', 'New Year!'];
   const [currentCategoryIndex, setCurrentCategoryIndex] = React.useState(0);
@@ -23,6 +101,7 @@ export default function Home() {
   const [isErasing, setIsErasing] = React.useState(false);
   const [preview,setPreview] = React.useState(false);
   const [occasion,setOccasion] = React.useState('');
+  const [open, setOpen] = React.useState(false);
 
 
   React.useEffect(() => {
@@ -92,7 +171,9 @@ export default function Home() {
             {/* <p className="text-4xl">Create group memories with personalized recognition cards and leave a lasting impression!</p> */}
             <p className="sm:text-4xl text-2xl font-bold ">Celebrate your team members and people you admire</p>
             {/* <p className="text-2xl mt-5">Personalized praise boards with every occasion <span className="text-lg font-semibold">{displayedText}</span> </p> */}
-            <p className="text-lg sm:text-2xl max-sm:font-semibold mt-5 max-sm:px-5">Beautiful, collaborative personalized online boards to celebrate your team and friends <span className="text-sm sm:text-lg font-semibold">{displayedText}</span> </p>
+            <p className="text-lg sm:text-2xl max-sm:font-semibold mt-5 max-sm:px-5">Beautiful, collaborative personalized online boards to celebrate your team and friends 
+            {/*   <span className="text-sm sm:text-lg font-semibold">{displayedText}</span>  */}
+            </p>
             {/* <p className="text-4xl">Create group memories with personalized recognition cards and leave a lasting impression!</p> */}
             {/* <p className="text-2xl mt-5">Personalized praise boards with every occasion <span className="text-lg font-semibold">{displayedText}</span> </p> */}
             <Link rel="stylesheet" className="mt-6 btn btn-md sm:btn-lg text-md font-semibold sm:text-xl sm:font-medium border hover:shadow-xl border-black rounded-2xl hover:bg-white bg-white" 
@@ -130,10 +211,12 @@ export default function Home() {
                   <div className="image-container rounded-box">
                     <Image   src={PreviewRetirementGif} sizes='(max-width: 200px) 100vw, 33vw'  
                       alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
+
                     <div className="overlay">
                         <motion.button whileTap={{scale:0.9}} 
+                        onClick={() => setOpen(true)}
                           className="overlay-button btn border outline-none rounded-lg  text-lg font-semibold hover:shadow-xl" 
-                          onClick={()=>document.getElementById('retirement_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
+                          >Preview <FiExternalLink /> </motion.button>
                     </div>
                   </div>
                 </div>
@@ -295,6 +378,17 @@ export default function Home() {
             </div>
         </footer>
        
+        
+
+      <DragCloseDrawer open={open} setOpen={setOpen}>
+        <div className="flex flex-col items-center justify-center text-black space-y-4 bg-gray-800">
+            <p className="mt-4 sm:mt-0 text-2xl sm:text-4xl font-semibold text-gray-600" >Preview retirement posts</p>
+            <Image src={PreviewRetirementGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
+              width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
+            <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" onClick={() => {setPreview(true); setOccasion('retirement')}}>Preview <FiExternalLink /> </motion.button>
+        </div>
+      </DragCloseDrawer>
+
       </div>
 
     }

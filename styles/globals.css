@@ -107,28 +107,6 @@ html{
   }
   
 
-.file-uploader .input{
-    padding: 20px !important;
-    /* min-width: 100% !important; */
-    border: 2px solid #D2D4D7;
-    height: 120px;
-    margin-top: 15px;
-}
-  
-.guZdik input{
-    padding: 10px;
-}
-  
-.jWkLDY span {
-    font-size: 20px;
-    padding-left: 10px;
-}
-  
-.kFhUBM{
-    font-size: 20px !important;
-  }
-
-
 .edit-board .guZdik{
     padding: 20px !important;
     min-width: 100% !important;
@@ -186,7 +164,7 @@ html{
 } 
 
 .board-next-button{
-    @apply btn glass  hover:bg-[#202459] bg-[#202459] w-5/12 mt-8 px-5 text-white rounded-lg shadow-lg text-xl
+    @apply btn glass  hover:bg-[#202459] bg-[#202459] w-5/12 px-5 text-white rounded-lg shadow-lg text-xl
   }
   
   

@@ -247,7 +247,7 @@ function Post() {
                 {title ? <input  type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
                     className=' focus:border border-black w-full text-3xl outline-none py-2 text-center bg-transparent
                      text-gray-600 hover:text-black cursor-pointer'  /> : 
-                     <div className="skeleton h-10 rounded-md w-96 mx-auto pt-2 font-semibold"></div>
+                     <div className="skeleton h-10 rounded-md w-80 mt-2 mx-auto pt-2 font-semibold"></div>
                      }
             </div>
         </div>
