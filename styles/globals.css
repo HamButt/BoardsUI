@@ -118,7 +118,6 @@ html{
 
 .edit-board .jWkLDY span {
     font-size: 12px;
-    /* padding-left: 10px; */
     color: black;
     }
 .edit-board .kFhUBM{
@@ -136,7 +135,22 @@ html{
 .occasion-img{
     @apply object-cover w-full h-full
   }
-  
+
+/* DRAWER */
+.preview-drawer-div::-webkit-scrollbar {
+  width: 8px;
+}
+
+.preview-drawer-div::-webkit-scrollbar-track {
+  display: none;
+}
+
+.preview-drawer-div::-webkit-scrollbar-thumb {
+  background-color: rgb(199, 198, 198);
+  border-radius: 100px;   
+}
+
+
 .gifs::-webkit-scrollbar {
     width: 8px;
   }

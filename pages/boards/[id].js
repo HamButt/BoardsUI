@@ -268,21 +268,21 @@ function Post() {
                             {
                                 formattedImage || post.giphy || post.video || post.unsplashImage ? 
                             
-                            <div >
+                            <div>
                                 
                                 <div className="post w-full">
                                     
                                     { formattedImage ? 
                                         (<Image className={`post-uploaded-image rounded-t-lg w-full`}
                                         sizes='(max-width: 200px) 100vw, 33vw'
-                                        src={formattedImage ? `${process.env.basePath}/images/${formattedImage}` : ImageLoading}
+                                        src={formattedImage.length ? `${process.env.basePath}/images/${formattedImage}` : ImageLoading}
                                         fetchPriority="high"
                                         alt={formattedImage} width={0} height={0}/>)
                                         
                                         : post.giphy ?
 
                                         <>
-                                            { post.giphy ?
+                                            { post.giphy.length ?
                                             <img fetchPriority="high" className='post-gif rounded-t-lg' src={post.giphy} alt="GIF" /> 
                                             :<Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='post-gif rounded-t-lg' src={ImageLoading} alt="GIF" />
                                             }
@@ -290,12 +290,12 @@ function Post() {
                                         
                                         : post.unsplashImage ?
                                         ( 
-                                            <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='object-cover rounded-t-lg unsplash-image' src={post.unsplashImage ? post.unsplashImage : ImageLoading} alt="unsplashImage" width={0} height={0}/>
+                                            <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='object-cover rounded-t-lg unsplash-image' src={post.unsplashImage.length ? post.unsplashImage : ImageLoading} alt="unsplashImage" width={0} height={0}/>
                                         )
                                         
                                         : 
                                         <>
-                                            { post.video ?
+                                            { post.video.length ?
                                             <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
                                             :<Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='post-gif rounded-t-lg' src={ImageLoading} alt="GIF" />
                                             }

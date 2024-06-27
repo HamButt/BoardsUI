@@ -32,7 +32,9 @@
     "sonner": "^1.4.41",
     "sweetalert2": "^11.11.0",
     "tailwindcss-animate": "^1.0.7",
-    "timeago.js": "^4.0.2"
+    "three": "^0.165.0",
+    "timeago.js": "^4.0.2",
+    "vanta": "^0.5.24"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

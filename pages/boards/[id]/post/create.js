@@ -11,13 +11,16 @@ import { IoImages } from "react-icons/io5";
 import { PiGifFill } from "react-icons/pi";
 import { MdDelete } from "react-icons/md";
 import { FaYoutube } from "react-icons/fa6";
-import { motion} from 'framer-motion'
 import Logo from '../../../../public/logo.png'
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem ,Button} from "@nextui-org/react";
 import { MdDriveFolderUpload } from "react-icons/md";
 import { RiStackFill } from "react-icons/ri";
 import { IoIosArrowDown  } from "react-icons/io";
 import { BsCloudUpload } from "react-icons/bs";
+import { AnimatePresence, motion } from "framer-motion";
+import { FiAlertCircle } from "react-icons/fi";
+
+
 
 function CreatePost() {
     const router = useRouter()
@@ -45,6 +48,7 @@ function CreatePost() {
     const [gifData, setGifData] = React.useState([]);
     const [imageData, setImageData] = React.useState([]);
     const [error, setError] = React.useState(false);
+    const [openErrorModal, setOpenErrorModal] = React.useState(false);
     
     // Unsplash params
     
@@ -100,11 +104,11 @@ function CreatePost() {
                 setGifSection(false)
                 }, 500);
                 setDebounceTimerForImage(newDebounceTimer);
-              }
-                
-                return () => {
-                    if (debounceTimerForImage) {
-                        clearTimeout(debounceTimerForImage);
+            }
+            
+            return () => {
+                if (debounceTimerForImage) {
+                    clearTimeout(debounceTimerForImage);
                         setImageData("")
             }};
 
@@ -137,11 +141,6 @@ function CreatePost() {
     const createPost = (e) => {
         
         e.preventDefault();
-        confetti({
-            particleCount: 200,
-            spread: 50,
-            origin: { y: 0.7 }
-        })
         
         setIsLoading(true)
         const formData = new FormData();
@@ -165,14 +164,21 @@ function CreatePost() {
         })
         .then((res) => {
             if(res.status === 200){
+                confetti({
+                    particleCount: 200,
+                    spread: 50,
+                    origin: { y: 0.7 }
+                })
                 router.push(`/boards/${boardId}`)
-                }
+            }
                 setTimeout(() => {
                     setIsLoading(false)
                 }, 3000);
         }).catch((err) => {
-            console.log(err);
-            setIsLoading(false)
+            if(err.response.status === 403){
+                setOpenErrorModal(err.response.data.message)
+                setIsLoading(false)
+            }
         })
     }
 
@@ -204,26 +210,30 @@ function CreatePost() {
         })
     }, [image])
 
+    
+    // style={{backgroundImage:'url(https://static.wixstatic.com/media/d7db5d_c93bcbcf56ed4a0ab9594c0326886046~mv2.jpg/v1/fill/w_1349,h_759,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/LB_BG.jpg'}}
   return (
-    <div className='min-h-screen h-full bg-gray-500 '>
+    <div className='create-post-div min-h-screen h-full bg-fixed' >
 
         <Head>
             <title>Create post</title>
         </Head>
 
-        <div className="logo py-2 bg-white flex items-center justify-center">
+        <div className="logo py-2 bg-white opacity-65 flex items-center justify-center">
             <Link href='/' className="">
                 <Image src={Logo} alt='Logo' width={50} height={50}/>
             </Link>
         </div>
 
-        <div className="title bg-gray-200 py-4 text-center ">
-            <p className='text-2xl text-black'>{title}</p>
+        <div  
+            className="title  py-6 text-center ">
+            <p className='text-2xl text-white'>{title}</p>
         </div>
         
         <div className='post flex items-center justify-center '>
             <div className='w-[650px] bg-white mt-5 py-8 rounded-lg  border-2 h-auto mx-2 ' data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                 <div className=" post-modal " >
+               
                 
                     <div className="back-link-arrow flex items-center ps-6 space-x-2 ">
                         <Link href={`/boards/${boardId}`} className='text-3xl' ><IoMdArrowRoundBack/></Link>
@@ -334,18 +344,20 @@ function CreatePost() {
 
                         { imageSection && imageSearchValue &&
 
-                        <div style={{maxHeight:"300px"}} className="mt-2 gifs mx-10 my-1 flex-wrap overflow-auto flex items-start justify-evenly">
-                            {imageSearchValue && imageData.length ?  
-                                imageData.map((img, index)=>{ 
-                                    return(
-                                        <div key={index} className='mt-2 cursor-pointer ' style={{minWidth:"120px", height:"160px"}} 
-                                            onClick={() => {setSplashImage(img.urls.regular); setImageComponent(false); setImageSection(false)}}>
-                                            <motion.img whileTap={{scale:0.9}} className='h-full w-full rounded-md' src={img.urls.small} alt="IMAGE URL" />
-                                        </div> 
-                                    )})
-                                :  imageSearchValue && !imageData ? <div className='mt-2 font-semibold'>Searching...</div> 
-                                : <div className='mt-2 font-semibold' >No images found for "{imageSearchValue}"</div>
-                                }
+                        <div className='text-center'>
+                            <div style={{maxHeight:"300px"}} className="mt-2 gifs mx-10 my-1 flex flex-wrap overflow-auto items-start justify-evenly">
+                                {imageSearchValue && imageData.length ?  
+                                    imageData.map((img, index)=>{ 
+                                        return(
+                                            <div key={index} className='mt-2 cursor-pointer ' style={{minWidth:"150px", height:"170px"}} 
+                                                onClick={() => {setSplashImage(img.urls.regular); setImageComponent(false); setImageSection(false)}}>
+                                                <motion.img whileTap={{scale:0.9}} className='h-full w-full rounded-md' src={img.urls.small} alt="IMAGE URL" />
+                                            </div> 
+                                        )})
+                                    :  imageSearchValue && !imageData ? <div className='mt-2 font-semibold'>Searching...</div> 
+                                    : <div className='mt-2 font-semibold' >No images found for "{imageSearchValue}"</div>
+                                    }
+                            </div>
                                 { imageData.length > 0 && <motion.button whileTap={{ scale: 0.9 }} onClick={fetchImagesFromUnsplash} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button>}
                         </div>
                     }
@@ -414,9 +426,14 @@ function CreatePost() {
                             {gifSearchValue && gifData.length ?  
                                 gifData.map((gif, index)=>{ 
                                     return(
+                                        
                                         <div key={index} className='mt-2 cursor-pointer' style={{width:"180px", height:"200px"}}
                                             onClick={() => {setGif(gif.images.original.url); setGIFComponent(false); setGifSection(false)}}>
-                                            <motion.img whileTap={{scale:0.9}} src={!gif.images.original.url ? "Loading.." : gif.images.original.url} alt="URL GIF"  className='text-black h-full w-full rounded-md' /> 
+                                            <motion.img 
+                                                whileTap={{scale:0.9}} 
+                                                className=' h-full w-full rounded-md' 
+                                                src={gif.images.original.url} alt="URL GIF"  
+                                                />
                                         </div> 
                                     )})
                                     : gifSearchValue && !gifData ? <div className='mt-2 font-semibold'>Searching...</div>
@@ -434,6 +451,43 @@ function CreatePost() {
                 </div>
             </div>
         </div>
+
+        {openErrorModal && 
+            <AnimatePresence>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => setOpenErrorModal(false)}
+                    className="bg-slate-900/20 backdrop-blur p-8 fixed inset-0 z-50 grid place-items-center overflow-y-scroll cursor-pointer"
+                >
+                    <motion.div
+                        initial={{ scale: 0, rotate: "12.5deg" }}
+                        animate={{ scale: 1, rotate: "0deg" }}
+                        exit={{ scale: 0, rotate: "0deg" }}
+                        onClick={(e) => e.stopPropagation()}
+                        className="bg-gradient-to-br from-red-400 to-red-700 text-white p-6 rounded-lg w-full max-w-lg shadow-xl cursor-default relative overflow-hidden"
+                    >
+                    <FiAlertCircle className="text-white/10 rotate-12 text-[250px]  absolute z-0 -top-24 -left-24" />
+                    <div className="relative z-10">
+                        <div className="bg-red-400 w-16 h-16 mb-2 rounded-full text-3xl text-red-600 grid place-items-center mx-auto">
+                            <FiAlertCircle />
+                        </div>
+                        <h3 className="text-3xl font-bold text-center mb-2">Limit reached to an end</h3>
+                        <p className="text-center mb-6">{openErrorModal}</p>
+                        <div className="flex gap-2">
+                            <button onClick={() => setOpenErrorModal(false)} className="bg-transparent hover:bg-white/10 transition-colors
+                            text-white font-semibold w-full py-2 rounded"> Close </button>
+                            <button disabled onClick={() => setOpenErrorModal(false)} className="bg-white  transition-opacity
+                            text-red-600 font-semibold w-full py-2 rounded tooltip tooltip-top" data-tip="Coming soon">
+                                Go premium
+                            </button>
+                        </div>
+                    </div>
+                    </motion.div>
+                </motion.div>
+            </AnimatePresence>}
+        
     </div>
   )
 }

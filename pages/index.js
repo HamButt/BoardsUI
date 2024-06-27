@@ -14,11 +14,11 @@ import PreviewFarewellGif from '../preview-assets/farewell.gif'
 import PreviewNewYearGif from '../preview-assets/newyear.gif'
 import { FiExternalLink } from "react-icons/fi";
 import Logo from '../public/logo.png'
-// import {motion} from 'framer-motion'
 import useMeasure from "react-use-measure";
 import { useDragControls, useMotionValue, useAnimate, motion} from "framer-motion";
 
 const DragCloseDrawer = ({ open, setOpen, children }) => {
+
   const [scope, animate] = useAnimate();
   const [drawerRef, { height }] = useMeasure();
 
@@ -26,39 +26,28 @@ const DragCloseDrawer = ({ open, setOpen, children }) => {
   const controls = useDragControls();
 
   const handleClose = async () => {
-    animate(scope.current, {
-      opacity: [1, 0],
-    });
-
+    
+    animate(scope.current, { opacity: [1, 0] });
     const yStart = typeof y.get() === "number" ? y.get() : 0;
-
-    await animate("#drawer", {
-      y: [yStart, height],
-    });
-
+    await animate("#drawer", { y: [yStart, height] });
     setOpen(false);
+
   };
 
   return (
     <>
       {open && (
-        <motion.div
-          ref={scope}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          onClick={handleClose}
-          className="fixed inset-0 z-50 bg-neutral-950/70"
-        >
-          <motion.div
-            id="drawer"
-            ref={drawerRef}
-            onClick={(e) => e.stopPropagation()}
-            initial={{ y: "100%" }}
-            animate={{ y: "0%" }}
+        <motion.div 
+          ref={scope} 
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          onClick={handleClose} 
+          className="fixed inset-0 z-50 bg-neutral-950/70">
+          <motion.div id="drawer" ref={drawerRef} onClick={(e) => e.stopPropagation()} initial={{ y: "100%" }} animate={{ y: "0%" }} 
             transition={{
               ease: "easeInOut",
             }}
-            className="absolute bottom-0 h-[75vh] w-full overflow-hidden rounded-t-3xl bg-gray-800"
+            className="absolute bottom-0 h-[85vh] w-full overflow-hidden rounded-t-3xl bg-gray-800"
             style={{ y }}
             drag="y"
             dragControls={controls}
@@ -85,7 +74,7 @@ const DragCloseDrawer = ({ open, setOpen, children }) => {
                 className="h-2 w-14 cursor-grab touch-none rounded-full bg-gray-200 active:cursor-grabbing"
               ></button>
             </div>
-            <div className="relative z-0 h-full overflow-y-scroll p-4 pt-12">
+            <div className="preview-drawer-div relative z-0 h-full overflow-scroll p-4 pt-12">
               {children}
             </div>
           </motion.div>
@@ -95,71 +84,22 @@ const DragCloseDrawer = ({ open, setOpen, children }) => {
   );
 };
 export default function Home() {
-  const categories = ['Happy Birthday!', 'Anniversary!', 'Congratulations!', 'Graduation!', 'Thank You!', 'New Year!'];
-  const [currentCategoryIndex, setCurrentCategoryIndex] = React.useState(0);
-  const [displayedText, setDisplayedText] = React.useState('');
-  const [isErasing, setIsErasing] = React.useState(false);
   const [preview,setPreview] = React.useState(false);
   const [occasion,setOccasion] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const [drawer,setDrawer] = React.useState({
+    event: "",
+    gif: null
+  });
 
-
-  React.useEffect(() => {
-    let btn;
-    const closeButton = document.getElementsByClassName('close-button');
-    for (let i = 0; i < closeButton.length; i++) {
-      btn = closeButton[i];
-      btn.addEventListener('click', handleCloseModal);
-    }
-
-    return () => {
-      btn.removeEventListener('click', handleCloseModal);
-    };
-  }, []);
-
-  const handleCloseModal = () => {
-    const previews = document.getElementById('previews');
-    if (previews) {
-      previews.scrollIntoView({ behavior: 'smooth' }); 
-    }
-  };
-
-  React.useEffect(() => {
-    let timeoutId;
-
-    if (!isErasing) {
-      // Writing mode
-      if (displayedText.length < categories[currentCategoryIndex].length) {
-        timeoutId = setTimeout(() => {
-          setDisplayedText(categories[currentCategoryIndex].substring(0, displayedText.length + 1));
-        }, 100); // Speed of writing each letter
-      } else {
-        timeoutId = setTimeout(() => {
-          setIsErasing(true);
-        }, 1000); // Delay before starting to erase
-      }
-    } else {
-      // Erasing mode
-      if (displayedText.length > 0) {
-        timeoutId = setTimeout(() => {
-          setDisplayedText(categories[currentCategoryIndex].substring(0, displayedText.length - 1));
-        }, 100); // Speed of erasing each letter
-      } else {
-        setIsErasing(false);
-        setCurrentCategoryIndex((prevIndex) => (prevIndex + 1) % categories.length);
-      }
-    }
-
-    return () => clearTimeout(timeoutId);
-  }, [displayedText, isErasing, currentCategoryIndex]);
   
   return (
     <>
     
       {preview ? <PreviewBoard setPreview={setPreview} occasion={occasion} /> : 
 
+      <>
       <div className="absolute w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
-
         <Head>
           <title>Home</title>
         </Head>
@@ -185,7 +125,6 @@ export default function Home() {
 
         <div id="previews" className="flex items-center justify-center flex-col mt-16 py-16 bg-gray-200">
           
-            
             <div className="text-center max-md:px-2 max-sm:px-2">
                 <h1 className="sm:text-4xl font-semibold text-2xl"> Explore our previews</h1>
                 <p className="sm:text-xl text-md font-semibold sm:font-medium mt-4">Uncover the potential of what we can design for you</p>
@@ -194,148 +133,37 @@ export default function Home() {
             <div className="max-w-screen-lg w-full mx-auto px-4 sm:px-6 lg:px-8">
               
               <div className="flex items-center justify-evenly flex-wrap mt-10" >
-                <div>
                 
-                  <dialog id="retirement_modal" className="modal bg-gray-300 absolute inset-0 -z-10 h-full w-full" >
-                        <p className="mt-4 sm:mt-0 text-2xl sm:text-4xl font-semibold text-gray-600" >Preview retirement posts</p>
-                        <Image src={PreviewRetirementGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
+                  <DragCloseDrawer open={open} setOpen={setOpen}>
+                    <div className="flex flex-col items-center justify-center text-black space-y-4 bg-gray-800 mt-4">
+                        <p className=" sm:mt-0 text-2xl sm:text-4xl font-semibold text-white" >Preview {drawer.event} posts</p>
+                        <Image src={drawer.gif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
                           width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
-                          <form method="dialog">
-                            <motion.button whileTap={{scale:0.9}} className="close-button hover:bg-gray-400 px-3 py-2 
-                            rounded-full border-none outline-none text-xl text-gray-600 
-                            font-light absolute top-2 right-2 sm:top-10 sm:right-10">X</motion.button>
-                          </form>
-                        <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" onClick={() => {setPreview(true); setOccasion('retirement')}}>Preview <FiExternalLink /> </motion.button>
-                  </dialog>
-
-                  <div className="image-container rounded-box">
-                    <Image   src={PreviewRetirementGif} sizes='(max-width: 200px) 100vw, 33vw'  
-                      alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
-
-                    <div className="overlay">
-                        <motion.button whileTap={{scale:0.9}} 
-                        onClick={() => setOpen(true)}
-                          className="overlay-button btn border outline-none rounded-lg  text-lg font-semibold hover:shadow-xl" 
-                          >Preview <FiExternalLink /> </motion.button>
+                        <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg
+                          text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" 
+                          onClick={() => {setPreview(true); setOccasion(drawer.event)}}>Preview <FiExternalLink /> 
+                        </motion.button>
                     </div>
-                  </div>
-                </div>
+                  </DragCloseDrawer>
 
-                <div>
-                  
-                  <dialog id="thankyou_modal" className="modal bg-gray-300 absolute inset-0 -z-10 h-full w-full">
-                      <p className="mt-4 sm:mt-0 text-2xl sm:text-4xl font-semibold text-gray-600" >Preview thankyou posts</p>
-                      <Image  src={PreviewThankyouGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage" 
-                      width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
-                        <form method="dialog">
-                          <motion.button className="close-button hover:bg-gray-400 px-3 py-2 
-                            rounded-full border-none outline-none text-xl text-gray-600 font-light absolute top-2 right-2 sm:top-10 sm:right-10" whileTap={{scale:0.9}}>X</motion.button>
-                        </form>
-                      <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" onClick={() => {setPreview(true); setOccasion('thankyou')}}>Preview<FiExternalLink /></motion.button>
-                  </dialog>
+                  {
+                    previewsData.map((previewPost,index) => {
+                      return (
+                      <div key={previewPost.id} className="image-container rounded-box">
+                        <Image src={previewPost.gif} sizes='(max-width: 200px) 100vw, 33vw'  
+                          alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
 
-                  <div className="image-container rounded-box">
-                    <Image  src={PreviewThankyouGif} sizes='(max-width: 200px) 100vw, 33vw'  
-                      alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
-                    <div className="overlay">
-                        <motion.button whileTap={{scale:0.9}} 
-                        className="overlay-button btn border outline-none rounded-lg  text-lg font-semibold hover:shadow-xl" onClick={()=>document.getElementById('thankyou_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
-                    </div>
-                  </div>
-                </div>
-                  
-                <div>
-                  <dialog id="graduation_modal" className="modal bg-gray-300 absolute inset-0 -z-10 h-full w-full">
-                      <p className="mt-4 sm:mt-0 text-2xl sm:text-4xl font-semibold text-gray-600" >Preview graduation posts</p>
-                      <Image  src={PreviewGraduationGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
-                         width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
-                        <form method="dialog">
-                          <motion.button className="close-button hover:bg-gray-400 px-3 py-2 
-                            rounded-full border-none outline-none text-gray-600 font-light absolute
-                             top-2 right-2 sm:top-10 sm:right-10" whileTap={{scale:0.9}}>X</motion.button>
-                        </form>
-                      <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border text-xl border-gray-500 outline-none rounded-lg text-gray-600 font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500 " onClick={() => {setPreview(true); setOccasion('graduation')}}>Preview<FiExternalLink /></motion.button>
-                  </dialog>
-
-                  <div className="image-container rounded-box">
-                    <Image src={PreviewGraduationGif} sizes='(max-width: 200px) 100vw, 33vw'  
-                      alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
-                    <div className="overlay">
-                        <motion.button whileTap={{scale:0.9}} 
-                        className="overlay-button btn border  outline-none rounded-lg text-lg font-semibold  hover:shadow-xl" onClick={()=>document.getElementById('graduation_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <dialog id="birthday_modal" className="modal bg-gray-300 absolute inset-0 -z-10 h-full w-full">
-                      <p className="mt-4 sm:mt-0 text-2xl sm:text-4xl font-semibold text-gray-600" >Preview birthday posts</p>
-                      <Image  src={PreviewBirthdayGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage" 
-                      width={0} height={0} className="img rounded-box border-4 p-1 border-white"/>
-                        <form method="dialog">
-                          <motion.button className="close-button hover:bg-gray-400 px-3 py-2 
-                            rounded-full border-none outline-none text-xl text-gray-600 font-light absolute top-2 right-2 sm:top-10 sm:right-10" whileTap={{scale:0.9}}>X</motion.button>
-                        </form>
-                      <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500 " onClick={() => {setPreview(true); setOccasion('birthday')}}>Preview<FiExternalLink /></motion.button>
-                  </dialog>
-
-                  <div className="image-container rounded-box">
-                    <Image src={PreviewBirthdayGif} sizes='(max-width: 200px) 100vw, 33vw'  
-                      alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
-                    <div className="overlay">
-                        <motion.button whileTap={{scale:0.9}} className="overlay-button btn border outline-none rounded-lg text-lg font-semibold  hover:shadow-xl"
-                        onClick={()=>document.getElementById('birthday_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <dialog id="farewell_modal" className="modal bg-gray-300 absolute inset-0 -z-10 h-full w-full">
-                      <p className="mt-4 sm:mt-0 text-2xl sm:text-4xl font-semibold text-gray-600" >Preview farewell posts</p>
-                      <Image  src={PreviewFarewellGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage" 
-                      width={0} height={0} className="img rounded-box border-4 p-1 border-white"/>
-                        <form method="dialog">
-                          <motion.button className="close-button hover:bg-gray-400 px-3 py-2 
-                            rounded-full border-none outline-none text-xl text-gray-600 font-light absolute top-2 right-2 sm:top-10 sm:right-10" whileTap={{scale:0.9}}>X</motion.button>
-                        </form>
-                      <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500 " onClick={() => {setPreview(true); setOccasion('farewell')}}>Preview<FiExternalLink /></motion.button>
-                  </dialog>
-
-                  <div className="image-container rounded-box">
-                    <Image src={PreviewFarewellGif} sizes='(max-width: 200px) 100vw, 33vw'  
-                      alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
-                    <div className="overlay">
-                        <motion.button whileTap={{scale:0.9}} className="overlay-button btn border  outline-none rounded-lg text-lg font-semibold  hover:shadow-xl"
-                        onClick={()=>document.getElementById('farewell_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
-                    </div>
-                  </div>
-
-                </div>
-
-                <div>
-                  <dialog id="new_year_modal" className="modal bg-gray-300 absolute inset-0 -z-10 h-full w-full">
-                      <p className="mt-4 sm:mt-0 text-2xl sm:text-4xl font-semibold text-gray-600" >Preview new year posts</p>
-                      <Image data-aos-duration="1000" src={PreviewNewYearGif} sizes='(max-width: 200px) 100vw, 33vw' 
-                      alt="RetirementImage" width={0} height={0} className="img rounded-box border-4 p-1 border-white"/>
-                        <form method="dialog">
-                          <motion.button className="close-button hover:bg-gray-400 px-3 py-2 
-                            rounded-full border-none outline-none text-xl text-gray-600 font-light absolute top-2 right-2 sm:top-10 sm:right-10" whileTap={{scale:0.9}}>X</motion.button>
-                        </form>
-                      <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500 " onClick={() => {setPreview(true); setOccasion('new year')}}>Preview<FiExternalLink /></motion.button>
-                  </dialog>
-
-                  <div className="image-container rounded-box">
-                    <Image src={PreviewNewYearGif} sizes='(max-width: 200px) 100vw, 33vw'  
-                      alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
-                    <div className="overlay">
-                        <motion.button whileTap={{scale:0.9}} className="overlay-button btn border outline-none rounded-lg text-lg font-semibold  hover:shadow-xl"
-                        onClick={()=>document.getElementById('new_year_modal').showModal()}>Preview <FiExternalLink /> </motion.button>
-                    </div>
-                  </div>
-                </div>
+                        <div className="overlay">
+                            <motion.button whileTap={{scale:0.9}} onClick={() => {setOpen(true); setDrawer({event: previewPost.event, gif: previewPost.gif}) }}
+                              className="overlay-button btn border outline-none rounded-lg  text-lg font-semibold hover:shadow-xl" 
+                              >Preview <FiExternalLink /> </motion.button>
+                        </div>
+                      </div>
+                      )
+                    })
+                  }
 
               </div>
-
             </div>
         
         </div>
@@ -377,21 +205,48 @@ export default function Home() {
              <Image src={Logo} width={60} height={60} alt="Logo"/>
             </div>
         </footer>
-       
-        
-
-      <DragCloseDrawer open={open} setOpen={setOpen}>
-        <div className="flex flex-col items-center justify-center text-black space-y-4 bg-gray-800">
-            <p className="mt-4 sm:mt-0 text-2xl sm:text-4xl font-semibold text-gray-600" >Preview retirement posts</p>
-            <Image src={PreviewRetirementGif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
-              width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
-            <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" onClick={() => {setPreview(true); setOccasion('retirement')}}>Preview <FiExternalLink /> </motion.button>
-        </div>
-      </DragCloseDrawer>
-
+                
+      
+      
       </div>
-
+        
+      
+      </>
     }
     </>
   );
 }
+
+
+const previewsData = [
+  {
+    id: 1,
+    gif: PreviewRetirementGif,
+    event: "retirement"
+  },
+  {
+    id: 2,
+    gif: PreviewThankyouGif,
+    event: "thankyou"
+  },
+  {
+    id: 3,
+    gif: PreviewGraduationGif,
+    event: "graduation"
+  },
+  {
+    id: 4,
+    gif: PreviewBirthdayGif,
+    event: "birthday"
+  },
+  {
+    id: 5,
+    gif: PreviewFarewellGif,
+    event: "farewell"
+  },
+  {
+    id: 6,
+    gif: PreviewNewYearGif,
+    event: "new year"
+  }
+]
