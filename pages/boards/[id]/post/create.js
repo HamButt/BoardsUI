@@ -69,8 +69,6 @@ function CreatePost() {
                 fetchGifsFromGiphy()
             }, 500);
                 setDebounceTimerForGIf(newDebounceTimer);
-              }else{
-                setGifData("")
               }
 
               return () => {
@@ -211,246 +209,244 @@ function CreatePost() {
     }, [image])
 
     
-    // style={{backgroundImage:'url(https://static.wixstatic.com/media/d7db5d_c93bcbcf56ed4a0ab9594c0326886046~mv2.jpg/v1/fill/w_1349,h_759,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/LB_BG.jpg'}}
   return (
-    <div className='create-post-div min-h-screen h-full bg-fixed' >
+    <div className=' ' >
 
         <Head>
             <title>Create post</title>
         </Head>
 
-        <div className="logo py-2 bg-white opacity-65 flex items-center justify-center">
+        <div className="logo py-2 bg-white flex items-center justify-center">
             <Link href='/' className="">
                 <Image src={Logo} alt='Logo' width={50} height={50}/>
             </Link>
         </div>
 
-        <div  
-            className="title  py-6 text-center ">
+        <div className="title py-6 text-center bg-black">
             <p className='text-2xl text-white'>{title}</p>
         </div>
         
-        <div className='post flex items-center justify-center '>
-            <div className='w-[650px] bg-white mt-5 py-8 rounded-lg  border-2 h-auto mx-2 ' data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                <div className=" post-modal " >
-               
-                
-                    <div className="back-link-arrow flex items-center ps-6 space-x-2 ">
-                        <Link href={`/boards/${boardId}`} className='text-3xl' ><IoMdArrowRoundBack/></Link>
-                        <p className='text-2xl'>Add a post</p>
-                    </div>
 
-                    <div className="uploding-section flex flex-col items-center justify-center mt-5">
-                        <div className="buttons flex items-center justify-center flex-wrap space-x-2 md:space-x-5">
-                            
-                            <Dropdown>
-                                <DropdownTrigger>
-                                    <Button className='flex items-center justify-center mt-2 hover:bg-transparent hover:border-indigo-600 
-                                        font-semibold bg-transparent border-indigo-600 text-indigo-600 border rounded-lg outline-none py-5 px-3'>
-                                        <IoImages className='text-lg md:text-[16px] text-indigo-600'/>  
-                                        <span className='text-sm md:text-[15px] ms-2 p-0'>Add an image</span>
-                                        <IoIosArrowDown className='ms-1 text-lg md:text-[16px] text-indigo-600' />
-                                    </Button>
-                                </DropdownTrigger>
-                                <DropdownMenu variant="faded" aria-label="Static Actions" className='bg-white rounded-md border shadow-xl py-2'>
-                                    <DropdownItem textValue='Upload'>
-                                        <div className='upload  hover:bg-indigo-100 flex items-center justify-start cursor-pointer rounded-md p-2'>
-                                            <MdDriveFolderUpload className='text-xl text-indigo-600' />
-                                            <p className='text-sm font-semibold ps-3' onClick={() => {setImageComponent('upload'); setImageSection(false); setGIFComponent(false);  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setGifData("")}} >Upload image</p>
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem textValue='Search'>
-                                        <div className='search hover:bg-indigo-100 flex items-center justify-start  mt-2 cursor-pointer  rounded-md p-2'>
-                                            <RiStackFill className='text-xl text-indigo-600' />
-                                            <p className='text-sm font-semibold ps-3' onClick={() => { setImageComponent('search'); setGIFComponent(false);  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setGifData("")}}>Search with unsplash</p>
-                                        </div>
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>
-
-                            <Dropdown>
-                                <DropdownTrigger>
-                                    <Button className='flex items-center mt-2 justify-center hover:bg-transparent hover:border-pink-600 font-semibold 
-                                        bg-transparent border-pink-600 text-pink-600 border rounded-lg outline-none py-5 px-3'>
-                                        <PiGifFill className='text-lg md:text-[16px] text-pink-600' />
-                                        <span className='text-sm md:text-[15px] ms-2 p-0'>Add a GIF</span>
-                                        <IoIosArrowDown className='ms-1 text-lg md:text-[16px] text-pink-600' />
-                                    </Button>
-                                </DropdownTrigger>
-                                <DropdownMenu aria-label="Static Actions" className='bg-white rounded-md border shadow-xl py-2'>
-                                    <DropdownItem textValue='Upload'>
-                                        <div className='upload  hover:bg-pink-100 flex items-center justify-start cursor-pointer rounded-md p-2'>
-                                            <MdDriveFolderUpload className='text-xl text-pink-600' />
-                                            <p className='text-sm font-semibold ps-3' onClick={() => {setGIFComponent('upload'); setImageComponent(false); setImageSection(false);  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false); setImageData("")}} >Upload GIF</p>
-                                        </div>
-                                    </DropdownItem>
-                                    <DropdownItem textValue='Search'>
-                                        <div className='search hover:bg-pink-100 flex items-center justify-start mt-2 cursor-pointer rounded-md p-1 md:p-2'>
-                                            <RiStackFill className='text-xl text-pink-600' />
-                                            <p className='text-sm font-semibold ps-3' onClick={() => {setGIFComponent('search'); setImageComponent(false); setImageSection(false); setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setImageData("")}}>Search with giphy</p>
-                                        </div>
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>
-                                
-                            <Button onClick={() => { setGIFComponent(false);setImageData("");setGifData(''); setImageComponent(false);  
-                                setImageSection(false); setVideoComponent(!videoComponent); setGifSection(false); setGif(false);
-                                setVideoInputHandling(false)}} className="mt-2 flex items-center justify-center font-semibold rounded-lg outline-none social-buttons 
-                                border border-red-700 text-red-700 bg-transparent hover:bg-transparent hover:border-red-700 py-5 px-3"> 
-                                <FaYoutube  className='text-lg md:text-[16px] text-red-700' />
-                                <span className='text-sm md:text-[15px] ms-2 p-0'> Add a video </span> 
-                            </Button>
-                        </div>
-                    </div>
+            <div className='post flex items-center justify-center bg-gray-800'>
+                <div className='w-[650px] bg-white mt-5 py-8 rounded-lg  border-2 h-auto mx-2 ' data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+                    <div className="post-modal">
                     
-                    <div className="file-uploader mx-10 mt-6 flex flex-col items-center justify-center">
-
-                        { imageComponent === "upload" ?
-                        <div className='text-center mt-4'>
-                            
-                            <p className='font-semibold'>Please upload images that are appropriate for all audiences. We reserve the right to remove content without notice!</p>
-                            
-                            <label htmlFor="file" className="labelFile border-2 border-gray-300 rounded-lg px-4 "><span><BsCloudUpload className="text-2xl" /></span>
-                                <div className='mt-2 w-full'>
-                                    <p className='upload-image' >drag and drop your image file here or click to select a file</p>
-                                    <p className='text-end text-xs font-semibold mt-3' >JPG, PNG, JPEG</p>
-                                </div>
-                            </label>                         
-                            <input accept='.png,.jpg,.jpeg' className="upload-input" name="image" id="file" type="file" onChange={handleUploadFiles} />
-
+                        <div className="back-link-arrow flex items-center ps-6 space-x-2 ">
+                            <Link href={`/boards/${boardId}`} className='text-3xl' ><IoMdArrowRoundBack/></Link>
+                            <p className='text-2xl'>Add a post</p>
                         </div>
 
-                        : 
+                        <div className="uploding-section flex flex-col items-center justify-center mt-5">
+                            <div className="buttons flex items-center justify-center flex-wrap space-x-2 md:space-x-5">
+                                
+                                <Dropdown>
+                                    <DropdownTrigger>
+                                        <Button className='flex items-center justify-center mt-2 hover:bg-transparent hover:border-indigo-600 
+                                            font-semibold bg-transparent border-indigo-600 text-indigo-600 border rounded-lg outline-none py-5 px-3'>
+                                            <IoImages className='text-lg md:text-[16px] text-indigo-600'/>  
+                                            <span className='text-sm md:text-[15px] ms-2 p-0'>Add an image</span>
+                                            <IoIosArrowDown className='ms-1 text-lg md:text-[16px] text-indigo-600' />
+                                        </Button>
+                                    </DropdownTrigger>
+                                    <DropdownMenu variant="faded" aria-label="Static Actions" className='bg-white rounded-md border shadow-xl py-2'>
+                                        <DropdownItem textValue='Upload'>
+                                            <div className='upload  hover:bg-indigo-100 flex items-center justify-start cursor-pointer rounded-md p-2'>
+                                                <MdDriveFolderUpload className='text-xl text-indigo-600' />
+                                                <p className='text-sm font-semibold ps-3' onClick={() => {setImageComponent('upload'); setImageSection(false); setGIFComponent(false);  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setGifData("")}} >Upload image</p>
+                                            </div>
+                                        </DropdownItem>
+                                        <DropdownItem textValue='Search'>
+                                            <div className='search hover:bg-indigo-100 flex items-center justify-start  mt-2 cursor-pointer  rounded-md p-2'>
+                                                <RiStackFill className='text-xl text-indigo-600' />
+                                                <p className='text-sm font-semibold ps-3' onClick={() => { setImageComponent('search'); setGIFComponent(false);  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setGifData("")}}>Search with unsplash</p>
+                                            </div>
+                                        </DropdownItem>
+                                    </DropdownMenu>
+                                </Dropdown>
 
-                        imageComponent === "search" ? 
-                            <div className=' mt-4'>
-                                <p className='font-semibold'>Add more specific image terms to your search if you don't find what you're looking for</p>
-                                <input name='unsplashImage' type="search" className="mt-3 input input-bordered border-2 w-full" value={imageSearchValue} placeholder={`Search ${title} image`} onChange={(e) => setImageSearchValue(e.target.value)} /> 
+                                <Dropdown>
+                                    <DropdownTrigger>
+                                        <Button className='flex items-center mt-2 justify-center hover:bg-transparent hover:border-pink-600 font-semibold 
+                                            bg-transparent border-pink-600 text-pink-600 border rounded-lg outline-none py-5 px-3'>
+                                            <PiGifFill className='text-lg md:text-[16px] text-pink-600' />
+                                            <span className='text-sm md:text-[15px] ms-2 p-0'>Add a GIF</span>
+                                            <IoIosArrowDown className='ms-1 text-lg md:text-[16px] text-pink-600' />
+                                        </Button>
+                                    </DropdownTrigger>
+                                    <DropdownMenu aria-label="Static Actions" className='bg-white rounded-md border shadow-xl py-2'>
+                                        <DropdownItem textValue='Upload'>
+                                            <div className='upload  hover:bg-pink-100 flex items-center justify-start cursor-pointer rounded-md p-2'>
+                                                <MdDriveFolderUpload className='text-xl text-pink-600' />
+                                                <p className='text-sm font-semibold ps-3' onClick={() => {setGIFComponent('upload'); setImageComponent(false); setImageSection(false);  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false); setImageData("")}} >Upload GIF</p>
+                                            </div>
+                                        </DropdownItem>
+                                        <DropdownItem textValue='Search'>
+                                            <div className='search hover:bg-pink-100 flex items-center justify-start mt-2 cursor-pointer rounded-md p-1 md:p-2'>
+                                                <RiStackFill className='text-xl text-pink-600' />
+                                                <p className='text-sm font-semibold ps-3' onClick={() => {setGIFComponent('search'); setImageComponent(false); setImageSection(false); setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setImageData("")}}>Search with giphy</p>
+                                            </div>
+                                        </DropdownItem>
+                                    </DropdownMenu>
+                                </Dropdown>
+                                    
+                                <Button onClick={() => { setGIFComponent(false);setImageData("");setGifData(''); setImageComponent(false);  
+                                    setImageSection(false); setVideoComponent(!videoComponent); setGifSection(false); setGif(false);
+                                    setVideoInputHandling(false)}} className="mt-2 flex items-center justify-center font-semibold rounded-lg outline-none social-buttons 
+                                    border border-red-700 text-red-700 bg-transparent hover:bg-transparent hover:border-red-700 py-5 px-3"> 
+                                    <FaYoutube  className='text-lg md:text-[16px] text-red-700' />
+                                    <span className='text-sm md:text-[15px] ms-2 p-0'> Add a video </span> 
+                                </Button>
                             </div>
-                            : ""
-                        }
+                        </div>
                         
-                        {splashImage ?
-                        
-                        <div className="image">
-                            <p className='text-center text-lg font-semibold'>Your selected Image</p>
-                            <button className='bg-black relative top-9 p-1 left-2 rounded-lg' onClick={() => {setSplashImage(false); setImageComponent('search'); setImageSection(true) } }>
-                                <MdDelete className=' text-white text-lg hover:text-gray-400'/>
-                            </button>
-                            <img  className='shadow-lg rounded-lg' style={{maxWidth:"300px", height: "300px"}} src={splashImage} alt="Splash Image" />
-                        </div>
+                        <div className="file-uploader mx-10 mt-6 flex flex-col items-center justify-center">
 
-                        : ""}
-
-                        { imageSection && imageSearchValue &&
-
-                        <div className='text-center'>
-                            <div style={{maxHeight:"300px"}} className="mt-2 gifs mx-10 my-1 flex flex-wrap overflow-auto items-start justify-evenly">
-                                {imageSearchValue && imageData.length ?  
-                                    imageData.map((img, index)=>{ 
-                                        return(
-                                            <div key={index} className='mt-2 cursor-pointer ' style={{minWidth:"150px", height:"170px"}} 
-                                                onClick={() => {setSplashImage(img.urls.regular); setImageComponent(false); setImageSection(false)}}>
-                                                <motion.img whileTap={{scale:0.9}} className='h-full w-full rounded-md' src={img.urls.small} alt="IMAGE URL" />
-                                            </div> 
-                                        )})
-                                    :  imageSearchValue && !imageData ? <div className='mt-2 font-semibold'>Searching...</div> 
-                                    : <div className='mt-2 font-semibold' >No images found for "{imageSearchValue}"</div>
-                                    }
-                            </div>
-                                { imageData.length > 0 && <motion.button whileTap={{ scale: 0.9 }} onClick={fetchImagesFromUnsplash} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button>}
-                        </div>
-                    }
-
-                        {error && (
-                            <div role="alert" className="alert alert-error">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>{error}</span>
-                            </div>
-                        )}
-
-                        {GIFCompnent === "upload" ? 
+                            { imageComponent === "upload" ?
                             <div className='text-center mt-4'>
-                                <p className='font-semibold font-md'>Please upload GIFs that are appropriate for all audiences. We reserve the right to remove content without notice!</p>
+                                
+                                <p className='font-semibold'>Please upload images that are appropriate for all audiences. We reserve the right to remove content without notice!</p>
+                                
                                 <label htmlFor="file" className="labelFile border-2 border-gray-300 rounded-lg px-4 "><span><BsCloudUpload className="text-2xl" /></span>
                                     <div className='mt-2 w-full'>
-                                        <p className='upload-gif'>drag and drop your GIF here or click to select</p>
-                                        <p className='text-end text-xs font-semibold' >GIF</p>
+                                        <p className='upload-image' >drag and drop your image file here or click to select a file</p>
+                                        <p className='text-end text-xs font-semibold mt-3' >JPG, PNG, JPEG</p>
                                     </div>
                                 </label>                         
-                                <input accept='image/gif' className="upload-input" name="image" id="file" type="file" onChange={handleUploadFiles} />
+                                <input accept='.png,.jpg,.jpeg' className="upload-input" name="image" id="file" type="file" onChange={handleUploadFiles} />
+
                             </div>
+
                             : 
 
-                        GIFCompnent === "search" ? 
-                            <div className='mt-4'>
-                                <p className='font-semibold font-md'>Add more specific GIF terms to your search if you don't find what you're looking for</p>
-                                <input name='gif' type="search" className="mt-3 input input-bordered border-2 w-full" value={gifSearchValue} placeholder={`Search ${title} GIF`} onChange={(e) => setGifSearchValue(e.target.value)} /> 
-                            </div>
-                            : ""
-                        }
-
-                        {videoComponent && 
-                            <div className='text-center mt-4 w-full'>
-                                <p className='font-semibold'>Copy the youtube video url from share button e.g.</p>
-                                <p className='font-semibold text-xs text-gray-500' >https://www.youtube.com/embed/V5qRp8ZXm44?si=......</p>
-                                <input type="text" className="input w-full mt-3 input-bordered border-2" 
-                                placeholder='Paste youtube video link' value={videoLink} 
-                                onChange={(e) => setVideoLink(e.target.value)} />
-                            </div>
-                        }
-
-                        {videoLink && videoInputHandling ? <iframe className='mt-2' width="450" height="253" src={videoLink} ></iframe> : "" }
-
-                        {gif ?
-                        
+                            imageComponent === "search" ? 
+                                <div className=' mt-4'>
+                                    <p className='font-semibold'>Add more specific image terms to your search if you don't find what you're looking for</p>
+                                    <input name='unsplashImage' type="search" className="mt-3 input input-bordered border-2 w-full" value={imageSearchValue} placeholder={`Search ${title} image`} onChange={(e) => setImageSearchValue(e.target.value)} /> 
+                                </div>
+                                : ""
+                            }
+                            
+                            {splashImage ?
+                            
                             <div className="image">
-                                <p className='text-center text-lg font-semibold'>Your selected GIF</p>
-                                <button className='bg-black relative top-9 p-1 left-2 rounded-lg' onClick={() => {setGif(false); setGIFComponent('search'); setGifSection(true) } }>
+                                <p className='text-center text-lg font-semibold'>Your selected Image</p>
+                                <button className='bg-black relative top-9 p-1 left-2 rounded-lg' onClick={() => {setSplashImage(false); setImageComponent('search'); setImageSection(true) } }>
                                     <MdDelete className=' text-white text-lg hover:text-gray-400'/>
                                 </button>
-                                <img className='shadow-lg rounded-lg' style={{maxWidth:"350px", height: "300px"}} src={gif} alt="GIF" />
+                                <img  className='shadow-lg rounded-lg' style={{maxWidth:"300px", height: "300px"}} src={splashImage} alt="Splash Image" />
                             </div>
 
-                        : "" }
+                            : ""}
 
-                    </div>
+                            { imageSection && imageSearchValue &&
 
-                    {
-                        gifSection && gifSearchValue &&
+                            <div className='text-center'>
+                                <div style={{maxHeight:"300px"}} className="mt-2 gifs mx-10 my-1 flex flex-wrap overflow-auto items-start justify-evenly">
+                                    {imageSearchValue && imageData.length ?  
+                                        imageData.map((img, index)=>{ 
+                                            return(
+                                                <div key={index} className='mt-2 cursor-pointer max-sm:w-[80px] max-sm:h-[90px] sm:w-[100px] sm:h-[120px] md:w-[150px] md:h-[170px]'
+                                                    onClick={() => {setSplashImage(img.urls.regular); setImageComponent(false); setImageSection(false)}}>
+                                                    <motion.img whileTap={{scale:0.9}} className='h-full w-full rounded-md' src={img.urls.small} alt="IMAGE URL" />
+                                                </div> 
+                                            )})
+                                        :  imageSearchValue && !imageData ? <div className='mt-2 font-semibold'>Searching...</div> 
+                                        : <div className='mt-2 font-semibold' >No images found for "{imageSearchValue}"</div>
+                                        }
+                                </div>
+                                    { imageData.length > 0 && <motion.button whileTap={{ scale: 0.9 }} onClick={fetchImagesFromUnsplash} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button>}
+                            </div>
+                        }
 
-                        <div style={{maxHeight:"330px"}} className="gifs mx-10 mt-4 flex-wrap overflow-auto flex items-start justify-evenly">
+                            {error && (
+                                <div role="alert" className="alert alert-error">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>{error}</span>
+                                </div>
+                            )}
+
+                            {GIFCompnent === "upload" ? 
+                                <div className='text-center mt-4'>
+                                    <p className='font-semibold font-md'>Please upload GIFs that are appropriate for all audiences. We reserve the right to remove content without notice!</p>
+                                    <label htmlFor="file" className="labelFile border-2 border-gray-300 rounded-lg px-4 "><span><BsCloudUpload className="text-2xl" /></span>
+                                        <div className='mt-2 w-full'>
+                                            <p className='upload-gif'>drag and drop your GIF here or click to select</p>
+                                            <p className='text-end text-xs font-semibold' >GIF</p>
+                                        </div>
+                                    </label>                         
+                                    <input accept='image/gif' className="upload-input" name="image" id="file" type="file" onChange={handleUploadFiles} />
+                                </div>
+                                : 
+
+                            GIFCompnent === "search" ? 
+                                <div className='mt-4'>
+                                    <p className='font-semibold font-md'>Add more specific GIF terms to your search if you don't find what you're looking for</p>
+                                    <input name='gif' type="search" className="mt-3 input input-bordered border-2 w-full" value={gifSearchValue} placeholder={`Search ${title} GIF`} onChange={(e) => setGifSearchValue(e.target.value)} /> 
+                                </div>
+                                : ""
+                            }
+
+                            {videoComponent && 
+                                <div className='text-center mt-4 w-full'>
+                                    <p className='font-semibold'>Copy the youtube video url from share button e.g.</p>
+                                    <p className='font-semibold text-xs text-gray-500' >https://www.youtube.com/embed/V5qRp8ZXm44?si=......</p>
+                                    <input type="text" className="input w-full mt-3 input-bordered border-2" 
+                                    placeholder='Paste youtube video link' value={videoLink} 
+                                    onChange={(e) => setVideoLink(e.target.value)} />
+                                </div>
+                            }
+
+                            {videoLink && videoInputHandling ? <iframe className='mt-2' width="450" height="253" src={videoLink} ></iframe> : "" }
+
+                            {gif ?
                             
-                            {gifSearchValue && gifData.length ?  
-                                gifData.map((gif, index)=>{ 
-                                    return(
-                                        
-                                        <div key={index} className='mt-2 cursor-pointer' style={{width:"180px", height:"200px"}}
-                                            onClick={() => {setGif(gif.images.original.url); setGIFComponent(false); setGifSection(false)}}>
-                                            <motion.img 
-                                                whileTap={{scale:0.9}} 
-                                                className=' h-full w-full rounded-md' 
-                                                src={gif.images.original.url} alt="URL GIF"  
-                                                />
-                                        </div> 
-                                    )})
-                                    : gifSearchValue && !gifData ? <div className='mt-2 font-semibold'>Searching...</div>
-                                    : <div className='mt-2 font-semibold' >No images found for "{gifSearchValue}"</div>}
-                                { gifData.length ? <motion.button whileTap={{ scale: 0.9 }} onClick={fetchGifsFromGiphy} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button> : ""}
-                        </div>
-                    }
+                                <div className="image">
+                                    <p className='text-center text-lg font-semibold'>Your selected GIF</p>
+                                    <button className='bg-black relative top-9 p-1 left-2 rounded-lg' onClick={() => {setGif(false); setGIFComponent('search'); setGifSection(true) } }>
+                                        <MdDelete className=' text-white text-lg hover:text-gray-400'/>
+                                    </button>
+                                    <img className='shadow-lg rounded-lg' style={{maxWidth:"350px", height: "300px"}} src={gif} alt="GIF" />
+                                </div>
 
-                    <div className="inputs text-center mx-10 mt-6">
-                        <input type="text" className="input input-bordered border-2 w-full" placeholder='Enter your name or post anonymously' value={creator} onChange={(e) => setCreator(e.target.value)}  />
-                        <textarea style={{resize:"none"}} value={message} rows={4} className='w-full textarea textarea-bordered border-2 text-lg mt-3 outline-none px-4 py-5' type="text" name='message' required placeholder='(Required) Add a message...' onChange={(e) => setMessage(e.target.value)}  ></textarea>
-                        <button disabled={ !message ? true : false} onClick={createPost} className='btn btn-lg glass font-light mt-4 hover:bg-black bg-black text-white text-2xl  rounded-lg'>{isLoading ? "Creating..." : "Create post"}</button>
+                            : "" }
+
+                        </div>
+
+                        {
+                            gifSection && gifSearchValue &&
+
+                            <div style={{maxHeight:"330px"}} className="gifs mx-10 mt-4 flex-wrap overflow-auto flex items-start justify-evenly">
+                                
+                                {gifSearchValue && gifData.length ?  
+                                    gifData.map((gif, index)=>{ 
+                                        return(
+                                            
+                                            <div key={index} className='mt-2 cursor-pointer  w-[120px] h-[130px] md:w-[180px] md:h-[200px]'
+                                                onClick={() => {setGif(gif.images.original.url); setGIFComponent(false); setGifSection(false)}}>
+                                                <motion.img 
+                                                    whileTap={{scale:0.9}} 
+                                                    className=' h-full w-full rounded-md' 
+                                                    src={gif.images.original.url} alt="URL GIF"  
+                                                    />
+                                            </div> 
+                                        )})
+                                        : gifSearchValue && !gifData ? <div className='mt-2 font-semibold'>Searching...</div>
+                                        : <div className='mt-2 font-semibold' >No images found for "{gifSearchValue}"</div>}
+                                    { gifData.length ? <motion.button whileTap={{ scale: 0.9 }} onClick={fetchGifsFromGiphy} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button> : ""}
+                            </div>
+                        }
+
+                        <div className="inputs text-center mx-10 mt-6">
+                            <input type="text" className="input input-bordered border-2 w-full" placeholder='Enter your name or post anonymously' value={creator} onChange={(e) => setCreator(e.target.value)}  />
+                            <textarea style={{resize:"none"}} value={message} rows={4} className='w-full textarea textarea-bordered border-2 text-lg mt-3 outline-none px-4 py-5' type="text" name='message' required placeholder='(Required) Add a message...' onChange={(e) => setMessage(e.target.value)}  ></textarea>
+                            <button disabled={ !message ? true : false} onClick={createPost} className='btn btn-lg glass font-light mt-4 hover:bg-black bg-black text-white text-2xl  rounded-lg'>{isLoading ? "Creating..." : "Create post"}</button>
+                        </div>
+                        
                     </div>
-                    
                 </div>
             </div>
-        </div>
 
         {openErrorModal && 
             <AnimatePresence>
