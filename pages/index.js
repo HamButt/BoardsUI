@@ -1,7 +1,7 @@
 'use client'
 import Header from "@/components/Header";
 import Image from "next/image";
-import React from "react";
+import React, {useState} from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa6";
@@ -16,6 +16,10 @@ import { FiExternalLink } from "react-icons/fi";
 import Logo from '../public/logo.png'
 import useMeasure from "react-use-measure";
 import { useDragControls, useMotionValue, useAnimate, motion} from "framer-motion";
+import { FileUploader } from "../components/Fileuploader";
+import TemplateDemo from "@/components/Timeline";
+import { FiAlertCircle } from "react-icons/fi";
+
 
 const DragCloseDrawer = ({ open, setOpen, children }) => {
 
@@ -92,126 +96,139 @@ export default function Home() {
     gif: null
   });
 
+  const categories = ['Birthday!', 'Anniversary!', 'Congratulations!', 'Get Well Soon!', 'Thank You!', 'Sympathy!'];
+  const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState('');
+  const [isErasing, setIsErasing] = useState(false);
+
+  React.useEffect(() => {
+    let timeoutId;
+
+    if (!isErasing) {
+      // Writing mode
+      if (displayedText.length < categories[currentCategoryIndex].length) {
+        timeoutId = setTimeout(() => {
+          setDisplayedText(categories[currentCategoryIndex].substring(0, displayedText.length + 1));
+        }, 100); // Speed of writing each letter
+      } else {
+        timeoutId = setTimeout(() => {
+          setIsErasing(true);
+        }, 1000); // Delay before starting to erase
+      }
+    } else {
+      // Erasing mode
+      if (displayedText.length > 0) {
+        timeoutId = setTimeout(() => {
+          setDisplayedText(categories[currentCategoryIndex].substring(0, displayedText.length - 1));
+        }, 100); // Speed of erasing each letter
+      } else {
+        setIsErasing(false);
+        setCurrentCategoryIndex((prevIndex) => (prevIndex + 1) % categories.length);
+      }
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [displayedText, isErasing, currentCategoryIndex]);
+
   
   return (
     <>
     
       {preview ? <PreviewBoard setPreview={setPreview} occasion={occasion} /> : 
 
-      <>
-      <div className="absolute w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
-        <Head>
-          <title>Home</title>
-        </Head>
+        <div className="absolute w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
+            <Head>
+              <title>Home</title>
+            </Head>
 
-        <Header/>
-        
-        <div className="main mt-10">
-          <div className="max-w-3xl mx-auto mt-6 flex flex-col items-center text-center justify-center">
-            {/* <p className="text-4xl">Create group memories with personalized recognition cards and leave a lasting impression!</p> */}
-            <p className="sm:text-4xl text-2xl font-bold ">Celebrate your team members and people you admire</p>
-            {/* <p className="text-2xl mt-5">Personalized praise boards with every occasion <span className="text-lg font-semibold">{displayedText}</span> </p> */}
-            <p className="text-lg sm:text-2xl max-sm:font-semibold mt-5 max-sm:px-5">Beautiful, collaborative personalized online boards to celebrate your team and friends 
-            {/*   <span className="text-sm sm:text-lg font-semibold">{displayedText}</span>  */}
-            </p>
-            {/* <p className="text-4xl">Create group memories with personalized recognition cards and leave a lasting impression!</p> */}
-            {/* <p className="text-2xl mt-5">Personalized praise boards with every occasion <span className="text-lg font-semibold">{displayedText}</span> </p> */}
-            <Link rel="stylesheet" className="mt-6 btn btn-md sm:btn-lg text-md font-semibold sm:text-xl sm:font-medium border hover:shadow-xl border-black rounded-2xl hover:bg-white bg-white" 
-              href="/boards/create" >Create Board - it's free
-              <span className="animate-pulse"><FaArrowRight /></span>
-            </Link>
-          </div>
-        </div>
-
-        <div id="previews" className="flex items-center justify-center flex-col mt-16 py-16 bg-gray-200">
+            <Header/>
           
-            <div className="text-center max-md:px-2 max-sm:px-2">
-                <h1 className="sm:text-4xl font-semibold text-2xl"> Explore our previews</h1>
-                <p className="sm:text-xl text-md font-semibold sm:font-medium mt-4">Uncover the potential of what we can design for you</p>
+          <div className="main mt-10">
+            <div className="max-w-3xl mx-auto mt-6 flex flex-col items-center text-center justify-center">
+              <p className="sm:text-5xl text-2xl font-bold ">Celebrate your team members and people you admire</p>
+              <p className="text-lg sm:text-2xl max-sm:font-semibold mt-5 max-sm:px-5">Beautiful personalized online boards to celebrate your team and friends </p>
+              <Link rel="stylesheet" className="mt-6 btn bg-[#2a9d8f] btn-md sm:btn-lg text-md sm:text-xl sm:font-medium text-white" 
+                href="/boards/create" >Create Board - it's free
+                <span className="animate-pulse"><FaArrowRight /></span>
+              </Link>
             </div>
+          </div>
+
+          <div id="previews" className=" flex items-center justify-center flex-col">
             
-            <div className="max-w-screen-lg w-full mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center max-md:px-2 max-sm:px-2">
+                  <h1 className="sm:text-4xl text-white font-semibold text-2xl"> Explore our previews</h1>
+                  <p className="sm:text-xl text-md text-white font-semibold sm:font-medium mt-4">Uncover the potential of what we can design for you</p>
+              </div>
               
-              <div className="flex items-center justify-evenly flex-wrap mt-10" >
+              <div className="max-w-screen-lg w-full mx-auto px-4 sm:px-6 lg:px-8">
                 
-                  <DragCloseDrawer open={open} setOpen={setOpen}>
-                    <div className="flex flex-col items-center justify-center text-black space-y-4 bg-gray-800 mt-4">
-                        <p className=" sm:mt-0 text-2xl sm:text-4xl font-semibold text-white" >Preview {drawer.event} posts</p>
-                        <Image src={drawer.gif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
-                          width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
-                        <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg
-                          text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" 
-                          onClick={() => {setPreview(true); setOccasion(drawer.event)}}>Preview <FiExternalLink /> 
-                        </motion.button>
-                    </div>
-                  </DragCloseDrawer>
-
-                  {
-                    previewsData.map((previewPost,index) => {
-                      return (
-                      <div key={previewPost.id} className="image-container rounded-box">
-                        <Image src={previewPost.gif} sizes='(max-width: 200px) 100vw, 33vw'  
-                          alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
-
-                        <div className="overlay">
-                            <motion.button whileTap={{scale:0.9}} onClick={() => {setOpen(true); setDrawer({event: previewPost.event, gif: previewPost.gif}) }}
-                              className="overlay-button btn border outline-none rounded-lg  text-lg font-semibold hover:shadow-xl" 
-                              >Preview <FiExternalLink /> </motion.button>
-                        </div>
+                <div className="flex items-center justify-evenly flex-wrap mt-10" >
+                  
+                    <DragCloseDrawer open={open} setOpen={setOpen}>
+                      <div className="flex flex-col items-center justify-center text-black space-y-4 bg-gray-800 mt-4">
+                          <p className=" sm:mt-0 text-2xl sm:text-4xl font-semibold text-white" >Preview {drawer.event} posts</p>
+                          <Image src={drawer.gif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
+                            width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
+                          <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg
+                            text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" 
+                            onClick={() => {setPreview(true); setOccasion(drawer.event)}}>Preview <FiExternalLink /> 
+                          </motion.button>
                       </div>
-                      )
-                    })
-                  }
+                    </DragCloseDrawer>
 
+                    {
+                      previewsData.map((previewPost,index) => {
+                        return (
+                        <div key={previewPost.id} className="image-container rounded-box">
+                          <Image src={previewPost.gif} sizes='(max-width: 200px) 100vw, 33vw'  
+                            alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
+
+                          <div className="overlay">
+                              <motion.button whileTap={{scale:0.9}} onClick={() => {setOpen(true); setDrawer({event: previewPost.event, gif: previewPost.gif}) }}
+                                className="overlay-button btn border outline-none rounded-lg  text-lg font-semibold hover:shadow-xl" 
+                                >Preview <FiExternalLink /> </motion.button>
+                          </div>
+                        </div>
+                        )
+                      })
+                    }
+
+                </div>
+              </div>
+          
+          </div>
+
+          <div id="how-to" className="how-it-works my-10 text-center ">
+            <h1 className="text-3xl sm:text-5xl my-4">How to create board</h1>
+              <div className="mx-3 flex items-center justify-center flex-wrap">
+                  <div className=" rounded-lg  px-4 w-[700px] h-screen flex items-center justify-center flex-col">
+                    <FiAlertCircle className="text-[#2a9d8f]/10 rotate-12 text-[350px]  absolute z-0" />
+                    <p className="text-2xl sm:text-5xl text-black font-semibold" >Create group memories with personalized recognition cards and leave a lasting impression!</p>
+                    <p className="text-3xl mt-2 text-black" >Personalized praise boards with every occasion <span className="text-3xl font-semibold" >{displayedText}</span></p>
+                  </div>
+                <TemplateDemo/>
+              </div>
+          </div> 
+
+          <footer>
+            <div className="footer py-10 flex items-start bg-white justify-evenly ">
+              <div className="pages ">
+              <h1 className="text-2xl">  Pages</h1>
+              <div className=" flex flex-col">
+                <Link className="text-lg" href='/boards/create'>» Create Board</Link>
+                <Link className="text-lg" href='how-to' >» How to create board</Link>
               </div>
             </div>
+              <Image src={Logo} width={60} height={60} alt="Logo"/>
+              </div>
+          </footer>
+                  
+          {/* <FileUploader/> */}
+
+          
         
         </div>
-
-        <div id="how-to" className=" how-it-works my-10 text-center ">
-          <h1 className="text-3xl sm:text-5xl my-4">How to create board</h1>
-          <div className="process flex items-start justify-evenly flex-wrap  mx-3">
-            
-            <div className="one sm:px-5 sm:pb-5 pb-3 px-3">
-              <Image className="process-img" sizes='(max-width: 200px) 100vw, 33vw' src='https://static.123cards.com/images/how-it-works-img1.svg' alt="Category selection" width={0} height={0} />
-              <h1 className="sm:text-3xl text-2xl">Create</h1>
-              <p className="step ">Select any occasion</p>
-              <p className="step-process ">Birthday, anniversary or any other occasion. Select the category and style in minutes</p>
-            </div>
-            <div className="two sm:px-5 sm:pb-5 pb-3 px-3">
-              <Image className="process-img" sizes='(max-width: 200px) 100vw, 33vw' src='https://static.123cards.com/images/how-it-works-img2.svg' alt="Schedule" width={0} height={0}  />
-              <p  className="sm:text-3xl text-2xl">Invite</p>
-              <p className="step">Invite people</p>
-              <p className="step-process" >Fill out your details, add recipients & write a personal message and create board</p>
-            </div>
-            <div className="three sm:px-5 sm:pb-5 pb-3 px-3">
-              <Image className="process-img" sizes='(max-width: 200px) 100vw, 33vw' src='https://static.123cards.com/images/how-it-works-img3.svg'  alt="Send" width={0} height={0}  />
-              <p  className="sm:text-3xl text-2xl">Deliver</p>
-              <p className="step">Create posts and deliver </p>
-              <p className="step-process">Copy the link of board and share your card with them </p>
-            </div>
-      </div>
-        </div> 
-
-        <footer>
-          <div className="footer py-10 flex items-start bg-white justify-evenly ">
-            <div className="pages ">
-            <h1 className="text-2xl">  Pages</h1>
-            <div className=" flex flex-col">
-              <Link className="text-lg" href='/boards/create'>» Create Board</Link>
-              <Link className="text-lg" href='how-to' >» How to create board</Link>
-            </div>
-          </div>
-             <Image src={Logo} width={60} height={60} alt="Logo"/>
-            </div>
-        </footer>
-                
-      
-      
-      </div>
-        
-      
-      </>
     }
     </>
   );
