@@ -12,7 +12,7 @@ function Header() {
           </Link>
           <div className='space-x-5'>
               
-            <Link href='#how-to' className='btn btn-md shadow bg-white text-lg font-light border-black rounded-2xl hover:shadow-xl hover:bg-white max-sm:hidden'>How to</Link>
+            <Link href='#how-to' className='btn btn-md shadow bg-white text-lg font-light border-black rounded-lg hover:shadow-xl hover:bg-white max-sm:hidden'>How to</Link>
           </div>
       </div>
     </header>
