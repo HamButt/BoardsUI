@@ -4,13 +4,14 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { IoMdArrowRoundBack } from "react-icons/io";
 import axios from 'axios';
-function PreviewBoard({setPreview, occasion}) {
-
-    const [posts,setPosts] = useState([])
-    const [imageUrl,setImageUrl] = useState([])
-    const [title,setTitle] = useState('')
-
-    useEffect(()=>{
+function PreviewBoard({setPreview, occasion}){
+  
+  const [posts,setPosts] = useState([])
+  const [imageUrl,setImageUrl] = useState([])
+  const [title,setTitle] = useState('')
+  
+  useEffect(()=>{
+      console.log("occasion",occasion);
       axios.get(`${process.env.basePath}/previews/${occasion}`)
       .then((res) => {
         console.log(res.data);
@@ -26,7 +27,7 @@ function PreviewBoard({setPreview, occasion}) {
     }
 
   return (
-    <div style={{backgroundImage: `url(${imageUrl})`,backgroundRepeat:"no-repeat",backgroundAttachment:"fixed", backgroundSize:'cover',backgroundPosition:"center"}}>
+    <div  style={{backgroundImage: `url(${imageUrl})`,backgroundRepeat:"no-repeat",backgroundAttachment:"fixed", backgroundSize:'cover',backgroundPosition:"center"}}>
         <Head>
           <title >{capitalizeTitle(occasion)}</title>
         </Head>
@@ -48,9 +49,9 @@ function PreviewBoard({setPreview, occasion}) {
           </div>
         </header>
 
-        <div className='' >
+        <div className='' data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000" >
 
-          <div className="selected-title bg-gray-200 mt-24 py-6">
+          <div className="selected-title bg-gray-200 mt-[105px] py-10">
               <p className='text-xl sm:text-3xl py-1 sm:py-2 text-center text-black'>{title}</p>
           </div>
            

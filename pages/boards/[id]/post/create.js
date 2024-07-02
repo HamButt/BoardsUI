@@ -194,7 +194,6 @@ function CreatePost() {
             selectImage.textContent = `Image saved - (${image.name})`
         }else if(selectGif){
             selectGif.textContent = `GIF saved - (${image.name})`
-
         }
 
         const board_id = window.location.pathname.split('/')[2]
@@ -216,7 +215,7 @@ function CreatePost() {
             <title>Create post</title>
         </Head>
 
-        <div className="logo py-2 bg-white flex items-center justify-center">
+        <div className="logo py-3 bg-white flex items-center justify-center">
             <Link href='/' className="">
                 <Image src={Logo} alt='Logo' width={50} height={50}/>
             </Link>
@@ -391,7 +390,7 @@ function CreatePost() {
                             {videoComponent && 
                                 <div className='text-center mt-4 w-full'>
                                     <p className='font-semibold'>Copy the youtube video url from share button e.g.</p>
-                                    <p className='font-semibold text-xs text-gray-500' >https://www.youtube.com/embed/V5qRp8ZXm44?si=......</p>
+                                    <p className='font-semibold text-xs text-gray-500 mt-1' >https://www.youtube.com/embed/V5qRp8ZXm44?si=......</p>
                                     <input type="text" className="input w-full mt-3 input-bordered border-2" 
                                     placeholder='Paste youtube video link' value={videoLink} 
                                     onChange={(e) => setVideoLink(e.target.value)} />

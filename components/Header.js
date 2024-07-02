@@ -7,12 +7,11 @@ function Header() {
   return (
     <header>
       <div className="header">
-          <Link href='/' className="text-3xl text-black">
-            <Image className='max-w-16' src={Logo} alt='Logo' width={0} height={0}  sizes='(max-width: 200px) 100vw, 33vw'/>
+          <Link href='/'>
+            <Image className='w-[80px]' src={Logo} alt='Logo' width={0} height={0}  sizes='(max-width: 200px) 100vw, 33vw'/>
           </Link>
           <div className='space-x-5'>
-              
-            <Link href='#how-to' className='btn btn-md shadow bg-white text-lg font-light border-black rounded-lg hover:shadow-xl hover:bg-white max-sm:hidden'>How to</Link>
+            <Link href='#how-to' className='btn btn-md bg-white text-lg font-light border hover:border-[#2a9d8f] border-[#2a9d8f] rounded-lg hover:bg-white text-[#2a9d8f] max-sm:hidden'>How to</Link>
           </div>
       </div>
     </header>

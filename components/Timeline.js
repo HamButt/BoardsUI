@@ -9,7 +9,7 @@ import { FcInvite } from "react-icons/fc";
 import { IoIosCreate } from "react-icons/io";
 import { MdOutlineCheck } from "react-icons/md";
 
-export default function TemplateDemo() {
+export default function Steps() {
         const events = [
         { 
             status: 'Create', 
@@ -26,10 +26,10 @@ export default function TemplateDemo() {
             description: 'Fill out your details, add recipients & write a personal message and create board' 
         },
         {   status: 'Deliver', 
-            heading: 'Create posts and deliver', 
+            heading: 'Deliver to recipient', 
             icon: <MdOutlineCheck />, 
             color: '#FF9669', 
-            description: 'Copy the link of board and share your posts with them' 
+            description: 'Copy the link and deliver the praise board to your people' 
         }
     ];
 
@@ -51,8 +51,8 @@ export default function TemplateDemo() {
         
     return (
 
-        <div className="card mt-10 ">
-            <Timeline value={events} align='left' className="text-black customized-timeline" marker={customizedMarker} content={customizedContent} />
+        <div className="card mt-10 text-black">
+            <Timeline value={events} align='left' className="customized-timeline" marker={customizedMarker} content={customizedContent} />
         </div>
     )
 }

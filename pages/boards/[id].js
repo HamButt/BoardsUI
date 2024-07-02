@@ -177,10 +177,10 @@ function Post() {
             <title>Posts</title>
         </Head>
 
-        <nav  className={`bg-white z-50 py-3 flex items-center justify-between fixed top-0 right-0 left-0 transition-all duration-300`}>
-            <div className="logo  ps-10">
+        <nav  className={`bg-white z-50 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 transition-all duration-300`}>
+            <div className="logo ps-10">
                 <Link href='/' className=""> 
-                    <Image src={Logo} className='m-0 p-0' alt='Logo' width={35} height={35} />
+                    <Image src={Logo} className='m-0 p-0' alt='Logo' width={45} height={45} />
                 </Link>
             </div>
 
@@ -235,7 +235,8 @@ function Post() {
                     </div>
                 </dialog>
                 
-          </div>
+            </div>
+
         </nav>
 
         <div className=" bg-gray-300  mt-10 pt-8 pb-4">
@@ -252,7 +253,7 @@ function Post() {
             </div>
         </div>
 
-        <div className="image-section flex justify-center" data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+        <div className="posts-section flex justify-center" data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
             {posts.length > 0 ? 
                 <div className="board-posts grid grid-cols-12 py-2 place-items-start" >
@@ -328,15 +329,15 @@ function Post() {
                     <progress className="progress w-96 h-4"></progress>
                 </div>
                 :
-                <div className='w-80 md:w-full h-screen flex items-start mt-10 justify-center'>
-                    <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col' style={{ width: "400px", maxWidth: "600px", height: "400px" }}>
-                    <Image src={Confetti} alt='Confetti' className='mt-5' width={300} height={200} />
-                    <h3 className="font-bold text-2xl mt-12">Welcome to the praise board of</h3>
-                    <p className="font-semibold text-md mt-1">{recipient}</p>
-                    <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
-                        className='btn hover:bg-black bg-black mt-5 text-white border border-black px-10 py-2 rounded-md text-xl font-light'>
-                        {handleNavigating ? "Redirecting..." : "Add your post"}
-                    </Link>
+                <div className=' w-full h-screen flex items-start mt-10 justify-center'>
+                    <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col mx-2' style={{ width: "420px", maxWidth: "600px", height: "400px" }}>
+                        <Image src={Confetti} alt='Confetti' className='mt-5' width={300} height={200}/>
+                        <h3 className="font-bold text-lg sm:text-2xl mt-12 px-3">Welcome to the praise board of</h3>
+                        <p className="font-semibold mt-1 text-lg sm:text-2xl">{recipient}</p>
+                        <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
+                            className='btn hover:bg-black bg-black mt-5 text-white border border-black px-6 sm:px-10 py-1 sm:py-2 rounded-md text-md sm:text-xl font-light'>
+                            {handleNavigating ? "Redirecting..." : "Add your post"}
+                        </Link>
                     </div>
                 </div> 
             }
@@ -344,9 +345,12 @@ function Post() {
                 
         </div>
         
-        <Link style={{padding:"5px 16px", boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px"}} data-tip="Create Board" href='/boards/create' className='animate-pulse rounded-full text-3xl sm:text-5xl bg-white board-btn cursor-pointer tooltip tooltip-left fixed bottom-3 right-3  ' >+</Link>
+        <Link style={{ boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px"}} 
+            data-tip="Create Board" href='/boards/create' 
+            className='animate-pulse p-3 rounded-full text-2xl bg-white board-btn cursor-pointer tooltip tooltip-left fixed bottom-3 right-3' > <FaPlus/> </Link>
 
-        <div id="mySidenav" className="sidenav bg-white" style={{marginRight: openNav ? "0" : "-30rem"}}>
+
+        <div id="mySidenav" className=" sidenav bg-white" style={{marginRight: openNav ? "0" : "-30rem"}}>
             <div className='flex flex-1 justify-end pe-5'>
                 <button onClick={() => {setOpenNav(false); setIsPopover(true);}} className='text-gray-800 text-3xl m-0'>&times;</button>
             </div>
@@ -356,14 +360,34 @@ function Post() {
                 <div 
                     className={` images py-1 rounded-md text-sm font-semibold text-${sideComponent === 'color' ? 'black' : 'gray-500'}
                     bg-${sideComponent === 'color' ? 'white' : ''} flex-1 cursor-pointer
-                    transition-all ease-linear`} onClick={() => setSideComponent('color')}>Color</div>
+                    transition-all ease-linear`} onClick={() => setSideComponent('color')}>
+                    Color
+                </div>
                 <div 
-                className={` colors py-1 rounded-md text-sm font-semibold
-                bg-${sideComponent === 'image' ? 'white' : ''} text-${sideComponent === 'image' ? 'black' : 'gray-500'} flex-1 text-md  cursor-pointer
-                transition-all ease-linear`} onClick={() => setSideComponent('image')}>Image</div>
+                    className={` colors py-1 rounded-md text-sm font-semibold
+                    bg-${sideComponent === 'image' ? 'white' : ''} text-${sideComponent === 'image' ? 'black' : 'gray-500'} flex-1 text-md  cursor-pointer
+                    transition-all ease-linear`} onClick={() => setSideComponent('image')}>
+                    Image
+                </div>
             </div>
+
             <div className='mt-4 px-6'>
-                {sideComponent === "image" ? <BackgroundImageTab setOpenNav={setOpenNav} setUploadedImage={setUploadedImage} imageUrl={imageUrl} setImageUrl={setImageUrl} boardId={boardId} /> : <BackgroundColorTab setOpenNav={setOpenNav} setUploadedImage={setUploadedImage} setImageUrl={setImageUrl} boardId={boardId}/>}
+                {
+                    sideComponent === "image" ? 
+                        <BackgroundImageTab 
+                            setOpenNav={setOpenNav} 
+                            setUploadedImage={setUploadedImage} 
+                            imageUrl={imageUrl} 
+                            setImageUrl={setImageUrl} 
+                            boardId={boardId} 
+                        /> : 
+                        <BackgroundColorTab 
+                            setOpenNav={setOpenNav} 
+                            setUploadedImage={setUploadedImage} 
+                            setImageUrl={setImageUrl} 
+                            boardId={boardId}
+                        />
+                }
             </div>
         </div> 
 

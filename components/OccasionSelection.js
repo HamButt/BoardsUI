@@ -17,20 +17,24 @@ import Retirement from '../public/retirement.jpg'
 import Birthday from '../public/Happy-birthday-images-free-download.jpg'
 import Welcome from '../public/welcome.jpg'
 import NavBar from './NavBar'
+
 function OccasionSelection({increaseStep, boardData,setBoardData}) {
     
     const nextQuestion = (occasion) => {
-        setBoardData([...boardData,  occasion]);
+        setBoardData(prevState => ({
+            ...prevState,
+            occasion: occasion
+          }));
         increaseStep()
-      };
-
+    };
+    
   return (
 
     <div>
         <NavBar/>
 
          <div data-offset='0' data-aos="fade-up" data-aos-easing="ease-in-back" data-aos-duration="1000">
-                <h1 className='text-center text-3xl '>Select an Occasion</h1>
+                <h1 className='text-center text-3xl mt-6'>Select an Occasion</h1>
                 <div className=" flex items-start justify-center flex-wrap py-6">
                     <div onClick={() => nextQuestion("Thankyou")} className="option">
                         <div style={{width: '120px', height: '120px', borderRadius: '50%', overflow: 'hidden'}}>

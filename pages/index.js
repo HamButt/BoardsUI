@@ -16,10 +16,11 @@ import { FiExternalLink } from "react-icons/fi";
 import Logo from '../public/logo.png'
 import useMeasure from "react-use-measure";
 import { useDragControls, useMotionValue, useAnimate, motion} from "framer-motion";
-import { FileUploader } from "../components/Fileuploader";
-import TemplateDemo from "@/components/Timeline";
+// import { FileUploader } from "../components/Fileuploader";
+import Steps from "@/components/Timeline";
 import { FaPlus } from "react-icons/fa6";
 import Confetti from '../public/confetti.jpg'
+import { BubbleIcon } from "@/Icons/BubbleIcon";
 const DragCloseDrawer = ({ open, setOpen, children }) => {
 
   const [scope, animate] = useAnimate();
@@ -142,91 +143,103 @@ export default function Home() {
 
             <Header/>
           
-          <div className="main mt-14 text-black">
-            <div className="lg:w-[660px] xl:w-[900px] mx-auto mt-6 flex flex-col items-center text-center justify-center">
-              <p className="text-2xl sm:text-3xl md:text-5xl xl:text-6xl font-bold ">Celebrate your team members and people you admire</p>
-              <p className="text-lg sm:text-2xl max-sm:font-semibold mt-5 max-sm:px-5">Beautiful personalized online boards to celebrate your team and friends </p>
-              <Link rel="stylesheet" className="mt-6 btn bg-[#2a9d8f] btn-md sm:btn-lg text-md sm:text-xl sm:font-medium text-white" 
-                href="/boards/create" >Create Board - it's free
-                <span className="animate-pulse"><FaArrowRight /></span>
-              </Link>
+            <div className="main mt-14 text-black">
+              <div className="sm:w-[660px] xl:w-[900px] mx-auto mt-6 flex flex-col items-center text-center justify-center">
+                <p className="text-2xl sm:text-3xl md:text-5xl xl:text-6xl font-bold px-5" style={{lineHeight:"70px"}}>
+                Celebrate your team members and people you admire
+                </p>
+                <p className="text-lg sm:text-2xl max-sm:font-semibold mt-5 max-sm:px-5">Beautiful personalized online boards to celebrate your team and friends </p>
+                <Link rel="stylesheet" className="mt-8 btn bg-[#2a9d8f] btn-md sm:btn-lg text-md sm:text-xl font-medium text-white hover:bg-white border hover:text-[#2a9d8f] hover:border-[#2a9d8f]" 
+                  href="/boards/create">Create Board - it's free
+                  <span className="animate-pulse"><FaArrowRight /></span>
+                </Link>
+              </div>
             </div>
-          </div>
 
-          <div id="how-to" className="mt-16 rounded-lg  mx-6 how-it-works text-center bg-emerald-100 py-10">
-            <h1 className="text-3xl sm:text-5xl my-4 text-black ">How to create a board</h1>
-              <div className="mx-3 flex items-center justify-center flex-wrap">
-                  <div className="relative px-4 w-[600px] flex items-start text-start justify-start flex-col">
-                    <Image src={Confetti} alt="Confetti" className="absolute z-0 opacity-20 bottom-60" width={1000} height={1000}/>
-                    <p className="text-2xl sm:text-3xl md:text-3xl text-black font-bold" >Create group memories with personalized recognition cards and leave a lasting impression!</p>
-                    <p className="text-lg sm:text-xl md:text-2xl mt-8 text-black" >Personalized occasions with praise board for every 
-                      <span className="text-xl sm:text-2xl md:text-3xl font-semibold text-[#2a9d8f]" > {displayedText} </span>
-                    </p>
-                    <Link rel="stylesheet" className="mt-6 btn bg-[#2a9d8f] btn-md sm:btn-lg text-md sm:text-xl sm:font-medium text-white border-none" 
-                      href="/boards/create" > <FaPlus /> Create your board 
-                    </Link>
-                  </div>
-                  <TemplateDemo/>
-              </div>
-          </div> 
+            <div id="how-to" className="mt-20 rounded-lg mx-6 how-it-works text-center bg-emerald-100 py-16">
+              <h1 className="text-4xl sm:text-5xl my-4 text-black font-semibold">How to create a board</h1>
+                <div className="mx-3 flex items-center justify-center flex-wrap">
+                    <div className="relative px-4 w-[580px] flex items-start text-start justify-start flex-col">
+                      <Image src={Confetti} alt="Confetti" className="absolute z-0 opacity-20  bottom-32 lg:bottom-32 xl:bottom-60" width={1000} height={1000}/>
+                      <p className="text-2xl sm:text-3xl md:text-4xl text-black font-bold mt-6" >Create group memories with personalized recognition cards and leave a lasting impression!</p>
+                      <p className="text-lg sm:text-xl md:text-2xl font-semibold mt-8 text-black" >Personalized occasions with praise board for every 
+                        <span className="text-xl sm:text-2xl md:text-3xl font-semibold text-[#2a9d8f]" > {displayedText} </span>
+                      </p>
+                      <Link rel="stylesheet" className="mt-6 btn bg-[#2a9d8f] btn-md sm:btn-lg text-md sm:text-xl font-medium text-white border hover:bg-transparent hover:text-[#2a9d8f] hover:border-[#2a9d8f]" 
+                        href="/boards/create" > <FaPlus /> Create your board 
+                      </Link>
+                    </div>
+                    <Steps/>
+                </div>
+            </div> 
 
-          <div id="previews" className="mt-16 py-16 flex items-center justify-center flex-col rounded-lg">
-            
-              <div className="text-center max-md:px-2 max-sm:px-2">
-                  <h1 className="sm:text-5xl text-white text-2xl"> Explore our previews</h1>
-                  <p className="sm:text-2xl text-md text-white font-semibold sm:font-medium mt-4">Uncover the potential of what we can design for you</p>
-              </div>
-              
-              <div className="max-w-screen-lg w-full mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+            <div id="previews" className="mt-16 py-16 flex items-center justify-center flex-col rounded-lg">
+                <div className="absolute z-0 opacity-60">
+                  <BubbleIcon/>
+                </div>
+                <div className="text-center max-md:px-2 max-sm:px-2">
+                    <h1 className="text-4xl sm:text-5xl my-4 text-black font-semibold"> Explore our previews</h1>
+                    <p className="sm:text-2xl text-md text-black font-semibold sm:font-medium mt-4">Uncover the potential of what we can design for you</p>
+                </div>
                 
-                <div className="flex items-center justify-evenly flex-wrap" >
+                <div className="max-w-screen-lg w-full mx-auto px-4 sm:px-6 lg:px-8 mt-6">
                   
-                    <DragCloseDrawer open={open} setOpen={setOpen}>
-                      <div className="flex flex-col items-center justify-center text-black space-y-4 bg-gray-800 mt-4">
-                          <p className=" sm:mt-0 text-2xl sm:text-4xl font-semibold text-white" >Preview {drawer.event} posts</p>
-                          <Image src={drawer.gif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
-                            width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
-                          <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg
-                            text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" 
-                            onClick={() => {setPreview(true); setOccasion(drawer.event)}}>Preview <FiExternalLink /> 
-                          </motion.button>
-                      </div>
-                    </DragCloseDrawer>
-
-                    {
-                      previewsData.map((previewPost,index) => {
-                        return (
-                        <div key={previewPost.id} className="image-container rounded-box">
-                          <Image src={previewPost.gif} sizes='(max-width: 200px) 100vw, 33vw'  
-                            alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
-
-                          <div className="overlay">
-                              <motion.button whileTap={{scale:0.9}} onClick={() => {setOpen(true); setDrawer({event: previewPost.event, gif: previewPost.gif}) }}
-                                className="overlay-button btn border outline-none rounded-lg  text-lg font-semibold hover:shadow-xl" 
-                                >Preview <FiExternalLink /> </motion.button>
-                          </div>
+                  <div className="flex items-center justify-evenly flex-wrap" >
+                    
+                      <DragCloseDrawer open={open} setOpen={setOpen}>
+                        <div className="flex flex-col items-center justify-center text-black space-y-4 bg-gray-800 mt-4">
+                            <p className=" sm:mt-0 text-2xl sm:text-4xl font-semibold text-white" >Preview {drawer.event} posts</p>
+                            <Image src={drawer.gif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
+                              width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
+                            <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg
+                              text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" 
+                              onClick={() => {setPreview(true); setOccasion(drawer.event)}}>Preview <FiExternalLink /> 
+                            </motion.button>
                         </div>
-                        )
-                      })
-                    }
+                      </DragCloseDrawer>
 
+                      {
+                        previewsData.map((previewPost,index) => {
+                          return (
+                          <div key={previewPost.id} className="image-container rounded-box">
+                            <Image src={previewPost.gif} sizes='(max-width: 200px) 100vw, 33vw'  
+                              alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
+
+                            <div className="overlay">
+                                <motion.button whileTap={{scale:0.9}} onClick={() => {setOpen(true); setDrawer({event: previewPost.event, gif: previewPost.gif}) }}
+                                  className="overlay-button btn border outline-none rounded-lg  text-lg font-semibold hover:shadow-xl" 
+                                  >Preview <FiExternalLink /> </motion.button>
+                            </div>
+                          </div>
+                          )
+                        })
+                      }
+
+                  </div>
+                </div>
+
+                <Link rel="stylesheet" 
+                  href="/boards/create" 
+                  className="mt-12 btn bg-[#2a9d8f] sm:btn-lg text-md sm:text-xl font-medium text-white border hover:bg-transparent hover:text-[#2a9d8f] hover:border-[#2a9d8f]" 
+                  > <FaPlus /> Create a Praise board 
+                </Link>
+            
+            </div>
+
+            
+
+            <footer>
+              <div className="footer text-black py-10 flex items-start bg-white justify-evenly ">
+                <div className="pages ">
+                <h1 className="text-2xl">Pages</h1>
+                <div className=" flex flex-col">
+                  <Link className="text-lg" href='/boards/create'>» Create Board</Link>
+                  <Link className="text-lg" href='how-to' >» How to create board</Link>
                 </div>
               </div>
-          
-          </div>
-
-          <footer>
-            <div className="footer text-black py-10 flex items-start bg-white justify-evenly ">
-              <div className="pages ">
-              <h1 className="text-2xl">Pages</h1>
-              <div className=" flex flex-col">
-                <Link className="text-lg" href='/boards/create'>» Create Board</Link>
-                <Link className="text-lg" href='how-to' >» How to create board</Link>
-              </div>
-            </div>
-              <Image src={Logo} width={60} height={60} alt="Logo"/>
-              </div>
-          </footer>
+                <Image src={Logo} width={60} height={60} alt="Logo"/>
+                </div>
+            </footer>
                   
           {/* <FileUploader/> */}
 
