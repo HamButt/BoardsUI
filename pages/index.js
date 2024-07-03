@@ -21,6 +21,11 @@ import Steps from "@/components/Timeline";
 import { FaPlus } from "react-icons/fa6";
 import Confetti from '../public/confetti.jpg'
 import { BubbleIcon } from "@/Icons/BubbleIcon";
+import { Stepper } from 'primereact/stepper';
+import { StepperPanel } from 'primereact/stepperpanel';
+import { Button } from 'primereact/button';
+import 'primereact/resources/primereact.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
 const DragCloseDrawer = ({ open, setOpen, children }) => {
 
   const [scope, animate] = useAnimate();
@@ -88,6 +93,7 @@ const DragCloseDrawer = ({ open, setOpen, children }) => {
   );
 };
 export default function Home() {
+  const categories = ['Birthday!', 'Anniversary!', 'New year!', 'Valentines!', 'Thank You!', 'Graduation!'];
   const [preview,setPreview] = React.useState(false);
   const [occasion,setOccasion] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -95,11 +101,11 @@ export default function Home() {
     event: "",
     gif: null
   });
-
-  const categories = ['Birthday!', 'Anniversary!', 'New year!', 'Valentines!', 'Thank You!', 'Graduation!'];
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [isErasing, setIsErasing] = useState(false);
+  const stepperRef = React.useRef(null);
+
 
   React.useEffect(() => {
     let timeoutId;
@@ -156,9 +162,10 @@ export default function Home() {
               </div>
             </div>
 
+
             <div id="how-to" className="mt-20 rounded-lg mx-6 how-it-works text-center bg-emerald-100 py-16">
               <h1 className="text-4xl sm:text-5xl my-4 text-black font-semibold">How to create a board</h1>
-                <div className="mx-3 flex items-center justify-center flex-wrap">
+                <div className="mx-3 flex items-center justify-evenly flex-wrap">
                     <div className="relative px-4 w-[580px] flex items-start text-start justify-start flex-col">
                       <Image src={Confetti} alt="Confetti" className="absolute z-0 opacity-20  bottom-32 lg:bottom-32 xl:bottom-60" width={1000} height={1000}/>
                       <p className="text-2xl sm:text-3xl md:text-4xl text-black font-bold mt-6" >Create group memories with personalized recognition cards and leave a lasting impression!</p>
@@ -169,16 +176,76 @@ export default function Home() {
                         href="/boards/create" > <FaPlus /> Create your board 
                       </Link>
                     </div>
-                    <Steps/>
+
+                    <div className=" md:w-[500px]">
+                      <Stepper ref={stepperRef} orientation="vertical">
+                          <StepperPanel header="Create">
+                              <div className="flex flex-col h-12rem ">
+                                  <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
+                                    <img className="w-24" src="https://static.123cards.com/images/how-it-works-img1.svg" />
+                                    <h1 className="text-xl mt-2 text-black font-semibold">Select any occasion</h1>
+                                    <p className="mt-4 text-black" >Birthday, anniversary or any other occasion. Select the category and style in minutes</p>
+                                  </div>
+                              </div>
+                              <div className="flex py-4">
+                                  <Button label="Next" onClick={() => stepperRef.current.nextCallback()} />
+                              </div>
+                          </StepperPanel>
+                          
+                          <StepperPanel header="Invite">
+                              <div className="flex flex-col h-12rem">
+                                <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
+                                    <img className="w-24" src="https://static.123cards.com/images/how-it-works-img2.svg" />
+                                    <h1 className="text-xl mt-2 text-black font-semibold">Invite people</h1>
+                                    <p className="mt-4 text-black" >Fill out your details, add recipients & write a personal message and create board</p>
+                                  </div>
+                              </div>
+                              <div className="flex py-4 gap-2">
+                                  <Button label="Back"  onClick={() => stepperRef.current.prevCallback()} />
+                                  <Button label="Next" onClick={() => stepperRef.current.nextCallback()} />
+                              </div>
+                          </StepperPanel>
+
+                          <StepperPanel header="Deliver">
+                              <div className="flex flex-col h-12rem ">
+                                  <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
+                                    <img className="w-24" src="https://static.123cards.com/images/how-it-works-img3.svg" />
+                                    <h1 className="text-xl mt-2 text-black font-semibold">Deliver to anyone</h1>
+                                    <p className="mt-4 text-black" >Copy the link and deliver the praise board to your people</p>
+                                  </div>
+                              </div>
+                              <div className="flex py-4">
+                                <Button label="Back" onClick={() => stepperRef.current.prevCallback()} />
+                              </div>
+                          </StepperPanel>
+
+                          <StepperPanel header="Deliver">
+                              <div className="flex flex-col h-12rem ">
+                                  <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
+                                    <img className="w-24" src="https://static.123cards.com/images/how-it-works-img3.svg" />
+                                    <h1 className="text-xl mt-2 text-black font-semibold">Deliver to anyone</h1>
+                                    <p className="mt-4 text-black" >Copy the link and deliver the praise board to your people</p>
+                                  </div>
+                              </div>
+                              <div className="flex py-4">
+                                <Button label="Back" onClick={() => stepperRef.current.prevCallback()} />
+                              </div>
+                          </StepperPanel>
+                          
+                      </Stepper>
+                    </div>
+
                 </div>
             </div> 
 
+           
+
             <div id="previews" className="mt-16 py-16 flex items-center justify-center flex-col rounded-lg">
-                <div className="absolute z-0 opacity-60">
+                <div style={{width: "100%",maxWidth:"600px",height:"auto"}} className="px-5 absolute z-0 opacity-60">
                   <BubbleIcon/>
                 </div>
                 <div className="text-center max-md:px-2 max-sm:px-2">
-                    <h1 className="text-4xl sm:text-5xl my-4 text-black font-semibold"> Explore our previews</h1>
+                    <h1 className="text-4xl sm:text-5xl my-4 text-black font-semibold">Praise board for every occasion</h1>
                     <p className="sm:text-2xl text-md text-black font-semibold sm:font-medium mt-4">Uncover the potential of what we can design for you</p>
                 </div>
                 
@@ -225,8 +292,6 @@ export default function Home() {
                 </Link>
             
             </div>
-
-            
 
             <footer>
               <div className="footer text-black py-10 flex items-start bg-white justify-evenly ">

@@ -2,12 +2,10 @@ import React from 'react'
 import NavBar from './NavBar'
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import { styled } from '@mui/material/styles';
-import axios from 'axios'
 import {useRouter} from 'next/router'
 import {MdArrowBackIos} from 'react-icons/md'
 import crypto from 'crypto'
-import Cookies from 'js-cookie'
-
+import { createBoardApi } from '../api/createBoardApi'
 function Message({decrementStep, boardData, setBoardData}) {
     const router = useRouter()
     const [percent,setPercent] = React.useState(75)
@@ -30,9 +28,8 @@ function Message({decrementStep, boardData, setBoardData}) {
     const convertCookieIntoHash = () => {
         const salt = crypto.randomBytes(16).toString('hex');
         const hash = crypto.createHmac('sha256', salt).update(boardData.creator_name).digest('hex');
-        Cookies.set("Creator",hash, { expires: 7 })
+        localStorage.setItem('Creator', hash)
     }
-
     
     const createBoard = () => {
         setIsLoading(true)
@@ -40,13 +37,13 @@ function Message({decrementStep, boardData, setBoardData}) {
             ...prevState,
             title: title
           }));
-        const boardValues = {
+        const board = {
             occasion: boardData.occasion,
             creator_name: boardData.creator_name,
             recipient: boardData.recipient_name,
             title: title
         }
-        axios.post(`${process.env.basePath}/boards`, boardValues)
+        createBoardApi(board)
         .then((res) => {
             if(res.status === 200){
                 confetti({

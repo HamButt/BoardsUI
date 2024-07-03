@@ -1,10 +1,9 @@
 'use client'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FileUploader } from "react-drag-drop-files"; 
-import axios from 'axios';
 import Head from 'next/head'
 import {useRouter} from 'next/navigation'
 import { IoImages } from "react-icons/io5";
@@ -19,54 +18,55 @@ import { IoIosArrowDown  } from "react-icons/io";
 import { BsCloudUpload } from "react-icons/bs";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiAlertCircle } from "react-icons/fi";
+import { createPostApi } from '../../../../api/createPostApi';
+import { giphyApi } from '@/api/giphyApi';
+import { unsplashApi } from '../../../../api/unsplashApi';
+import { getBoardApi } from '@/api/getBoardApi';
 
 
 
 function CreatePost() {
     const router = useRouter()
-    const [GIFCompnent, setGIFComponent] = React.useState(false); 
-    const [imageComponent, setImageComponent] = React.useState(false); 
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [videoInputHandling, setVideoInputHandling] = React.useState(false);
-    const [gifSection, setGifSection] = React.useState(false);
-    const [imageSection, setImageSection] = React.useState(false);
-    const [videoComponent, setVideoComponent] = React.useState(false); 
-    const [splashImage, setSplashImage] = React.useState(''); 
-    const [creator, setCreator] = React.useState(''); 
-    const [boardId, setBoardId] = React.useState('');
-    const [image, setImage] = React.useState(''); 
-    const [gif, setGif] = React.useState(''); 
-    const [title, setTitle] = React.useState(''); 
-    const [message, setMessage] = React.useState('');
-    const [videoLink, setVideoLink] = React.useState('');
-    const [gifSearchValue, setGifSearchValue] = React.useState('');
-    const [imageSearchValue, setImageSearchValue] = React.useState('');
-    const [debounceTimerForImage, setDebounceTimerForImage] = React.useState(0);
-    const [debounceTimerForGIf, setDebounceTimerForGIf] = React.useState(0);
-    const [imagePage, setImagePage] = React.useState(1);
-    const [gifOffset, setGifOffset] = React.useState(0);
-    const [gifData, setGifData] = React.useState([]);
-    const [imageData, setImageData] = React.useState([]);
-    const [error, setError] = React.useState(false);
-    const [openErrorModal, setOpenErrorModal] = React.useState(false);
+    const [GIFCompnent, setGIFComponent] = useState(false); 
+    const [imageComponent, setImageComponent] = useState(false); 
+    const [isLoading, setIsLoading] = useState(false);
+    const [videoInputHandling, setVideoInputHandling] = useState(false);
+    const [gifSection, setGifSection] = useState(false);
+    const [imageSection, setImageSection] = useState(false);
+    const [videoComponent, setVideoComponent] = useState(false); 
+    const [splashImage, setSplashImage] = useState(''); 
+    const [creator, setCreator] = useState(''); 
+    const [boardId, setBoardId] = useState('');
+    const [image, setImage] = useState(''); 
+    const [gif, setGif] = useState(''); 
+    const [title, setTitle] = useState(''); 
+    const [message, setMessage] = useState('');
+    const [videoLink, setVideoLink] = useState('');
+    const [gifSearchValue, setGifSearchValue] = useState('');
+    const [imageSearchValue, setImageSearchValue] = useState('');
+    const [debounceTimerForImage, setDebounceTimerForImage] = useState(0);
+    const [debounceTimerForGIf, setDebounceTimerForGIf] = useState(0);
+    const [imagePage, setImagePage] = useState(1);
+    const [gifData, setGifData] = useState([]);
+    const [imageData, setImageData] = useState([]);
+    const [error, setError] = useState(false);
+    const [openErrorModal, setOpenErrorModal] = useState(false);
+    const [gifOffset, setGifOffset] = useState(0);
+    let limit = 12;
+    let offset = gifOffset;
     
-    // Unsplash params
-    
-    const params = {
-        query: imageSearchValue,
-        page:  imagePage,
-        per_page: 12,
-        client_id: process.env.clientId,
-        orientation: 'portrait',
-    };
-
-    React.useEffect(()=>{
+    useEffect(()=>{
         
         if(gifSearchValue){
+            setGifOffset((prevOffset) => prevOffset + limit)
             setGifSection(true)
             clearTimeout(debounceTimerForGIf);
             const newDebounceTimer = setTimeout(() => {
-                fetchGifsFromGiphy()
+                giphyApi(gifSearchValue,limit,offset).then(response => {
+                    setGifData(response.data.data)
+                }).catch(error => {
+                    console.log("error",error);
+                    setError(error.response)});
             }, 500);
                 setDebounceTimerForGIf(newDebounceTimer);
               }
@@ -79,26 +79,19 @@ function CreatePost() {
        
     }, [gifSearchValue])
 
-    const fetchGifsFromGiphy = () => {
-        let offset = gifOffset;
-        let limit = 12;
-        setGifOffset((prevOffset) => prevOffset + limit)
-        const gifUrl = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.apiKey}&q=${gifSearchValue}&limit=${limit}&offset=${offset}&rating=g&lang=en`;
-        axios.get(gifUrl)
-            .then(response => {
-                setGifData(response.data.data)
-            })
-            .catch(error => setError(error.response.data));
-                
-    }
-
-    React.useEffect(()=>{
+    useEffect(()=>{
         if(imageSearchValue){
             setImagePage((imgPg) => imgPg + 1 )
             setImageSection(true)
             clearTimeout(debounceTimerForImage);
             const newDebounceTimer = setTimeout(() => {
-                fetchImagesFromUnsplash()
+                unsplashApi(imageSearchValue, imagePage).then(response => {
+                    setImageData(response.data.results)
+                })
+                .catch(error =>{ 
+                    setError(error.response)
+                    console.log("Error",error);
+                })
                 setGifSection(false)
                 }, 500);
                 setDebounceTimerForImage(newDebounceTimer);
@@ -113,19 +106,7 @@ function CreatePost() {
        
     }, [imageSearchValue])
 
-    const fetchImagesFromUnsplash = () => {
-        axios.get(process.env.unsplashUrl, { params })
-            .then(response => {
-                console.log(response.data.results);
-                setImageData(response.data.results)
-            })
-            .catch(error =>{ 
-                setError(error.response.data)
-            })
-                
-    }
-
-    React.useEffect(()=>{
+    useEffect(()=>{
         if(videoLink){
             setVideoInputHandling(true)
         }
@@ -155,11 +136,7 @@ function CreatePost() {
         formData.append('boardId',boardId)
         formData.append('creator',creator)
         
-        axios.post(`${process.env.basePath}/posts`, formData ,{
-            headers:{
-                "Content-Type": "multipart/form-data"
-            }
-        })
+       createPostApi(formData)
         .then((res) => {
             if(res.status === 200){
                 confetti({
@@ -187,7 +164,7 @@ function CreatePost() {
         }
       };
 
-    React.useEffect(()=>{
+    useEffect(()=>{
         const selectImage = document.getElementsByClassName('upload-image')[0]
         const selectGif = document.getElementsByClassName('upload-gif')[0]
         if(selectImage){
@@ -199,7 +176,7 @@ function CreatePost() {
         const board_id = window.location.pathname.split('/')[2]
         setBoardId(board_id)
 
-        axios.get(`${process.env.basePath}/boards/${board_id}`)
+        getBoardApi(board_id)
         .then((res) => {
             setTitle(res.data.board.occasion)
         }).catch((err) => {
@@ -353,7 +330,7 @@ function CreatePost() {
                                         : <div className='mt-2 font-semibold' >No images found for "{imageSearchValue}"</div>
                                         }
                                 </div>
-                                    { imageData.length > 0 && <motion.button whileTap={{ scale: 0.9 }} onClick={fetchImagesFromUnsplash} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button>}
+                                    { imageData.length > 0 && <motion.button whileTap={{ scale: 0.9 }} onClick={() => unsplashApi(imageSearchValue, imagePage)} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button>}
                             </div>
                         }
 
@@ -433,7 +410,7 @@ function CreatePost() {
                                         )})
                                         : gifSearchValue && !gifData ? <div className='mt-2 font-semibold'>Searching...</div>
                                         : <div className='mt-2 font-semibold' >No images found for "{gifSearchValue}"</div>}
-                                    { gifData.length ? <motion.button whileTap={{ scale: 0.9 }} onClick={fetchGifsFromGiphy} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button> : ""}
+                                    { gifData.length ? <motion.button whileTap={{ scale: 0.9 }} onClick={() => giphyApi(gifSearchValue,limit,offset)} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button> : ""}
                             </div>
                         }
 

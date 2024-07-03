@@ -4,15 +4,13 @@ import axios from 'axios';
 import Link from 'next/link'
 import Image from 'next/image'
 import Head from 'next/head'
-import Cookies from 'js-cookie';
 import {useRouter} from 'next/router'
 import { Toaster,toast } from 'sonner';
 import { CiEdit } from "react-icons/ci";
 import BackgroundImageTab from '@/components/BackgroundImageTab';
 import BackgroundColorTab from '@/components/BackgroundColorTab';
-import Confetti from '../../public/confetti.jpg'
+import ConfettiImage from '../../public/confetti.jpg'
 import Logo from '../../public/logo.png'
-import Swal from 'sweetalert2'
 import 'animate.css';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {Popover, PopoverTrigger, PopoverContent, Button} from "@nextui-org/react";
@@ -20,6 +18,11 @@ import Copy from '../../public/copy.png'
 import { MdDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import ImageLoading from '../../public/loading.gif'
+import { getBoardApi } from '../../api/getBoardApi'
+import { getPostsApi } from '../../api/getPostsApi'
+import { Confetti } from '../../components/Confetti'
+import { DeleteModal } from '../../components/DeleteModal';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Post() {
     const router = useRouter()
@@ -39,62 +42,37 @@ function Post() {
     
     // Fetching Board
     useEffect(()=>{
-        const cookie = Cookies.get('Creator');
+        const cookie = localStorage.getItem('Creator')
         setUserCookie(cookie)
         const board_id = window.location.pathname.split('/').reverse()[0];
         setBoardId(board_id)
+
         if(board_id){
-            axios.get(`${process.env.basePath}/boards/${board_id}`)
+            getBoardApi(board_id)
             .then((res) => {
-                setTitle(res.data.board.title)
-                // setTotalPost(res.data.board.post)
-                setRecipient(res.data.board.recipient)
-                if(res.data.board.uploaded_image){
-                    const boardImage = Buffer.from(res.data.board.uploaded_image.data)
+                const board = res.data.board
+                setTitle(board.title)
+                setRecipient(board.recipient)
+                if(board.uploaded_image){
+                    const boardImage = Buffer.from(board.uploaded_image.data)
                     setUploadedImage(`${process.env.basePath}/images/${boardImage}`)
-                }else if(res.data.board.unsplash_image){
-                    setImageUrl(res.data.board.unsplash_image)
+                }else if(board.unsplash_image){
+                    setImageUrl(board.unsplash_image)
                 }else{
-                    document.body.style.backgroundColor = res.data.board.color
+                    document.body.style.backgroundColor = board.color
                 }
             }).catch((err) => {
                 console.log(err);
             })
         }
 
-        axios.get(`${process.env.basePath}/posts/${board_id}`)
+        getPostsApi(board_id)
         .then((res) => {
             setLoading(true);
             if(res.data.allPosts.length){
                 setPosts(res.data.allPosts.reverse())
             }else{
-                const duration = 5 * 1000,
-                animationEnd = Date.now() + duration,
-                defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-                function randomInRange(min, max) {
-                    return Math.random() * (max - min) + min;
-                }
-                const interval = setInterval(function() {
-                const timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) {
-                    return clearInterval(interval);
-                }
-                const particleCount = 50 * (timeLeft / duration);
-
-                confetti(
-                    Object.assign({}, defaults, {
-                    particleCount,
-                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-                    })
-                );
-
-                confetti(
-                    Object.assign({}, defaults, {
-                    particleCount,
-                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-                    })
-                );
-                }, 250);
+                Confetti()
             }
         }).catch((err) => {
             console.log(err);
@@ -129,33 +107,11 @@ function Post() {
         setIsLoading(true)
         axios.delete(`${process.env.basePath}/boards/${boardId}`)
         .then((res) => {
-            setTimeout(()=>{
-                setIsLoading(false)
-                router.push('/boards/create')
-                }, 3000)
-                  Swal.fire({
-                    title: "Board deleted",
-                    text: "Your Board is deleted successfully",
-                    icon: "success",
-                    showClass: {
-                      popup: `
-                        animate__animated
-                        animate__fadeInUp
-                        animate__faster
-                      `
-                    },
-                    hideClass: {
-                      popup: `
-                        animate__animated
-                        animate__fadeOutDown
-                        animate__faster
-                      `
-                    }
-                  });
+            setIsLoading(false)
+            router.push('/boards/create')
+            DeleteModal()
         }).catch((err) => {
             console.log(err);
-
-      
         }).finally(() =>{
             setIsLoading(false)
         })
@@ -190,7 +146,20 @@ function Post() {
                 
                 <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
                 className='btn btn-sm bg-black font-normal text-md hover-shadow-xl text-white  border border-black hover:bg-black '>
-                <FaPlus /> {handleNavigating ? "Redirecting" : "Add a post"}</Link>
+                <FaPlus /> {handleNavigating ? 
+                
+                    <>
+                        <svg width={20} height={20}>
+                        <defs>
+                            <linearGradient  x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="#2a9d8f" />
+                            <stop offset="100%" stopColor="#1CB5E0" />
+                            </linearGradient>
+                        </defs>
+                        </svg>
+                        <CircularProgress sx={{ 'svg circle': { stroke: 'url(#my_gradient)' } }} />
+                    </>
+                    : "Add a post"}</Link>
 
                 <Popover placement="bottom" offset={15} color='default' showArrow={true}>
                     <PopoverTrigger>
@@ -239,15 +208,15 @@ function Post() {
 
         </nav>
 
-        <div className=" bg-gray-300  mt-10 pt-8 pb-4">
+        <div className=" bg-[#2a9d8f]  mt-10 pt-8 pb-4">
             <div className='m-0 p-0 font-semibold text-black ms-10 flex items-center'>Add posts for 
               { recipient ? <p className='ms-1'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
             </div>
                 
-            <div className="text-center editable-element hover:bg-gray-300 ">
+            <div className="text-center editable-element hover:bg-[#1CB5E0] ">
                 {title ? <input  type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
                     className=' focus:border border-black w-full text-3xl outline-none py-2 text-center bg-transparent
-                     text-gray-600 hover:text-black cursor-pointer'  /> : 
+                     text-white hover:text-black cursor-pointer'  /> : 
                      <div className="skeleton h-10 rounded-md w-80 mt-2 mx-auto pt-2 font-semibold"></div>
                      }
             </div>
@@ -331,12 +300,24 @@ function Post() {
                 :
                 <div className=' w-full h-screen flex items-start mt-10 justify-center'>
                     <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col mx-2' style={{ width: "420px", maxWidth: "600px", height: "400px" }}>
-                        <Image src={Confetti} alt='Confetti' className='mt-5' width={300} height={200}/>
+                        <Image src={ConfettiImage} alt='Confetti' className='mt-5' width={300} height={200}/>
                         <h3 className="font-bold text-lg sm:text-2xl mt-12 px-3">Welcome to the praise board of</h3>
                         <p className="font-semibold mt-1 text-lg sm:text-2xl">{recipient}</p>
                         <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
                             className='btn hover:bg-black bg-black mt-5 text-white border border-black px-6 sm:px-10 py-1 sm:py-2 rounded-md text-md sm:text-xl font-light'>
-                            {handleNavigating ? "Redirecting..." : "Add your post"}
+                            {handleNavigating ? 
+                                <>
+                                    <svg width={40} height={40}>
+                                        <defs>
+                                            <linearGradient id='my_gradient'  x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stopColor="#2a9d8f" />
+                                            <stop offset="100%" stopColor="#1CB5E0" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                    <CircularProgress sx={{ 'svg circle': { stroke: 'url(#my_gradient)' } }} />
+                                </>
+                             : "Add your post"}
                         </Link>
                     </div>
                 </div> 

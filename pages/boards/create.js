@@ -20,7 +20,12 @@ import Message from '@/components/Message';
 
 function BoardsCreation() {
     const [step,setStep] = React.useState(1)
-    const [boardData, setBoardData] = React.useState([])
+    const [boardData, setBoardData] = React.useState({
+        occasion: "",
+        creator_name: "",
+        recipient_name: "",
+        title: ""
+    })
 
     const increaseStep = () =>{
         setStep(s => s + 1)
@@ -37,7 +42,7 @@ function BoardsCreation() {
             <title>Create Board</title>
         </Head>
 
-        <div className="boards-creation bg-gray-200">
+        <div className="boards-creation bg-emerald-300">
         
             {step === 1 && <OccasionSelection increaseStep={increaseStep} decrementStep={decrementStep} boardData={boardData}  setBoardData={setBoardData}/>}
             {step === 2 && <BoardCreator firstComponent="hide" increaseStep={increaseStep} decrementStep={decrementStep} boardData={boardData}  setBoardData={setBoardData}/>}
