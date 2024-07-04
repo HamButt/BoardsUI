@@ -19,9 +19,8 @@ import { BsCloudUpload } from "react-icons/bs";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiAlertCircle } from "react-icons/fi";
 import { createPostApi } from '../../../../api/createPostApi';
-import { giphyApi } from '@/api/giphyApi';
-import { unsplashApi } from '../../../../api/unsplashApi';
 import { getBoardApi } from '@/api/getBoardApi';
+import axios from 'axios' 
 
 
 
@@ -55,18 +54,17 @@ function CreatePost() {
     let limit = 12;
     let offset = gifOffset;
     
+    
     useEffect(()=>{
+        
         
         if(gifSearchValue){
             setGifOffset((prevOffset) => prevOffset + limit)
             setGifSection(true)
             clearTimeout(debounceTimerForGIf);
             const newDebounceTimer = setTimeout(() => {
-                giphyApi(gifSearchValue,limit,offset).then(response => {
-                    setGifData(response.data.data)
-                }).catch(error => {
-                    console.log("error",error);
-                    setError(error.response)});
+                getGifsFromGiphy()
+                setImageSection(false)
             }, 500);
                 setDebounceTimerForGIf(newDebounceTimer);
               }
@@ -79,19 +77,26 @@ function CreatePost() {
        
     }, [gifSearchValue])
 
+
+    const getGifsFromGiphy = () => {
+        
+        const gifUrl = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.apiKey}&q=${gifSearchValue}&limit=${limit}&offset=${offset}&rating=g&lang=en`;
+         axios.get(gifUrl)
+        .then(response => {
+            setGifData(response.data.data)
+        }).catch(error => {
+            console.log("error",error);
+            setError(error.response)}
+        );
+    }
+
     useEffect(()=>{
         if(imageSearchValue){
             setImagePage((imgPg) => imgPg + 1 )
             setImageSection(true)
             clearTimeout(debounceTimerForImage);
             const newDebounceTimer = setTimeout(() => {
-                unsplashApi(imageSearchValue, imagePage).then(response => {
-                    setImageData(response.data.results)
-                })
-                .catch(error =>{ 
-                    setError(error.response)
-                    console.log("Error",error);
-                })
+                getImagesFromUnsplash()
                 setGifSection(false)
                 }, 500);
                 setDebounceTimerForImage(newDebounceTimer);
@@ -105,6 +110,25 @@ function CreatePost() {
 
        
     }, [imageSearchValue])
+
+    const getImagesFromUnsplash = () =>{
+        const unsplashParams = {
+            query: imageSearchValue,
+            page:  imagePage,
+            per_page: 12,
+            client_id: process.env.clientId,
+            orientation: 'portrait',
+        };
+        axios.get(process.env.unsplashUrl, { params: unsplashParams  })
+            .then((response) => {
+                setImageData(response.data.results)
+                console.log(response.data.results);
+            })
+            .catch(error =>{ 
+                setError(error.response.data.errors[0])
+                console.log("Error",error);
+            })
+    }
 
     useEffect(()=>{
         if(videoLink){
@@ -327,14 +351,14 @@ function CreatePost() {
                                                 </div> 
                                             )})
                                         :  imageSearchValue && !imageData ? <div className='mt-2 font-semibold'>Searching...</div> 
-                                        : <div className='mt-2 font-semibold' >No images found for "{imageSearchValue}"</div>
+                                        : error  ? "" :  <div className='mt-2 font-semibold' >No images found for "{imageSearchValue}"</div>
                                         }
                                 </div>
-                                    { imageData.length > 0 && <motion.button whileTap={{ scale: 0.9 }} onClick={() => unsplashApi(imageSearchValue, imagePage)} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button>}
+                                    { imageData.length > 0 && <motion.button whileTap={{ scale: 0.9 }} onClick={getImagesFromUnsplash} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button>}
                             </div>
                         }
 
-                            {error && (
+                            {!imageData.length > 0 && error && (
                                 <div role="alert" className="alert alert-error">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -410,7 +434,7 @@ function CreatePost() {
                                         )})
                                         : gifSearchValue && !gifData ? <div className='mt-2 font-semibold'>Searching...</div>
                                         : <div className='mt-2 font-semibold' >No images found for "{gifSearchValue}"</div>}
-                                    { gifData.length ? <motion.button whileTap={{ scale: 0.9 }} onClick={() => giphyApi(gifSearchValue,limit,offset)} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button> : ""}
+                                    { gifData.length ? <motion.button whileTap={{ scale: 0.9 }} onClick={getGifsFromGiphy} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button> : ""}
                             </div>
                         }
 

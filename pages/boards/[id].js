@@ -44,7 +44,7 @@ function Post() {
     useEffect(()=>{
         const cookie = localStorage.getItem('Creator')
         setUserCookie(cookie)
-        const board_id = window.location.pathname.split('/').reverse()[0];
+        const board_id = window.location.pathname.split('/').reverse()[0]
         setBoardId(board_id)
 
         if(board_id){
@@ -146,20 +146,11 @@ function Post() {
                 
                 <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
                 className='btn btn-sm bg-black font-normal text-md hover-shadow-xl text-white  border border-black hover:bg-black '>
-                <FaPlus /> {handleNavigating ? 
-                
-                    <>
-                        <svg width={20} height={20}>
-                        <defs>
-                            <linearGradient  x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#2a9d8f" />
-                            <stop offset="100%" stopColor="#1CB5E0" />
-                            </linearGradient>
-                        </defs>
-                        </svg>
-                        <CircularProgress sx={{ 'svg circle': { stroke: 'url(#my_gradient)' } }} />
-                    </>
-                    : "Add a post"}</Link>
+                 {handleNavigating ? 
+                    <span className="loading loading-dots loading-md"></span>
+                    : 
+                    <><FaPlus /> Add a post</>
+                    }</Link>
 
                 <Popover placement="bottom" offset={15} color='default' showArrow={true}>
                     <PopoverTrigger>
@@ -208,7 +199,7 @@ function Post() {
 
         </nav>
 
-        <div className=" bg-[#2a9d8f]  mt-10 pt-8 pb-4">
+        <div className=" bg-[#2a9d8f]  mt-10 pt-8 pb-4" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000" >
             <div className='m-0 p-0 font-semibold text-black ms-10 flex items-center'>Add posts for 
               { recipient ? <p className='ms-1'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
             </div>
@@ -222,7 +213,7 @@ function Post() {
             </div>
         </div>
 
-        <div className="posts-section flex justify-center" data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+        <div className="posts-section flex justify-center" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
             {posts.length > 0 ? 
                 <div className="board-posts grid grid-cols-12 py-2 place-items-start" >
@@ -305,18 +296,9 @@ function Post() {
                         <p className="font-semibold mt-1 text-lg sm:text-2xl">{recipient}</p>
                         <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
                             className='btn hover:bg-black bg-black mt-5 text-white border border-black px-6 sm:px-10 py-1 sm:py-2 rounded-md text-md sm:text-xl font-light'>
+                            
                             {handleNavigating ? 
-                                <>
-                                    <svg width={40} height={40}>
-                                        <defs>
-                                            <linearGradient id='my_gradient'  x1="0%" y1="0%" x2="0%" y2="100%">
-                                            <stop offset="0%" stopColor="#2a9d8f" />
-                                            <stop offset="100%" stopColor="#1CB5E0" />
-                                            </linearGradient>
-                                        </defs>
-                                    </svg>
-                                    <CircularProgress sx={{ 'svg circle': { stroke: 'url(#my_gradient)' } }} />
-                                </>
+                                <span className="loading loading-dots loading-md lg:loading-lg"></span>
                              : "Add your post"}
                         </Link>
                     </div>
