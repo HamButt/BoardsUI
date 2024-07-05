@@ -41,7 +41,7 @@ function PreviewBoard({setPreview, occasion}){
               <p className='text-2xl font-semibold'>Celebrate {occasion} emotion with Praise Board</p>
               <p className='text-lg font-medium'>Drive employee happiness by celebrating milestones with online {occasion} posts by Praise Board</p>
             </div>
-            <Link className='preview-board-create-btn btn hover:bg-black max-md:me-5 bg-black text-white text-lg font-light' href='/boards/create'>Create Board</Link>
+            <Link className='preview-board-create-btn btn hover:bg-[#2a9d8f] max-md:me-5 bg-[#2a9d8f] text-white text-lg font-light' href='/boards/create'>Create Board</Link>
           </div>
           <div className="sm:hidden descrip-title text-start mx-5 mt-4">
             <p className='text-lg font-semibold'>Celebrate {occasion} emotion with Praise Board</p>
@@ -51,7 +51,7 @@ function PreviewBoard({setPreview, occasion}){
 
         <div className='' data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000" >
 
-          <div className="selected-title bg-gray-200 mt-[105px] py-10">
+          <div className="selected-title bg-gray-300 mt-[105px] py-10">
               <p className='text-xl sm:text-3xl py-1 sm:py-2 text-center text-black'>{title}</p>
           </div>
            
@@ -65,7 +65,7 @@ function PreviewBoard({setPreview, occasion}){
                             <>
                                 {
                                 
-                                <div className="preview-posts  bg-[#202459] mt-3 mx-3 rounded-lg shadow-md" key={post._id}>
+                                <div className="preview-posts  bg-[#2a9d8f] mt-3 mx-3 rounded-lg shadow-md" key={post._id}>
                                     
                                     <div className="post-image">
                                        

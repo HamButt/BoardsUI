@@ -21,14 +21,15 @@ function Message({decrementStep, boardData, setBoardData}) {
         },
         [`& .${linearProgressClasses.bar}`]: {
           borderRadius: 8,
-          backgroundColor: theme.palette.mode === 'light' ? '#202459' : '#308fe8',
+          backgroundColor: theme.palette.mode === 'light' ? '#FF9669' : '#308fe8',
         },
       }));
 
     const convertCookieIntoHash = () => {
         const salt = crypto.randomBytes(16).toString('hex');
         const hash = crypto.createHmac('sha256', salt).update(boardData.creator_name).digest('hex');
-        localStorage.setItem('Creator', hash)
+        window.localStorage.setItem('Creator', hash)
+        
     }
     
     const createBoard = () => {
@@ -36,7 +37,8 @@ function Message({decrementStep, boardData, setBoardData}) {
         setBoardData(prevState => ({
             ...prevState,
             title: title
-          }));
+        }));
+        localStorage.setItem('title', title)
         const board = {
             occasion: boardData.occasion,
             creator_name: boardData.creator_name,
@@ -46,6 +48,7 @@ function Message({decrementStep, boardData, setBoardData}) {
         createBoardApi(board)
         .then((res) => {
             if(res.status === 200){
+                window.localStorage.setItem('boardId', res.data.eBoard._id)
                 confetti({
                     particleCount: 200,
                     spread: 50,
@@ -57,17 +60,21 @@ function Message({decrementStep, boardData, setBoardData}) {
         }).catch((err) => {
             console.log(err);
             setIsLoading(false)
-        }).finally(()=>{
-            setIsLoading(false)
         })
     }
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && title) {
+            createBoard();
+        }
+      };
+
   return (
-    <div className='h-screen'>
+    <div className='min-h-screen h-full'>
 
         <NavBar/>
 
-        <div className="w-full mt-6 flex items-center justify-center">
+        <div className="w-full mt-10 flex items-center justify-center">
             <div className='max-md:w-8/12 w-5/12'>
                 <BorderLinearProgress  variant="determinate" value={percent}/>
             </div>
@@ -81,9 +88,9 @@ function Message({decrementStep, boardData, setBoardData}) {
                 <div className="form flex items-center justify-center flex-col" >
                     <p>4/4</p>
                     <h1 className='sm:text-md md:text-lg lg:text-2xl mt-2' >What should the title be?</h1>
-                    <input className='input border-2 w-10/12 mt-5 border-gray-300 rounded-lg outline-none px-4' type="text" placeholder={`e.g ${boardData.occasion} `} value={title} name='title' onChange={(e) => setTitle(e.target.value)} required />
+                    <input onKeyDown={handleKeyDown} className='input border-2 w-10/12 mt-5 border-gray-300 rounded-lg outline-none px-4' type="text" placeholder={`e.g ${boardData.occasion} `} value={title} name='title' onChange={(e) => setTitle(e.target.value)} required />
                     <button disabled={!title ? true : false} onClick={createBoard} 
-                        className='max-sm:hidden btn glass hover:bg-[#202459] bg-[#202459] min:w-7/12 lg:w-5/12 mt-8  text-white rounded-lg shadow-lg text-lg sm:text-lg'>
+                        className='max-sm:hidden btn glass hover:bg-[#2a9d8f] bg-[#2a9d8f] font-medium min:w-7/12 lg:w-5/12 mt-8  text-white rounded-lg shadow-lg text-lg sm:text-lg'>
                         {isLoading ? "Creating..." : "Create board"}</button>
 
                         <div className='sm:hidden w-full flex items-center justify-center mt-6 space-x-2'>
@@ -91,7 +98,7 @@ function Message({decrementStep, boardData, setBoardData}) {
                                 <MdArrowBackIos className='text-lg md:text-2xl ms-2'/>
                             </button>
                             <button disabled={!title ? true : false} onClick={createBoard} 
-                                className='btn glass hover:bg-[#202459] bg-[#202459] min:w-7/12 lg:w-5/12 text-white rounded-lg shadow-lg text-lg sm:text-lg'>
+                                className='btn glass hover:bg-[#2a9d8f] bg-[#2a9d8f] font-medium min:w-7/12 lg:w-5/12 text-white rounded-lg shadow-lg text-lg sm:text-lg'>
                                 {isLoading ? "Creating..." : "Create board"}
                             </button>
                     </div>

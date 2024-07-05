@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useEffect, useState} from 'react'
 import Image from 'next/image'
 import Farewell from '../public/farewell.jpg'
 import Easter from '../public/easter.jpg'
@@ -16,10 +16,11 @@ import Thankyou from '../public/thankyou.jpg'
 import Retirement from '../public/retirement.jpg'
 import Birthday from '../public/Happy-birthday-images-free-download.jpg'
 import Welcome from '../public/welcome.jpg'
-import NavBar from './NavBar'
-
+import Link from 'next/link'
+import Logo from '../public/logo.png'
+import { IoMdArrowRoundBack } from "react-icons/io";
 function OccasionSelection({increaseStep, boardData,setBoardData}) {
-    
+    const [boardId, setBoardId] = useState('')
     const nextQuestion = (occasion) => {
         setBoardData(prevState => ({
             ...prevState,
@@ -27,14 +28,44 @@ function OccasionSelection({increaseStep, boardData,setBoardData}) {
           }));
         increaseStep()
     };
+
+    useEffect(()=>{
+        const id = localStorage.getItem('boardId')
+        if(id){
+            setBoardId(id)
+        }
+    },[])
     
   return (
 
     <div>
-        <NavBar/>
+        
+        <div className='text-center py-5 bg-white'>
+            <header>
+                {boardId ?
+                    <div className="logo flex items-center justify-between w-[700px]">
+                        <div className='ps-4'>
+                            <Link href={`/boards/${boardId}`} className='flex items-center' >
+                                <IoMdArrowRoundBack className='text-3xl' />
+                                <span className='text-lg ms-2' >Go back</span>
+                            </Link>
+                        </div>
+                        <Link href='/' className="">
+                            <Image src={Logo} alt='Logo' width={70} height={70}/>
+                        </Link>
+                    </div>
+                    : 
+                    <div className="logo flex items-center justify-center">
+                        <Link href='/' className="">
+                                <Image src={Logo} alt='Logo' width={70} height={70}/>
+                        </Link>
+                    </div>
+                }
+            </header>
+        </div>
 
          <div data-offset='0' data-aos="fade-up" data-aos-easing="ease-in-back" data-aos-duration="1000">
-                <h1 className='text-center text-3xl mt-6'>Select an Occasion</h1>
+                <h1 className='text-center text-3xl mt-6 text-white'>Select an Occasion</h1>
                 <div className=" flex items-start justify-center flex-wrap py-6">
                     <div onClick={() => nextQuestion("Thankyou")} className="option">
                         <div style={{width: '120px', height: '120px', borderRadius: '50%', overflow: 'hidden'}}>

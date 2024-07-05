@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React from 'react'
+import React, {useEffect} from 'react'
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { FileUploader } from "react-drag-drop-files"; 
@@ -8,7 +8,7 @@ import Swal from 'sweetalert2'
 import { motion} from 'framer-motion'
 import { BsCloudUpload } from "react-icons/bs";
 
-function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, setOpenNav}) {
+function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, setOpenNav, setSideComponent}) {
   const [imageData, setImageData] = React.useState([]);
   const [imageSearchValue, setImageSearchValue] = React.useState('');
   const [imageSection, setImageSection] = React.useState(false);
@@ -26,7 +26,7 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
     orientation: 'portrait',
 };
 
-  React.useEffect(()=>{
+  useEffect(()=>{
     if(imageSearchValue){
       setImageSection(true)
         clearTimeout(debounceTimerForImage);
@@ -86,6 +86,9 @@ const updateBackground = () => {
           if(res.status === 200){
             setOpenNav(false)
             getBoard()
+            setSideComponent('color')
+            const selectImage = document.getElementById('upload_image')
+            selectImage.textContent = "drag and drop your image file here or click to select a file"
             }
           Swal.fire({
             icon: "success",
@@ -121,7 +124,7 @@ const getBoard = () =>{
   })
 }
 
-  React.useEffect(()=>{
+  useEffect(()=>{
     const selectImage = document.getElementById('upload_image')
     if(image){
         selectImage.textContent = `File saved - (${image.name})`
@@ -149,7 +152,7 @@ const handleUploadFiles = (e) => {
               <p className='font-light text-md text-black mt-2'>Please upload image that are appropriate for all audiences. We reserve the right to remove content without notice!</p>
               <label htmlFor="file" className="labelFile border-2 border-gray-300 rounded-lg px-4 "><span><BsCloudUpload className="text-2xl" /></span>
                   <div className='mt-2 w-full'>
-                      <p className='upload-image'  >drag and drop your image file here or click to select a file</p>
+                      <p id='upload_image'>drag and drop your image file here or click to select a file</p>
                       <p className='text-end text-xs font-semibold mt-3' >JPG, PNG, JPEG</p>
                   </div>
               </label>                         

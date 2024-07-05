@@ -216,18 +216,18 @@ function CreatePost() {
             <title>Create post</title>
         </Head>
 
-        <div className="logo py-3 bg-white flex items-center justify-center">
+        <div className="logo py-4 bg-white flex items-center justify-center">
             <Link href='/' className="">
-                <Image src={Logo} alt='Logo' width={50} height={50}/>
+                <Image src={Logo} alt='Logo' width={60} height={60}/>
             </Link>
         </div>
 
-        <div className="title py-6 text-center bg-black">
-            <p className='text-2xl text-white'>{title}</p>
+        <div className="title py-6 text-center bg-[#FF9669]">
+            <p className='occasion-title text-3xl text-white'>{title}</p>
         </div>
         
 
-            <div className='post flex items-center justify-center bg-gray-800'>
+            <div className='post flex items-center justify-center bg-[#2a9d8f]'>
                 <div className='w-[650px] bg-white mt-5 py-8 rounded-lg  border-2 h-auto mx-2 ' data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                     <div className="post-modal">
                     
@@ -441,7 +441,9 @@ function CreatePost() {
                         <div className="inputs text-center mx-10 mt-6">
                             <input type="text" className="input input-bordered border-2 w-full" placeholder='Enter your name or post anonymously' value={creator} onChange={(e) => setCreator(e.target.value)}  />
                             <textarea style={{resize:"none"}} value={message} rows={4} className='w-full textarea textarea-bordered border-2 text-lg mt-3 outline-none px-4 py-5' type="text" name='message' required placeholder='(Required) Add a message...' onChange={(e) => setMessage(e.target.value)}  ></textarea>
-                            <button disabled={ !message ? true : false} onClick={createPost} className='btn btn-lg glass font-light mt-4 hover:bg-black bg-black text-white text-2xl  rounded-lg'>{isLoading ? "Creating..." : "Create post"}</button>
+                            <motion.button whileTap={{scale: !message ? "1" : "0.9"}} disabled={!message ? true : false} onClick={createPost} 
+                            style={{backgroundColor: !message ? "rgb(189, 185, 185)" : "#2a9d8f"}}
+                            className={`mt-4 text-md sm:text-xl font-medium text-white px-14 py-3 rounded-lg`}>{isLoading ? "Creating..." : "Create post"}</motion.button>
                         </div>
                         
                     </div>

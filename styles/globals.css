@@ -189,7 +189,7 @@ html{
 } 
 
 .board-next-button{
-    @apply btn glass  hover:bg-[#202459] bg-[#202459] w-5/12 px-5 text-white rounded-lg shadow-lg text-xl
+    @apply btn glass  hover:bg-[#2a9d8f] bg-[#2a9d8f] w-5/12 px-5 text-white rounded-lg shadow-lg text-xl font-medium
   }
   
   
@@ -319,8 +319,31 @@ html{
 .p-stepper-panel:last-child{
   display: none;
 }
+.occasion-title {
 
-  @media screen and (max-width:850px) {
+  background: linear-gradient(to right, hsl(0, 0%, 100%) 10%, rgb(7, 235, 204) 20%, hsl(0, 0%, 100%) 20%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 7s infinite linear;
+}
+
+@keyframes shine {
+    0% {
+      background-position:  0;
+    }
+    60% {
+      background-position: 600px;
+    }
+    100% {
+      background-position: 600px;
+    }
+  }
+
+.css-1b00oyk-MuiLinearProgress-root.MuiLinearProgress-colorPrimary{
+    background-color: #facdb9 !important;
+  }
+
+@media screen and (max-width:850px) {
     .post-image, .preview-posts{
         width: 300px;
       }

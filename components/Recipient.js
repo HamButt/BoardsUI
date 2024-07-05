@@ -17,7 +17,7 @@ function Recipient({increaseStep,decrementStep,boardData, setBoardData}) {
         },
         [`& .${linearProgressClasses.bar}`]: {
           borderRadius: 8,
-          backgroundColor: theme.palette.mode === 'light' ? '#202459' : '#308fe8',
+          backgroundColor: theme.palette.mode === 'light' ? '#FF9669' : '#308fe8',
         },
       }));
 
@@ -33,18 +33,23 @@ function Recipient({increaseStep,decrementStep,boardData, setBoardData}) {
     React.useEffect(() => {
         setRecipient(boardData.recipient_name)
     }, [])
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && recipient) {
+          nextQuestion();
+        }
+      };
     
   return (
     <div className='min-h-screen h-full'>
         <NavBar/>
 
-        <div className="w-full mt-6 flex items-center justify-center">
+        <div className="w-full mt-10 flex items-center justify-center">
             <div className='max-md:w-8/12 w-5/12'>
                 <BorderLinearProgress  variant="determinate" value={percent}/>
             </div>
         </div>
-        {/* data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000" */}
-        <div className='flex items-center justify-center mt-10 mx-2' >
+        <div className='flex items-center justify-center mt-10 mx-2' data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
             <button onClick={decrementStep} className='max-sm:hidden me-2 bg-gray-200 shadow-md btn btn-circle text-black' > 
                 <MdArrowBackIos className='text-lg md:text-2xl ms-2' />
             </button>
@@ -52,7 +57,7 @@ function Recipient({increaseStep,decrementStep,boardData, setBoardData}) {
                 <div className="form flex items-center justify-center flex-col">
                     <p>3/4</p>
                     <h1 className='sm:text-md md:text-lg lg:text-2xl mt-2'>Who is the recipient?</h1>
-                    <input className='input border-2 w-10/12 mt-5 border-gray-300 rounded-lg outline-none px-4' type="text" 
+                    <input onKeyDown={handleKeyDown} className='input border-2 w-10/12 mt-5 border-gray-300 rounded-lg outline-none px-4' type="text" 
                         placeholder='Name' value={recipient} name='recipient' onChange={(e) => setRecipient(e.target.value)} required />
                     <button disabled={!recipient ? true : false} onClick={nextQuestion} className='board-next-button mt-8 max-sm:hidden' >Next</button>
                     <div className='sm:hidden w-full flex items-center justify-center mt-6 space-x-2'>

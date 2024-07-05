@@ -6,12 +6,12 @@ import Head from "next/head";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa6";
 import PreviewBoard from "@/components/PreviewBoard";
-import PreviewRetirementGif from '../preview-assets/retirement.gif'
-import PreviewThankyouGif from '../preview-assets/thankyou.gif'
-import PreviewGraduationGif from '../preview-assets/congrats.gif'
-import PreviewBirthdayGif from '../preview-assets/birthdaygif.gif'
-import PreviewFarewellGif from '../preview-assets/farewell.gif'
-import PreviewNewYearGif from '../preview-assets/newyear.gif'
+import PreviewRetirementGif from '../assests/preview-assets/retirement.gif'
+import PreviewThankyouGif from '../assests/preview-assets/thankyou.gif'
+import PreviewGraduationGif from '../assests/preview-assets/congrats.gif'
+import PreviewBirthdayGif from '../assests/preview-assets/birthdaygif.gif'
+import PreviewFarewellGif from '../assests/preview-assets/farewell.gif'
+import PreviewNewYearGif from '../assests/preview-assets/newyear.gif'
 import { FiExternalLink } from "react-icons/fi";
 import Logo from '../public/logo.png'
 import useMeasure from "react-use-measure";
@@ -20,12 +20,7 @@ import { useDragControls, useMotionValue, useAnimate, motion} from "framer-motio
 import Steps from "@/components/Timeline";
 import { FaPlus } from "react-icons/fa6";
 import Confetti from '../public/confetti.jpg'
-import { BubbleIcon } from "@/Icons/BubbleIcon";
-import { Stepper } from 'primereact/stepper';
-import { StepperPanel } from 'primereact/stepperpanel';
-import { Button } from 'primereact/button';
-import 'primereact/resources/primereact.css';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';
+
 const DragCloseDrawer = ({ open, setOpen, children }) => {
 
   const [scope, animate] = useAnimate();
@@ -104,7 +99,8 @@ export default function Home() {
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [isErasing, setIsErasing] = useState(false);
-  const stepperRef = React.useRef(null);
+  const [handleNavigating, setHandleNavigating] = useState(false);
+  
 
 
   React.useEffect(() => {
@@ -136,7 +132,10 @@ export default function Home() {
     return () => clearTimeout(timeoutId);
   }, [displayedText, isErasing, currentCategoryIndex]);
 
-  
+  const navigationToPage = () => {
+    setHandleNavigating(true)
+}
+
   return (
     <>
     
@@ -155,9 +154,15 @@ export default function Home() {
                 Celebrate your team members and people you admire
                 </p>
                 <p className="text-lg sm:text-2xl max-sm:font-semibold mt-5 max-sm:px-5">Beautiful personalized online boards to celebrate your team and friends </p>
-                <Link rel="stylesheet" className="mt-8 btn bg-[#2a9d8f] btn-md sm:btn-lg text-md sm:text-xl font-medium text-white hover:bg-white border hover:text-[#2a9d8f] hover:border-[#2a9d8f]" 
-                  href="/boards/create">Create Board - it's free
-                  <span className="animate-pulse"><FaArrowRight /></span>
+                <Link onClick={navigationToPage} rel="stylesheet" className="mt-8 btn bg-[#2a9d8f] btn-md sm:btn-lg text-md sm:text-xl font-medium text-white hover:bg-white border hover:text-[#2a9d8f] hover:border-[#2a9d8f]" 
+                  href="/boards/create">
+                  {handleNavigating ? <span className="loading loading-dots loading-lg"></span>
+                        : 
+                        <>
+                            Create Board - it's free
+                            <span className="animate-pulse"><FaArrowRight /></span>
+                        </>
+                        }
                 </Link>
               </div>
             </div>
@@ -177,63 +182,7 @@ export default function Home() {
                       </Link>
                     </div>
 
-                    <div className=" md:w-[500px]">
-                      <Stepper ref={stepperRef} orientation="vertical">
-                          <StepperPanel header="Create">
-                              <div className="flex flex-col h-12rem ">
-                                  <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
-                                    <img className="w-24" src="https://static.123cards.com/images/how-it-works-img1.svg" />
-                                    <h1 className="text-xl mt-2 text-black font-semibold">Select any occasion</h1>
-                                    <p className="mt-4 text-black" >Birthday, anniversary or any other occasion. Select the category and style in minutes</p>
-                                  </div>
-                              </div>
-                              <div className="flex py-4">
-                                  <Button label="Next" onClick={() => stepperRef.current.nextCallback()} />
-                              </div>
-                          </StepperPanel>
-                          
-                          <StepperPanel header="Invite">
-                              <div className="flex flex-col h-12rem">
-                                <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
-                                    <img className="w-24" src="https://static.123cards.com/images/how-it-works-img2.svg" />
-                                    <h1 className="text-xl mt-2 text-black font-semibold">Invite people</h1>
-                                    <p className="mt-4 text-black" >Fill out your details, add recipients & write a personal message and create board</p>
-                                  </div>
-                              </div>
-                              <div className="flex py-4 gap-2">
-                                  <Button label="Back"  onClick={() => stepperRef.current.prevCallback()} />
-                                  <Button label="Next" onClick={() => stepperRef.current.nextCallback()} />
-                              </div>
-                          </StepperPanel>
-
-                          <StepperPanel header="Deliver">
-                              <div className="flex flex-col h-12rem ">
-                                  <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
-                                    <img className="w-24" src="https://static.123cards.com/images/how-it-works-img3.svg" />
-                                    <h1 className="text-xl mt-2 text-black font-semibold">Deliver to anyone</h1>
-                                    <p className="mt-4 text-black" >Copy the link and deliver the praise board to your people</p>
-                                  </div>
-                              </div>
-                              <div className="flex py-4">
-                                <Button label="Back" onClick={() => stepperRef.current.prevCallback()} />
-                              </div>
-                          </StepperPanel>
-
-                          <StepperPanel header="Deliver">
-                              <div className="flex flex-col h-12rem ">
-                                  <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
-                                    <img className="w-24" src="https://static.123cards.com/images/how-it-works-img3.svg" />
-                                    <h1 className="text-xl mt-2 text-black font-semibold">Deliver to anyone</h1>
-                                    <p className="mt-4 text-black" >Copy the link and deliver the praise board to your people</p>
-                                  </div>
-                              </div>
-                              <div className="flex py-4">
-                                <Button label="Back" onClick={() => stepperRef.current.prevCallback()} />
-                              </div>
-                          </StepperPanel>
-                          
-                      </Stepper>
-                    </div>
+                    <Steps/>                
 
                 </div>
             </div> 
@@ -241,9 +190,6 @@ export default function Home() {
            
 
             <div id="previews" className="mt-16 py-16 flex items-center justify-center flex-col rounded-lg">
-                <div style={{width: "100%",maxWidth:"600px",height:"auto"}} className="px-5 absolute z-0 opacity-60">
-                  <BubbleIcon/>
-                </div>
                 <div className="text-center max-md:px-2 max-sm:px-2">
                     <h1 className="text-4xl sm:text-5xl my-4 text-black font-semibold">Praise board for every occasion</h1>
                     <p className="sm:text-2xl text-md text-black font-semibold sm:font-medium mt-4">Uncover the potential of what we can design for you</p>

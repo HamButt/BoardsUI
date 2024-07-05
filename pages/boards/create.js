@@ -42,7 +42,7 @@ function BoardsCreation() {
             <title>Create Board</title>
         </Head>
 
-        <div className="boards-creation bg-emerald-300">
+        <div className="boards-creation bg-[#2a9d8f]">
         
             {step === 1 && <OccasionSelection increaseStep={increaseStep} decrementStep={decrementStep} boardData={boardData}  setBoardData={setBoardData}/>}
             {step === 2 && <BoardCreator firstComponent="hide" increaseStep={increaseStep} decrementStep={decrementStep} boardData={boardData}  setBoardData={setBoardData}/>}
