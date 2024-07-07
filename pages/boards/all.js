@@ -151,8 +151,8 @@ function BoardsAll() {
                        { 
                         formattedImage ?
                           <Image className="rounded-md w-full h-full" sizes='(max-width: 200px) 100vw, 33vw' src={`${process.env.basePath}/images/${formattedImage}`} alt={formattedImage}  width={10} height={10} />
-                        : 
-                          <Image className="rounded-md w-full h-full" sizes='(max-width: 200px) 100vw, 33vw' src={splashUrl} alt={"URL"}  width={10} height={10} />
+                        :  
+                          <Image className="rounded-md w-full h-full object-cover" sizes='(max-width: 200px) 100vw, 33vw' src={splashUrl} alt={"URL"}  width={10} height={10} />
                         }
                       </div>
 
