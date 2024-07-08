@@ -42,7 +42,7 @@ function OccasionSelection({increaseStep, boardData,setBoardData}) {
         
         <div className='text-center py-5 bg-white'>
             <header>
-                {boardId ?
+                {/* {boardId ?
                     <div className="logo flex items-center justify-between w-[700px]">
                         <div className='ps-4'>
                             <Link href={`/boards/${boardId}`} className='flex items-center' >
@@ -55,12 +55,12 @@ function OccasionSelection({increaseStep, boardData,setBoardData}) {
                         </Link>
                     </div>
                     : 
+                } */}
                     <div className="logo flex items-center justify-center">
                         <Link href='/' className="">
                                 <Image src={Logo} alt='Logo' width={70} height={70}/>
                         </Link>
                     </div>
-                }
             </header>
         </div>
 

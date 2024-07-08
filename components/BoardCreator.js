@@ -46,14 +46,13 @@ function From({increaseStep, decrementStep, boardData, setBoardData}) {
     <div className='min-h-screen h-full'>
         <NavBar/>
 
-        <div className="w-full mt-10 flex items-center justify-center">
+        <div className="w-full mt-10 2xl:mt-20 flex items-center justify-center">
             <div className='max-md:w-8/12 w-5/12'>
                 <BorderLinearProgress  variant="determinate" value={percent}/>
             </div>
         </div>
 
-
-        <div className=' flex items-center justify-center mt-10 mx-2'  data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000" >
+        <div className=' flex items-center justify-center mt-10 2xl:mt-32 mx-2'   data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
             <button onClick={decrementStep} className='max-sm:hidden me-2 bg-gray-200 shadow-md btn btn-circle text-black' > 
                 <MdArrowBackIos className='text-lg md:text-2xl ms-2' />
             </button>

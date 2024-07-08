@@ -13,7 +13,6 @@ import ConfettiImage from '../../public/confetti.jpg'
 import Logo from '../../public/logo.png'
 import 'animate.css';
 import { BsThreeDotsVertical } from "react-icons/bs";
-// import {Popover, PopoverTrigger, PopoverContent, Button} from "@nextui-org/react";
 import Copy from '../../public/copy.png'
 import { MdDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
@@ -22,14 +21,16 @@ import { getBoardApi } from '../../api/getBoardApi'
 import { getPostsApi } from '../../api/getPostsApi'
 import { Confetti } from '../../components/Confetti'
 import { DeleteModal } from '../../components/DeleteModal';
-// import CircularProgress from '@mui/material/CircularProgress';
+import { AnimatePresence, motion } from "framer-motion";
+import { FiAlertCircle } from "react-icons/fi";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem ,Button} from "@nextui-org/react";
+import { MdOutlineCheck } from "react-icons/md";
 
 function Post() {
     const router = useRouter()
     const [title,setTitle] = useState('')
     const [imageUrl,setImageUrl] = useState(null)
-    const [uploadedImage,setUploadedImage] = useState('')
+    const [uploadedImage,setUploadedImage] = useState(null)
     const [boardId,setBoardId] = useState('')
     const [posts,setPosts] = useState([])
     const [userCookie,setUserCookie] = useState('')
@@ -39,6 +40,7 @@ function Post() {
     const [loading, setLoading] = useState(false);
     const [handleNavigating, setHandleNavigating] = useState(false);
     const [sideComponent,setSideComponent] = useState('color')
+    const [animateModal, setAnimateModal] = useState(false);
     
     // Fetching Board
     useEffect(()=>{
@@ -51,6 +53,7 @@ function Post() {
             getBoardApi(board_id)
             .then((res) => {
                 const board = res.data.board
+                console.log(board);
                 setTitle(board.title)
                 setRecipient(board.recipient)
                 if(board.uploaded_image){
@@ -94,12 +97,12 @@ function Post() {
         if(title){
         axios.patch(`${process.env.basePath}/boards/${title}`, {boardId})
             .then((res) => {
-            if (res.status === 200) {
-                setTitle(title);
-            }
-            }).catch((err) => {
-                console.log(err);
-            });
+                if (res.status === 200) {
+                    setTitle(title);
+                }
+                }).catch((err) => {
+                    console.log(err);
+                });
         }
     }
 
@@ -221,7 +224,7 @@ function Post() {
                 </div>
             </div>
 
-            <div className="posts-section flex justify-center" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+            <div className="posts-section flex items-center justify-center" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
                 {posts.length > 0 ? 
                     <div className="board-posts grid grid-cols-12 py-2 place-items-start" >
@@ -297,7 +300,7 @@ function Post() {
                         <progress className="progress w-96 h-4"></progress>
                     </div>
                     :
-                    <div className=' w-full h-screen flex items-start mt-10 justify-center'>
+                    <div className=' w-full h-screen flex items-start mt-10 2xl:mt-32 justify-center'>
                         <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col mx-2' style={{ width: "440px", maxWidth: "600px", height: "410px" }}>
                             <Image src={ConfettiImage} alt='Confetti' className='mt-5' width={300} height={200}/>
                             <div className="mt-12">
@@ -348,6 +351,7 @@ function Post() {
                         sideComponent === "image" ? 
                             <BackgroundImageTab
                                 setSideComponent={setSideComponent}
+                                setAnimateModal={setAnimateModal}
                                 setOpenNav={setOpenNav} 
                                 setUploadedImage={setUploadedImage} 
                                 imageUrl={imageUrl} 
@@ -356,6 +360,7 @@ function Post() {
                             /> : 
                             <BackgroundColorTab 
                                 setOpenNav={setOpenNav} 
+                                setAnimateModal={setAnimateModal}
                                 setUploadedImage={setUploadedImage} 
                                 setImageUrl={setImageUrl} 
                                 boardId={boardId}
@@ -363,6 +368,42 @@ function Post() {
                     }
                 </div>
             </div> 
+
+
+            {animateModal && 
+                <AnimatePresence>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setAnimateModal(false)}
+                        className="bg-slate-900/20 backdrop-blur p-8 fixed inset-0 z-50 grid place-items-center overflow-y-scroll cursor-pointer"
+                    >
+                        <motion.div
+                            initial={{ scale: 0, rotate: "10deg" }}
+                            animate={{ scale: 1, rotate: "0deg" }}
+                            exit={{ scale: 0, rotate: "0deg" }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-gradient-to-br from-[#FF6150] to-[#FF9669] text-white p-6 rounded-lg w-full max-w-lg shadow-xl cursor-default relative overflow-hidden"
+                        >
+                        {/* <Image src={ConfettiImage} alt='Confetti' className="opacity-20  absolute z-0 -top-10" width={900} height={900} /> */}
+                        {/* <MdOutlineCheck className="text-white/10 rotate-12 text-[250px]  absolute z-0 -top-20 -left-10" /> */}
+                        <div className="relative z-10">
+                            <div className="bg-[#FF9669] w-16 h-16 mb-2 rounded-full text-3xl text-white grid place-items-center mx-auto">
+                                <MdOutlineCheck />
+                            </div>
+                            <h3 className="text-3xl font-bold text-center mb-2">Background updated</h3>
+                            <p className="text-center mb-6">Your background is updated successfully</p>
+                            <div className="flex gap-2">
+                                <button onClick={() => setAnimateModal(false)} className="bg-transparent hover:bg-white/10 transition-colors
+                                text-white font-semibold w-full py-2 rounded"> Close </button>
+                                
+                            </div>
+                        </div>
+                        </motion.div>
+                    </motion.div>
+                </AnimatePresence>
+            }
         </div>  
 
           

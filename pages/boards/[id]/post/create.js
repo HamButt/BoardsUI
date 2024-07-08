@@ -210,7 +210,7 @@ function CreatePost() {
 
     
   return (
-    <div className=' ' >
+    <div className='bg-[#2a9d8f] min-h-screen h-full ' >
 
         <Head>
             <title>Create post</title>
@@ -227,7 +227,7 @@ function CreatePost() {
         </div>
         
 
-            <div className='post flex items-center justify-center bg-[#2a9d8f]'>
+            <div className='post flex items-center justify-center'>
                 <div className='w-[650px] bg-white mt-5 py-8 rounded-lg  border-2 h-auto mx-2 ' data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                     <div className="post-modal">
                     
