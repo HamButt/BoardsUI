@@ -19,7 +19,7 @@ import { BsCloudUpload } from "react-icons/bs";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiAlertCircle } from "react-icons/fi";
 import { createPostApi } from '../../../../api/createPostApi';
-import { getBoardApi } from '@/api/getBoardApi';
+import { getBoardApi } from '../../../../api/getPostsApi';
 import axios from 'axios' 
 
 
