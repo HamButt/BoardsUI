@@ -3,11 +3,11 @@ import React from 'react';
 // import { Timeline } from 'primereact/timeline';
 // import { Card } from 'primereact/card';
 // import { Button } from 'primereact/button';
-import 'primereact/resources/primereact.css';
+// import 'primereact/resources/primereact.css';
 import { Stepper } from 'primereact/stepper';
 import { StepperPanel } from 'primereact/stepperpanel';
 import { Button } from 'primereact/button';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';
+// import 'primereact/resources/themes/lara-light-indigo/theme.css';
 // import { FcInvite } from "react-icons/fc";
 // import { IoIosCreate } from "react-icons/io";
 // import { MdOutlineCheck } from "react-icons/md";
@@ -61,6 +61,7 @@ export default function Steps() {
 
         <div className=" md:w-[500px]">
                       <Stepper ref={stepperRef} orientation="vertical">
+                          
                           <StepperPanel header="Create">
                               <div className="flex flex-col h-12rem ">
                                   <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">

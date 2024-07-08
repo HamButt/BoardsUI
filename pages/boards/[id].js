@@ -7,8 +7,8 @@ import Head from 'next/head'
 import {useRouter} from 'next/router'
 import { Toaster,toast } from 'sonner';
 import { CiEdit } from "react-icons/ci";
-import BackgroundImageTab from '@/components/BackgroundImageTab';
-import BackgroundColorTab from '@/components/BackgroundColorTab';
+import BackgroundImageTab from '../../components/BackgroundImageTab';
+import BackgroundColorTab from '../../components/BackgroundColorTab';
 import ConfettiImage from '../../public/confetti.jpg'
 import Logo from '../../public/logo.png'
 import 'animate.css';

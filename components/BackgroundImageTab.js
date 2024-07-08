@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 import { BsCloudUpload } from "react-icons/bs";
 import {  motion } from "framer-motion";
 import { FiAlertCircle } from "react-icons/fi";
-import { getBoardApi } from '@/api/getBoardApi';
+import { getBoardApi } from '../api/getBoardApi';
 
 function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, setOpenNav, setSideComponent,setAnimateModal}) {
   const [imageData, setImageData] = useState([]);
