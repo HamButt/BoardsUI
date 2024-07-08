@@ -87,13 +87,10 @@ const updateBackground = () => {
             setAnimateModal(true)
             setOpenNav(false)
             setSideComponent('color')
-            
-              if(image){
-                console.log("Image true");
-                getBoard()
-                const selectImage = document.getElementById('upload_image')
-                selectImage.textContent = "drag and drop your image file here or click to select a file"
-              }
+            console.log("Image true");
+            getBoard()
+            const selectImage = document.getElementById('upload_image')
+            selectImage.textContent = "drag and drop your image file here or click to select a file"
           }
             
       }).catch((err) => {
