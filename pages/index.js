@@ -17,7 +17,7 @@ import Logo from '../public/logo.png'
 import useMeasure from "react-use-measure";
 import { useDragControls, useMotionValue, useAnimate, motion} from "framer-motion";
 // import { FileUploader } from "../components/Fileuploader";
-import Steps from "@/components/Timeline";
+// import Steps from "../components/Timeline";
 import { FaPlus } from "react-icons/fa6";
 import Confetti from '../public/confetti.jpg'
 
@@ -182,7 +182,7 @@ export default function Home() {
                       </Link>
                     </div>
 
-                    <Steps/>                
+                    {/* <Steps/>                 */}
 
                 </div>
             </div> 

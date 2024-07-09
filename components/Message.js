@@ -5,7 +5,8 @@ import { styled } from '@mui/material/styles';
 import {useRouter} from 'next/router'
 import {MdArrowBackIos} from 'react-icons/md'
 import crypto from 'crypto'
-import { createBoardApi } from '../api/createBoardApi'
+import axios from 'axios'
+// import { createBoardApi } from '../api/createBoardApi'
 function Message({decrementStep, boardData, setBoardData}) {
     const router = useRouter()
     const [percent,setPercent] = React.useState(75)
@@ -45,7 +46,7 @@ function Message({decrementStep, boardData, setBoardData}) {
             recipient: boardData.recipient_name,
             title: title
         }
-        createBoardApi(board)
+        axios.post(`${process.env.basePath}/boards`, boardValues)
         .then((res) => {
             if(res.status === 200){
                 window.localStorage.setItem('boardId', res.data.eBoard._id)
