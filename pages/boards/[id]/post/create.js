@@ -57,7 +57,6 @@ function CreatePost() {
     
     useEffect(()=>{
         
-        
         if(gifSearchValue){
             setGifOffset((prevOffset) => prevOffset + limit)
             setGifSection(true)
@@ -320,7 +319,7 @@ function CreatePost() {
 
                             imageComponent === "search" ? 
                                 <div className=' mt-4'>
-                                    <p className='font-semibold'>Add more specific image terms to your search if you don't find what you're looking for</p>
+                                    <p className='font-semibold'>Add more specific image terms to your search if you don&apos;t find what you&apos;re looking for</p>
                                     <input name='unsplashImage' type="search" className="mt-3 input input-bordered border-2 w-full" value={imageSearchValue} placeholder={`Search ${title} image`} onChange={(e) => setImageSearchValue(e.target.value)} /> 
                                 </div>
                                 : ""
@@ -382,7 +381,7 @@ function CreatePost() {
 
                             GIFCompnent === "search" ? 
                                 <div className='mt-4'>
-                                    <p className='font-semibold font-md'>Add more specific GIF terms to your search if you don't find what you're looking for</p>
+                                    <p className='font-semibold font-md'>Add more specific GIF terms to your search if you don&apos;t find what you&apos;re looking for</p>
                                     <input name='gif' type="search" className="mt-3 input input-bordered border-2 w-full" value={gifSearchValue} placeholder={`Search ${title} GIF`} onChange={(e) => setGifSearchValue(e.target.value)} /> 
                                 </div>
                                 : ""
