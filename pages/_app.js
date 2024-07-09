@@ -27,6 +27,7 @@ export default function App({ Component, pageProps }) {
   return(
     <main className={poppins.className}>
        <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js" async strategy="lazyOnload"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" />
       <Component {...pageProps} />
     </main>
 )
