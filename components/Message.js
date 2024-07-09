@@ -46,7 +46,7 @@ function Message({decrementStep, boardData, setBoardData}) {
             recipient: boardData.recipient_name,
             title: title
         }
-        axios.post(`${process.env.basePath}/boards`, boardValues)
+        axios.post(`${process.env.basePath}/boards`, board)
         .then((res) => {
             if(res.status === 200){
                 window.localStorage.setItem('boardId', res.data.eBoard._id)
