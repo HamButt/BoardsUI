@@ -17,8 +17,8 @@ import Copy from '../../public/copy.png'
 import { MdDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import ImageLoading from '../../public/loading.gif'
-import { getBoardApi } from '../../api/getBoardApi'
-import { getPostsApi } from '../../api/getPostsApi'
+// import { getBoardApi } from '../../api/getBoardApi'
+// import { getPostsApi } from '../../api/getPostsApi'
 import { Confetti } from '../../components/Confetti'
 import { DeleteModal } from '../../components/DeleteModal';
 import { AnimatePresence, motion } from "framer-motion";
@@ -50,7 +50,7 @@ function Post() {
         setBoardId(board_id)
 
         if(board_id){
-            getBoardApi(board_id)
+            axios.get(`${process.env.basePath}/boards/${board_id}`)
             .then((res) => {
                 const board = res.data.board
                 console.log(board);
@@ -69,7 +69,7 @@ function Post() {
             })
         }
 
-        getPostsApi(board_id)
+        axios.get(`${process.env.basePath}/posts/${board_id}`)
         .then((res) => {
             setLoading(true);
             if(res.data.allPosts.length){
@@ -125,7 +125,7 @@ function Post() {
     }
 
     const copyLink = (postsLink) =>{
-        navigator.clipboard.writeText(`http://localhost:3000/boards/${postsLink}`);
+        navigator.clipboard.writeText(`https://praiseboard.vercel.app/boards/${postsLink}`);
         toast.success('Link copied');
     }
 
