@@ -4,6 +4,7 @@ import React from "react";
 import AOS from "aos";
 import '../node_modules/aos/dist/aos.css';
 // import VANTA from 'v'
+import Script from 'next/script'; 
 
 const poppins = Poppins({ 
 weight: '500',
@@ -25,7 +26,8 @@ export default function App({ Component, pageProps }) {
 
   return(
     <main className={poppins.className}>
+       <Script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js" async strategy="lazyOnload"/>
       <Component {...pageProps} />
     </main>
-  )
+)
 }
