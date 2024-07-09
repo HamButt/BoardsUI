@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { FileUploader } from "react-drag-drop-files"; 
+// import { FileUploader } from "react-drag-drop-files"; 
 import Head from 'next/head'
 import {useRouter} from 'next/navigation'
 import { IoImages } from "react-icons/io5";
@@ -18,8 +18,8 @@ import { IoIosArrowDown  } from "react-icons/io";
 import { BsCloudUpload } from "react-icons/bs";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiAlertCircle } from "react-icons/fi";
-import { createPostApi } from '../../../../api/createPostApi';
-import { getBoardApi } from '../../../../api/getPostsApi';
+// import { createPostApi } from '../../../../api/createPostApi';
+// import { getBoardApi } from '../../../../api/getPostsApi';
 import axios from 'axios' 
 
 
@@ -159,7 +159,10 @@ function CreatePost() {
         formData.append('boardId',boardId)
         formData.append('creator',creator)
         
-       createPostApi(formData)
+        axios.post(`${process.env.basePath}/posts`, formData ,{
+            headers:{
+                "Content-Type": "multipart/form-data"
+        }})
         .then((res) => {
             if(res.status === 200){
                 confetti({
@@ -199,7 +202,7 @@ function CreatePost() {
         const board_id = window.location.pathname.split('/')[2]
         setBoardId(board_id)
 
-        getBoardApi(board_id)
+        axios.get(`${process.env.basePath}/boards/${board_id}`)
         .then((res) => {
             setTitle(res.data.board.occasion)
         }).catch((err) => {

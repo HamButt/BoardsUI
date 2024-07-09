@@ -50,7 +50,7 @@ function Post() {
         setBoardId(board_id)
 
         if(board_id){
-            getBoardApi(board_id)
+            axios.get(`${process.env.basePath}/boards/${board_id}`)
             .then((res) => {
                 const board = res.data.board
                 console.log(board);
@@ -69,7 +69,7 @@ function Post() {
             })
         }
 
-        getPostsApi(board_id)
+        axios.get(`${process.env.basePath}/posts/${board_id}`)
         .then((res) => {
             setLoading(true);
             if(res.data.allPosts.length){
