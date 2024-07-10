@@ -163,6 +163,7 @@ function CreatePost() {
                 "Content-Type": "multipart/form-data"
         }})
         .then((res) => {
+            console.log(res.data)
             if(res.status === 200){
                 confetti({
                     particleCount: 200,
