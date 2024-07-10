@@ -6,6 +6,7 @@
   scrollbar-color: initial;
   scroll-behavior: smooth;
   }
+
 html{
   scroll-behavior: smooth;
 }  
@@ -122,7 +123,6 @@ html{
   width: 100%;
   margin-top: 15px;
   height: 150px;
-  /* border: 1px solid #D2D4D7; */
   align-items: center;
   text-align: center;
   color: #404040;
@@ -190,7 +190,6 @@ html{
 .board-next-button{
     @apply btn glass  hover:bg-[#2a9d8f] bg-[#2a9d8f] w-5/12 px-5 text-white rounded-lg shadow-lg text-xl font-medium
 }
-  
   
 .sidenav {
     height: 100%;
@@ -312,7 +311,6 @@ html{
   color: white;
   padding:  5px 10px;
 }
-
 .p-stepper-panel:last-child{
   display: none;
 }
@@ -323,6 +321,11 @@ html{
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shine 8s infinite linear;
+  background: linear-gradient(to right, hsl(0, 0%, 100%) 10%, rgb(7, 235, 204) 20%, hsl(0, 0%, 100%) 30%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 10s infinite linear;
 }
 
 @keyframes shine {

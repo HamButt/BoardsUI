@@ -18,10 +18,7 @@ import { IoIosArrowDown  } from "react-icons/io";
 import { BsCloudUpload } from "react-icons/bs";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiAlertCircle } from "react-icons/fi";
-// import { createPostApi } from '../../../../api/createPostApi';
-// import { getBoardApi } from '../../../../api/getPostsApi';
 import axios from 'axios' 
-
 
 
 function CreatePost() {
@@ -121,7 +118,6 @@ function CreatePost() {
         axios.get(process.env.unsplashUrl, { params: unsplashParams  })
             .then((response) => {
                 setImageData(response.data.results)
-                console.log(response.data.results);
             })
             .catch(error =>{ 
                 setError(error.response.data.errors[0])
@@ -159,7 +155,7 @@ function CreatePost() {
         formData.append('boardId',boardId)
         formData.append('creator',creator)
         
-        axios.post(`${process.env.basePath}/posts`, formData ,{
+       axios.post(`${process.env.basePath}/posts`, formData ,{
             headers:{
                 "Content-Type": "multipart/form-data"
         }})
@@ -176,6 +172,7 @@ function CreatePost() {
                     setIsLoading(false)
                 }, 3000);
         }).catch((err) => {
+            console.log(err)
             if(err.response.status === 403){
                 setOpenErrorModal(err.response.data.message)
                 setIsLoading(false)
@@ -228,9 +225,8 @@ function CreatePost() {
             <p className='occasion-title text-3xl 2xl:text-4xl text-white'>{title}</p>
         </div>
         
-        {/* data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000" */}
             <div className='post flex items-center justify-center'>
-                <div className='w-[650px] bg-white mt-5 2xl:mt-20 py-8 rounded-lg border-2 h-auto mx-2 ' >
+                <div className='w-[650px] bg-white mt-5 2xl:mt-20 py-8 rounded-lg border-2 h-auto mx-2 ' data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                     <div className="post-modal">
                     
                         <div className="back-link-arrow flex items-center ps-6 space-x-2 ">

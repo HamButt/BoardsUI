@@ -12,6 +12,7 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 // import { IoIosCreate } from "react-icons/io";
 // import { MdOutlineCheck } from "react-icons/md";
 
+
 export default function Steps() {
     const stepperRef = React.useRef(null);
     //     const events = [
@@ -56,8 +57,8 @@ export default function Steps() {
     return (
 
         // <div className="card mt-10 text-black">
-        //     <Timeline value={events} align='left' className="customized-timeline" marker={customizedMarker} content={customizedContent} />
-        // </div>
+        //      <Timeline value={events} align='left' className="customized-timeline" marker={customizedMarker} content={customizedContent} />
+        //  </div>
 
         <div className=" md:w-[500px]">
                       <Stepper ref={stepperRef} orientation="vertical">

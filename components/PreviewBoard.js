@@ -20,6 +20,7 @@ function PreviewBoard({setPreview, occasion}){
           console.log(err);
       })
     }, [])
+  
     function capitalizeTitle(str) {
       return str.replace(/\b\w/g, char => char.toUpperCase());
     }
@@ -68,10 +69,11 @@ function PreviewBoard({setPreview, occasion}){
                                     <div className="post-image">
                                        
                                         { post.image ? 
-                                            (<Image className='preview-image rounded-t-lg'
-                                              sizes='(max-width: 200px) 100vw, 33vw'
-                                              src={`${process.env.basePath}/images/${post.image}`}
-                                              alt="Post image"  width={0} height={0}/>)
+                                            ( <img className='preview-image rounded-t-lg' src={`${process.env.basePath}/images/${post.image}`} alt="Post image" />)
+                                              // <Image className='preview-image rounded-t-lg'
+                                              // sizes='(max-width: 200px) 100vw, 33vw'
+                                              // src={`${process.env.basePath}/images/${post.image}`}
+                                              // alt="Post image"  width={0} height={0}/>
                                            
                                             : post.gif ?
 

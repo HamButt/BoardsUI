@@ -17,8 +17,6 @@ import Copy from '../../public/copy.png'
 import { MdDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import ImageLoading from '../../public/loading.gif'
-import { getBoardApi } from '../../api/getBoardApi'
-import { getPostsApi } from '../../api/getPostsApi'
 import { Confetti } from '../../components/Confetti'
 import { DeleteModal } from '../../components/DeleteModal';
 import { AnimatePresence, motion } from "framer-motion";
@@ -41,9 +39,27 @@ function Post() {
     const [handleNavigating, setHandleNavigating] = useState(false);
     const [sideComponent,setSideComponent] = useState('color')
     const [animateModal, setAnimateModal] = useState(false);
-    // const [updatedTitle, setUpdatedTitle] = useState("");
     
-    const fetchBoard = async (boardId) =>{
+
+    const fetchPosts = async (boardId) => {
+        console.log("fetchPosts", boardId);
+        setLoading(true);
+        try {
+            const res = await axios.get(`${process.env.basePath}/posts/${boardId}`)
+            if(res.data.allPosts.length){
+                setPosts(res.data.allPosts.reverse())
+            }else if (title){
+                Confetti()
+            }
+            setLoading(false);
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
+
+     const fetchBoard = async (boardId) =>{
         console.log("fetchBoard", boardId);
 
         try {
@@ -66,22 +82,6 @@ function Post() {
         }
     }
 
-    const fetchPosts = async (boardId) => {
-        console.log("fetchPosts", boardId);
-        setLoading(true);
-        try {
-            const res = await axios.get(`${process.env.basePath}/posts/${boardId}`)
-            if(res.data.allPosts.length){
-                setPosts(res.data.allPosts.reverse())
-            }else if (title){
-                Confetti()
-            }
-            setLoading(false);
-            
-        } catch (error) {
-            console.log(error);
-        }
-    }
     
     useEffect(()=>{
 
@@ -94,17 +94,19 @@ function Post() {
         fetchPosts(board_id)
 
     }, [])
-
+    
     useEffect(() => {
-        const timer = setTimeout(() => {
-            updateTitle()
-        }, 3000);
+            const timer = setTimeout(() => {
+                 if(title){
+                    updateTitle()
+                 }
+            }, 3000);
     
         return () => clearTimeout(timer);
       }, [title]);
 
     const updateTitle = () => {
-        if(title){
+       
         axios.patch(`${process.env.basePath}/boards/${title}`, {boardId})
             .then((res) => {
                 if (res.status === 200) {
@@ -113,7 +115,6 @@ function Post() {
                 }).catch((err) => {
                     console.log(err);
                 });
-        }
     }
 
     const deleteBoard = () =>{
@@ -135,7 +136,7 @@ function Post() {
     }
 
     const copyLink = (postsLink) =>{
-        navigator.clipboard.writeText(`http://localhost:3000/boards/${postsLink}`);
+        navigator.clipboard.writeText(`https://praiseboard.vercel.app/boards/${postsLink}`);
         toast.success('Link copied');
     }
 
@@ -264,7 +265,7 @@ function Post() {
                                             : post.giphy ?
 
                                             <>
-                                                { post.giphy.length ?
+                                                { post.giphy ?
                                                 <img fetchPriority="high" className='post-gif rounded-t-lg' src={post.giphy} alt="GIF" /> 
                                                 :<Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='post-gif rounded-t-lg' src={ImageLoading} alt="GIF" />
                                                 }
@@ -272,14 +273,22 @@ function Post() {
                                             
                                             : post.unsplashImage ?
                                             ( 
-                                                <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='object-cover rounded-t-lg unsplash-image' src={post.unsplashImage.length ? post.unsplashImage : ImageLoading} alt="unsplashImage" width={0} height={0}/>
+                                                <>
+                                                    {post.unsplashImage ? 
+                                                        
+                                                        <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='object-cover rounded-t-lg unsplash-image' src={post.unsplashImage} alt="unsplashImage" width={0} height={0}/>
+                                                        :
+                                                        <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='unsplash-image rounded-t-lg' src={ImageLoading} alt="GIF" />
+                                                    }
+                                                </>
                                             )
                                             
                                             : 
                                             <>
-                                                { post.video.length ?
-                                                <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
-                                                :<Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='post-gif rounded-t-lg' src={ImageLoading} alt="GIF" />
+                                                { post.video ?
+                                                    <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
+                                                        :    
+                                                    <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='youtube-video rounded-t-lg' src={ImageLoading} alt="GIF" />
                                                 }
                                             </>
                                         }
@@ -306,7 +315,6 @@ function Post() {
                     </div>
 
                     : loading ? 
-
                     <div className='flex items-center justify-center h-screen'>
                         <span className="loading loading-spinner loading-md lg:loading-lg text-[#FF9669]"></span>
                     </div>
@@ -327,7 +335,7 @@ function Post() {
                                 </Link>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 }
                     
                     
