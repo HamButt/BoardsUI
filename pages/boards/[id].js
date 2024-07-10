@@ -53,7 +53,6 @@ function Post() {
             axios.get(`${process.env.basePath}/boards/${board_id}`)
             .then((res) => {
                 const board = res.data.board
-                console.log(board);
                 setTitle(board.title)
                 setRecipient(board.recipient)
                 if(board.uploaded_image){
