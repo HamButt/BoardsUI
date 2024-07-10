@@ -161,6 +161,11 @@ html{
   border-radius: 100px;   
 }
 
+#drawer {
+  @apply xl:h-[90vh] 2xl:h-[60vh] 
+}
+
+/* _________________ */
 
 .gifs::-webkit-scrollbar {
     width: 8px;
