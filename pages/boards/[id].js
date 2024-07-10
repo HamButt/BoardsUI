@@ -41,47 +41,57 @@ function Post() {
     const [handleNavigating, setHandleNavigating] = useState(false);
     const [sideComponent,setSideComponent] = useState('color')
     const [animateModal, setAnimateModal] = useState(false);
+    // const [updatedTitle, setUpdatedTitle] = useState("");
     
-    // Fetching Board
+    const fetchBoard = async (boardId) =>{
+        console.log("fetchBoard", boardId);
+
+        try {
+            
+            const res = await axios.get(`${process.env.basePath}/boards/${boardId}`)
+            const board = res.data.board
+            setTitle(board.title)
+            setRecipient(board.recipient)
+            if(board.uploaded_image){
+                const boardImage = Buffer.from(board.uploaded_image.data)
+                setUploadedImage(`${process.env.basePath}/images/${boardImage}`)
+            }else if(board.unsplash_image){
+                setImageUrl(board.unsplash_image)
+            }else{
+                document.body.style.backgroundColor = board.color
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchPosts = async (boardId) => {
+        console.log("fetchPosts", boardId);
+        setLoading(true);
+        try {
+            const res = await axios.get(`${process.env.basePath}/posts/${boardId}`)
+            if(res.data.allPosts.length){
+                setPosts(res.data.allPosts.reverse())
+            }else if (title){
+                Confetti()
+            }
+            setLoading(false);
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
     useEffect(()=>{
+
         const cookie = localStorage.getItem('Creator')
         setUserCookie(cookie)
         const board_id = window.location.pathname.split('/').reverse()[0]
         setBoardId(board_id)
-
-        if(board_id){
-            axios.get(`${process.env.basePath}/boards/${board_id}`)
-            .then((res) => {
-                const board = res.data.board
-                console.log(board);
-                setTitle(board.title)
-                setRecipient(board.recipient)
-                if(board.uploaded_image){
-                    const boardImage = Buffer.from(board.uploaded_image.data)
-                    setUploadedImage(`${process.env.basePath}/images/${boardImage}`)
-                }else if(board.unsplash_image){
-                    setImageUrl(board.unsplash_image)
-                }else{
-                    document.body.style.backgroundColor = board.color
-                }
-            }).catch((err) => {
-                console.log(err);
-            })
-        }
-
-        axios.get(`${process.env.basePath}/posts/${board_id}`)
-        .then((res) => {
-            setLoading(true);
-            if(res.data.allPosts.length){
-                setPosts(res.data.allPosts.reverse())
-            }else if(title){
-                Confetti()
-            }
-            }).catch((err) => {
-                console.log(err);
-            }).finally(() =>{
-                setLoading(false);
-            }) 
+        
+        fetchBoard(board_id)
+        fetchPosts(board_id)
 
     }, [])
 
@@ -294,11 +304,13 @@ function Post() {
                         )
                     })}
                     </div>
+
                     : loading ? 
 
                     <div className='flex items-center justify-center h-screen'>
                         <progress className="progress w-96 h-4"></progress>
                     </div>
+
                     :
                     <div className=' w-full h-screen flex items-start mt-10 2xl:mt-32 justify-center'>
                         <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col mx-2' style={{ width: "440px", maxWidth: "600px", height: "410px" }}>

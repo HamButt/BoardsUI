@@ -224,13 +224,13 @@ function CreatePost() {
             </Link>
         </div>
 
-        <div className="title py-6 text-center bg-[#FF9669]">
-            <p className='occasion-title text-3xl text-white'>{title}</p>
+        <div className="title py-6 2xl:py-8 text-center bg-[#FF9669]">
+            <p className='occasion-title text-3xl 2xl:text-4xl text-white'>{title}</p>
         </div>
         
-
+        {/* data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000" */}
             <div className='post flex items-center justify-center'>
-                <div className='w-[650px] bg-white mt-5 py-8 rounded-lg  border-2 h-auto mx-2 ' data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+                <div className='w-[650px] bg-white mt-5 2xl:mt-20 py-8 rounded-lg border-2 h-auto mx-2 ' >
                     <div className="post-modal">
                     
                         <div className="back-link-arrow flex items-center ps-6 space-x-2 ">

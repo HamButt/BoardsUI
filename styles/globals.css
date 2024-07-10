@@ -59,9 +59,11 @@ html{
     margin-top: 2rem;
     border: 1px solid var(--background-link-color);
   }
+
 .process-img{
   @apply w-32 sm:w-40
 }
+
 .separator{
     align-items: center;
     color: #dadcdf;
@@ -70,20 +72,23 @@ html{
     font-weight: 500;
     margin: 20px 0;
     text-align: center;
-  }
+}
+
 .separator:before, .separator:after{
     border-bottom: 1px solid #dadcdf;
     content: "";
     flex: 1;
     margin-inline: 5px;
-  }
+}
+
 .menu-items{
     @apply mt-2 border-l-4 flex  items-center ps-4 mx-4 border-[var(--border-color)]  bg-[#e4f6fc] rounded-md py-3
-  }
+}
+
 .menu-items > p{
     font-size: 16px;
     color: grey;
-  }
+}
 
   /* file uploader */
 
@@ -92,31 +97,23 @@ html{
     display: none;
 }
   
- .file-uploader .labelFile {
+.file-uploader .labelFile {
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 100%;
     margin-top: 15px;
     height: 150px;
-    /* border: 1px solid #D2D4D7; */
     align-items: center;
     text-align: center;
     color: #404040;
     cursor: pointer;
-  }
-  
+}
 
 .edit-board .upload-input{
-    /* padding: 20px !important;
-    min-width: 100% !important;
-    border: 1px solid rgb(156, 163, 175);
-    height: 120px;
-    margin-top: 15px; */
     max-width: 190px;
     display: none;
-  }
-  
+}
 
 .edit-board .labelFile {
   display: flex;
@@ -130,22 +127,19 @@ html{
   text-align: center;
   color: #404040;
   cursor: pointer;
-    }
-/* .edit-board .kFhUBM{
-    color: black;
-    font-size: 12px !important;
-  } */
+}
 
 .option{
     @apply w-64 py-10 mx-2 cursor-pointer mt-3 bg-white hover:bg-[#dadcdf] p-5 flex flex-col items-center justify-between shadow-md rounded-lg
-    
-  }
+}
+
 .option > p{
     @apply mt-4 text-xl w-40 text-ellipsis overflow-hidden whitespace-nowrap text-center
-  }
+}
+
 .occasion-img{
     @apply object-cover w-full h-full
-  }
+}
 
 /* DRAWER */
 .preview-drawer-div::-webkit-scrollbar {
@@ -161,19 +155,24 @@ html{
   border-radius: 100px;   
 }
 
+#drawer {
+  @apply xl:h-[90vh] 2xl:h-[60vh] 
+}
+
+/* _________________ */
 
 .gifs::-webkit-scrollbar {
     width: 8px;
-  }
+}
   
 .gifs::-webkit-scrollbar-track {
     display: none;
-  }
+}
   
 .gifs::-webkit-scrollbar-thumb {
     background-color: rgb(199, 198, 198);
     border-radius: 100px;   
-  }
+}
 
 .splashImages-container::-webkit-scrollbar {
     width: 8px;
@@ -190,7 +189,7 @@ html{
 
 .board-next-button{
     @apply btn glass  hover:bg-[#2a9d8f] bg-[#2a9d8f] w-5/12 px-5 text-white rounded-lg shadow-lg text-xl font-medium
-  }
+}
   
   
 .sidenav {
@@ -255,6 +254,7 @@ html{
   border: 2px solid white;
   font-weight: 500;
 }
+
 .overlay-button:hover{
   background-color: rgb(38, 140, 128);
   border: 2px solid white;
@@ -269,7 +269,6 @@ html{
   border: 3px solid black;
 }
 
-
 .youtube-video{
   width: 100%;
   height: 200px;
@@ -282,8 +281,6 @@ html{
   width: 100%;
   height: 370px;
 }
-
-
 
 /* BACKGROUND */
 
@@ -319,29 +316,27 @@ html{
 .p-stepper-panel:last-child{
   display: none;
 }
-.occasion-title {
 
-  background: linear-gradient(to right, hsl(0, 0%, 100%) 10%, rgb(7, 235, 204) 20%, hsl(0, 0%, 100%) 20%);
+.occasion-title {
+  background: linear-gradient(to right, hsl(0, 0%, 100%) 5%, rgb(7, 235, 204) 10%, hsl(0, 0%, 100%) 5%);
+  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shine 7s infinite linear;
+  animation: shine 8s infinite linear;
 }
 
 @keyframes shine {
-    0% {
-      background-position:  0;
-    }
-    60% {
-      background-position: 600px;
-    }
-    100% {
-      background-position: 600px;
-    }
+  0% {
+    background-position: 0% 0;
   }
+  100% {
+    background-position: -200% 0;
+  }
+}
 
 .css-1b00oyk-MuiLinearProgress-root.MuiLinearProgress-colorPrimary{
     background-color: #facdb9 !important;
-  }
+}
 
 @media screen and (max-width:850px) {
     .post-image, .preview-posts{
@@ -352,79 +347,66 @@ html{
       }
     }
 
-  @media screen and (max-width:650px) {
-    .post-image, .preview-posts{
-        width: 250px;
-      }
+@media screen and (max-width:650px) {
+  .post-image, .preview-posts{
+      width: 250px;
     }
+  }
 
-
-  @media screen and (max-width:1090px) {
-      .selected-title{
-        margin-top: 8rem;
-      }
-    }
-
-  @media screen and (max-width:1000px) {
+@media screen and (max-width:1090px) {
     .selected-title{
       margin-top: 8rem;
     }
   }
 
-  @media screen and (max-width:792px) {
-    .selected-title{
-      margin-top: 10rem;
-    }
+@media screen and (max-width:1000px) {
+  .selected-title{
+    margin-top: 8rem;
   }
-  @media screen and (max-width:718px) {
-    .selected-title{
-      margin-top: 12rem;
-    }
-    .preview-board-create-btn{
-      padding: 0px 60px;
-      font-size: 20px;
-    }
-  }
-  @media screen and (max-width:658px) {
-    .selected-title{
-      margin-top: 12rem;
-    }
-    .preview-board-create-btn{
-      padding: 0px 60px;
-      font-size: 20px;
-    }
-  }
-  @media screen and (max-width:656px) {
-    .selected-title{
-      margin-top: 12rem;
-    }
-  }
-  
-  @media screen and (max-width:423px) {
-    .selected-title{
-      margin-top: 13rem;
-    }
-  }
-  @media screen and (max-width:418px) {
-    .selected-title{
-      margin-top: 14.5rem;
-    }
-  }
-  
-  /* TIMELINE */
+}
 
-  /* @media screen and (max-width: 991px) {
-    .customized-timeline .p-timeline-event:nth-child(even) {
-        flex-direction: row !important;
-    }
-    .customized-timeline .p-timeline-event:nth-child(even) .p-timeline-event-content {
-        text-align: left !important;
-    }
-    .customized-timeline .p-timeline-event-opposite {
-        flex: 0;
-    }
-    .customized-timeline .p-card {
-        margin-top: 1rem;
-    }
-} */
+@media screen and (max-width:792px) {
+  .selected-title{
+    margin-top: 10rem;
+  }
+}
+
+@media screen and (max-width:718px) {
+  .selected-title{
+    margin-top: 12rem;
+  }
+  .preview-board-create-btn{
+    padding: 0px 60px;
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width:658px) {
+  .selected-title{
+    margin-top: 12rem;
+  }
+  .preview-board-create-btn{
+    padding: 0px 60px;
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width:656px) {
+  .selected-title{
+    margin-top: 12rem;
+  }
+}
+
+@media screen and (max-width:423px) {
+  .selected-title{
+    margin-top: 13rem;
+  }
+}
+
+@media screen and (max-width:418px) {
+  .selected-title{
+    margin-top: 14.5rem;
+  }
+}
+  
 
