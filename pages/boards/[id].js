@@ -86,15 +86,17 @@ function Post() {
     }, [])
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            updateTitle()
-        }, 3000);
+            const timer = setTimeout(() => {
+                 if(title){
+                    updateTitle()
+                 }
+            }, 3000);
     
         return () => clearTimeout(timer);
       }, [title]);
 
     const updateTitle = () => {
-        if(title){
+       
         axios.patch(`${process.env.basePath}/boards/${title}`, {boardId})
             .then((res) => {
                 if (res.status === 200) {
@@ -103,7 +105,6 @@ function Post() {
                 }).catch((err) => {
                     console.log(err);
                 });
-        }
     }
 
     const deleteBoard = () =>{
