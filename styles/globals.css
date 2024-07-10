@@ -6,6 +6,7 @@
   scrollbar-color: initial;
   scroll-behavior: smooth;
   }
+
 html{
   scroll-behavior: smooth;
 }  
@@ -99,7 +100,6 @@ html{
     width: 100%;
     margin-top: 15px;
     height: 150px;
-    /* border: 1px solid #D2D4D7; */
     align-items: center;
     text-align: center;
     color: #404040;
@@ -108,11 +108,6 @@ html{
   
 
 .edit-board .upload-input{
-    /* padding: 20px !important;
-    min-width: 100% !important;
-    border: 1px solid rgb(156, 163, 175);
-    height: 120px;
-    margin-top: 15px; */
     max-width: 190px;
     display: none;
   }
@@ -125,21 +120,16 @@ html{
   width: 100%;
   margin-top: 15px;
   height: 150px;
-  /* border: 1px solid #D2D4D7; */
   align-items: center;
   text-align: center;
   color: #404040;
   cursor: pointer;
-    }
-/* .edit-board .kFhUBM{
-    color: black;
-    font-size: 12px !important;
-  } */
+}
 
 .option{
     @apply w-64 py-10 mx-2 cursor-pointer mt-3 bg-white hover:bg-[#dadcdf] p-5 flex flex-col items-center justify-between shadow-md rounded-lg
-    
   }
+
 .option > p{
     @apply mt-4 text-xl w-40 text-ellipsis overflow-hidden whitespace-nowrap text-center
   }
@@ -196,7 +186,6 @@ html{
 .board-next-button{
     @apply btn glass  hover:bg-[#2a9d8f] bg-[#2a9d8f] w-5/12 px-5 text-white rounded-lg shadow-lg text-xl font-medium
   }
-  
   
 .sidenav {
     height: 100%;
@@ -260,6 +249,7 @@ html{
   border: 2px solid white;
   font-weight: 500;
 }
+
 .overlay-button:hover{
   background-color: rgb(38, 140, 128);
   border: 2px solid white;
@@ -274,7 +264,6 @@ html{
   border: 3px solid black;
 }
 
-
 .youtube-video{
   width: 100%;
   height: 200px;
@@ -287,8 +276,6 @@ html{
   width: 100%;
   height: 370px;
 }
-
-
 
 /* BACKGROUND */
 
@@ -320,29 +307,27 @@ html{
   color: white;
   padding:  5px 10px;
 }
-
 .p-stepper-panel:last-child{
   display: none;
 }
-.occasion-title {
 
-  background: linear-gradient(to right, hsl(0, 0%, 100%) 10%, rgb(7, 235, 204) 20%, hsl(0, 0%, 100%) 20%);
+.occasion-title {
+  background: linear-gradient(to right, hsl(0, 0%, 100%) 10%, rgb(7, 235, 204) 20%, hsl(0, 0%, 100%) 30%);
+  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shine 7s infinite linear;
 }
 
 @keyframes shine {
-    0% {
-      background-position:  0;
-    }
-    60% {
-      background-position: 600px;
-    }
-    100% {
-      background-position: 600px;
-    }
+  0% {
+    background-position: 0% 0;
   }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 
 .css-1b00oyk-MuiLinearProgress-root.MuiLinearProgress-colorPrimary{
     background-color: #facdb9 !important;
