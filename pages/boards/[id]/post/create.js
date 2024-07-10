@@ -18,10 +18,7 @@ import { IoIosArrowDown  } from "react-icons/io";
 import { BsCloudUpload } from "react-icons/bs";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiAlertCircle } from "react-icons/fi";
-// import { createPostApi } from '../../../../api/createPostApi';
-// import { getBoardApi } from '../../../../api/getPostsApi';
 import axios from 'axios' 
-
 
 
 function CreatePost() {
@@ -163,7 +160,6 @@ function CreatePost() {
                 "Content-Type": "multipart/form-data"
         }})
         .then((res) => {
-            console.log(res.data)
             if(res.status === 200){
                 confetti({
                     particleCount: 200,
