@@ -295,7 +295,10 @@ function Post() {
                     })}
                     </div>
                     : loading ? 
-
+                    <div className='flex items-center justify-center h-screen'>
+                        <progress className="progress w-96 h-4"></progress>
+                    </div>
+                    :
                         <div className=' w-full h-screen flex items-start mt-10 2xl:mt-32 justify-center'>
                             <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col mx-2' style={{ width: "440px", maxWidth: "600px", height: "410px" }}>
                                 <Image src={ConfettiImage} alt='Confetti' className='mt-5' width={300} height={200}/>
@@ -312,10 +315,6 @@ function Post() {
                                 </div>
                             </div>
                         </div> 
-                    :
-                    <div className='flex items-center justify-center h-screen'>
-                        <progress className="progress w-96 h-4"></progress>
-                    </div>
                 }
                     
                     
