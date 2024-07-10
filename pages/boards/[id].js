@@ -296,26 +296,26 @@ function Post() {
                     </div>
                     : loading ? 
 
+                        <div className=' w-full h-screen flex items-start mt-10 2xl:mt-32 justify-center'>
+                            <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col mx-2' style={{ width: "440px", maxWidth: "600px", height: "410px" }}>
+                                <Image src={ConfettiImage} alt='Confetti' className='mt-5' width={300} height={200}/>
+                                <div className="mt-12">
+                                    <h3 className="font-bold text-lg sm:text-2xl px-3">Welcome to the praise board of</h3>
+                                    <p className="font-semibold mt-1 text-lg sm:text-xl capitalize">{recipient}</p>
+                                    <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
+                                        className='btn hover:bg-[#2a9d8f] bg-[#2a9d8f] text-white mt-6 border border-none px-6 sm:px-10 py-1 sm:py-2 rounded-md text-md sm:text-xl font-light'>
+                                        
+                                        {handleNavigating ? 
+                                            <span className="loading loading-dots loading-md lg:loading-lg"></span>
+                                        : "Add your post"}
+                                    </Link>
+                                </div>
+                            </div>
+                        </div> 
+                    :
                     <div className='flex items-center justify-center h-screen'>
                         <progress className="progress w-96 h-4"></progress>
                     </div>
-                    :
-                    <div className=' w-full h-screen flex items-start mt-10 2xl:mt-32 justify-center'>
-                        <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col mx-2' style={{ width: "440px", maxWidth: "600px", height: "410px" }}>
-                            <Image src={ConfettiImage} alt='Confetti' className='mt-5' width={300} height={200}/>
-                            <div className="mt-12">
-                                <h3 className="font-bold text-lg sm:text-2xl px-3">Welcome to the praise board of</h3>
-                                <p className="font-semibold mt-1 text-lg sm:text-xl capitalize">{recipient}</p>
-                                <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
-                                    className='btn hover:bg-[#2a9d8f] bg-[#2a9d8f] text-white mt-6 border border-none px-6 sm:px-10 py-1 sm:py-2 rounded-md text-md sm:text-xl font-light'>
-                                    
-                                    {handleNavigating ? 
-                                        <span className="loading loading-dots loading-md lg:loading-lg"></span>
-                                    : "Add your post"}
-                                </Link>
-                            </div>
-                        </div>
-                    </div> 
                 }
                     
                     
