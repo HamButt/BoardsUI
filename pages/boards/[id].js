@@ -40,49 +40,58 @@ function Post() {
     const [sideComponent,setSideComponent] = useState('color')
     const [animateModal, setAnimateModal] = useState(false);
     
-    // Fetching Board
+     const fetchBoard = async (boardId) =>{
+        console.log("fetchBoard", boardId);
+
+        try {
+            
+            const res = await axios.get(`${process.env.basePath}/boards/${boardId}`)
+            const board = res.data.board
+            setTitle(board.title)
+            setRecipient(board.recipient)
+            if(board.uploaded_image){
+                const boardImage = Buffer.from(board.uploaded_image.data)
+                setUploadedImage(`${process.env.basePath}/images/${boardImage}`)
+            }else if(board.unsplash_image){
+                setImageUrl(board.unsplash_image)
+            }else{
+                document.body.style.backgroundColor = board.color
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchPosts = async (boardId) => {
+        console.log("fetchPosts", boardId);
+        setLoading(true);
+        try {
+            const res = await axios.get(`${process.env.basePath}/posts/${boardId}`)
+            if(res.data.allPosts.length){
+                setPosts(res.data.allPosts.reverse())
+            }else if (title){
+                Confetti()
+            }
+            setLoading(false);
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
     useEffect(()=>{
+
         const cookie = localStorage.getItem('Creator')
         setUserCookie(cookie)
         const board_id = window.location.pathname.split('/').reverse()[0]
         setBoardId(board_id)
-
-        if(board_id){
-            axios.get(`${process.env.basePath}/boards/${board_id}`)
-            .then((res) => {
-                const board = res.data.board
-                setTitle(board.title)
-                setRecipient(board.recipient)
-                if(board.uploaded_image){
-                    const boardImage = Buffer.from(board.uploaded_image.data)
-                    setUploadedImage(`${process.env.basePath}/images/${boardImage}`)
-                }else if(board.unsplash_image){
-                    setImageUrl(board.unsplash_image)
-                }else{
-                    document.body.style.backgroundColor = board.color
-                }
-            }).catch((err) => {
-                console.log(err);
-            })
-        }
-
-        // Fetching posts
-        axios.get(`${process.env.basePath}/posts/${board_id}`)
-        .then((res) => {
-            setLoading(true);
-            if(res.data.allPosts.length){
-                setPosts(res.data.allPosts.reverse())
-            }else if(title && !posts){
-                Confetti()
-            }
-            }).catch((err) => {
-                console.log(err);
-            }).finally(() =>{
-                setLoading(false);
-            }) 
+        
+        fetchBoard(board_id)
+        fetchPosts(board_id)
 
     }, [])
-
+    
     useEffect(() => {
             const timer = setTimeout(() => {
                  if(title){
