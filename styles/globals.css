@@ -316,7 +316,7 @@ html{
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shine 7s infinite linear;
+  animation: shine 10s infinite linear;
 }
 
 @keyframes shine {
