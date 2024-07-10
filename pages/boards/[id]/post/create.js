@@ -121,7 +121,6 @@ function CreatePost() {
         axios.get(process.env.unsplashUrl, { params: unsplashParams  })
             .then((response) => {
                 setImageData(response.data.results)
-                console.log(response.data.results);
             })
             .catch(error =>{ 
                 setError(error.response.data.errors[0])
