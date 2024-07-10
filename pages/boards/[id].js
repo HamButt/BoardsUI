@@ -165,7 +165,7 @@ function Post() {
                     
                     <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
                         className='btn btn-sm bg-[#2a9d8f] font-normal text-md hover-shadow-xl text-white border-none hover:bg-[#2a9d8f] '>
-                        {handleNavigating ? <span className="loading loading-dots loading-md"></span>
+                        {handleNavigating ? <span className="loading loading-dots loading-md text-[#FF9669]"></span>
                             : 
                             <>
                                 <FaPlus /> Add a post
@@ -308,7 +308,7 @@ function Post() {
                     : loading ? 
 
                     <div className='flex items-center justify-center h-screen'>
-                        <progress className="progress w-96 h-4"></progress>
+                        <span className="loading loading-spinner loading-md lg:loading-lg text-[#FF9669]"></span>
                     </div>
 
                     :
@@ -322,7 +322,7 @@ function Post() {
                                     className='btn hover:bg-[#2a9d8f] bg-[#2a9d8f] text-white mt-6 border border-none px-6 sm:px-10 py-1 sm:py-2 rounded-md text-md sm:text-xl font-light'>
                                     
                                     {handleNavigating ? 
-                                        <span className="loading loading-dots loading-md lg:loading-lg"></span>
+                                        <span className="loading loading-dots loading-md lg:loading-lg text-[#FF9669]"></span>
                                     : "Add your post"}
                                 </Link>
                             </div>
