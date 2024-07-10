@@ -176,6 +176,7 @@ function CreatePost() {
                     setIsLoading(false)
                 }, 3000);
         }).catch((err) => {
+            console.log(err)
             if(err.response.status === 403){
                 setOpenErrorModal(err.response.data.message)
                 setIsLoading(false)
