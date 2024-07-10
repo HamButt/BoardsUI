@@ -17,7 +17,7 @@ import Logo from '../public/logo.png'
 import useMeasure from "react-use-measure";
 import { useDragControls, useMotionValue, useAnimate, motion} from "framer-motion";
 // import { FileUploader } from "../components/Fileuploader";
-// import Steps from "../components/Timeline";
+import Steps from "../components/Timeline";
 import { FaPlus } from "react-icons/fa6";
 import Confetti from '../public/confetti.jpg'
 
@@ -150,8 +150,8 @@ export default function Home() {
           
             <div className="main mt-14 text-black">
               <div className="sm:w-[660px] xl:w-[900px] mx-auto mt-6 flex flex-col items-center text-center justify-center">
-                <p className="text-2xl sm:text-3xl md:text-5xl xl:text-6xl font-bold px-5" style={{lineHeight:"70px"}}>
-                Celebrate your team members and people you admire
+                <p className="text-2xl sm:text-3xl md:text-5xl xl:text-6xl font-bold px-5 lg:leading-[50px] xl:leading-[65px]" >
+                  Celebrate your team members and people you admire
                 </p>
                 <p className="text-lg sm:text-2xl max-sm:font-semibold mt-5 max-sm:px-5">Beautiful personalized online boards to celebrate your team and friends </p>
                 <Link onClick={navigationToPage} rel="stylesheet" className="mt-8 btn bg-[#2a9d8f] btn-md sm:btn-lg text-md sm:text-xl font-medium text-white hover:bg-white border hover:text-[#2a9d8f] hover:border-[#2a9d8f]" 
@@ -182,12 +182,10 @@ export default function Home() {
                       </Link>
                     </div>
 
-                    {/* <Steps/>                 */}
+                    <Steps/>                
 
                 </div>
-            </div> 
-
-           
+            </div>            
 
             <div id="previews" className="mt-16 py-16 flex items-center justify-center flex-col rounded-lg">
                 <div className="text-center max-md:px-2 max-sm:px-2">
@@ -199,17 +197,6 @@ export default function Home() {
                   
                   <div className="flex items-center justify-evenly flex-wrap" >
                     
-                      <DragCloseDrawer open={open} setOpen={setOpen}>
-                        <div className="flex flex-col items-center justify-center text-black space-y-4 bg-gray-800 mt-4">
-                            <p className=" sm:mt-0 text-2xl sm:text-4xl font-semibold text-white" >Preview {drawer.event} posts</p>
-                            <Image src={drawer.gif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
-                              width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
-                            <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg
-                              text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" 
-                              onClick={() => {setPreview(true); setOccasion(drawer.event)}}>Preview <FiExternalLink /> 
-                            </motion.button>
-                        </div>
-                      </DragCloseDrawer>
 
                       {
                         previewsData.map((previewPost,index) => {
@@ -238,6 +225,18 @@ export default function Home() {
                 </Link>
             
             </div>
+
+            <DragCloseDrawer open={open} setOpen={setOpen}>
+              <div className="flex flex-col items-center justify-center text-black space-y-8 bg-gray-800 mt-4">
+                  <p className="sm:mt-0 text-2xl sm:text-4xl font-semibold text-white">Preview {drawer.event} posts</p>
+                  <Image src={drawer.gif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
+                    width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
+                  <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg
+                    text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" 
+                    onClick={() => {setPreview(true); setOccasion(drawer.event)}}>Preview<FiExternalLink /> 
+                  </motion.button>
+              </div>
+            </DragCloseDrawer>
 
             <footer>
               <div className="footer text-black py-10 flex items-start bg-white justify-evenly ">

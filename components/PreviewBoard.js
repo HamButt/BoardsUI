@@ -11,10 +11,8 @@ function PreviewBoard({setPreview, occasion}){
   const [title,setTitle] = useState('')
   
   useEffect(()=>{
-      console.log("occasion",occasion);
       axios.get(`${process.env.basePath}/previews/${occasion}`)
       .then((res) => {
-        console.log(res.data);
           setPosts(res.data.posts)
           setTitle(res.data.posts[0].title)
           setImageUrl(`${process.env.basePath}/images/${res.data.backgroundImage.gif}`)

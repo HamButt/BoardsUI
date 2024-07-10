@@ -13,7 +13,7 @@ module.exports = (phase) => {
       clientId: 'IXEohvKJtIcp7LM0qE7-mQaHXBdHZDPUKwY5dodFB6s',
       unsplashUrl: 'https://api.unsplash.com/search/photos',
     },
-    images: {
+  images: {
     remotePatterns: [
       {
         protocol: 'http',
