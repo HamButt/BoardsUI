@@ -253,7 +253,7 @@ function Post() {
                                             : post.giphy ?
 
                                             <>
-                                                { post.giphy.length ?
+                                                { post.giphy ?
                                                 <img fetchPriority="high" className='post-gif rounded-t-lg' src={post.giphy} alt="GIF" /> 
                                                 :<Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='post-gif rounded-t-lg' src={ImageLoading} alt="GIF" />
                                                 }
@@ -261,14 +261,22 @@ function Post() {
                                             
                                             : post.unsplashImage ?
                                             ( 
-                                                <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='object-cover rounded-t-lg unsplash-image' src={post.unsplashImage.length ? post.unsplashImage : ImageLoading} alt="unsplashImage" width={0} height={0}/>
+                                                <>
+                                                    {post.unsplashImage ? 
+                                                        
+                                                        <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='object-cover rounded-t-lg unsplash-image' src={post.unsplashImage} alt="unsplashImage" width={0} height={0}/>
+                                                        :
+                                                        <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='unsplash-image rounded-t-lg' src={ImageLoading} alt="GIF" />
+                                                    }
+                                                </>
                                             )
                                             
                                             : 
                                             <>
-                                                { post.video.length ?
-                                                <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
-                                                :<Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='post-gif rounded-t-lg' src={ImageLoading} alt="GIF" />
+                                                { post.video ?
+                                                    <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
+                                                        :    
+                                                    <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='youtube-video rounded-t-lg' src={ImageLoading} alt="GIF" />
                                                 }
                                             </>
                                         }
