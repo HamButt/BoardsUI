@@ -321,11 +321,6 @@ html{
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shine 8s infinite linear;
-  background: linear-gradient(to right, hsl(0, 0%, 100%) 10%, rgb(7, 235, 204) 20%, hsl(0, 0%, 100%) 30%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shine 10s infinite linear;
 }
 
 @keyframes shine {

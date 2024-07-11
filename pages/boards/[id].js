@@ -238,6 +238,7 @@ function Post() {
             <div className="posts-section flex items-center justify-center" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
                 {posts.length > 0 ? 
+                
                     <div className="board-posts grid grid-cols-12 py-2 place-items-start" >
                         {posts.map((post,index) => {
                         
@@ -247,50 +248,28 @@ function Post() {
                         }
                         
                         return (
-                                <div key={post._id} className="user-posts col-span-12 md:col-span-6 w-[330px] sm:w-[450px] md:w-[380px] lg:w-[320px] xl:w-[410px]  lg:col-span-4 mt-3 bg-[#2a9d8f] mx-2 rounded-lg shadow-md">
+                                <div key={post._id} className="user-posts col-span-12 md:col-span-6 w-[330px] sm:w-[450px] md:w-[380px] lg:w-[320px] xl:w-[410px]  lg:col-span-4 mt-3 bg-[#2a9d8f] mx-2 rounded-lg shadow-md"  >
                                 {
                                     formattedImage || post.giphy || post.video || post.unsplashImage ? 
                                 
                                 <div>
                                     
-                                    <div className="post w-full">
+                                    <div className="post w-full" >
                                         
-                                        { formattedImage ? 
-                                            (<Image className={`post-uploaded-image rounded-t-lg w-full`}
-                                            sizes='(max-width: 200px) 100vw, 33vw'
-                                            src={formattedImage.length ? `${process.env.basePath}/images/${formattedImage}` : ImageLoading}
-                                            fetchPriority="high"
-                                            alt={formattedImage} width={0} height={0}/>)
-                                            
+                                        { formattedImage ?
+
+                                             <img className='post-uploaded-image rounded-t-lg w-full' src={formattedImage ? `${process.env.basePath}/images/${formattedImage}` : ImageLoading} alt="Post image" />
+
                                             : post.giphy ?
 
-                                            <>
-                                                { post.giphy ?
-                                                <img fetchPriority="high" className='post-gif rounded-t-lg' src={post.giphy} alt="GIF" /> 
-                                                :<Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='post-gif rounded-t-lg' src={ImageLoading} alt="GIF" />
-                                                }
-                                            </>
+                                                <img fetchPriority="high" className='post-gif rounded-t-lg' src={post.giphy ? post.giphy : ImageLoading} alt="GIF" /> 
                                             
                                             : post.unsplashImage ?
-                                            ( 
-                                                <>
-                                                    {post.unsplashImage ? 
-                                                        
-                                                        <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='object-cover rounded-t-lg unsplash-image' src={post.unsplashImage} alt="unsplashImage" width={0} height={0}/>
-                                                        :
-                                                        <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='unsplash-image rounded-t-lg' src={ImageLoading} alt="GIF" />
-                                                    }
-                                                </>
-                                            )
+
+                                                <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='object-cover rounded-t-lg unsplash-image' src={post.unsplashImage} alt="unsplashImage" width={0} height={0}/>
                                             
                                             : 
-                                            <>
-                                                { post.video ?
-                                                    <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
-                                                        :    
-                                                    <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" width={0} height={0} className='youtube-video rounded-t-lg' src={ImageLoading} alt="GIF" />
-                                                }
-                                            </>
+                                                <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
                                         }
                                     </div>
 
