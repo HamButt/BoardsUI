@@ -251,7 +251,7 @@ function Post() {
                                         
                                         { formattedImage ?
                                             
-                                                <Image sizes='(max-width: 200px) 100vw, 33vw' className='post-uploaded-image rounded-t-lg w-full' src={`${process.env.basePath}/images/${formattedImage}`} alt="Post image" />
+                                                <Image sizes='(max-width: 200px) 100vw, 33vw' className='post-uploaded-image rounded-t-lg w-full' src={`${process.env.basePath}/images/${formattedImage}`} alt="Post image" width={0} height={0}/>
                                             
                                             : post.giphy ?
 
