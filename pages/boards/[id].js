@@ -257,10 +257,9 @@ function Post() {
                                     <div className="post w-full" >
                                         
                                         { formattedImage ?
-                                            <>
-                                                <img className='post-uploaded-image rounded-t-lg w-full' src={`${process.env.basePath}/images/${formattedImage}`} alt="Post image" />
+                                            
                                                 <Image sizes='(max-width: 200px) 100vw, 33vw' className='post-uploaded-image rounded-t-lg w-full' src={`${process.env.basePath}/images/${formattedImage}`} alt="Post image" />
-                                            </>
+                                            
                                             : post.giphy ?
 
                                                 <img fetchPriority="high" className='post-gif rounded-t-lg' src={post.giphy} alt="GIF" /> 
