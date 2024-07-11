@@ -74,17 +74,16 @@ function CreatePost() {
     }, [gifSearchValue])
 
 
-    const getGifsFromGiphy = () => {
-        
+    const getGifsFromGiphy = async () => {
         const gifUrl = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.apiKey}&q=${gifSearchValue}&limit=${limit}&offset=${offset}&rating=g&lang=en`;
-         axios.get(gifUrl)
-        .then(response => {
+        try {
+            const response = await axios.get(gifUrl)
             setGifData(response.data.data)
-        }).catch(error => {
+        } catch (error) {
             console.log("error",error);
             setError(error.response)}
-        );
-    }
+        }
+    
 
     useEffect(()=>{
         if(imageSearchValue){
@@ -101,13 +100,13 @@ function CreatePost() {
             return () => {
                 if (debounceTimerForImage) {
                     clearTimeout(debounceTimerForImage);
-                        setImageData("")
+                    setImageData("")
             }};
 
        
     }, [imageSearchValue])
 
-    const getImagesFromUnsplash = () =>{
+    const getImagesFromUnsplash = async () =>{
         const unsplashParams = {
             query: imageSearchValue,
             page:  imagePage,
@@ -115,14 +114,14 @@ function CreatePost() {
             client_id: process.env.clientId,
             orientation: 'portrait',
         };
-        axios.get(process.env.unsplashUrl, { params: unsplashParams  })
-            .then((response) => {
-                setImageData(response.data.results)
-            })
-            .catch(error =>{ 
-                setError(error.response.data.errors[0])
-                console.log("Error",error);
-            })
+        try {
+            const response = await axios.get(process.env.unsplashUrl, { params: unsplashParams  })
+            setImageData(response.data.results)
+            
+        } catch (error) {
+            setError(error.response.data.errors[0])
+            console.log("Error",error);
+        }
     }
 
     useEffect(()=>{
@@ -136,9 +135,7 @@ function CreatePost() {
         })
     }, [videoLink])
     
-    const createPost = (e) => {
-        
-        e.preventDefault();
+    const createPost = async () => {
         
         setIsLoading(true)
         const formData = new FormData();
@@ -155,29 +152,27 @@ function CreatePost() {
         formData.append('boardId',boardId)
         formData.append('creator',creator)
         
-       axios.post(`${process.env.basePath}/posts`, formData ,{
-            headers:{
-                "Content-Type": "multipart/form-data"
-        }})
-        .then((res) => {
-            if(res.status === 200){
-                confetti({
-                    particleCount: 200,
-                    spread: 50,
-                    origin: { y: 0.7 }
-                })
-                router.push(`/boards/${boardId}`)
-            }
-                setTimeout(() => {
-                    setIsLoading(false)
-                }, 3000);
-        }).catch((err) => {
+        try {
+            const res = await axios.post(`${process.env.basePath}/posts`, formData ,{
+                 headers:{
+                     "Content-Type": "multipart/form-data"
+             }})
+                 if(res.status === 200){
+                     confetti({
+                         particleCount: 200,
+                         spread: 50,
+                         origin: { y: 0.7 }
+                     })
+                     router.push(`/boards/${boardId}`)
+                 }
+            setIsLoading(false)
+        } catch (error) {
             console.log(err)
             if(err.response.status === 403){
                 setOpenErrorModal(err.response.data.message)
                 setIsLoading(false)
             }
-        })
+        }
     }
 
     const handleUploadFiles = (e) => {
@@ -207,8 +202,10 @@ function CreatePost() {
         })
     }, [image])
 
-    
+
   return (
+
+    
     <div className='bg-[#2a9d8f] min-h-screen h-full ' >
 
         <Head>

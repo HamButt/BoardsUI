@@ -39,10 +39,9 @@ function Post() {
     const [handleNavigating, setHandleNavigating] = useState(false);
     const [sideComponent,setSideComponent] = useState('color')
     const [animateModal, setAnimateModal] = useState(false);
-    
+    // const hasBackground = imageUrl || uploadedImage
 
     const fetchPosts = async (boardId) => {
-        console.log("fetchPosts", boardId);
         setLoading(true);
         try {
             const res = await axios.get(`${process.env.basePath}/posts/${boardId}`)
@@ -57,10 +56,8 @@ function Post() {
             console.log(error);
         }
     }
-    
 
      const fetchBoard = async (boardId) =>{
-        console.log("fetchBoard", boardId);
 
         try {
             
@@ -82,7 +79,6 @@ function Post() {
         }
     }
 
-    
     useEffect(()=>{
 
         const cookie = localStorage.getItem('Creator')
@@ -95,44 +91,42 @@ function Post() {
 
     }, [])
     
+
     useEffect(() => {
-            const timer = setTimeout(() => {
-                 if(title){
-                    updateTitle()
-                 }
-            }, 3000);
+        const timer = setTimeout(() => {
+            updateTitle()
+        }, 3000);
     
         return () => clearTimeout(timer);
       }, [title]);
 
-    const updateTitle = () => {
-       
-        axios.patch(`${process.env.basePath}/boards/${title}`, {boardId})
-            .then((res) => {
-                if (res.status === 200) {
-                    setTitle(title);
-                }
-                }).catch((err) => {
-                    console.log(err);
-                });
+    const updateTitle = async () => {
+        try {
+            const res = await axios.patch(`${process.env.basePath}/boards/${title}`, {boardId})
+            if (res.status === 200) {
+                setTitle(title);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    const deleteBoard = () =>{
+    const deleteBoard = async () =>{
         setIsLoading(true)
-        axios.delete(`${process.env.basePath}/boards/${boardId}`)
-        .then((res) => {
-            setIsLoading(false)
-            router.push('/boards/create')
-            window.localStorage.removeItem('Creator')
-            window.localStorage.removeItem('boardId')
-            window.localStorage.removeItem('title')
-            DeleteModal()
-
-        }).catch((err) => {
-            console.log(err);
-        }).finally(() =>{
-            setIsLoading(false)
-        })
+        try {
+            
+            const res = await axios.delete(`${process.env.basePath}/boards/${boardId}`)
+            if(res.status === 200){
+                router.push('/boards/create')
+                window.localStorage.removeItem('Creator')
+                window.localStorage.removeItem('boardId')
+                window.localStorage.removeItem('title')
+                setIsLoading(false)
+                DeleteModal()
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const copyLink = (postsLink) =>{
@@ -144,18 +138,30 @@ function Post() {
         setHandleNavigating(true)
     }
 
+    // const handleLoaderForBackgroundImage = () => {
+    //     return (
+    //       <div className="absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-75">
+    //         <div className="flex flex-col items-center">
+    //           <span className="loading loading-spinner loading-lg text-[#FF9669]"></span>
+    //           <span className="mt-2">Loading background...</span>
+    //         </div>
+    //       </div>
+    //     );
+    //   };
+
 
     return (
         
         <div className={`min-h-screen h-full w-full bg-fixed bg-no-repeat bg-cover bg-center transition-all ease-linear`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
-                    
+            {/* {!uploadedImage && handleLoaderForBackgroundImage()} */}
+            
             <Head>
                 <title>Posts</title>
             </Head>
 
             <nav  className={`bg-white z-50 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 transition-all duration-300`}>
                 <div className="logo ps-10">
-                    <Link href='/' className=""> 
+                    <Link href='/'> 
                         <Image src={Logo} className='m-0 p-0' alt='Logo' width={45} height={45} />
                     </Link>
                 </div>
@@ -238,7 +244,7 @@ function Post() {
             <div className="posts-section flex items-center justify-center" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
                 {posts.length > 0 ? 
-                
+
                     <div className="board-posts grid grid-cols-12 py-2 place-items-start" >
                         {posts.map((post,index) => {
                         

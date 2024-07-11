@@ -33,7 +33,7 @@ function Message({decrementStep, boardData, setBoardData}) {
         
     }
     
-    const createBoard = () => {
+    const createBoard = async () => {
         setIsLoading(true)
         setBoardData(prevState => ({
             ...prevState,
@@ -46,8 +46,8 @@ function Message({decrementStep, boardData, setBoardData}) {
             recipient: boardData.recipient_name,
             title: title
         }
-        axios.post(`${process.env.basePath}/boards`, board)
-        .then((res) => {
+        try {
+            const res = await axios.post(`${process.env.basePath}/boards`, board)
             if(res.status === 200){
                 window.localStorage.setItem('boardId', res.data.eBoard._id)
                 confetti({
@@ -58,10 +58,10 @@ function Message({decrementStep, boardData, setBoardData}) {
                 router.push(`/boards/${res.data.eBoard._id}`)
                 convertCookieIntoHash()
             }
-        }).catch((err) => {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
             setIsLoading(false)
-        })
+        }
     }
 
     const handleKeyDown = (e) => {

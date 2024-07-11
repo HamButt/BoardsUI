@@ -13,6 +13,8 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
   const [debounceTimerForImage, setDebounceTimerForImage] = useState(0)
   const [imagePage, setImagePage] = useState(1);
   const [image,setImage] = useState(null)
+  const [loading, setLoading] = React.useState(false)
+  const borderColor = loading ? 'border-[#FF9669]' : 'border-gray-600';
   
   const params = {
     query: imageSearchValue,
@@ -43,25 +45,28 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
    
 }, [imageSearchValue])
 
- const fetchImages = () =>{
-  setImagePage((imgPg) => imgPg + 1 )
-  axios.get(process.env.unsplashUrl, { params })
-  .then(response => {
-      setImageData(response.data.results)
-      console.log(response.data.results);
-  })
-  .catch(error => console.error('Error:', error))
+ const fetchImages = async () =>{
+  try {
+    setImagePage((imgPg) => imgPg + 1 )
+    const response = await axios.get(process.env.unsplashUrl, { params })
+    setImageData(response.data.results)
+  } catch (error) {
+      console.error('Error:', error)
+  }
+  
  }
 
 const handleBackground = (backgroundImage) => {
     setImageUrl(backgroundImage)
+    document.body.style.transition = 'background-image 3s ease-in-out';
     document.body.style.backgroundAttachment = "fixed"
     document.body.style.backgroundSize = "cover"
     document.body.style.backgroundRepeat = "no-repeat"
     document.body.style.backgroundPosition = "center"
 }
 
-const updateBackground = () => {
+const updateBackground = async () => {
+  setLoading(true)
     const formData = new FormData();
     
     if(image){
@@ -71,39 +76,43 @@ const updateBackground = () => {
         formData.append('unsplashImage', imageUrl)
     }
       formData.append('boardId', boardId)
-  
-      axios.post(`${process.env.basePath}/boards/updateBackground`, formData, {
-        headers:{
+    try {
+      
+        const res = await axios.post(`${process.env.basePath}/boards/updateBackground`, formData, {
+          headers:{
             "Content-Type": "multipart/form-data"
             }
-      })
-      .then((res) => {
-          console.log(res);
+          })
           if(res.status === 200){
             setAnimateModal(true)
             setOpenNav(false)
             setSideComponent('color')
-            console.log("Image true");
-            getBoard()
-            const selectImage = document.getElementById('upload_image')
-            selectImage.textContent = "drag and drop your image file here or click to select a file"
+
+            if(image){
+              await getBoard()
+              const selectImage = document.getElementById('upload_image')
+              selectImage.textContent = "drag and drop your image file here or click to select a file"
+            }
           }
-            
-      }).catch((err) => {
-          console.log(err);
-      })
+          setLoading(false)
+        } catch (error) {
+            setLoading(false)
+            console.error(error);
+    }
+      
 }
 
-const getBoard = () =>{
-  axios.get(`${process.env.basePath}/boards/${boardId}`)
-  .then((res) => {
-    console.log(res);
-    const boardImage = Buffer.from(res.data.board.uploaded_image.data)
-    setUploadedImage(`${process.env.basePath}/images/${boardImage}`)
-  })
-  .catch((err) => {
-    console.log(err);
-  })
+const getBoard = async () =>{
+  try {
+      const res = await axios.get(`${process.env.basePath}/boards/${boardId}`)
+      const boardImage = Buffer.from(res.data.board.uploaded_image.data)
+      if(boardImage){
+        setUploadedImage(`${process.env.basePath}/images/${boardImage}`)
+      }
+    
+  } catch (error) {
+      console.error(error);
+  }
 }
 
   useEffect(()=>{
@@ -142,7 +151,17 @@ const handleUploadFiles = (e) => {
               
             </div>  
             <div className="flex items-center justify-center ">
-              <motion.button disabled={image ? false : true} whileTap={{ scale: 0.9 }} onClick={updateBackground} className='p-3 text-sm font-semibold rounded-md text-gray-600 border border-gray-400 mt-4' >Apply changes</motion.button>
+              <motion.button disabled={image ? false : true} whileTap={{ scale: 0.9 }} onClick={updateBackground} className={`p-3 text-sm font-semibold rounded-md text-gray-600 border ${borderColor} mt-4`} >
+              { loading ? 
+
+                <div className='flex items-center'>
+                  <span className="loading loading-spinner loading-xs text-[#FF9669] "></span>
+                  <span className="text-[#FF9669] ms-2">Saving...</span>
+                </div>
+
+                : "Apply changes"
+                }
+              </motion.button>
           </div>
         </div>
         
@@ -175,7 +194,18 @@ const handleUploadFiles = (e) => {
             }
 
           <div className="mt-4 flex items-end justify-evenly">
-            <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} className='border border-gray-400 p-3 rounded-md text-sm font-semibold text-gray-600' >Apply changes</motion.button>
+            <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} className={`border ${borderColor} p-3 rounded-md text-sm font-semibold text-gray-600`} >
+            { loading ? 
+
+                <div className='flex items-center'>
+                  <span className="loading loading-spinner loading-xs text-[#FF9669] "></span>
+                  <span className="text-[#FF9669] ms-2">Saving...</span>
+                </div>
+
+                : "Apply changes"
+                }
+
+            </motion.button>
             <motion.button whileTap={{ scale: 0.9 }} onClick={() => setUploadImageCompo(true)} className='border-b text-indigo-950 border-indigo-950 text-sm'>Want to upload?</motion.button>
           </div>
 
