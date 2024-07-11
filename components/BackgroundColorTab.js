@@ -26,7 +26,6 @@ function BackgroundColorTab({setImageUrl, boardId, setUploadedImage, setOpenNav,
         boardId
       }
       try {
-        
         const res = await axios.post(`${process.env.basePath}/boards/updateBackground`, formData )
         if(res.status === 200){
               setAnimateModal(true)
@@ -34,7 +33,7 @@ function BackgroundColorTab({setImageUrl, boardId, setUploadedImage, setOpenNav,
         }
         setLoading(false)
       } catch (error) {
-        setLoading(false)
+          setLoading(false)
           console.error("Background Color Error", error);
       }
              

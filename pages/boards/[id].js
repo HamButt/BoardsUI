@@ -39,7 +39,6 @@ function Post() {
     const [handleNavigating, setHandleNavigating] = useState(false);
     const [sideComponent,setSideComponent] = useState('color')
     const [animateModal, setAnimateModal] = useState(false);
-    // const hasBackground = imageUrl || uploadedImage
 
     const fetchPosts = async (boardId) => {
         setLoading(true);
@@ -114,7 +113,6 @@ function Post() {
     const deleteBoard = async () =>{
         setIsLoading(true)
         try {
-            
             const res = await axios.delete(`${process.env.basePath}/boards/${boardId}`)
             if(res.status === 200){
                 router.push('/boards/create')
@@ -137,17 +135,6 @@ function Post() {
     const navigationToPage = () => {
         setHandleNavigating(true)
     }
-
-    // const handleLoaderForBackgroundImage = () => {
-    //     return (
-    //       <div className="absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-75">
-    //         <div className="flex flex-col items-center">
-    //           <span className="loading loading-spinner loading-lg text-[#FF9669]"></span>
-    //           <span className="mt-2">Loading background...</span>
-    //         </div>
-    //       </div>
-    //     );
-    //   };
 
 
     return (

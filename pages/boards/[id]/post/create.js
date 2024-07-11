@@ -158,12 +158,12 @@ function CreatePost() {
                      "Content-Type": "multipart/form-data"
              }})
                  if(res.status === 200){
-                     confetti({
+                    confetti({
                          particleCount: 200,
                          spread: 50,
                          origin: { y: 0.7 }
                      })
-                     router.push(`/boards/${boardId}`)
+                    router.push(`/boards/${boardId}`)
                  }
             setIsLoading(false)
         } catch (error) {
@@ -183,6 +183,7 @@ function CreatePost() {
       };
 
     useEffect(()=>{
+        
         const selectImage = document.getElementsByClassName('upload-image')[0]
         const selectGif = document.getElementsByClassName('upload-gif')[0]
         if(selectImage){

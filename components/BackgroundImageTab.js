@@ -58,7 +58,7 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
 
 const handleBackground = (backgroundImage) => {
     setImageUrl(backgroundImage)
-    document.body.style.transition = 'background-image 3s ease-in-out';
+    document.body.style.transition = 'background-image 4s ease-in-out';
     document.body.style.backgroundAttachment = "fixed"
     document.body.style.backgroundSize = "cover"
     document.body.style.backgroundRepeat = "no-repeat"
@@ -66,7 +66,7 @@ const handleBackground = (backgroundImage) => {
 }
 
 const updateBackground = async () => {
-  setLoading(true)
+    setLoading(true)
     const formData = new FormData();
     
     if(image){
