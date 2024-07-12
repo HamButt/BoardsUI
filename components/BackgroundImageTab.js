@@ -4,8 +4,10 @@ import { FileUploader } from "react-drag-drop-files";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { BsCloudUpload } from "react-icons/bs";
 import {  motion } from "framer-motion";
+import Image from 'next/image';
+import { MdDelete } from "react-icons/md";
 
-function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, setOpenNav, setSideComponent,setAnimateModal}) {
+function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, setOpenNav, setSideComponent,setAnimateModal, fetchBoard}) {
   const [imageData, setImageData] = useState([]);
   const [imageSearchValue, setImageSearchValue] = useState('');
   const [imageSection, setImageSection] = useState(false);
@@ -14,6 +16,9 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
   const [imagePage, setImagePage] = useState(1);
   const [image,setImage] = useState(null)
   const [loading, setLoading] = React.useState(false)
+  const [uploadedImagePreview, setUploadedImagePreview] = useState("");
+  const [previewImageComponent, setImagePreviewComponent] = useState(false)
+  const [imageLoading, setImageLoading] = useState(false)
   const borderColor = loading ? 'border-[#FF9669]' : 'border-gray-600';
   
   const params = {
@@ -69,8 +74,8 @@ const updateBackground = async () => {
     setLoading(true)
     const formData = new FormData();
     
-    if(image){
-      formData.append('uploaded_image', image)
+    if(uploadedImagePreview){
+      formData.append('uploaded_image', image ? image : uploadedImagePreview)
       }
     if(imageUrl){
         formData.append('unsplashImage', imageUrl)
@@ -84,14 +89,14 @@ const updateBackground = async () => {
             }
           })
           if(res.status === 200){
-            setAnimateModal(true)
+
             setOpenNav(false)
             setSideComponent('color')
+            setAnimateModal(true)
 
-            if(image){
-              await getBoard()
-              const selectImage = document.getElementById('upload_image')
-              selectImage.textContent = "drag and drop your image file here or click to select a file"
+            
+            if(uploadedImagePreview){
+              await fetchBoard(boardId)
             }
           }
           setLoading(false)
@@ -102,26 +107,33 @@ const updateBackground = async () => {
       
 }
 
-const getBoard = async () =>{
-  try {
-      const res = await axios.get(`${process.env.basePath}/boards/${boardId}`)
-      const boardImage = Buffer.from(res.data.board.uploaded_image.data)
-      if(boardImage){
-        setUploadedImage(`${process.env.basePath}/images/${boardImage}`)
-      }
-    
-  } catch (error) {
-      console.error(error);
-  }
-}
 
-  useEffect(()=>{
-    const selectImage = document.getElementById('upload_image')
+  useEffect( ()=>{
     if(image){
-        selectImage.textContent = `File saved - (${image.name})`
+      handleUploadImage()
     }
-
-}, [image])
+    
+  }, [image])
+  
+  
+  const handleUploadImage = async () => {
+    setImageLoading(true)
+    setImagePreviewComponent(true)
+    const formData = new FormData();
+    formData.append('uploaded_image', image)
+    try {
+      
+      const res = await axios.post(`${process.env.basePath}/boards/upload`, formData ,{
+        headers:{
+          "Content-Type": "multipart/form-data"
+          }
+        })
+        setUploadedImagePreview(`${process.env.basePath}/images/${res.data.uploadedImage}`)
+        setImageLoading(false)
+    } catch (error) {
+      console.error(error);
+    }
+}
 
 const handleUploadFiles = (e) => {
   const file = e.target.files[0];
@@ -137,21 +149,47 @@ const handleUploadFiles = (e) => {
 
         {uploadImageCompo ? 
         
-        <div className='edit-board text-center'>
+        <div className='edit-board'>
+
             <div>
-              <IoMdArrowRoundBack onClick={() => {setUploadImageCompo(false)}} className='text-black text-2xl cursor-pointer'/>
-              <p className='font-light text-md text-black mt-2'>Please upload image that are appropriate for all audiences. We reserve the right to remove content without notice!</p>
-              <label htmlFor="file" className="labelFile border-2 border-gray-300 rounded-lg px-4 "><span><BsCloudUpload className="text-2xl" /></span>
-                  <div className='mt-2 w-full'>
-                      <p id='upload_image'>drag and drop your image file here or click to select a file</p>
-                      <p className='text-end text-xs font-semibold mt-3' >JPG, PNG, JPEG</p>
-                  </div>
-              </label>                         
-              <input accept='.png,.jpg,.jpeg' className="upload-input" name="uploaded_image" id="file" type="file" onChange={handleUploadFiles} />
+                <IoMdArrowRoundBack onClick={() => {setUploadImageCompo(false)}} className='text-black text-2xl cursor-pointer'/>
+                {
+                  previewImageComponent ? 
               
-            </div>  
+                  <div className="mt-3 h-full">
+                      <p className='text-center text-lg font-semibold'>Preview your image</p>
+                      { imageLoading ? 
+                      
+                          <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
+                            <span className="loading loading-spinner loading-md text-[#FF9669]"></span>
+                            <span className='text-md ms-2' >Loading preview</span> 
+                          </div>
+                          : 
+                          <>
+                            <button onClick={() => {setImagePreviewComponent(false); setUploadedImagePreview("")}} className='bg-black relative top-9 left-2 p-1 rounded-lg'>
+                                <MdDelete className=' text-white text-lg hover:text-gray-400'/>
+                            </button>
+                            <Image src={uploadedImagePreview} className='rounded-lg' alt='Your image' width={300} height={300} /> 
+                          </>
+                        }
+                  </div>
+                  : !previewImageComponent ?
+                  <>
+                      <p className='font-light text-md text-black mt-2 text-center'>Please upload image that are appropriate for all audiences. We reserve the right to remove content without notice!</p>
+                      <label htmlFor="file" className="labelFile border-2 border-gray-300 rounded-lg px-4 "><span><BsCloudUpload className="text-2xl" /></span>
+                          <div className='mt-2 w-full'>
+                              <p id='upload_image'>drag and drop your image file here or click to select a file</p>
+                              <p className='text-end text-xs font-semibold mt-3' >JPG, PNG, JPEG</p>
+                          </div>
+                      </label>                         
+                      <input accept='.png,.jpg,.jpeg' className="upload-input" name="uploaded_image" id="file" type="file" onChange={handleUploadFiles} />
+                  </>
+                  
+                  : ""}
+            </div> 
+
             <div className="flex items-center justify-center ">
-              <motion.button disabled={image ? false : true} whileTap={{ scale: 0.9 }} onClick={updateBackground} className={`p-3 text-sm font-semibold rounded-md text-gray-600 border ${borderColor} mt-4`} >
+              <motion.button disabled={uploadedImagePreview ? false : true} whileTap={{ scale: 0.9 }} onClick={updateBackground} className={`p-3 text-sm font-semibold rounded-md text-gray-600 border ${borderColor} mt-4`} >
               { loading ? 
 
                 <div className='flex items-center'>

@@ -23,6 +23,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FiAlertCircle } from "react-icons/fi";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem ,Button} from "@nextui-org/react";
 import { MdOutlineCheck } from "react-icons/md";
+import { IoMdClose } from "react-icons/io";
 
 function Post() {
     const router = useRouter()
@@ -39,15 +40,21 @@ function Post() {
     const [handleNavigating, setHandleNavigating] = useState(false);
     const [sideComponent,setSideComponent] = useState('color')
     const [animateModal, setAnimateModal] = useState(false);
+    const [welcomeModal, setWelcomeModal] = useState(true);
 
     const fetchPosts = async (boardId) => {
         setLoading(true);
+        const modal = localStorage.getItem('modal')
         try {
             const res = await axios.get(`${process.env.basePath}/posts/${boardId}`)
             if(res.data.allPosts.length){
                 setPosts(res.data.allPosts.reverse())
+                console.log("posts if");
             }else if (title){
                 Confetti()
+            }
+            else if(modal === boardId){
+                setWelcomeModal(false)
             }
             setLoading(false);
             
@@ -78,6 +85,7 @@ function Post() {
         }
     }
 
+
     useEffect(()=>{
 
         const cookie = localStorage.getItem('Creator')
@@ -89,7 +97,8 @@ function Post() {
         fetchPosts(board_id)
 
     }, [])
-    
+
+
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -116,9 +125,10 @@ function Post() {
             const res = await axios.delete(`${process.env.basePath}/boards/${boardId}`)
             if(res.status === 200){
                 router.push('/boards/create')
-                window.localStorage.removeItem('Creator')
-                window.localStorage.removeItem('boardId')
-                window.localStorage.removeItem('title')
+                localStorage.removeItem('Creator')
+                localStorage.removeItem('boardId')
+                localStorage.removeItem('title')
+                localStorage.removeItem('modal')
                 setIsLoading(false)
                 DeleteModal()
             }
@@ -134,6 +144,11 @@ function Post() {
 
     const navigationToPage = () => {
         setHandleNavigating(true)
+    }
+
+    const handleWelcomeModal = () => {
+        localStorage.setItem('modal', boardId)
+        setWelcomeModal(false)
     }
 
 
@@ -291,11 +306,12 @@ function Post() {
                         <span className="loading loading-spinner loading-md lg:loading-lg text-[#FF9669]"></span>
                     </div>
 
-                    :
+                    : welcomeModal ? 
                     <div className=' w-full h-screen flex items-start mt-10 2xl:mt-32 justify-center'>
                         <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col mx-2' style={{ width: "440px", maxWidth: "600px", height: "410px" }}>
-                            <Image src={ConfettiImage} alt='Confetti' className='mt-5' width={300} height={200}/>
-                            <div className="mt-12">
+                            <button onClick={handleWelcomeModal} className='flex self-end me-2 mt-2 text-black text-lg hover:bg-slate-200 p-2 rounded-md' ><IoMdClose/></button>
+                            <Image src={ConfettiImage} alt='Confetti' className='' width={350} height={200}/>
+                            <div className="mt-5">
                                 <h3 className="font-bold text-lg sm:text-2xl px-3">Welcome to the praise board of</h3>
                                 <p className="font-semibold mt-1 text-lg sm:text-xl capitalize">{recipient}</p>
                                 <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
@@ -308,7 +324,7 @@ function Post() {
                             </div>
                         </div>
                     </div>
-                }
+                : ''}
                     
                     
             </div>
@@ -342,6 +358,7 @@ function Post() {
                     {
                         sideComponent === "image" ? 
                             <BackgroundImageTab
+                                fetchBoard={fetchBoard}
                                 setSideComponent={setSideComponent}
                                 setAnimateModal={setAnimateModal}
                                 setOpenNav={setOpenNav} 
