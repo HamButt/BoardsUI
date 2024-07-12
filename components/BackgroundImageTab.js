@@ -71,12 +71,11 @@ const handleBackground = (backgroundImage) => {
 }
 
 const updateBackground = async () => {
-  console.log(uploadedImagePreview, image)
     setLoading(true)
     const formData = new FormData();
     
     if(uploadedImagePreview){
-      formData.append('uploaded_image', image ? image : uploadedImagePreview)
+      formData.append('uploaded_image', image)
       }
     if(imageUrl){
         formData.append('unsplashImage', imageUrl)
@@ -96,7 +95,7 @@ const updateBackground = async () => {
             setAnimateModal(true)
 
             
-            if(uploadedImagePreview){
+            if(uploadedImagePreview || image){
               await fetchBoard(boardId)
             }
           }
