@@ -71,6 +71,7 @@ const handleBackground = (backgroundImage) => {
 }
 
 const updateBackground = async () => {
+  console.log(uploadedImagePreview, image)
     setLoading(true)
     const formData = new FormData();
     
