@@ -2,13 +2,11 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
-import Swal from 'sweetalert2'
 import {  motion } from "framer-motion";
-import { FiAlertCircle } from "react-icons/fi";
 
-function BackgroundColorTab({setImageUrl, boardId, setUploadedImage, setOpenNav, setAnimateModal}) {
+function BackgroundColorTab({setImageUrl, boardId, setUploadedImage, setOpenNav, setAnimateModal, uploadedImage, imageUrl}) {
     const [color, setColor] = useColor("#000000");
-    const [loading, setLoading] = React.useState(false)
+    const [loading, setLoading] = useState(false)
     const borderColor = loading ? 'border-[#FF9669]' : 'border-gray-600';
 
     React.useEffect(()=>{
@@ -16,7 +14,8 @@ function BackgroundColorTab({setImageUrl, boardId, setUploadedImage, setOpenNav,
             setImageUrl("")
             setUploadedImage("")
             document.body.style.backgroundColor = color.hex
-        }
+          }
+          
     },[color])
 
     const changeBackground = async () => {
@@ -39,13 +38,17 @@ function BackgroundColorTab({setImageUrl, boardId, setUploadedImage, setOpenNav,
              
     }
 
+
   return (
 
     <div data-offset='0' data-aos="fade-right"  data-aos-easing="ease-in-back" data-aos-duration="300">
         <h1 className='text-black text-lg text-center'>Select your background color</h1>
+        
         <div className='mt-2'>
-            <ColorPicker hideInput={["rgb", "hsv"]} color={color} onChange={setColor}/>
+            <ColorPicker hideInput={["rgb", "hsv"]} color={color} onChange={setColor} />
         </div>
+        
+        
         <div className="flex items-center justify-center space-x-4">
             <motion.button whileTap={{scale:0.9}}  className={`border ${borderColor} p-3 rounded-md text-sm font-semibold text-gray-600 mt-3`} onClick={changeBackground}>
             { loading ? 

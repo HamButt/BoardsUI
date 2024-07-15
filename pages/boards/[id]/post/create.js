@@ -23,8 +23,8 @@ import axios from 'axios'
 
 function CreatePost() {
     const router = useRouter()
-    const [GIFCompnent, setGIFComponent] = useState(false); 
-    const [imageComponent, setImageComponent] = useState(false); 
+    const [GIFCompnent, setGIFComponent] = useState(""); 
+    const [imageComponent, setImageComponent] = useState(""); 
     const [isLoading, setIsLoading] = useState(false);
     const [videoInputHandling, setVideoInputHandling] = useState(false);
     const [gifSection, setGifSection] = useState(false);
@@ -48,6 +48,17 @@ function CreatePost() {
     const [error, setError] = useState(false);
     const [openErrorModal, setOpenErrorModal] = useState(false);
     const [gifOffset, setGifOffset] = useState(0);
+    // const [uploadedGif, setUploadedGif] = useState(''); 
+    // const [previewImageComponent, setImagePreviewComponent] = useState(false)
+    // const [imageLoading, setImageLoading] = useState(false)
+    // const [deleteLoader, setDeleteLoader] = useState(false)
+    // const [uploadedImagePreview, setUploadedImagePreview] = useState("");
+    // GIF PREVIEW
+    // const [previewGifComponent, setPreviewGifComponent] = useState(false)
+    // const [gifLoading, setGifLoading] = useState(false)
+    // const [gifDeleteLoader, setGifDeleteLoader] = useState(false)
+    // const [uploadGifPreview, setUploadGifPreview] = useState("");
+   
     let limit = 12;
     let offset = gifOffset;
     
@@ -82,7 +93,7 @@ function CreatePost() {
         } catch (error) {
             console.log("error",error);
             setError(error.response)}
-        }
+    }
     
 
     useEffect(()=>{
@@ -203,6 +214,90 @@ function CreatePost() {
         })
     }, [image])
 
+    
+    // const handleUploadImage = async () => {
+    //     setImageLoading(true)
+    //     setImagePreviewComponent(true)
+    //     setImageComponent("")
+    //     const formData = new FormData();
+    //     formData.append('uploaded_image', image)
+    //     try {
+          
+    //       const res = await axios.post(`${process.env.basePath}/posts/upload`, formData ,{
+    //         headers:{
+    //           "Content-Type": "multipart/form-data"
+    //           }
+    //         })
+    //         setImageLoading(false)
+    //         setUploadedImagePreview(`${process.env.basePath}/images/${res.data.uploadedImage}`)
+    //     } catch (error) {
+    //       console.error(error);
+    //     }
+    // }
+
+    // useEffect(() => {
+    //         image && handleUploadImage()
+        
+    //   }, [image])
+
+    // const deleteImageFromServer = async () => {
+    //     setDeleteLoader(true)
+    //     try {
+          
+    //       const response = await axios.post(`${process.env.basePath}/posts/delete`, {image: image.name})
+    //       if(response.status === 200){
+    //         setImagePreviewComponent(false);
+    //         setImageComponent("upload")
+    //         setUploadedImagePreview("");
+    //       }
+    //       setDeleteLoader(false)
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    // }
+
+    // const handleUploadGif = async () => {
+    //     setGifLoading(true)
+    //     setPreviewGifComponent(true)
+    //     const formData = new FormData();
+    //     formData.append('uploaded_image', image)
+    //     try {
+          
+    //       const res = await axios.post(`${process.env.basePath}/posts/upload`, formData ,{
+    //         headers:{
+    //           "Content-Type": "multipart/form-data"
+    //           }
+    //         })
+    //         setGIFComponent("")
+    //         setGifLoading(false)
+    //         setUploadGifPreview(`${process.env.basePath}/images/${res.data.uploadedImage}`)
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
+
+    // const deleteGifFromServer = async () => {
+    //     setGifDeleteLoader(true)
+    //     try {
+          
+    //       const response = await axios.post(`${process.env.basePath}/posts/delete`, {image: image.name})
+    //       if(response.status === 200){
+    //         setUploadGifPreview("")
+    //         setPreviewGifComponent(false)
+    //         setGIFComponent("upload")
+    //       }
+    //       setGifDeleteLoader(false)
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     setUploadedGif(image)
+    //     if(uploadedGif){
+    //       handleUploadGif()
+    //     }
+    //   }, [uploadedGif])
 
   return (
 
@@ -248,13 +343,13 @@ function CreatePost() {
                                         <DropdownItem textValue='Upload'>
                                             <div className='upload  hover:bg-indigo-100 flex items-center justify-start cursor-pointer rounded-md p-2'>
                                                 <MdDriveFolderUpload className='text-xl text-indigo-600' />
-                                                <p className='text-sm font-semibold ps-3' onClick={() => {setImageComponent('upload'); setImageSection(false); setGIFComponent(false);  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setGifData("")}} >Upload image</p>
+                                                <p className='text-sm font-semibold ps-3' onClick={() => {setImageComponent('upload'); setImageSection(false); setGIFComponent("");  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setGifData("")}} >Upload image</p>
                                             </div>
                                         </DropdownItem>
                                         <DropdownItem textValue='Search'>
                                             <div className='search hover:bg-indigo-100 flex items-center justify-start  mt-2 cursor-pointer  rounded-md p-2'>
                                                 <RiStackFill className='text-xl text-indigo-600' />
-                                                <p className='text-sm font-semibold ps-3' onClick={() => { setImageComponent('search'); setGIFComponent(false);  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setGifData("")}}>Search with unsplash</p>
+                                                <p className='text-sm font-semibold ps-3' onClick={() => { setImageComponent('search'); setGIFComponent("");  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setGifData("")}}>Search with unsplash</p>
                                             </div>
                                         </DropdownItem>
                                     </DropdownMenu>
@@ -273,29 +368,65 @@ function CreatePost() {
                                         <DropdownItem textValue='Upload'>
                                             <div className='upload  hover:bg-pink-100 flex items-center justify-start cursor-pointer rounded-md p-2'>
                                                 <MdDriveFolderUpload className='text-xl text-pink-600' />
-                                                <p className='text-sm font-semibold ps-3' onClick={() => {setGIFComponent('upload'); setImageComponent(false); setImageSection(false);  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false); setImageData("")}} >Upload GIF</p>
+                                                <p className='text-sm font-semibold ps-3' onClick={() => {setGIFComponent('upload'); setImageComponent(""); setImageSection(false);  setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false); setImageData("")}} >Upload GIF</p>
                                             </div>
                                         </DropdownItem>
                                         <DropdownItem textValue='Search'>
                                             <div className='search hover:bg-pink-100 flex items-center justify-start mt-2 cursor-pointer rounded-md p-1 md:p-2'>
                                                 <RiStackFill className='text-xl text-pink-600' />
-                                                <p className='text-sm font-semibold ps-3' onClick={() => {setGIFComponent('search'); setImageComponent(false); setImageSection(false); setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setImageData("")}}>Search with giphy</p>
+                                                <p className='text-sm font-semibold ps-3' onClick={() => {setGIFComponent('search'); setImageComponent(""); setImageSection(false); setVideoComponent(false); setGifSection(false); setGif(false); setVideoInputHandling(false);setImageData("")}}>Search with giphy</p>
                                             </div>
                                         </DropdownItem>
                                     </DropdownMenu>
                                 </Dropdown>
                                     
-                                <Button onClick={() => { setGIFComponent(false);setImageData("");setGifData(''); setImageComponent(false);  
+                                <Button onClick={() => { setGIFComponent("");setImageData("");setGifData(''); setImageComponent("");  
                                     setImageSection(false); setVideoComponent(!videoComponent); setGifSection(false); setGif(false);
                                     setVideoInputHandling(false)}} className="mt-2 flex items-center justify-center font-semibold rounded-lg outline-none social-buttons 
                                     border border-red-700 text-red-700 bg-transparent hover:bg-transparent hover:border-red-700 py-5 px-3"> 
                                     <FaYoutube  className='text-lg md:text-[16px] text-red-700' />
                                     <span className='text-sm md:text-[15px] ms-2 p-0'> Add a video </span> 
                                 </Button>
+
                             </div>
                         </div>
                         
                         <div className="file-uploader mx-10 mt-6 flex flex-col items-center justify-center">
+                            
+                            {/* Image preview */}
+                            
+                            {/* <div>
+                                {
+                                    previewImageComponent ? 
+                            
+                                <div className="mt-3 h-full">
+                                    <p className='text-center text-lg font-semibold text-indigo-600'>Preview your image</p>
+                                    { imageLoading ? 
+                        
+                                        <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
+                                            <span className="loading loading-spinner loading-md text-indigo-600"></span>
+                                            <span className='text-md ms-2 text-indigo-600' >Loading preview</span> 
+                                        </div>
+                                        : 
+                                        <>
+                                            <button onClick={() => { deleteImageFromServer()}} className='bg-black relative top-9 left-2 p-1 rounded-lg'>
+                                                <MdDelete className=' text-white text-lg hover:text-gray-400'/>
+                                            </button>
+                                            <Image src={uploadedImagePreview} className='rounded-lg' alt='Your image' width={300} height={300} /> 
+                                        </>
+                                    }
+                                </div>
+                            
+                    
+                            : deleteLoader ?  
+                            
+                                <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
+                                    <span className="loading loading-spinner loading-md text-indigo-600"></span>
+                                    <span className='text-md ms-2 text-indigo-600' >Deleting preview</span> 
+                                </div>
+                            : ""}
+
+                            </div>  */}
 
                             { imageComponent === "upload" ?
                             <div className='text-center mt-4'>
@@ -313,7 +444,7 @@ function CreatePost() {
                             </div>
 
                             : 
-
+                            
                             imageComponent === "search" ? 
                                 <div className=' mt-4'>
                                     <p className='font-semibold'>Add more specific image terms to your search if you don&apos;t find what you&apos;re looking for</p>
@@ -342,7 +473,7 @@ function CreatePost() {
                                         imageData.map((img, index)=>{ 
                                             return(
                                                 <div key={index} className='mt-2 cursor-pointer max-sm:w-[80px] max-sm:h-[90px] sm:w-[100px] sm:h-[120px] md:w-[150px] md:h-[170px]'
-                                                    onClick={() => {setSplashImage(img.urls.regular); setImageComponent(false); setImageSection(false)}}>
+                                                    onClick={() => {setSplashImage(img.urls.regular); setImageComponent(""); setImageSection(false)}}>
                                                     <motion.img whileTap={{scale:0.9}} className='h-full w-full rounded-md' src={img.urls.small} alt="IMAGE URL" />
                                                 </div> 
                                             )})
@@ -362,6 +493,41 @@ function CreatePost() {
                                     <span>{error}</span>
                                 </div>
                             )}
+
+                             {/* GIF preview */}
+
+                             {/* <div>
+                                {
+                                    previewGifComponent ? 
+                            
+                                <div className="mt-3 h-full">
+                                    <p className='text-center text-lg font-semibold text-pink-600'>Preview your GIF</p>
+                                    { gifLoading ? 
+                        
+                                    <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
+                                        <span className="loading loading-spinner loading-md text-pink-600"></span>
+                                        <span className='text-md ms-2 text-pink-600' >Loading preview</span> 
+                                    </div>
+                                    : 
+                                    <>
+                                        <button onClick={() => { deleteGifFromServer()}} className='bg-black relative top-9 left-2 p-1 rounded-lg'>
+                                            <MdDelete className=' text-white text-lg hover:text-gray-400'/>
+                                        </button>
+                                        <Image src={uploadGifPreview} className='rounded-lg' alt='Your image' width={300} height={300} /> 
+                                    </>
+                                    }
+                            </div>
+                            
+                    
+                            : gifDeleteLoader ?  
+                            
+                                <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
+                                    <span className="loading loading-spinner loading-md text-pink-600"></span>
+                                    <span className='text-md ms-2 text-pink-600' >Deleting preview</span> 
+                                </div>
+                            : ""}
+
+                            </div>  */}
 
                             {GIFCompnent === "upload" ? 
                                 <div className='text-center mt-4'>
@@ -420,7 +586,7 @@ function CreatePost() {
                                         return(
                                             
                                             <div key={index} className='mt-2 cursor-pointer  w-[120px] h-[130px] md:w-[180px] md:h-[200px]'
-                                                onClick={() => {setGif(gif.images.original.url); setGIFComponent(false); setGifSection(false)}}>
+                                                onClick={() => {setGif(gif.images.original.url); setGIFComponent(""); setGifSection(false)}}>
                                                 <motion.img 
                                                     whileTap={{scale:0.9}} 
                                                     className=' h-full w-full rounded-md' 

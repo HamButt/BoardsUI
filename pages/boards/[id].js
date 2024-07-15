@@ -26,6 +26,7 @@ import { MdOutlineCheck } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import { Clipboard } from '@ark-ui/react'
 import { Dialog, Portal } from '@ark-ui/react'
+import useClipboard from '@/hooks/useClipboard';
 
 function Post() {
     const router = useRouter()
@@ -39,11 +40,13 @@ function Post() {
     const [isLoading,setIsLoading] = useState(false)
     const [openNav,setOpenNav] = useState(false)
     const [loading, setLoading] = useState(false);
-    const [handleNavigating, setHandleNavigating] = useState(false);
+    const [isNavigating, setIsNavigating] = useState(false);
     const [sideComponent,setSideComponent] = useState('color')
     const [animateModal, setAnimateModal] = useState(false);
     const [welcomeModal, setWelcomeModal] = useState(true);
     const [isScrolled, setIsScrolled] = useState(false);
+    const setClipboard = useClipboard();
+
     // const [alertModal, setAlertModal] = useState(true);
     const inputRef = useRef()
 
@@ -162,24 +165,19 @@ function Post() {
     }
 
     const copyLink = (boardId) =>{
-        navigator.clipboard.writeText(`http://localhost:3000/boards/${boardId}`);
-        toast.success('Link copied');
+        setClipboard(`https://praiseboard.vercel.app/boards/${boardId}`)
+        toast.success('Link copied'); 
     }
 
     const navigationToPage = () => {
-        setHandleNavigating(true)
+        setIsNavigating(true)
     }
 
     const handleWelcomeModal = () => {
         localStorage.setItem('modal', boardId)
-        // localStorage.setItem('alert', boardId)
         setWelcomeModal(false)
-        // setAlertModal(false)
     }
-    // const handleAlert = () => {
-    //     localStorage.setItem('alert', boardId)
-    //     setAlertModal(false)
-    // }
+    
 
     const focusOnInput = () => {
         inputRef.current.focus()
@@ -248,7 +246,7 @@ function Post() {
                     
                     <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
                         className='btn btn-sm bg-[#2a9d8f] font-normal text-md hover-shadow-xl text-white border-none hover:bg-[#2a9d8f] '>
-                        {handleNavigating ? <span className="loading loading-dots loading-md text-[#FF9669]"></span>
+                        {isNavigating ? <span className="loading loading-dots loading-md text-[#FF9669]"></span>
                             : 
                             <>
                                 <FaPlus /> Add a post
@@ -309,13 +307,15 @@ function Post() {
                 </div>
                 
                     
-                <div className="text-center editable-element hover:bg-gray-400 ">
+                <div className="text-center editable-element ">
                     {
                         title ? 
-                        
-                        <input ref={inputRef} type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
-                        className='capitalize focus:border border-black w-full text-3xl outline-none py-2 text-center bg-transparent
-                        text-black hover:text-black cursor-pointer'  /> : 
+                        <div className="title w-full">
+                            <input ref={inputRef} type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
+                                className='capitalize hover:underline  border-black text-3xl outline-none py-2 text-center bg-transparent
+                                text-black hover:text-black cursor-pointer'  /> 
+                        </div>
+                        : 
                         <div className="skeleton h-10 rounded-md w-80 mt-2 mx-auto pt-2 font-semibold"></div>
                     }
                         <button onClick={focusOnInput} className={`${isScrolled ? 'hidden' : ''} md:hidden absolute kbd kbd-xs left-5 top-28  px-2 py-1 rounded-md bg-[#2a9d8f] text-white font-medium text-xs`} >Edit title</button>
@@ -331,11 +331,8 @@ function Post() {
                         <div className="board-posts grid grid-cols-12 py-2 place-items-start" >
                             {posts.map((post,index) => {
                             
-                            let formattedImage;
-                            if(post.image){
-                                formattedImage = Buffer.from(post.image.data)
-                            }
-                            
+                            const formattedImage = post.image ? Buffer.from(post.image.data) : null
+                                                        
                             return (
                                     <div key={post._id} className="user-posts col-span-12 md:col-span-6 w-[330px] sm:w-[450px] md:w-[380px] lg:w-[320px] xl:w-[410px]  lg:col-span-4 mt-3 bg-[#2a9d8f] mx-2 rounded-lg shadow-md"  >
                                     {
@@ -398,7 +395,7 @@ function Post() {
                                     <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
                                         className='btn hover:bg-[#2a9d8f] bg-[#2a9d8f] text-white mt-6 border border-none px-6 sm:px-10 py-1 sm:py-2 rounded-md text-md sm:text-xl font-light'>
                                         
-                                        {handleNavigating ? 
+                                        {isNavigating ? 
                                             <span className="loading loading-dots loading-md lg:loading-lg text-[#FF9669]"></span>
                                         : "Add your post"}
                                     </Link>
@@ -417,11 +414,11 @@ function Post() {
 
             <div id="mySidenav" className={` sidenav bg-white `} style={{marginRight: openNav ? "0" : "-30rem"}}>
                 <div className={`${isScrolled ? "shadow-inner" : ""} flex flex-1  justify-end pe-5`}>
-                    <button onClick={() => {setOpenNav(false)}} className='text-gray-800 text-3xl m-0'>&times;</button>
+                    <button onClick={() => {setOpenNav(false); }} className='text-gray-800 text-3xl m-0'>&times;</button>
                 </div>
                 <h1 className='text-black text-xl text-center'>Set background</h1>
                 
-                <div className='rounded-md flex text-center mt-4 items-center justify-center p-1 mx-2 bg-gray-100' >
+                <div className='transition-all duration-700 rounded-md flex text-center mt-4 items-center justify-center p-1 mx-2 bg-gray-100' >
                     <div 
                         className={` images py-1 rounded-md text-sm font-semibold text-${sideComponent === 'color' ? 'black' : 'gray-500'}
                         bg-${sideComponent === 'color' ? 'white' : ''} flex-1 cursor-pointer
@@ -445,15 +442,17 @@ function Post() {
                                 setAnimateModal={setAnimateModal}
                                 setOpenNav={setOpenNav} 
                                 setUploadedImage={setUploadedImage} 
+                                uploadedImage={uploadedImage}
                                 imageUrl={imageUrl} 
                                 setImageUrl={setImageUrl} 
                                 boardId={boardId} 
                             /> : 
                             <BackgroundColorTab 
-                                setOpenNav={setOpenNav} 
-                                setAnimateModal={setAnimateModal}
-                                setUploadedImage={setUploadedImage} 
+                                imageUrl={imageUrl} 
                                 setImageUrl={setImageUrl} 
+                                setOpenNav={setOpenNav} 
+                                setUploadedImage={setUploadedImage} 
+                                setAnimateModal={setAnimateModal}
                                 boardId={boardId}
                             />
                     }

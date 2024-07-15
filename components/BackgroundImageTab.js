@@ -22,13 +22,13 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
   const [deleteLoader, setDeleteLoader] = useState(false)
   const borderColor = loading ? 'border-[#FF9669]' : 'border-gray-600';
   
-  const params = {
+  const unsplashParams = {
     query: imageSearchValue,
     page:  imagePage,
     per_page: 12,
     client_id: process.env.clientId,
     orientation: 'portrait',
-};
+  };
 
   useEffect(()=>{
     if(imageSearchValue){
@@ -54,7 +54,7 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
  const fetchImages = async () =>{
   try {
     setImagePage((imgPg) => imgPg + 1 )
-    const response = await axios.get(process.env.unsplashUrl, { params })
+    const response = await axios.get(process.env.unsplashUrl, { params: unsplashParams })
     setImageData(response.data.results)
   } catch (error) {
       console.error('Error:', error)
@@ -110,16 +110,15 @@ const updateBackground = async () => {
 
 
 useEffect( ()=>{
-  if(image){
-    handleUploadImage()
-  }
+
+  image && uploadImage()
   
 }, [image])
 
   
-  const handleUploadImage = async () => {
-    setImageLoading(true)
+  const uploadImage = async () => {
     setImagePreviewComponent(true)
+    setImageLoading(true)
     const formData = new FormData();
     formData.append('uploaded_image', image)
     try {
@@ -136,6 +135,21 @@ useEffect( ()=>{
     }
 }
 
+const deleteImage = async () => {
+  setDeleteLoader(true)
+  try {
+    
+    const response = await axios.post(`${process.env.basePath}/boards/delete`, {image: image.name})
+    if(response.status === 200){
+      setDeleteLoader(false)
+      setUploadedImagePreview("");
+      setImagePreviewComponent(false);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const handleUploadFiles = (e) => {
   const file = e.target.files[0];
   if (file) {
@@ -143,20 +157,7 @@ const handleUploadFiles = (e) => {
   }
 };
 
-const deleteImageFromServer = async () => {
-  setDeleteLoader(true)
-  try {
-    
-    const response = await axios.post(`${process.env.basePath}/boards/delete`, {image: image.name})
-    if(response.status === 200){
-      setImagePreviewComponent(false);
-      setUploadedImagePreview("");
-    }
-    setDeleteLoader(false)
-  } catch (error) {
-    console.log(error);
-  }
-}
+
 
   return (
 
@@ -182,7 +183,7 @@ const deleteImageFromServer = async () => {
                           </div>
                           : 
                           <>
-                            <button onClick={() => { deleteImageFromServer()}} className='bg-black relative top-9 left-2 p-1 rounded-lg'>
+                            <button onClick={() => {deleteImage()}} className='bg-black relative top-9 left-2 p-1 rounded-lg'>
                                 <MdDelete className=' text-white text-lg hover:text-gray-400'/>
                             </button>
                             <Image src={uploadedImagePreview} className='rounded-lg' alt='Your image' width={300} height={300} /> 
