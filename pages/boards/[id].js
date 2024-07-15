@@ -24,8 +24,6 @@ import { FiAlertCircle } from "react-icons/fi";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem ,Button} from "@nextui-org/react";
 import { MdOutlineCheck } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
-import { Clipboard } from '@ark-ui/react'
-import { Dialog, Portal } from '@ark-ui/react'
 import useClipboard from '@/hooks/useClipboard';
 
 function Post() {
@@ -49,20 +47,20 @@ function Post() {
     // const [alertModal, setAlertModal] = useState(true);
     const inputRef = useRef()
 
-    useEffect(() => {
-        const handleScroll = () => {
-          if (window.scrollY > 0) {
-            setIsScrolled(true);
-          } else {
-            setIsScrolled(false);
-          }
-        };
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //       if (window.scrollY > 0) {
+    //         setIsScrolled(true);
+    //       } else {
+    //         setIsScrolled(false);
+    //       }
+    //     };
     
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-          window.removeEventListener('scroll', handleScroll);
-        };
-      }, []);
+    //     window.addEventListener('scroll', handleScroll);
+    //     return () => {
+    //       window.removeEventListener('scroll', handleScroll);
+    //     };
+    //   }, []);
 
     const fetchPosts = async (boardId) => {
         setLoading(true);
@@ -178,10 +176,10 @@ function Post() {
                 <title>Posts</title>
             </Head>
 
-            <nav  className={`${isScrolled ? 'bg-transparent' : 'bg-white'} transition-all duration-500  z-50 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 `}>
+            <nav  className={`bg-white z-50 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 `}>
                 <div className="logo ps-10">
                     <Link href='/'> 
-                        <Image src={Logo} className={`transition-all duration-500 ${isScrolled ? "brightness-200" : ""} m-0 p-0`} alt='Logo' width={45} height={45} />
+                        <Image src={Logo} className={` m-0 p-0`} alt='Logo' width={45} height={45} />
                     </Link>
                 </div>
 
@@ -252,18 +250,18 @@ function Post() {
                 </div>
                 
                     
-                <div className="text-center editable-element ">
+                <div className="text-center editable-element hover:bg-gray-300">
                     {
                         title ? 
                         <div className="title w-full">
                             <input ref={inputRef} type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
-                                className='capitalize hover:underline  border-black text-3xl outline-none py-2 text-center bg-transparent
+                                className='capitalize focus:border border-black text-3xl w-full outline-none py-2 text-center bg-transparent
                                 text-black hover:text-black cursor-pointer'  /> 
                         </div>
                         : 
                         <div className="skeleton h-10 rounded-md w-80 mt-2 mx-auto pt-2 font-semibold"></div>
                     }
-                        <button onClick={focusOnInput} className={`${isScrolled ? 'hidden' : ''} md:hidden absolute kbd kbd-xs left-5 top-28  px-2 py-1 rounded-md bg-[#2a9d8f] text-white font-medium text-xs`} >Edit title</button>
+                        <button onClick={focusOnInput} className={`md:hidden absolute kbd kbd-xs left-5 top-28  px-2 py-1 rounded-md bg-[#2a9d8f] text-white font-medium text-xs`} >Edit title</button>
                 </div>
             </div>
 
