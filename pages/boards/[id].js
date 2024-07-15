@@ -24,8 +24,6 @@ import { FiAlertCircle } from "react-icons/fi";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem ,Button} from "@nextui-org/react";
 import { MdOutlineCheck } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
-import { Clipboard } from '@ark-ui/react'
-import { Dialog, Portal } from '@ark-ui/react'
 import useClipboard from '@/hooks/useClipboard';
 
 function Post() {
