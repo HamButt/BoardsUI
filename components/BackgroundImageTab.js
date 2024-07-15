@@ -19,6 +19,7 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
   const [uploadedImagePreview, setUploadedImagePreview] = useState("");
   const [previewImageComponent, setImagePreviewComponent] = useState(false)
   const [imageLoading, setImageLoading] = useState(false)
+  const [deleteLoader, setDeleteLoader] = useState(false)
   const borderColor = loading ? 'border-[#FF9669]' : 'border-gray-600';
   
   const params = {
@@ -75,7 +76,7 @@ const updateBackground = async () => {
     const formData = new FormData();
     
     if(uploadedImagePreview){
-      formData.append('uploaded_image', image ? image : uploadedImagePreview)
+      formData.append('uploaded_image', image)
       }
     if(imageUrl){
         formData.append('unsplashImage', imageUrl)
@@ -92,13 +93,13 @@ const updateBackground = async () => {
 
             setOpenNav(false)
             setSideComponent('color')
-            setAnimateModal(true)
-
             
-            if(uploadedImagePreview){
+            if(uploadedImagePreview || image){
               await fetchBoard(boardId)
             }
           }
+          
+          setAnimateModal(true)
           setLoading(false)
         } catch (error) {
             setLoading(false)
@@ -108,13 +109,13 @@ const updateBackground = async () => {
 }
 
 
-  useEffect( ()=>{
-    if(image){
-      handleUploadImage()
-    }
-    
-  }, [image])
+useEffect( ()=>{
+  if(image){
+    handleUploadImage()
+  }
   
+}, [image])
+
   
   const handleUploadImage = async () => {
     setImageLoading(true)
@@ -142,6 +143,21 @@ const handleUploadFiles = (e) => {
   }
 };
 
+const deleteImageFromServer = async () => {
+  setDeleteLoader(true)
+  try {
+    
+    const response = await axios.post(`${process.env.basePath}/boards/delete`, {image: image.name})
+    if(response.status === 200){
+      setImagePreviewComponent(false);
+      setUploadedImagePreview("");
+    }
+    setDeleteLoader(false)
+  } catch (error) {
+    console.log(error);
+  }
+}
+
   return (
 
     <div data-offset='0' data-aos="fade-left"  data-aos-easing="ease-in-back" data-aos-duration="300">
@@ -157,16 +173,16 @@ const handleUploadFiles = (e) => {
                   previewImageComponent ? 
               
                   <div className="mt-3 h-full">
-                      <p className='text-center text-lg font-semibold'>Preview your image</p>
+                      <p className='text-center text-lg font-semibold text-black'>Preview your image</p>
                       { imageLoading ? 
                       
                           <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
                             <span className="loading loading-spinner loading-md text-[#FF9669]"></span>
-                            <span className='text-md ms-2' >Loading preview</span> 
+                            <span className='text-md ms-2 text-[#FF9669]' >Loading preview</span> 
                           </div>
                           : 
                           <>
-                            <button onClick={() => {setImagePreviewComponent(false); setUploadedImagePreview("")}} className='bg-black relative top-9 left-2 p-1 rounded-lg'>
+                            <button onClick={() => { deleteImageFromServer()}} className='bg-black relative top-9 left-2 p-1 rounded-lg'>
                                 <MdDelete className=' text-white text-lg hover:text-gray-400'/>
                             </button>
                             <Image src={uploadedImagePreview} className='rounded-lg' alt='Your image' width={300} height={300} /> 
@@ -185,6 +201,12 @@ const handleUploadFiles = (e) => {
                       <input accept='.png,.jpg,.jpeg' className="upload-input" name="uploaded_image" id="file" type="file" onChange={handleUploadFiles} />
                   </>
                   
+                  : deleteLoader ?  
+                  
+                      <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
+                          <span className="loading loading-spinner loading-md text-[#FF9669]"></span>
+                          <span className='text-md ms-2 text-[#FF9669]' >Deleting preview</span> 
+                      </div>
                   : ""}
             </div> 
 

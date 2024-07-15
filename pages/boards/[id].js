@@ -1,5 +1,5 @@
 'use client'
-import React , {useEffect, useState} from 'react'
+import React , {useEffect, useState, useRef} from 'react'
 import axios from 'axios';
 import Link from 'next/link'
 import Image from 'next/image'
@@ -24,6 +24,8 @@ import { FiAlertCircle } from "react-icons/fi";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem ,Button} from "@nextui-org/react";
 import { MdOutlineCheck } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
+import { Clipboard } from '@ark-ui/react'
+import { Dialog, Portal } from '@ark-ui/react'
 
 function Post() {
     const router = useRouter()
@@ -41,21 +43,44 @@ function Post() {
     const [sideComponent,setSideComponent] = useState('color')
     const [animateModal, setAnimateModal] = useState(false);
     const [welcomeModal, setWelcomeModal] = useState(true);
+    const [isScrolled, setIsScrolled] = useState(false);
+    // const [alertModal, setAlertModal] = useState(true);
+    const inputRef = useRef()
+
+    useEffect(() => {
+        const handleScroll = () => {
+          if (window.scrollY > 0) {
+            setIsScrolled(true);
+          } else {
+            setIsScrolled(false);
+          }
+        };
+    
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+        };
+      }, []);
 
     const fetchPosts = async (boardId) => {
         setLoading(true);
         const modal = localStorage.getItem('modal')
+        // const alert = localStorage.getItem('alert')
         try {
             const res = await axios.get(`${process.env.basePath}/posts/${boardId}`)
             if(res.data.allPosts.length){
                 setPosts(res.data.allPosts.reverse())
-                console.log("posts if");
             }else if (title){
                 Confetti()
             }
             else if(modal === boardId){
                 setWelcomeModal(false)
             }
+            // else if (alert === boardId){
+            //     setAlertModal(false)
+            //     console.log("alert worked");
+
+            // }
             setLoading(false);
             
         } catch (error) {
@@ -89,15 +114,14 @@ function Post() {
     useEffect(()=>{
 
         const cookie = localStorage.getItem('Creator')
-        setUserCookie(cookie)
         const board_id = window.location.pathname.split('/').reverse()[0]
+        setUserCookie(cookie)
         setBoardId(board_id)
         
         fetchBoard(board_id)
         fetchPosts(board_id)
 
     }, [])
-
 
 
     useEffect(() => {
@@ -137,8 +161,8 @@ function Post() {
         }
     }
 
-    const copyLink = (postsLink) =>{
-        navigator.clipboard.writeText(`https://praiseboard.vercel.app/boards/${postsLink}`);
+    const copyLink = (boardId) =>{
+        navigator.clipboard.writeText(`http://localhost:3000/boards/${boardId}`);
         toast.success('Link copied');
     }
 
@@ -148,23 +172,73 @@ function Post() {
 
     const handleWelcomeModal = () => {
         localStorage.setItem('modal', boardId)
+        // localStorage.setItem('alert', boardId)
         setWelcomeModal(false)
+        // setAlertModal(false)
     }
+    // const handleAlert = () => {
+    //     localStorage.setItem('alert', boardId)
+    //     setAlertModal(false)
+    // }
 
+    const focusOnInput = () => {
+        inputRef.current.focus()
+    }
 
     return (
         
-        <div className={`min-h-screen h-full w-full bg-fixed bg-no-repeat bg-cover bg-center transition-all ease-linear`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
+        <div>
             {/* {!uploadedImage && handleLoaderForBackgroundImage()} */}
             
             <Head>
                 <title>Posts</title>
             </Head>
 
-            <nav  className={`bg-white z-50 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 transition-all duration-300`}>
+            {/* {alertModal &&
+                
+                <div className='absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm min-h-screen h-full' >
+
+                    <div role="alert" className="alert bg-[#FF9669] w-[750px] border-none shadow">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6 shrink-0 stroke-current text-black"
+                            fill="none"
+                            viewBox="0 0 24 24">
+                            <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <span className='text-black' >Note: Save your board link otherwise you can lost board</span>
+
+                            <Clipboard.Root value={`http://localhost:3000/boards/${boardId}`}>
+                                <Clipboard.Control className='flex items-center '>
+                                    <Clipboard.Input className='input' />
+                                    <Clipboard.Trigger className='ms-1' onClick={() => {copyLink(boardId); handleAlert()}}>
+                                        <Clipboard.Indicator copied={<svg width={24} height={24} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="m2.394 13.742 4.743 3.62 7.616-8.704-1.506-1.316-6.384 7.296-3.257-2.486zm19.359-5.084-1.506-1.316-6.369 7.279-.753-.602-1.25 1.562 2.247 1.798z"/>
+                                            </svg>}
+                                        >
+
+                                        <svg fill="none" height={20} shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width={20}>
+                                            <path d="M6 17C4.89543 17 4 16.1046 4 15V5C4 3.89543 4.89543 3 6 3H13C13.7403 3 14.3866 3.4022 14.7324 4M11 21H18C19.1046 21 20 20.1046 20 19V9C20 7.89543 19.1046 7 18 7H11C9.89543 7 9 7.89543 9 9V19C9 20.1046 9.89543 21 11 21Z" />
+                                        </svg>
+
+                                    </Clipboard.Indicator>
+                                    </Clipboard.Trigger>
+                                </Clipboard.Control>
+                            </Clipboard.Root>
+                    </div>
+  
+                </div>
+
+             } */}
+
+            <nav  className={`${isScrolled ? 'bg-transparent' : 'bg-white'} transition-all duration-500  z-50 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 `}>
                 <div className="logo ps-10">
                     <Link href='/'> 
-                        <Image src={Logo} className='m-0 p-0' alt='Logo' width={45} height={45} />
+                        <Image src={Logo} className={`transition-all duration-500 ${isScrolled ? "brightness-200" : ""} m-0 p-0`} alt='Logo' width={45} height={45} />
                     </Link>
                 </div>
 
@@ -184,7 +258,7 @@ function Post() {
                     
                     <Dropdown>
                         <DropdownTrigger>
-                            <Button  className='bg-transparent m-0 px-2 border-gray-300 h-8 border rounded-lg outline-none '>
+                            <Button  className={`bg-white m-0 px-2 border-gray-300 h-8 border rounded-lg outline-none `}>
                                 <BsThreeDotsVertical/>
                             </Button>
                         </DropdownTrigger>
@@ -229,112 +303,120 @@ function Post() {
 
             </nav>
 
-            <div className=" bg-gray-300  mt-10 pt-8 pb-4" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000" >
-                <div className='m-0 p-0  text-black ms-10 flex items-center'>Add posts for 
+            <div  className=" bg-gray-300 mt-10 pt-6 pb-4" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000" >
+                <div className='pb-2 text-black md:ms-10 flex items-center max-md:justify-center'>Add posts for 
                 { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
                 </div>
+                
                     
                 <div className="text-center editable-element hover:bg-gray-400 ">
-                    {title ? <input  type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
+                    {
+                        title ? 
+                        
+                        <input ref={inputRef} type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
                         className='capitalize focus:border border-black w-full text-3xl outline-none py-2 text-center bg-transparent
                         text-black hover:text-black cursor-pointer'  /> : 
                         <div className="skeleton h-10 rounded-md w-80 mt-2 mx-auto pt-2 font-semibold"></div>
-                        }
+                    }
+                        <button onClick={focusOnInput} className={`${isScrolled ? 'hidden' : ''} md:hidden absolute kbd kbd-xs left-5 top-28  px-2 py-1 rounded-md bg-[#2a9d8f] text-white font-medium text-xs`} >Edit title</button>
                 </div>
             </div>
 
-            <div className="posts-section flex items-center justify-center" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+            <div className={`min-h-screen w-full bg-fixed bg-no-repeat bg-cover bg-${imageUrl ? 'center' : 'top'} transition-all ease-linear`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
+            
+                <div className="posts-section flex items-center justify-center" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
-                {posts.length > 0 ? 
+                    {posts.length > 0 ? 
 
-                    <div className="board-posts grid grid-cols-12 py-2 place-items-start" >
-                        {posts.map((post,index) => {
-                        
-                        let formattedImage;
-                        if(post.image){
-                            formattedImage = Buffer.from(post.image.data)
-                        }
-                        
-                        return (
-                                <div key={post._id} className="user-posts col-span-12 md:col-span-6 w-[330px] sm:w-[450px] md:w-[380px] lg:w-[320px] xl:w-[410px]  lg:col-span-4 mt-3 bg-[#2a9d8f] mx-2 rounded-lg shadow-md"  >
-                                {
-                                    formattedImage || post.giphy || post.video || post.unsplashImage ? 
-                                
-                                <div>
+                        <div className="board-posts grid grid-cols-12 py-2 place-items-start" >
+                            {posts.map((post,index) => {
+                            
+                            let formattedImage;
+                            if(post.image){
+                                formattedImage = Buffer.from(post.image.data)
+                            }
+                            
+                            return (
+                                    <div key={post._id} className="user-posts col-span-12 md:col-span-6 w-[330px] sm:w-[450px] md:w-[380px] lg:w-[320px] xl:w-[410px]  lg:col-span-4 mt-3 bg-[#2a9d8f] mx-2 rounded-lg shadow-md"  >
+                                    {
+                                        formattedImage || post.giphy || post.video || post.unsplashImage ? 
                                     
-                                    <div className="post w-full" >
+                                    <div>
                                         
-                                        { formattedImage ?
+                                        <div className="post w-full" >
                                             
-                                                <Image sizes='(max-width: 200px) 100vw, 33vw' className='post-uploaded-image rounded-t-lg w-full' src={`${process.env.basePath}/images/${formattedImage}`} alt="Post image" width={0} height={0}/>
-                                            
-                                            : post.giphy ?
+                                            { formattedImage ?
+                                                
+                                                    <Image sizes='(max-width: 200px) 100vw, 33vw' className='post-uploaded-image rounded-t-lg w-full' src={`${process.env.basePath}/images/${formattedImage}`} alt="Post image" width={0} height={0}/>
+                                                
+                                                : post.giphy ?
 
-                                                <img fetchPriority="high" className='post-gif rounded-t-lg' src={post.giphy} alt="GIF" /> 
-                                            
-                                            : post.unsplashImage ?
+                                                    <img fetchPriority="high" className='post-gif rounded-t-lg' src={post.giphy} alt="GIF" /> 
+                                                
+                                                : post.unsplashImage ?
 
-                                                <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='object-cover rounded-t-lg unsplash-image' src={post.unsplashImage} alt="unsplashImage" width={0} height={0}/>
-                                            
-                                            : 
-                                                <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
-                                        }
+                                                    <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='object-cover rounded-t-lg unsplash-image' src={post.unsplashImage} alt="unsplashImage" width={0} height={0}/>
+                                                
+                                                : 
+                                                    <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
+                                            }
+                                        </div>
+
+                                        <div className="message py-3">
+                                            <p className='text-xl mx-5 text-white'>{post.message}</p>
+                                            <p className='text-sm flex pe-4 flex-1 items-end justify-end mt-5 text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                                        </div>
+                                                
                                     </div>
-
-                                    <div className="message py-3">
-                                        <p className='text-xl mx-5 text-white'>{post.message}</p>
-                                        <p className='text-sm flex pe-4 flex-1 items-end justify-end mt-5 text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
-                                    </div>
-                                            
-                                </div>
-                                
-                                : 
-                                
-                                <div className="mt-6 ps-4 px-3 py-6 bg-[#2a9d8f] rounded-lg shadow-md min-w-96">
-                                    <p className='text-lg text-white'>{post.message}</p>
-                                    <p className='text-sm flex flex-1 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
-                                </div>
-
-                                    }
-                                </div> 
-                        )
-                    })}
-                    </div>
-
-                    : loading ? 
-                    <div className='flex items-center justify-center h-screen'>
-                        <span className="loading loading-spinner loading-md lg:loading-lg text-[#FF9669]"></span>
-                    </div>
-
-                    : welcomeModal ? 
-                    <div className=' w-full h-screen flex items-start mt-10 2xl:mt-32 justify-center'>
-                        <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col mx-2' style={{ width: "440px", maxWidth: "600px", height: "410px" }}>
-                            <button onClick={handleWelcomeModal} className='flex self-end me-2 mt-2 text-black text-lg hover:bg-slate-200 p-2 rounded-md' ><IoMdClose/></button>
-                            <Image src={ConfettiImage} alt='Confetti' className='' width={350} height={200}/>
-                            <div className="mt-5">
-                                <h3 className="font-bold text-lg sm:text-2xl px-3">Welcome to the praise board of</h3>
-                                <p className="font-semibold mt-1 text-lg sm:text-xl capitalize">{recipient}</p>
-                                <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
-                                    className='btn hover:bg-[#2a9d8f] bg-[#2a9d8f] text-white mt-6 border border-none px-6 sm:px-10 py-1 sm:py-2 rounded-md text-md sm:text-xl font-light'>
                                     
-                                    {handleNavigating ? 
-                                        <span className="loading loading-dots loading-md lg:loading-lg text-[#FF9669]"></span>
-                                    : "Add your post"}
-                                </Link>
+                                    : 
+                                    
+                                    <div className="mt-6 ps-4 px-3 py-6 bg-[#2a9d8f] rounded-lg shadow-md min-w-96">
+                                        <p className='text-lg text-white'>{post.message}</p>
+                                        <p className='text-sm flex flex-1 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                                    </div>
+
+                                        }
+                                    </div> 
+                            )
+                        })}
+                        </div>
+
+                        : loading ? 
+                        <div className='flex items-center justify-center h-screen'>
+                            <span className="loading loading-spinner loading-md lg:loading-lg text-[#FF9669]"></span>
+                        </div>
+
+                        : welcomeModal ? 
+                        <div className=' w-full h-screen flex items-start mt-10 2xl:mt-32 justify-center'>
+                            <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col mx-2' style={{ width: "440px", maxWidth: "600px", height: "410px" }}>
+                                <button onClick={handleWelcomeModal} className='flex self-end me-2 mt-2 text-black text-lg hover:bg-slate-200 p-2 rounded-md' ><IoMdClose/></button>
+                                <Image src={ConfettiImage} alt='Confetti' className='' width={350} height={200}/>
+                                <div className="mt-5">
+                                    <h3 className="font-bold text-lg sm:text-2xl px-3">Welcome to the praise board of</h3>
+                                    <p className="font-semibold mt-1 text-lg sm:text-xl capitalize">{recipient}</p>
+                                    <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
+                                        className='btn hover:bg-[#2a9d8f] bg-[#2a9d8f] text-white mt-6 border border-none px-6 sm:px-10 py-1 sm:py-2 rounded-md text-md sm:text-xl font-light'>
+                                        
+                                        {handleNavigating ? 
+                                            <span className="loading loading-dots loading-md lg:loading-lg text-[#FF9669]"></span>
+                                        : "Add your post"}
+                                    </Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                : ''}
-                    
-                    
+                    : ''}
+                        
+                        
+                </div>
             </div>
             
             <Link style={{ boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px"}} 
                 data-tip="Create Board" href='/boards/create'
                 className='animate-pulse p-3 rounded-full text-2xl text-white bg-[#FF9669] board-btn cursor-pointer tooltip tooltip-left fixed bottom-3 right-3' > <FaPlus/> </Link>
 
-            <div id="mySidenav" className=" sidenav bg-white" style={{marginRight: openNav ? "0" : "-30rem"}}>
-                <div className='flex flex-1 justify-end pe-5'>
+            <div id="mySidenav" className={` sidenav bg-white `} style={{marginRight: openNav ? "0" : "-30rem"}}>
+                <div className={`${isScrolled ? "shadow-inner" : ""} flex flex-1  justify-end pe-5`}>
                     <button onClick={() => {setOpenNav(false)}} className='text-gray-800 text-3xl m-0'>&times;</button>
                 </div>
                 <h1 className='text-black text-xl text-center'>Set background</h1>

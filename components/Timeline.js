@@ -60,63 +60,63 @@ export default function Steps() {
         //      <Timeline value={events} align='left' className="customized-timeline" marker={customizedMarker} content={customizedContent} />
         //  </div>
 
-        <div className=" md:w-[500px]">
-                      <Stepper ref={stepperRef} orientation="vertical">
-                          
-                          <StepperPanel header="Create">
-                              <div className="flex flex-col h-12rem ">
-                                  <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
-                                    <img className="w-24" src="https://static.123cards.com/images/how-it-works-img1.svg" />
-                                    <h1 className="text-xl mt-2 text-black font-semibold">Select any occasion</h1>
-                                    <p className="mt-4 text-black" >Birthday, anniversary or any other occasion. Select the category and style in minutes</p>
-                                  </div>
-                              </div>
-                              <div className="flex py-4">
-                                  <Button label="Next" onClick={() => stepperRef.current.nextCallback()} />
-                              </div>
-                          </StepperPanel>
-                          
-                          <StepperPanel header="Invite">
-                              <div className="flex flex-col h-12rem">
-                                <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
-                                    <img className="w-24" src="https://static.123cards.com/images/how-it-works-img2.svg" />
-                                    <h1 className="text-xl mt-2 text-black font-semibold">Invite people</h1>
-                                    <p className="mt-4 text-black" >Fill out your details, add recipients & write a personal message and create board</p>
-                                  </div>
-                              </div>
-                              <div className="flex py-4 gap-2">
-                                  <Button label="Back"  onClick={() => stepperRef.current.prevCallback()} />
-                                  <Button label="Next" onClick={() => stepperRef.current.nextCallback()} />
-                              </div>
-                          </StepperPanel>
+        <div className="mt-6 md:w-[500px]">
+            <Stepper ref={stepperRef} orientation="vertical">
+                
+                <StepperPanel header="Create">
+                    <div className="flex flex-col h-12rem ">
+                        <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
+                        <img className="w-24" src="https://static.123cards.com/images/how-it-works-img1.svg" />
+                        <h1 className="text-xl mt-2 text-black font-semibold">Select any occasion</h1>
+                        <p className="mt-4 text-black" >Birthday, anniversary or any other occasion. Select the category and style in minutes</p>
+                        </div>
+                    </div>
+                    <div className="flex py-4">
+                        <Button label="Next" onClick={() => stepperRef.current.nextCallback()} />
+                    </div>
+                </StepperPanel>
+                
+                <StepperPanel header="Invite">
+                    <div className="flex flex-col h-12rem">
+                    <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
+                        <img className="w-24" src="https://static.123cards.com/images/how-it-works-img2.svg" />
+                        <h1 className="text-xl mt-2 text-black font-semibold">Invite people</h1>
+                        <p className="mt-4 text-black" >Fill out your details, add recipients & write a personal message and create board</p>
+                        </div>
+                    </div>
+                    <div className="flex py-4 gap-2">
+                        <Button label="Back"  onClick={() => stepperRef.current.prevCallback()} />
+                        <Button label="Next" onClick={() => stepperRef.current.nextCallback()} />
+                    </div>
+                </StepperPanel>
 
-                          <StepperPanel header="Deliver">
-                              <div className="flex flex-col h-12rem ">
-                                  <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
-                                    <img className="w-24" src="https://static.123cards.com/images/how-it-works-img3.svg" />
-                                    <h1 className="text-xl mt-2 text-black font-semibold">Deliver to anyone</h1>
-                                    <p className="mt-4 text-black" >Copy the link and deliver the praise board to your people</p>
-                                  </div>
-                              </div>
-                              <div className="flex py-4">
-                                <Button label="Back" onClick={() => stepperRef.current.prevCallback()} />
-                              </div>
-                          </StepperPanel>
+                <StepperPanel header="Deliver">
+                    <div className="flex flex-col h-12rem ">
+                        <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
+                        <img className="w-24" src="https://static.123cards.com/images/how-it-works-img3.svg" />
+                        <h1 className="text-xl mt-2 text-black font-semibold">Deliver to anyone</h1>
+                        <p className="mt-4 text-black" >Copy the link and deliver the praise board to your people</p>
+                        </div>
+                    </div>
+                    <div className="flex py-4">
+                    <Button label="Back" onClick={() => stepperRef.current.prevCallback()} />
+                    </div>
+                </StepperPanel>
 
-                          <StepperPanel header="Delight">
-                              <div className="flex flex-col h-12rem ">
-                                  <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
-                                    <img className="w-24" src="https://static.123cards.com/images/how-it-works-img3.svg" />
-                                    <h1 className="text-xl mt-2 text-black font-semibold">Deliver to anyone</h1>
-                                    <p className="mt-4 text-black" >Copy the link and deliver the praise board to your people</p>
-                                  </div>
-                              </div>
-                              <div className="flex py-4">
-                                <Button label="Back" onClick={() => stepperRef.current.prevCallback()} />
-                              </div>
-                          </StepperPanel>
-                          
-                      </Stepper>
+                <StepperPanel header="Delight">
+                    <div className="flex flex-col h-12rem ">
+                        <div className=" flex-auto text-start flex flex-col justify-center items-start font-medium">
+                        <img className="w-24" src="https://static.123cards.com/images/how-it-works-img3.svg" />
+                        <h1 className="text-xl mt-2 text-black font-semibold">Deliver to anyone</h1>
+                        <p className="mt-4 text-black" >Copy the link and deliver the praise board to your people</p>
+                        </div>
+                    </div>
+                    <div className="flex py-4">
+                    <Button label="Back" onClick={() => stepperRef.current.prevCallback()} />
+                    </div>
+                </StepperPanel>
+                
+            </Stepper>
         </div>
     )
 }

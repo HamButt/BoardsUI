@@ -88,7 +88,7 @@ const DragCloseDrawer = ({ open, setOpen, children }) => {
   );
 };
 export default function Home() {
-  const categories = ['Birthday!', 'Anniversary!', 'New year!', 'Valentines!', 'Thank You!', 'Graduation!'];
+  const categories = ['Birthday!', 'Welcome!', 'New year!', 'Easter!', 'ThankYou!', 'Love!', 'Farewell!', 'Congrats!'];
   const [preview,setPreview] = React.useState(false);
   const [occasion,setOccasion] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -154,7 +154,7 @@ export default function Home() {
                   Celebrate your team members and people you admire
                 </p>
                 <p className="text-lg sm:text-2xl max-sm:font-semibold mt-5 max-sm:px-5">Beautiful personalized online boards to celebrate your team and friends </p>
-                <Link onClick={navigationToPage} rel="stylesheet" className="mt-8 btn bg-[#2a9d8f] btn-md sm:btn-lg text-md sm:text-xl font-medium text-white hover:bg-white border hover:text-[#2a9d8f] hover:border-[#2a9d8f]" 
+                <Link onClick={navigationToPage} rel="stylesheet" id="board-creation-link" className="mt-8 btn bg-[#2a9d8f] btn-md sm:btn-lg text-md sm:text-xl font-medium text-white hover:bg-white border hover:text-[#2a9d8f] hover:border-[#2a9d8f]" 
                   href="/boards/create">
                   {handleNavigating ? <span className="loading loading-dots loading-lg"></span>
                         : 
@@ -168,10 +168,11 @@ export default function Home() {
             </div>
 
 
+
             <div id="how-to" className="mt-20 rounded-lg mx-6 how-it-works text-center bg-emerald-100 py-16">
-              <h1 className="text-4xl sm:text-5xl my-4 text-black font-semibold">How to create a board</h1>
+              <h1 className="text-4xl sm:text-5xl my-3 text-black font-semibold">How to create a board</h1>
                 <div className="mx-3 flex items-center justify-evenly flex-wrap">
-                    <div className="relative px-4 w-[580px] flex items-start text-start justify-start flex-col">
+                    <div className="relative px-2 w-[580px] flex items-start text-start justify-start flex-col">
                       <Image src={Confetti} alt="Confetti" className="absolute z-0 opacity-20  bottom-32 lg:bottom-32 xl:bottom-60" width={1000} height={1000}/>
                       <p className="text-2xl sm:text-3xl md:text-4xl text-black font-bold mt-6" >Create group memories with personalized recognition cards and leave a lasting impression!</p>
                       <p className="text-lg sm:text-xl md:text-2xl font-semibold mt-8 text-black" >Personalized occasions with praise board for every 
@@ -181,15 +182,13 @@ export default function Home() {
                         href="/boards/create" > <FaPlus /> Create your board 
                       </Link>
                     </div>
-
                     <Steps/>                
-
                 </div>
-            </div>            
+            </div>          
 
             <div id="previews" className="mt-16 py-16 flex items-center justify-center flex-col rounded-lg">
                 <div className="text-center max-md:px-2 max-sm:px-2">
-                    <h1 className="text-4xl sm:text-5xl my-4 text-black font-semibold">Praise board for every occasion</h1>
+                    <h1 className="text-3xl sm:text-5xl my-4 text-black font-semibold">Praise board for every occasion</h1>
                     <p className="sm:text-2xl text-md text-black font-semibold sm:font-medium mt-4">Uncover the potential of what we can design for you</p>
                 </div>
                 

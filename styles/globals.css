@@ -199,7 +199,7 @@ html{
     top: 0; 
     right: 0;
     overflow-x: hidden; 
-    padding-top: 60px; 
+    padding-top: 55px; 
     transition: 0.5s;
 }
 
@@ -322,6 +322,9 @@ html{
   -webkit-text-fill-color: transparent;
   animation: shine 8s infinite linear;
 }
+
+
+
 
 @keyframes shine {
   0% {
