@@ -24,8 +24,6 @@ import { FiAlertCircle } from "react-icons/fi";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem ,Button} from "@nextui-org/react";
 import { MdOutlineCheck } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
-import { Clipboard } from '@ark-ui/react'
-import { Dialog, Portal } from '@ark-ui/react'
 
 function Post() {
     const router = useRouter()
@@ -44,7 +42,6 @@ function Post() {
     const [animateModal, setAnimateModal] = useState(false);
     const [welcomeModal, setWelcomeModal] = useState(true);
     const [isScrolled, setIsScrolled] = useState(false);
-    // const [alertModal, setAlertModal] = useState(true);
     const inputRef = useRef()
 
     useEffect(() => {
@@ -65,7 +62,6 @@ function Post() {
     const fetchPosts = async (boardId) => {
         setLoading(true);
         const modal = localStorage.getItem('modal')
-        // const alert = localStorage.getItem('alert')
         try {
             const res = await axios.get(`${process.env.basePath}/posts/${boardId}`)
             if(res.data.allPosts.length){
@@ -76,13 +72,7 @@ function Post() {
             else if(modal === boardId){
                 setWelcomeModal(false)
             }
-            // else if (alert === boardId){
-            //     setAlertModal(false)
-            //     console.log("alert worked");
-
-            // }
             setLoading(false);
-            
         } catch (error) {
             console.log(error);
         }
@@ -91,7 +81,6 @@ function Post() {
      const fetchBoard = async (boardId) =>{
 
         try {
-            
             const res = await axios.get(`${process.env.basePath}/boards/${boardId}`)
             const board = res.data.board
             setTitle(board.title)
@@ -104,7 +93,6 @@ function Post() {
             }else{
                 document.body.style.backgroundColor = board.color
             }
-
         } catch (error) {
             console.log(error);
         }
@@ -112,7 +100,6 @@ function Post() {
 
 
     useEffect(()=>{
-
         const cookie = localStorage.getItem('Creator')
         const board_id = window.location.pathname.split('/').reverse()[0]
         setUserCookie(cookie)
@@ -120,7 +107,6 @@ function Post() {
         
         fetchBoard(board_id)
         fetchPosts(board_id)
-
     }, [])
 
 
@@ -162,7 +148,7 @@ function Post() {
     }
 
     const copyLink = (boardId) =>{
-        navigator.clipboard.writeText(`http://localhost:3000/boards/${boardId}`);
+        navigator.clipboard.writeText(`https://praiseboard.vercel.app/boards/${boardId}`);
         toast.success('Link copied');
     }
 
@@ -172,14 +158,8 @@ function Post() {
 
     const handleWelcomeModal = () => {
         localStorage.setItem('modal', boardId)
-        // localStorage.setItem('alert', boardId)
         setWelcomeModal(false)
-        // setAlertModal(false)
     }
-    // const handleAlert = () => {
-    //     localStorage.setItem('alert', boardId)
-    //     setAlertModal(false)
-    // }
 
     const focusOnInput = () => {
         inputRef.current.focus()
@@ -188,52 +168,9 @@ function Post() {
     return (
         
         <div>
-            {/* {!uploadedImage && handleLoaderForBackgroundImage()} */}
-            
             <Head>
                 <title>Posts</title>
             </Head>
-
-            {/* {alertModal &&
-                
-                <div className='absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm min-h-screen h-full' >
-
-                    <div role="alert" className="alert bg-[#FF9669] w-[750px] border-none shadow">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 shrink-0 stroke-current text-black"
-                            fill="none"
-                            viewBox="0 0 24 24">
-                            <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
-                        <span className='text-black' >Note: Save your board link otherwise you can lost board</span>
-
-                            <Clipboard.Root value={`http://localhost:3000/boards/${boardId}`}>
-                                <Clipboard.Control className='flex items-center '>
-                                    <Clipboard.Input className='input' />
-                                    <Clipboard.Trigger className='ms-1' onClick={() => {copyLink(boardId); handleAlert()}}>
-                                        <Clipboard.Indicator copied={<svg width={24} height={24} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="m2.394 13.742 4.743 3.62 7.616-8.704-1.506-1.316-6.384 7.296-3.257-2.486zm19.359-5.084-1.506-1.316-6.369 7.279-.753-.602-1.25 1.562 2.247 1.798z"/>
-                                            </svg>}
-                                        >
-
-                                        <svg fill="none" height={20} shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width={20}>
-                                            <path d="M6 17C4.89543 17 4 16.1046 4 15V5C4 3.89543 4.89543 3 6 3H13C13.7403 3 14.3866 3.4022 14.7324 4M11 21H18C19.1046 21 20 20.1046 20 19V9C20 7.89543 19.1046 7 18 7H11C9.89543 7 9 7.89543 9 9V19C9 20.1046 9.89543 21 11 21Z" />
-                                        </svg>
-
-                                    </Clipboard.Indicator>
-                                    </Clipboard.Trigger>
-                                </Clipboard.Control>
-                            </Clipboard.Root>
-                    </div>
-  
-                </div>
-
-             } */}
 
             <nav  className={`${isScrolled ? 'bg-transparent' : 'bg-white'} transition-all duration-500  z-50 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 `}>
                 <div className="logo ps-10">
