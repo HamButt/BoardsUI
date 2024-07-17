@@ -25,6 +25,8 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem ,Button} from "@n
 import { MdOutlineCheck } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import useClipboard from '@/hooks/useClipboard';
+import { MdOutlineModeEdit } from "react-icons/md";
+import { MdContentCopy } from "react-icons/md";
 
 function Post() {
     const router = useRouter()
@@ -39,13 +41,13 @@ function Post() {
     const [openNav,setOpenNav] = useState(false)
     const [loading, setLoading] = useState(false);
     const [isNavigating, setIsNavigating] = useState(false);
-    const [sideComponent,setSideComponent] = useState('color')
     const [animateModal, setAnimateModal] = useState(false);
     const [welcomeModal, setWelcomeModal] = useState(true);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [sideComponent,setSideComponent] = useState('color')
     const setClipboard = useClipboard();
+    const inputRef = useRef(null)
     // const [alertModal, setAlertModal] = useState(true);
-    const inputRef = useRef()
 
     // useEffect(() => {
     //     const handleScroll = () => {
@@ -69,10 +71,9 @@ function Post() {
             const res = await axios.get(`${process.env.basePath}/posts/${boardId}`)
             if(res.data.allPosts.length){
                 setPosts(res.data.allPosts.reverse())
-            }else if (title){
-                Confetti()
             }
             else if(modal === boardId){
+                Confetti()
                 setWelcomeModal(false)
             }
             setLoading(false);
@@ -101,7 +102,6 @@ function Post() {
         }
     }
 
-
     useEffect(()=>{
         const cookie = localStorage.getItem('Creator')
         const board_id = window.location.pathname.split('/').reverse()[0]
@@ -111,7 +111,6 @@ function Post() {
         fetchBoard(board_id)
         fetchPosts(board_id)
     }, [])
-
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -164,9 +163,12 @@ function Post() {
         setWelcomeModal(false)
     }
     
-
     const focusOnInput = () => {
-        inputRef.current.focus()
+        inputRef.current.focus();
+    }
+
+    const handleBackground = (backgroundImage) => {
+        setImageUrl(backgroundImage)
     }
 
     return (
@@ -176,16 +178,21 @@ function Post() {
                 <title>Posts</title>
             </Head>
 
-            <nav  className={`bg-white z-50 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 `}>
-                <div className="logo ps-10">
+            <nav  className={`bg-white ps-8 pe-2 z-50 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 `}>
+                
+                <div className="logo">
                     <Link href='/'> 
-                        <Image src={Logo} className={` m-0 p-0`} alt='Logo' width={45} height={45} />
+                        <Image src={Logo} sizes='(max-width: 200px) 100vw, 33vw' className={`m-0 p-0`} alt='Logo' width={45} height={45} />
                     </Link>
                 </div>
 
-                <Toaster theme='system' richColors={true} closeButton={true}  position="center" />
+                <div className='max-sm:hidden text-black  flex items-center justify-center text-lg'>Add posts for 
+                    { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
+                </div>
 
-                <div className="header-buttons space-x-3 flex items-end pe-3"> 
+                <Toaster theme='system' richColors={true} closeButton={true} position="center" />
+
+                <div className="header-buttons space-x-1 flex items-end"> 
                     
                     <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
                         className='btn btn-sm bg-[#2a9d8f] font-normal text-md hover-shadow-xl text-white border-none hover:bg-[#2a9d8f] '>
@@ -203,17 +210,17 @@ function Post() {
                                 <BsThreeDotsVertical/>
                             </Button>
                         </DropdownTrigger>
-                        <DropdownMenu variant="faded" aria-label="Static Actions" className='py-2 mt-1  shadow-xl bg-white rounded-md'>
+                        <DropdownMenu variant="faded" aria-label="Static Actions" className='py-2 mt-1 shadow-xl bg-white rounded-md'>
                             <DropdownItem textValue='Copy'>
                                 <div className='copy  hover:bg-gray-100 flex items-center justify-start cursor-pointer rounded-md p-2' onClick={() => copyLink(boardId)}>
-                                    <Image src={Copy} alt='Copy' width={20} height={20} className=" text-black share-button cursor-pointer"  />
-                                    <p className='text-sm font-semibold ps-3' >Copy board link</p>
+                                    <MdContentCopy className="text-black share-button text-[17px] cursor-pointer"  />
+                                    <p className='text-sm font-semibold ps-3 text-black ' >Copy board link</p>
                                 </div>
                             </DropdownItem>
                             <DropdownItem textValue='Customise'>
-                                <div onClick={() => {setOpenNav(true)}} className='edit hover:bg-gray-100 flex items-center justify-start  mt-2 cursor-pointer  rounded-md p-2'>
-                                    <CiEdit  className="text-black share-button text-2xl cursor-pointer" />
-                                    <p className='text-sm font-semibold ps-3'>Customise board</p>
+                                <div onClick={() => {setOpenNav(true)}} className='customise hover:bg-gray-100 flex items-center justify-start  mt-2 cursor-pointer rounded-md p-2'>
+                                    <CiEdit  className="text-black share-button text-[22px] cursor-pointer" />
+                                    <p className='text-sm font-semibold ps-2 text-black '>Customise board</p>
                                 </div>
                             </DropdownItem>
                             <DropdownItem textValue='Cookie'>
@@ -239,33 +246,34 @@ function Post() {
                             </div>
                         </div>
                     </dialog>
-                    
+                
                 </div>
 
             </nav>
 
-            <div  className=" bg-gray-300 mt-10 pt-6 pb-4" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000" >
-                <div className='pb-2 text-black md:ms-10 flex items-center max-md:justify-center'>Add posts for 
-                { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
+            <div  className=" bg-gray-300 mt-12 py-6 " data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000" >
+                <div className='sm:hidden text-black text-md flex items-center justify-center'>Add posts for 
+                    { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
                 </div>
-                
-                    
-                <div className="text-center editable-element hover:bg-gray-300">
+
+                <div className="text-center editable-element">
                     {
                         title ? 
-                        <div className="title w-full">
-                            <input ref={inputRef} type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
-                                className='capitalize focus:border border-black text-3xl w-full outline-none py-2 text-center bg-transparent
-                                text-black hover:text-black cursor-pointer'  /> 
-                        </div>
+                        <>
+                            <div  className="title w-full">
+                                <input  ref={inputRef} type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
+                                    className='capitalize focus:border-b border-black w-[200px] text-3xl outline-none py-2 text-center bg-transparent
+                                    text-black hover:text-black cursor-pointer'/> 
+                                    <button onClick={focusOnInput} className=" absolute top-16 sm:top-10 text-black text-xl cursor-pointer"> <MdOutlineModeEdit/> </button>
+                            </div>
+                        </>
                         : 
                         <div className="skeleton h-10 rounded-md w-80 mt-2 mx-auto pt-2 font-semibold"></div>
                     }
-                        <button onClick={focusOnInput} className={`md:hidden absolute kbd kbd-xs left-5 top-28  px-2 py-1 rounded-md bg-[#2a9d8f] text-white font-medium text-xs`} >Edit title</button>
                 </div>
             </div>
 
-            <div className={`min-h-screen w-full bg-fixed bg-no-repeat bg-cover bg-${imageUrl ? 'center' : 'top'} transition-all ease-linear`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
+            <div className={`min-h-screen w-full bg-fixed bg-no-repeat bg-center bg-cover transition-all ease-linear`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
             
                 <div className="posts-section flex items-center justify-center" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
@@ -303,7 +311,7 @@ function Post() {
                                         </div>
 
                                         <div className="message py-3">
-                                            <p className='text-xl mx-5 text-white'>{post.message}</p>
+                                            <p className='text-lg sm:text-xl mx-5 text-white'>{post.message}</p>
                                             <p className='text-sm flex pe-4 flex-1 items-end justify-end mt-5 text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
                                         </div>
                                                 
@@ -311,8 +319,8 @@ function Post() {
                                     
                                     : 
                                     
-                                    <div className="mt-6 ps-4 px-3 py-6 bg-[#2a9d8f] rounded-lg shadow-md min-w-96">
-                                        <p className='text-lg text-white'>{post.message}</p>
+                                    <div className="ps-4 px-3 py-6 bg-[#2a9d8f] rounded-lg shadow-md">
+                                        <p className='text-md sm:text-lg text-white'>{post.message}</p>
                                         <p className='text-sm flex flex-1 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
                                     </div>
 
@@ -349,6 +357,7 @@ function Post() {
                         
                         
                 </div>
+
             </div>
             
             <Link style={{ boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px"}} 
@@ -380,6 +389,7 @@ function Post() {
                     {
                         sideComponent === "image" ? 
                             <BackgroundImageTab
+                                handleBackground={handleBackground}
                                 fetchBoard={fetchBoard}
                                 setSideComponent={setSideComponent}
                                 setAnimateModal={setAnimateModal}

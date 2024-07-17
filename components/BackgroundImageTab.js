@@ -7,7 +7,7 @@ import {  motion } from "framer-motion";
 import Image from 'next/image';
 import { MdDelete } from "react-icons/md";
 
-function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, setOpenNav, setSideComponent,setAnimateModal, fetchBoard}) {
+function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, setOpenNav, setSideComponent,setAnimateModal, fetchBoard, handleBackground}) {
   const [imageData, setImageData] = useState([]);
   const [imageSearchValue, setImageSearchValue] = useState('');
   const [imageSection, setImageSection] = useState(false);
@@ -27,7 +27,7 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
     page:  imagePage,
     per_page: 12,
     client_id: process.env.clientId,
-    orientation: 'portrait',
+    orientation: 'landscape',
   };
 
   useEffect(()=>{
@@ -56,20 +56,13 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
     setImagePage((imgPg) => imgPg + 1 )
     const response = await axios.get(process.env.unsplashUrl, { params: unsplashParams })
     setImageData(response.data.results)
+    console.log(response.data.results);
   } catch (error) {
       console.error('Error:', error)
   }
   
  }
 
-const handleBackground = (backgroundImage) => {
-    setImageUrl(backgroundImage)
-    document.body.style.transition = 'background-image 4s ease-in-out';
-    document.body.style.backgroundAttachment = "fixed"
-    document.body.style.backgroundSize = "cover"
-    document.body.style.backgroundRepeat = "no-repeat"
-    document.body.style.backgroundPosition = "center"
-}
 
 const updateBackground = async () => {
     setLoading(true)
@@ -243,9 +236,9 @@ const handleUploadFiles = (e) => {
                       {imageSearchValue && imageData.length ?  
                           imageData.map((img, index) => { 
                               return(
-                                  <div key={index} className='mx-1 mt-2 cursor-pointer' style={{width:"80px", height:"100px"}} 
+                                  <div key={index} className='mx-1 mt-2 cursor-pointer' style={{width:"90px", height:"115px"}} 
                                       onClick={() => handleBackground(img.urls.full)}>
-                                      <img style={{ border: img.urls.full === imageUrl ? "2px solid black" : "none"}}  className={`btn p-0 m-0 border-none bg-transparent hover:bg-transparent h-full w-full`} src={img.urls.thumb} alt="IMAGE URL" />
+                                      <img style={{ border: img.urls.full === imageUrl ? "2px solid black" : "none"}}  className={`btn p-0 m-0 border-none bg-transparent hover:bg-transparent h-full w-full `} src={img.urls.small} alt="IMAGE URL" />
                                   </div> 
                               )})
                           : imageSearchValue && !imageData ? <div className='mt-2 font-semibold text-sm'>Searching...</div> 
