@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios' 
 import Head from 'next/head'
 
-function myBackground() {
+function Background() {
   const [imageUrl,setImageUrl] = useState(null)
   const [uploadedImage,setUploadedImage] = useState(null)
 
@@ -41,4 +41,4 @@ function myBackground() {
   )
 }
 
-export default myBackground
+export default Background
