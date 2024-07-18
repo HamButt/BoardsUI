@@ -27,6 +27,7 @@ import { IoMdClose } from "react-icons/io";
 import useClipboard from '@/hooks/useClipboard';
 import { MdOutlineModeEdit } from "react-icons/md";
 import { MdContentCopy } from "react-icons/md";
+import { GrFormView } from "react-icons/gr";
 
 function Post() {
     const router = useRouter()
@@ -49,20 +50,20 @@ function Post() {
     const inputRef = useRef(null)
     // const [alertModal, setAlertModal] = useState(true);
 
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //       if (window.scrollY > 0) {
-    //         setIsScrolled(true);
-    //       } else {
-    //         setIsScrolled(false);
-    //       }
-    //     };
+    useEffect(() => {
+        const handleScroll = () => {
+          if (window.scrollY > 0) {
+            setIsScrolled(true);
+          } else {
+            setIsScrolled(false);
+          }
+        };
     
-    //     window.addEventListener('scroll', handleScroll);
-    //     return () => {
-    //       window.removeEventListener('scroll', handleScroll);
-    //     };
-    //   }, []);
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+        };
+      }, []);
 
     const fetchPosts = async (boardId) => {
         setLoading(true);
@@ -178,7 +179,7 @@ function Post() {
                 <title>Posts</title>
             </Head>
 
-            <nav  className={`bg-white ps-8 pe-2 z-50 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 `}>
+            <nav  className={`${isScrolled ? 'bg-transparent' : 'bg-white'} py-3 ps-8 pe-2 z-50 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 `}>
                 
                 <div className="logo">
                     <Link href='/'> 
@@ -186,7 +187,7 @@ function Post() {
                     </Link>
                 </div>
 
-                <div className='max-sm:hidden text-black  flex items-center justify-center text-lg'>Add posts for 
+                <div className={ `max-sm:hidden ${isScrolled ? 'text-transparent' : 'text-black'}  flex items-center justify-center text-lg`}>Add posts for 
                     { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
                 </div>
 
@@ -223,6 +224,12 @@ function Post() {
                                     <p className='text-sm font-semibold ps-2 text-black '>Customise board</p>
                                 </div>
                             </DropdownItem>
+                            {/* <DropdownItem textValue='view background'>
+                                <Link target='_blank' href={`/boards/my-background/${boardId}`} className='view-background bg-[#2a9d8f] flex items-center justify-start  mt-2 cursor-pointer rounded-md p-2'>
+                                    <GrFormView  className="text-white share-button text-[22px] cursor-pointer" />
+                                    <p className='text-sm  ps-2 text-white '>View background</p>
+                                </Link>
+                            </DropdownItem> */}
                             <DropdownItem textValue='Cookie'>
                                 { userCookie && 
                                     <div className='delete bg-red-500 hover:bg-red-500 cursor-pointer flex items-center justify-start  mt-2 rounded-md p-2 hover:border-red-700 border-red-700 text-white ' onClick={()=>document.getElementById('delete_modal').showModal()}>
@@ -262,9 +269,9 @@ function Post() {
                         <>
                             <div  className="title w-full">
                                 <input  ref={inputRef} type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
-                                    className='capitalize focus:border-b border-black w-[200px] text-3xl outline-none py-2 text-center bg-transparent
+                                    className='capitalize focus:border-b border-black w-[300px] text-ellipsis whitespace-nowrap text-3xl outline-none py-2 text-center bg-transparent
                                     text-black hover:text-black cursor-pointer'/> 
-                                    <button onClick={focusOnInput} className=" absolute top-16 sm:top-10 text-black text-xl cursor-pointer"> <MdOutlineModeEdit/> </button>
+                                    <button onClick={focusOnInput} className=" absolute ms-5 top-16 sm:top-10 text-black text-xl cursor-pointer"> <MdOutlineModeEdit/> </button>
                             </div>
                         </>
                         : 

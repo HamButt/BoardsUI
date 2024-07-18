@@ -1,5 +1,5 @@
 'use client'
-import Header from "@/components/Header";
+import Header from "../components/Header";
 import Image from "next/image";
 import React, {useState} from "react";
 import Head from "next/head";
