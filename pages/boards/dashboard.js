@@ -3,7 +3,7 @@ import Head from 'next/head'
 import axios from 'axios'
 
 
-function dashboard() {
+function Dashboard() {
 
     const [boards,setBoards] = useState([])
     // const [posts,setPosts] = useState([])
@@ -56,4 +56,4 @@ function dashboard() {
   )
 }
 
-export default dashboard
+export default Dashboard
