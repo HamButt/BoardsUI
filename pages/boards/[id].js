@@ -271,7 +271,7 @@ function Post() {
                                 <input  ref={inputRef} type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
                                     className='capitalize focus:border-b border-black w-[300px] text-ellipsis whitespace-nowrap text-3xl outline-none py-2 text-center bg-transparent
                                     text-black hover:text-black cursor-pointer'/> 
-                                    <button onClick={focusOnInput} className=" absolute ms-5 top-16 sm:top-10 text-black text-xl cursor-pointer"> <MdOutlineModeEdit/> </button>
+                                    <button onClick={focusOnInput} className=" absolute top-16 sm:top-10 text-black text-xl cursor-pointer"> <MdOutlineModeEdit/> </button>
                             </div>
                         </>
                         : 
