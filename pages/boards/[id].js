@@ -154,7 +154,6 @@ function Post() {
     const handleTitleInput = (e) => {
         setTitle(e.target.value);
         adjustTextareaHeight(e.target)
-        
     }
 
     const adjustTextareaHeight = (textarea) => {
