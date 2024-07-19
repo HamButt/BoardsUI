@@ -277,18 +277,12 @@ function Post() {
                         title ? 
                         <>
                             <div  className="title w-full">
-<<<<<<< HEAD
                             
                                 <textarea style={{resize:"none"}} onKeyDown={handleKeyDown} ref={inputRef} type="text" value={title} name='title' onChange={handleTitleInput} 
                                 className='capitalize focus:border-b border-black text-3xl outline-none text-center bg-transparent
                                 text-black hover:text-black cursor-pointer overflow-hidden md:w-[450px]' rows={1} spellCheck={true}></textarea>
                                 <button onClick={focusOnInput} className="absolute top-16 sm:top-10 text-black text-xl cursor-pointer"> <MdOutlineModeEdit/> </button>
-=======
-                                <input  ref={inputRef} type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
-                                    className='capitalize focus:border-b border-black w-[300px] text-ellipsis whitespace-nowrap text-3xl outline-none py-2 text-center bg-transparent
-                                    text-black hover:text-black cursor-pointer'/> 
-                                    <button onClick={focusOnInput} className=" absolute top-16 sm:top-10 text-black text-xl cursor-pointer"> <MdOutlineModeEdit/> </button>
->>>>>>> ada7f30109dd8d6f90063adb449000c6ab0d4fb3
+                               
                             </div>
                         </>
                         : 
