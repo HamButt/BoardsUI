@@ -153,20 +153,8 @@ function Post() {
 
     const handleTitleInput = (e) => {
         setTitle(e.target.value);
-        adjustTextareaHeight(e.target);
+        adjustTextareaHeight(e.target)
         
-    }
-    
-    const handleKeyDown = (e) =>{
-        const isLetter = /^[a-zA-Z]$/.test(e.key);
-        if(e.key === "Backspace"){
-            console.log("if columns",columns);
-            setColumns(prevCols => Math.max(prevCols - 1, 0))
-        }else if(isLetter){
-            console.log("else columns",columns);
-            setColumns(prevCols => prevCols + 1)
-        }
-
     }
 
     const adjustTextareaHeight = (textarea) => {
@@ -276,11 +264,11 @@ function Post() {
                     {
                         title ? 
                         <>
-                            <div  className="title w-full">
+                            <div  className="title max-sm:w-[300px] sm:w-[500px] md:w-[600px] lg:w-[800px]">
                             
-                                <textarea style={{resize:"none"}} onKeyDown={handleKeyDown} ref={inputRef} type="text" value={title} name='title' onChange={handleTitleInput} 
-                                className='capitalize focus:border-b border-black text-3xl outline-none text-center bg-transparent
-                                text-black hover:text-black cursor-pointer overflow-hidden md:w-[450px]' rows={1} spellCheck={true}></textarea>
+                                <textarea style={{resize:"none"}}  ref={inputRef} type="text" value={title} name='title' onChange={handleTitleInput} 
+                                className='capitalize focus:border-b border-black text-xl md:text-2xl lg:text-3xl outline-none text-center bg-transparent
+                                text-black hover:text-black cursor-pointer overflow-hidden w-full' rows={1} spellCheck={true}></textarea>
                                 <button onClick={focusOnInput} className="absolute top-16 sm:top-10 text-black text-xl cursor-pointer"> <MdOutlineModeEdit/> </button>
                                
                             </div>
