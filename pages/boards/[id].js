@@ -13,22 +13,17 @@ import ConfettiImage from '../../public/confetti.jpg'
 import Logo from '../../public/logo.png'
 import 'animate.css';
 import { BsThreeDotsVertical } from "react-icons/bs";
-import Copy from '../../public/copy.png'
 import { MdDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
-import ImageLoading from '../../public/loading.gif'
 import { Confetti } from '../../components/Confetti'
 import { DeleteModal } from '../../components/DeleteModal';
 import { AnimatePresence, motion } from "framer-motion";
-import { FiAlertCircle } from "react-icons/fi";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem ,Button} from "@nextui-org/react";
 import { MdOutlineCheck } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import useClipboard from '@/hooks/useClipboard';
 import { MdOutlineModeEdit } from "react-icons/md";
 import { MdContentCopy } from "react-icons/md";
-import { GrFormView } from "react-icons/gr";
-
 function Post() {
     const router = useRouter()
     const [title,setTitle] = useState('')
@@ -44,26 +39,10 @@ function Post() {
     const [isNavigating, setIsNavigating] = useState(false);
     const [animateModal, setAnimateModal] = useState(false);
     const [welcomeModal, setWelcomeModal] = useState(true);
-    const [isScrolled, setIsScrolled] = useState(false);
     const [sideComponent,setSideComponent] = useState('color')
+    const [columns, setColumns] = useState(0);
     const setClipboard = useClipboard();
     const inputRef = useRef(null)
-    // const [alertModal, setAlertModal] = useState(true);
-
-    useEffect(() => {
-        const handleScroll = () => {
-          if (window.scrollY > 0) {
-            setIsScrolled(true);
-          } else {
-            setIsScrolled(false);
-          }
-        };
-    
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-          window.removeEventListener('scroll', handleScroll);
-        };
-      }, []);
 
     const fetchPosts = async (boardId) => {
         setLoading(true);
@@ -172,14 +151,44 @@ function Post() {
         setImageUrl(backgroundImage)
     }
 
+    const handleTitleInput = (e) => {
+        setTitle(e.target.value);
+        adjustTextareaHeight(e.target);
+        
+    }
+    
+    const handleKeyDown = (e) =>{
+        const isLetter = /^[a-zA-Z]$/.test(e.key);
+        if(e.key === "Backspace"){
+            console.log("if columns",columns);
+            setColumns(prevCols => Math.max(prevCols - 1, 0))
+        }else if(isLetter){
+            console.log("else columns",columns);
+            setColumns(prevCols => prevCols + 1)
+        }
+
+    }
+
+    const adjustTextareaHeight = (textarea) => {
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+    };
+
+    useEffect(() => {
+        if (inputRef.current) {
+            adjustTextareaHeight(inputRef.current);
+        }
+    }, [title]);
+
     return (
         
-        <div>
+        <div className={`min-h-screen w-full bg-fixed bg-no-repeat bg-center bg-cover transition-all ease-linear`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
+            
             <Head>
                 <title>Posts</title>
             </Head>
 
-            <nav  className={`${isScrolled ? 'bg-transparent' : 'bg-white'} py-3 ps-8 pe-2 z-50 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 `}>
+            <nav  className={`bg-white py-3 ps-8 pe-2 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 z-50  `}>
                 
                 <div className="logo">
                     <Link href='/'> 
@@ -187,7 +196,7 @@ function Post() {
                     </Link>
                 </div>
 
-                <div className={ `max-sm:hidden ${isScrolled ? 'text-transparent' : 'text-black'}  flex items-center justify-center text-lg`}>Add posts for 
+                <div className={ `max-sm:hidden  flex items-center justify-center text-lg`}>Add posts for 
                     { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
                 </div>
 
@@ -258,20 +267,21 @@ function Post() {
 
             </nav>
 
-            <div  className=" bg-gray-300 mt-12 py-6 " data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000" >
-                <div className='sm:hidden text-black text-md flex items-center justify-center'>Add posts for 
+            <div  className="mt-14 bg-gray-300 max-sm:py-3 py-6 " data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000" >
+                <div className='sm:hidden text-black text-md flex items-center justify-center py-3'>Add posts for 
                     { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
                 </div>
 
-                <div className="text-center editable-element">
+                <div className="text-center editable-element flex items-center justify-center">
                     {
                         title ? 
                         <>
                             <div  className="title w-full">
-                                <input  ref={inputRef} type="text" value={title} name='title' onChange={(e) => setTitle(e.target.value)} 
-                                    className='capitalize focus:border-b border-black w-[300px] text-ellipsis whitespace-nowrap text-3xl outline-none py-2 text-center bg-transparent
-                                    text-black hover:text-black cursor-pointer'/> 
-                                    <button onClick={focusOnInput} className=" absolute ms-5 top-16 sm:top-10 text-black text-xl cursor-pointer"> <MdOutlineModeEdit/> </button>
+                            
+                                <textarea style={{resize:"none"}} onKeyDown={handleKeyDown} ref={inputRef} type="text" value={title} name='title' onChange={handleTitleInput} 
+                                className='capitalize focus:border-b border-black text-3xl outline-none text-center bg-transparent
+                                text-black hover:text-black cursor-pointer overflow-hidden md:w-[450px]' rows={1} spellCheck={true}></textarea>
+                                <button onClick={focusOnInput} className="absolute top-16 sm:top-10 text-black text-xl cursor-pointer"> <MdOutlineModeEdit/> </button>
                             </div>
                         </>
                         : 
@@ -280,7 +290,7 @@ function Post() {
                 </div>
             </div>
 
-            <div className={`min-h-screen w-full bg-fixed bg-no-repeat bg-center bg-cover transition-all ease-linear`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
+            {/* <div > */}
             
                 <div className="posts-section flex items-center justify-center" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
@@ -365,14 +375,14 @@ function Post() {
                         
                 </div>
 
-            </div>
+            {/* </div> */}
             
             <Link style={{ boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px"}} 
                 data-tip="Create Board" href='/boards/create'
                 className='animate-pulse p-3 rounded-full text-2xl text-white bg-[#FF9669] board-btn cursor-pointer tooltip tooltip-left fixed bottom-3 right-3' > <FaPlus/> </Link>
 
             <div id="mySidenav" className={` sidenav bg-white `} style={{marginRight: openNav ? "0" : "-30rem"}}>
-                <div className={`${isScrolled ? "shadow-inner" : ""} flex flex-1  justify-end pe-5`}>
+                <div className={` flex flex-1  justify-end pe-5`}>
                     <button onClick={() => {setOpenNav(false); }} className='text-gray-800 text-3xl m-0'>&times;</button>
                 </div>
                 <h1 className='text-black text-xl text-center'>Set background</h1>
