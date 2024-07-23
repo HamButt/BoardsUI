@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import Head from 'next/head'
 import axios from 'axios'
+import Loader from '@/components/Loader'
 
 
 function Dashboard() {
 
     const [boards,setBoards] = useState([])
-    // const [posts,setPosts] = useState([])
 
     useEffect(() => {
         getBoardStats()
@@ -16,7 +16,6 @@ function Dashboard() {
         
         const response = await axios.get(`${process.env.basePath}/stats`)
         setBoards(response.data.boards)
-        // setPosts(response.data.dashboardData.posts.map(post => post.totalPosts))
 
     }
 
@@ -29,25 +28,28 @@ function Dashboard() {
         <h1 className='ms-3 text-2xl font-mono font-semibold' >Dashboard</h1>
         <div className='flex items-center justify-center mt-3' >
 
-            <div className="border ">
-                <table className="table">
+            <div className=" w-full mx-5">
+                <table className="table w-full bg-green-300">
                     <thead>
                     <tr>
                         <th>Total boards</th>
                         <th>Occasions</th>
                     </tr>
                     </thead>
-                    {boards.map((board,index) => {
+                    {boards.length > 0 ? boards.map((board,index) => {
                         return (
                             <tbody key={index} >
                                 <tr>
                                     <th>{board.totalBoards}</th>
-                                    <th>{board.occasion}</th>
-                                
+                                    <th>{board.occasion}</th> 
                                 </tr>
                             </tbody>
                             )
                         })
+                    : 
+                        <div className=' flex items-center justify-center text-center ms-40 h-screen w-full'>
+                            <Loader color="#FF9669" size="lg" />
+                        </div>
                     } 
                 </table>
             </div>

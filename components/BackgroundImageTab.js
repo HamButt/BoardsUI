@@ -6,6 +6,7 @@ import { BsCloudUpload } from "react-icons/bs";
 import {  motion } from "framer-motion";
 import Image from 'next/image';
 import { MdDelete } from "react-icons/md";
+import Loader from './Loader';
 
 function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, setOpenNav, setSideComponent,setAnimateModal, fetchBoard, handleBackground}) {
   const [imageData, setImageData] = useState([]);
@@ -171,8 +172,7 @@ const handleUploadFiles = (e) => {
                       { imageLoading ? 
                       
                           <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
-                            <span className="loading loading-spinner loading-md text-[#FF9669]"></span>
-                            <span className='text-md ms-2 text-[#FF9669]' >Loading preview</span> 
+                            <Loader color="#FF9669" size="md" text="Loading preview" margin="2" font="md" />
                           </div>
                           : 
                           <>
@@ -198,18 +198,21 @@ const handleUploadFiles = (e) => {
                   : deleteLoader ?  
                   
                       <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
-                          <span className="loading loading-spinner loading-md text-[#FF9669]"></span>
+                          <Loader color="#FF9669" size="md" />
                           <span className='text-md ms-2 text-[#FF9669]' >Deleting preview</span> 
                       </div>
                   : ""}
             </div> 
 
             <div className="flex items-center justify-center ">
-              <motion.button disabled={uploadedImagePreview ? false : true} whileTap={{ scale: 0.9 }} onClick={updateBackground} className={`p-3 text-sm font-semibold rounded-md text-gray-600 border ${borderColor} mt-4`} >
+              <motion.button 
+                disabled={uploadedImagePreview ? false : true} 
+                whileTap={{ scale: 0.9 }} onClick={updateBackground} 
+                className={`p-3 text-sm font-semibold rounded-md text-gray-600 border ${borderColor} mt-4`} >
               { loading ? 
 
                 <div className='flex items-center'>
-                  <span className="loading loading-spinner loading-xs text-[#FF9669] "></span>
+                  <Loader color="#FF9669" size="xs" />
                   <span className="text-[#FF9669] ms-2">Saving...</span>
                 </div>
 
@@ -225,12 +228,16 @@ const handleUploadFiles = (e) => {
           
           <div>
               <p className='font-light text-md text-black text-center '>Search Image that are appropriate for all audiences. We reserve the right to remove content without notice! </p>
-              <input name='image' type="search" className="mt-3 text-black outline-none px-3 py-3 rounded-md bg-transparent text-sm border border-gray-400 w-full" value={imageSearchValue} placeholder={`Search...`} onChange={(e) => setImageSearchValue(e.target.value)} /> 
+              <input name='image' type="search" 
+                className="unsplash-image-search-input" 
+                value={imageSearchValue} 
+                placeholder={`Search...`} 
+                onChange={(e) => setImageSearchValue(e.target.value)} /> 
           </div>
           
             {
               imageSection && imageSearchValue &&
-                  <div style={{maxHeight:"220px"}} className="flex my-3 splashImages-container flex-wrap overflow-auto items-start justify-center">
+                  <div style={{maxHeight:"220px"}} className="unsplash-image-section">
                     {imageData.length > 0 && <p className='text-sm text-black'>Select image and apply changes</p>}
                   
                       {imageSearchValue && imageData.length ?  
@@ -238,29 +245,33 @@ const handleUploadFiles = (e) => {
                               return(
                                   <div key={index} className='mx-1 mt-2 cursor-pointer' style={{width:"90px", height:"115px"}} 
                                       onClick={() => handleBackground(img.urls.full)}>
-                                      <img style={{ border: img.urls.full === imageUrl ? "2px solid black" : "none"}}  className={`btn p-0 m-0 border-none bg-transparent hover:bg-transparent h-full w-full `} src={img.urls.small} alt="IMAGE URL" />
+                                      <img style={{ border: img.urls.full === imageUrl ? "2px solid black" : "none"}}  
+                                        className={`unsplash-section-image`} src={img.urls.small} alt="IMAGE URL" />
                                   </div> 
                               )})
                           : imageSearchValue && !imageData ? <div className='mt-2 font-semibold text-sm'>Searching...</div> 
                           : <div className='mt-2 font-semibold text-sm' >No images found for "{imageSearchValue}"</div>}
-                          {imageData.length > 0 && <motion.button whileTap={{ scale: 0.9 }} onClick={fetchImages} className='border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button>}
+                          {imageData.length > 0 && <motion.button whileTap={{ scale: 0.9 }} 
+                            onClick={fetchImages} 
+                            className='unsplash-load-more-button'>Load more</motion.button>}
                   </div>
             }
 
           <div className="mt-4 flex items-end justify-evenly">
-            <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} className={`border ${borderColor} p-3 rounded-md text-sm font-semibold text-gray-600`} >
+            <motion.button whileTap={{ scale: 0.9 }} onClick={updateBackground} 
+            className={`border ${borderColor} p-3 rounded-md text-sm font-semibold text-gray-600`} >
             { loading ? 
 
                 <div className='flex items-center'>
-                  <span className="loading loading-spinner loading-xs text-[#FF9669] "></span>
-                  <span className="text-[#FF9669] ms-2">Saving...</span>
+                  <Loader color="#FF9669" size="xs" margin="ms-2" text="Saving..." />
                 </div>
 
                 : "Apply changes"
                 }
 
             </motion.button>
-            <motion.button whileTap={{ scale: 0.9 }} onClick={() => setUploadImageCompo(true)} className='border-b text-indigo-950 border-indigo-950 text-sm'>Want to upload?</motion.button>
+            <motion.button whileTap={{ scale: 0.9 }} onClick={() => setUploadImageCompo(true)} 
+              className='border-b text-indigo-950 border-indigo-950 text-sm'>Want to upload?</motion.button>
           </div>
 
         </div>

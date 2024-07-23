@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import {  motion } from "framer-motion";
+import Loader from './Loader';
 
 function BackgroundColorTab({setImageUrl, boardId, setUploadedImage, setOpenNav, setAnimateModal, uploadedImage, imageUrl}) {
     const [color, setColor] = useColor("#000000");
@@ -54,8 +55,7 @@ function BackgroundColorTab({setImageUrl, boardId, setUploadedImage, setOpenNav,
             { loading ? 
 
               <div className='flex items-center'>
-                <span className="loading loading-spinner loading-xs text-[#FF9669] "></span>
-                <span className="text-[#FF9669] ms-2">Saving...</span>
+                <Loader color="#FF9669" size="xs" margin="2" text="Saving..."/>
               </div>
 
               : "Apply changes"

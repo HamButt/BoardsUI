@@ -52,18 +52,18 @@ function From({increaseStep, decrementStep, boardData, setBoardData}) {
             </div>
         </div>
 
-        <div className=' flex items-center justify-center mt-10 2xl:mt-32 mx-2'   data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-            <button onClick={decrementStep} className='max-sm:hidden me-2 bg-gray-200 shadow-md btn btn-circle text-black' > 
+        <div className='board-creator' data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+            <button onClick={decrementStep} className='decrement-step-button'> 
                 <MdArrowBackIos className='text-lg md:text-2xl ms-2' />
             </button>
             <div className="pb-10 pt-6 bg-white border shadow rounded-lg w-[500px]">
                 <div className="form  flex items-center justify-center flex-col" >
                     <p>2/4</p>
                     <h1 className='sm:text-md md:text-lg lg:text-2xl mt-2 mx-auto px-2' >Let people know who is this from</h1>
-                    <input onKeyDown={handleKeyDown} className='input border-2 w-10/12 mt-5 border-gray-300 rounded-lg outline-none px-4' 
+                    <input onKeyDown={handleKeyDown} className='board-creator-input' 
                     type="text" placeholder='Name' value={creatorName} name='creator_name' onChange={(e) => setCreatorName(e.target.value)} required />
                     <button disabled={!creatorName ? true : false}  onClick={nextQuestion} className="board-next-button mt-8 max-sm:hidden" >Next</button>
-                    <div className='sm:hidden  w-full flex items-center justify-center mt-6 space-x-2'>
+                    <div className='sm:hidden w-full flex items-center justify-center mt-6 space-x-2'>
                         <button onClick={decrementStep} className=' bg-gray-200 shadow-md btn btn-circle text-black' > 
                             <MdArrowBackIos className='text-lg md:text-2xl ms-2' />
                         </button>

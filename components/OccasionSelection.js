@@ -42,25 +42,11 @@ function OccasionSelection({increaseStep, boardData,setBoardData}) {
         
         <div className='text-center py-5 bg-white'>
             <header>
-                {/* {boardId ?
-                    <div className="logo flex items-center justify-between w-[700px]">
-                        <div className='ps-4'>
-                            <Link href={`/boards/${boardId}`} className='flex items-center' >
-                                <IoMdArrowRoundBack className='text-3xl' />
-                                <span className='text-lg ms-2' >Go back</span>
-                            </Link>
-                        </div>
-                        <Link href='/' className="">
+                <div className="logo flex items-center justify-center">
+                    <Link href='/' className="">
                             <Image src={Logo} alt='Logo' width={70} height={70}/>
-                        </Link>
-                    </div>
-                    : 
-                } */}
-                    <div className="logo flex items-center justify-center">
-                        <Link href='/' className="">
-                                <Image src={Logo} alt='Logo' width={70} height={70}/>
-                        </Link>
-                    </div>
+                    </Link>
+                </div>
             </header>
         </div>
 

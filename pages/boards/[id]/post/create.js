@@ -297,40 +297,7 @@ function CreatePost() {
                     
                     <div className="file-uploader mx-10 mt-6 flex flex-col items-center justify-center">
                         
-                        {/* Image preview */}
-                        
-                        {/* <div>
-                            {
-                                previewImageComponent ? 
-                        
-                            <div className="mt-3 h-full">
-                                <p className='text-center text-lg font-semibold text-indigo-600'>Preview your image</p>
-                                { imageLoading ? 
-                    
-                                    <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
-                                        <span className="loading loading-spinner loading-md text-indigo-600"></span>
-                                        <span className='text-md ms-2 text-indigo-600' >Loading preview</span> 
-                                    </div>
-                                    : 
-                                    <>
-                                        <button onClick={() => { deleteImageFromServer()}} className='bg-black relative top-9 left-2 p-1 rounded-lg'>
-                                            <MdDelete className=' text-white text-lg hover:text-gray-400'/>
-                                        </button>
-                                        <Image src={uploadedImagePreview} className='rounded-lg' alt='Your image' width={300} height={300} /> 
-                                    </>
-                                }
-                            </div>
-                        
-                
-                        : deleteLoader ?  
-                        
-                            <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
-                                <span className="loading loading-spinner loading-md text-indigo-600"></span>
-                                <span className='text-md ms-2 text-indigo-600' >Deleting preview</span> 
-                            </div>
-                        : ""}
-
-                        </div>  */}
+                       
 
                         { imageComponent === "upload" ?
                         <div className='text-center mt-4'>
@@ -398,40 +365,6 @@ function CreatePost() {
                             </div>
                         )}
 
-                            {/* GIF preview */}
-
-                            {/* <div>
-                            {
-                                previewGifComponent ? 
-                        
-                            <div className="mt-3 h-full">
-                                <p className='text-center text-lg font-semibold text-pink-600'>Preview your GIF</p>
-                                { gifLoading ? 
-                    
-                                <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
-                                    <span className="loading loading-spinner loading-md text-pink-600"></span>
-                                    <span className='text-md ms-2 text-pink-600' >Loading preview</span> 
-                                </div>
-                                : 
-                                <>
-                                    <button onClick={() => { deleteGifFromServer()}} className='bg-black relative top-9 left-2 p-1 rounded-lg'>
-                                        <MdDelete className=' text-white text-lg hover:text-gray-400'/>
-                                    </button>
-                                    <Image src={uploadGifPreview} className='rounded-lg' alt='Your image' width={300} height={300} /> 
-                                </>
-                                }
-                        </div>
-                        
-                
-                        : gifDeleteLoader ?  
-                        
-                            <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
-                                <span className="loading loading-spinner loading-md text-pink-600"></span>
-                                <span className='text-md ms-2 text-pink-600' >Deleting preview</span> 
-                            </div>
-                        : ""}
-
-                        </div>  */}
 
                         {GIFCompnent === "upload" ? 
                             <div className='text-center mt-4'>

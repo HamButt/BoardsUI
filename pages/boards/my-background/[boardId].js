@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios' 
 import Head from 'next/head'
+import Loader from '@/components/Loader'
 
 function Background() {
   const [imageUrl,setImageUrl] = useState(null)
@@ -33,8 +34,7 @@ function Background() {
         {imageUrl || uploadedImage ? <div className='min-h-screen h-full bg-fixed bg-no-repeat bg-center bg-cover transition-all ease-linear' style={{backgroundImage:`url(${ imageUrl ? imageUrl : uploadedImage})`}} ></div>
         :
           <div className='text-center flex items-center justify-center h-screen' >
-            <span className='loading loading-spinner'></span>
-            <span className='ms-2' >Loading background...</span>
+            <Loader margin="2" text="Loading background..." />
           </div>
         }
     </>

@@ -141,7 +141,7 @@ export default function Home() {
     
       {preview ? <PreviewBoard setPreview={setPreview} occasion={occasion} /> : 
 
-        <div className="absolute w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
+        <div className="hero-section">
             <Head>
               <title>Home</title>
             </Head>
@@ -149,13 +149,13 @@ export default function Home() {
             <Header/>
           
             <div className="main mt-14 text-black">
-              <div className="sm:w-[660px] xl:w-[900px] mx-auto mt-6 flex flex-col items-center text-center justify-center">
-                <p className="text-2xl sm:text-3xl md:text-5xl xl:text-6xl font-bold px-5 lg:leading-[50px] xl:leading-[65px]" >
+              <div className="main-parent">
+                <p className="main-heading" >
                   Celebrate your team members and people you admire
                 </p>
                 <p className="text-lg sm:text-2xl max-sm:font-semibold mt-5 max-sm:px-5">Beautiful personalized online boards to celebrate your team and friends </p>
-                <Link onClick={navigationToPage} rel="stylesheet" id="board-creation-link" className="mt-8 btn bg-[#2a9d8f] btn-md sm:btn-lg text-md sm:text-xl font-medium text-white hover:bg-white border hover:text-[#2a9d8f] hover:border-[#2a9d8f]" 
-                  href="/boards/create">
+                <Link onClick={navigationToPage} rel="stylesheet" id="board-creation-link" 
+                  className="main-cta" href="/boards/create">
                   {handleNavigating ? <span className="loading loading-dots loading-lg"></span>
                         : 
                         <>
@@ -167,18 +167,16 @@ export default function Home() {
               </div>
             </div>
 
-
-
-            <div id="how-to" className="mt-20 rounded-lg mx-6 how-it-works text-center bg-emerald-100 py-16">
-              <h1 className="text-4xl sm:text-5xl my-3 text-black font-semibold">How to create a board</h1>
+            <div id="how-to" >
+              <h1 className="how-to-heading">How to create a board</h1>
                 <div className="mx-3 flex items-center justify-evenly flex-wrap">
-                    <div className="relative px-2 w-[580px] flex items-start text-start justify-start flex-col">
-                      <Image src={Confetti} alt="Confetti" className="absolute z-0 opacity-20  bottom-32 lg:bottom-32 xl:bottom-60" width={1000} height={1000}/>
-                      <p className="text-2xl sm:text-3xl md:text-4xl text-black font-bold mt-6" >Create group memories with personalized recognition cards and leave a lasting impression!</p>
-                      <p className="text-lg sm:text-xl md:text-2xl font-semibold mt-8 text-black" >Personalized occasions with praise board for every 
+                    <div className="how-to-image-div">
+                      <Image src={Confetti} alt="Confetti" className="how-to-img" width={1000} height={1000}/>
+                      <p className="how-to-p-1" >Create group memories with personalized recognition cards and leave a lasting impression!</p>
+                      <p className="how-to-p-2" >Personalized occasions with praise board for every 
                         <span className="text-xl sm:text-2xl md:text-3xl font-semibold text-[#2a9d8f]" > {displayedText} </span>
                       </p>
-                      <Link rel="stylesheet" className="mt-6 btn bg-[#2a9d8f] btn-md sm:btn-lg text-md sm:text-xl font-medium text-white border hover:bg-transparent hover:text-[#2a9d8f] hover:border-[#2a9d8f]" 
+                      <Link rel="stylesheet" className="how-to-cta" 
                         href="/boards/create" > <FaPlus /> Create your board 
                       </Link>
                     </div>
@@ -186,10 +184,10 @@ export default function Home() {
                 </div>
             </div>          
 
-            <div id="previews" className="mt-16 py-16 flex items-center justify-center flex-col rounded-lg">
+            <div id="previews">
                 <div className="text-center max-md:px-2 max-sm:px-2">
-                    <h1 className="text-3xl sm:text-5xl my-4 text-black font-semibold">Praise board for every occasion</h1>
-                    <p className="sm:text-2xl text-md text-black font-semibold sm:font-medium mt-4">Uncover the potential of what we can design for you</p>
+                    <h1 className="previews-heading">Praise board for every occasion</h1>
+                    <p className="previews-p">Uncover the potential of what we can design for you</p>
                 </div>
                 
                 <div className="max-w-screen-lg w-full mx-auto px-4 sm:px-6 lg:px-8 mt-6">
@@ -206,7 +204,7 @@ export default function Home() {
 
                             <div className="overlay">
                                 <motion.button whileTap={{scale:0.9}} onClick={() => {setOpen(true); setDrawer({event: previewPost.event, gif: previewPost.gif}) }}
-                                  className="overlay-button btn border outline-none rounded-lg  text-lg font-semibold hover:shadow-xl" 
+                                  className="overlay-button btn border outline-none rounded-lg text-lg font-semibold hover:shadow-xl" 
                                   >Preview <FiExternalLink /> </motion.button>
                             </div>
                           </div>
@@ -230,15 +228,16 @@ export default function Home() {
                   <p className="sm:mt-0 text-2xl sm:text-4xl font-semibold text-white">Preview {drawer.event} posts</p>
                   <Image src={drawer.gif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
                     width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
-                  <motion.button whileTap={{scale:0.9}} className="btn bg-white w-52 border border-gray-500 outline-none rounded-lg
-                    text-gray-600 text-xl font-semibold hover:bg-white hover:shadow-xl hover:border-gray-500" 
+                  <motion.button 
+                    whileTap={{scale:0.9}} 
+                    className="preview-button" 
                     onClick={() => {setPreview(true); setOccasion(drawer.event)}}>Preview<FiExternalLink /> 
                   </motion.button>
               </div>
             </DragCloseDrawer>
 
             <footer>
-              <div className="footer text-black py-10 flex items-start bg-white justify-evenly ">
+              <div className="footer text-black py-10 flex items-start bg-white justify-evenly">
                 <div className="pages ">
                 <h1 className="text-2xl">Pages</h1>
                 <div className=" flex flex-col">

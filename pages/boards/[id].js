@@ -24,6 +24,8 @@ import { IoMdClose } from "react-icons/io";
 import useClipboard from '@/hooks/useClipboard';
 import { MdOutlineModeEdit } from "react-icons/md";
 import { MdContentCopy } from "react-icons/md";
+import Loader from '@/components/Loader';
+
 function Post() {
     const router = useRouter()
     const [title,setTitle] = useState('')
@@ -63,11 +65,11 @@ function Post() {
     }
 
      const fetchBoard = async (boardId) =>{
-
         try {
             const res = await axios.get(`${process.env.basePath}/boards/${boardId}`)
             const board = res.data.board
-            setTitle(board.title)
+            const capitilizeTitle = capitalizeTitle(board.title)
+            setTitle(capitilizeTitle)
             setRecipient(board.recipient)
             if(board.uploaded_image){
                 const boardImage = Buffer.from(board.uploaded_image.data)
@@ -81,6 +83,13 @@ function Post() {
             console.log(error);
         }
     }
+
+    function capitalizeTitle(str) {
+        const firstChar = str.charAt(0).toUpperCase();
+        const restOfString = str.slice(1);
+        return firstChar + restOfString;
+    }
+
 
     useEffect(()=>{
         const cookie = localStorage.getItem('Creator')
@@ -167,15 +176,17 @@ function Post() {
         }
     }, [title]);
 
+    
+
     return (
         
-        <div className={`min-h-screen w-full bg-fixed bg-no-repeat bg-center bg-cover transition-all ease-linear`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
+        <div className={`board-screen`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
             
             <Head>
                 <title>Posts</title>
             </Head>
 
-            <nav  className={`bg-white py-3 ps-8 pe-2 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 z-50  `}>
+            <nav  className={`nav-bar`}>
                 
                 <div className="logo">
                     <Link href='/'> 
@@ -183,7 +194,7 @@ function Post() {
                     </Link>
                 </div>
 
-                <div className={ `max-sm:hidden  flex items-center justify-center text-lg`}>Add posts for 
+                <div className={`max-sm:hidden flex items-center justify-center text-lg`}>Add posts for 
                     { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
                 </div>
 
@@ -192,7 +203,7 @@ function Post() {
                 <div className="header-buttons space-x-1 flex items-end"> 
                     
                     <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
-                        className='btn btn-sm bg-[#2a9d8f] font-normal text-md hover-shadow-xl text-white border-none hover:bg-[#2a9d8f] '>
+                        className='add-a-post-button'>
                         {isNavigating ? <span className="loading loading-dots loading-md text-[#FF9669]"></span>
                             : 
                             <>
@@ -203,19 +214,19 @@ function Post() {
                     
                     <Dropdown>
                         <DropdownTrigger>
-                            <Button  className={`bg-white m-0 px-2 border-gray-300 h-8 border rounded-lg outline-none `}>
+                            <Button  className={`pop-up`}>
                                 <BsThreeDotsVertical/>
                             </Button>
                         </DropdownTrigger>
                         <DropdownMenu variant="faded" aria-label="Static Actions" className='py-2 mt-1 shadow-xl bg-white rounded-md'>
                             <DropdownItem textValue='Copy'>
-                                <div className='copy  hover:bg-gray-100 flex items-center justify-start cursor-pointer rounded-md p-2' onClick={() => copyLink(boardId)}>
+                                <div className='copy  ' onClick={() => copyLink(boardId)}>
                                     <MdContentCopy className="text-black share-button text-[17px] cursor-pointer"  />
                                     <p className='text-sm font-semibold ps-3 text-black ' >Copy board link</p>
                                 </div>
                             </DropdownItem>
                             <DropdownItem textValue='Customise'>
-                                <div onClick={() => {setOpenNav(true)}} className='customise hover:bg-gray-100 flex items-center justify-start  mt-2 cursor-pointer rounded-md p-2'>
+                                <div onClick={() => {setOpenNav(true)}} className='customise '>
                                     <CiEdit  className="text-black share-button text-[22px] cursor-pointer" />
                                     <p className='text-sm font-semibold ps-2 text-black '>Customise board</p>
                                 </div>
@@ -228,7 +239,7 @@ function Post() {
                             </DropdownItem> */}
                             <DropdownItem textValue='Cookie'>
                                 { userCookie && 
-                                    <div className='delete bg-red-500 hover:bg-red-500 cursor-pointer flex items-center justify-start  mt-2 rounded-md p-2 hover:border-red-700 border-red-700 text-white ' onClick={()=>document.getElementById('delete_modal').showModal()}>
+                                    <div className='delete' onClick={()=>document.getElementById('delete_modal').showModal()}>
                                         <MdDeleteOutline className='text-2xl' />  
                                         <p className='text-sm font-semibold ps-3 '>Delete board</p>
                                     </div>
@@ -239,7 +250,6 @@ function Post() {
 
                     <dialog id="delete_modal" className="modal">
                         <div className="modal-box">
-                            <h3 className="font-bold text-lg">You going to delete this board</h3>
                             <p className="py-4">Are you sure you want to delete this?</p>
                             <div className="modal-action">
                                 <form method="dialog">
@@ -254,137 +264,141 @@ function Post() {
 
             </nav>
 
-            <div  className="mt-14 bg-gray-300 max-sm:py-3 py-6 " data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000" >
-                <div className='sm:hidden text-black text-md flex items-center justify-center py-3'>Add posts for 
-                    { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
-                </div>
+            
+                {loading ? 
+                    <div className='flex items-center justify-center h-screen'>
+                        <Loader color="#FF9669" size="lg"/>
+                    </div>
+                    :
+                <div>
+                
+                    <div  className="mt-14 bg-gray-300 max-sm:py-3 py-6 "  data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+                        <div className='sm:hidden text-black text-md flex items-center justify-center py-3'>Add posts for 
+                            { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
+                        </div>
 
-                <div className="text-center editable-element flex items-center justify-center">
-                    {
-                        title ? 
-                        <>
-                            <div  className="title max-sm:w-[300px] sm:w-[500px] md:w-[600px] lg:w-[800px]">
+                        <div className="text-center editable-element flex items-center justify-center">
+                            <div className="title max-sm:w-[300px] sm:w-[500px] md:w-[600px] lg:w-[800px]">
                             
                                 <textarea style={{resize:"none"}}  ref={inputRef} type="text" value={title} name='title' onChange={handleTitleInput} 
-                                className='capitalize focus:border-b border-black text-xl md:text-2xl lg:text-3xl outline-none text-center bg-transparent
-                                text-black hover:text-black cursor-pointer overflow-hidden w-full' rows={1} spellCheck={true}></textarea>
-                                <button onClick={focusOnInput} className="absolute top-16 sm:top-10 text-black text-xl cursor-pointer"> <MdOutlineModeEdit/> </button>
-                               
+                                className='title-teaxtarea' rows={1} spellCheck={true}></textarea>
+                                <button onClick={focusOnInput} className="edit-button"> <MdOutlineModeEdit/> </button>
+                                
                             </div>
-                        </>
-                        : 
-                        <div className="skeleton h-10 rounded-md w-80 mt-2 mx-auto pt-2 font-semibold"></div>
-                    }
-                </div>
-            </div>
+                        </div>
+                    </div>
+                                
+                    <div className="posts-section flex items-center justify-center" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
-            {/* <div > */}
-            
-                <div className="posts-section flex items-center justify-center" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+                        {posts.length > 0 ? 
 
-                    {posts.length > 0 ? 
-
-                        <div className="board-posts grid grid-cols-12 py-2 place-items-start" >
-                            {posts.map((post,index) => {
-                            
-                            const formattedImage = post.image ? Buffer.from(post.image.data) : null
-                                                        
-                            return (
-                                    <div key={post._id} className="user-posts col-span-12 md:col-span-6 w-[330px] sm:w-[450px] md:w-[380px] lg:w-[320px] xl:w-[410px]  lg:col-span-4 mt-3 bg-[#2a9d8f] mx-2 rounded-lg shadow-md"  >
-                                    {
-                                        formattedImage || post.giphy || post.video || post.unsplashImage ? 
-                                    
-                                    <div>
+                            <div className="board-posts grid grid-cols-12 py-2 place-items-start" >
+                                {posts.map((post,index) => {
+                                
+                                const formattedImage = post.image ? Buffer.from(post.image.data) : null
+                                                            
+                                return (
+                                        <div key={post._id} className="user-posts"  >
+                                        {
+                                            formattedImage || post.giphy || post.video || post.unsplashImage ? 
                                         
-                                        <div className="post w-full" >
+                                        <div>
                                             
-                                            { formattedImage ?
+                                            <div className="post w-full" >
                                                 
-                                                    <Image sizes='(max-width: 200px) 100vw, 33vw' className='post-uploaded-image rounded-t-lg w-full' src={`${process.env.basePath}/images/${formattedImage}`} alt="Post image" width={0} height={0}/>
-                                                
-                                                : post.giphy ?
+                                                { formattedImage ?
+                                                    
+                                                        <Image sizes='(max-width: 200px) 100vw, 33vw' 
+                                                            className='post-uploaded-image rounded-t-lg w-full' 
+                                                            src={`${process.env.basePath}/images/${formattedImage}`} 
+                                                            alt="Post image" width={0} height={0}/>
+                                                    
+                                                    : post.giphy ?
 
-                                                    <img fetchPriority="high" className='post-gif rounded-t-lg' src={post.giphy} alt="GIF" /> 
-                                                
-                                                : post.unsplashImage ?
+                                                        <img 
+                                                            fetchPriority="high" 
+                                                            className='post-gif rounded-t-lg' 
+                                                            src={post.giphy} alt="GIF" /> 
+                                                    
+                                                    : post.unsplashImage ?
 
-                                                    <Image sizes='(max-width: 200px) 100vw, 33vw' fetchPriority="high" className='object-cover rounded-t-lg unsplash-image' src={post.unsplashImage} alt="unsplashImage" width={0} height={0}/>
-                                                
-                                                : 
-                                                    <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
-                                            }
+                                                        <Image 
+                                                            sizes='(max-width: 200px) 100vw, 33vw' 
+                                                            fetchPriority="high" 
+                                                            className='object-cover rounded-t-lg unsplash-image' 
+                                                            src={post.unsplashImage} alt="unsplashImage" width={0} height={0}/>
+                                                    
+                                                    : 
+                                                        <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
+                                                }
+                                            </div>
+
+                                            <div className="message py-3">
+                                                <p className='text-lg sm:text-xl mx-5 text-white'>{post.message}</p>
+                                                <p className='text-sm flex pe-4 flex-1 items-end justify-end mt-5 text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                                            </div>
+                                                    
                                         </div>
-
-                                        <div className="message py-3">
-                                            <p className='text-lg sm:text-xl mx-5 text-white'>{post.message}</p>
-                                            <p className='text-sm flex pe-4 flex-1 items-end justify-end mt-5 text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
-                                        </div>
-                                                
-                                    </div>
-                                    
-                                    : 
-                                    
-                                    <div className="ps-4 px-3 py-6 bg-[#2a9d8f] rounded-lg shadow-md">
-                                        <p className='text-md sm:text-lg text-white'>{post.message}</p>
-                                        <p className='text-sm flex flex-1 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
-                                    </div>
-
-                                        }
-                                    </div> 
-                            )
-                        })}
-                        </div>
-
-                        : loading ? 
-                        <div className='flex items-center justify-center h-screen'>
-                            <span className="loading loading-spinner loading-md lg:loading-lg text-[#FF9669]"></span>
-                        </div>
-
-                        : welcomeModal ? 
-                        <div className=' w-full h-screen flex items-start mt-10 2xl:mt-32 justify-center'>
-                            <div className='bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col mx-2' style={{ width: "440px", maxWidth: "600px", height: "410px" }}>
-                                <button onClick={handleWelcomeModal} className='flex self-end me-2 mt-2 text-black text-lg hover:bg-slate-200 p-2 rounded-md' ><IoMdClose/></button>
-                                <Image src={ConfettiImage} alt='Confetti' className='' width={350} height={200}/>
-                                <div className="mt-5">
-                                    <h3 className="font-bold text-lg sm:text-2xl px-3">Welcome to the praise board of</h3>
-                                    <p className="font-semibold mt-1 text-lg sm:text-xl capitalize">{recipient}</p>
-                                    <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
-                                        className='btn hover:bg-[#2a9d8f] bg-[#2a9d8f] text-white mt-6 border border-none px-6 sm:px-10 py-1 sm:py-2 rounded-md text-md sm:text-xl font-light'>
                                         
-                                        {isNavigating ? 
-                                            <span className="loading loading-dots loading-md lg:loading-lg text-[#FF9669]"></span>
-                                        : "Add your post"}
-                                    </Link>
+                                        : 
+                                        
+                                        <div className="ps-4 px-3 py-6 bg-[#2a9d8f] rounded-lg shadow-md">
+                                            <p className='text-md sm:text-lg text-white'>{post.message}</p>
+                                            <p className='text-sm flex flex-1 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                                        </div>
+
+                                            }
+                                        </div> 
+                                )
+                            })}
+                            </div>
+
+                            : welcomeModal ? 
+                            <div className='welcome-modal'>
+                                <div className='welcome-modal-child' style={{ width: "440px", maxWidth: "600px", height: "410px" }}>
+                                    <button onClick={handleWelcomeModal} className='close-button' ><IoMdClose/></button>
+                                    <Image src={ConfettiImage} alt='Confetti' className='' width={350} height={200}/>
+                                    <div className="mt-5">
+                                        <h3 className="font-bold text-lg sm:text-2xl px-3">Welcome to the praise board of</h3>
+                                        <p className="font-semibold mt-1 text-lg sm:text-xl capitalize">{recipient}</p>
+                                        <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
+                                            className='add-your-post-cta'>
+                                            
+                                            {isNavigating ? 
+                                                <span className="loading loading-dots loading-md lg:loading-lg text-[#FF9669]"></span>
+                                            : "Add your post"}
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    : ''}
-                        
-                        
+                        : ''}
+                            
+                            
+                    </div>
                 </div>
+            }
+            
 
-            {/* </div> */}
             
             <Link style={{ boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px"}} 
                 data-tip="Create Board" href='/boards/create'
-                className='animate-pulse p-3 rounded-full text-2xl text-white bg-[#FF9669] board-btn cursor-pointer tooltip tooltip-left fixed bottom-3 right-3' > <FaPlus/> </Link>
+                className='create-board-button' > <FaPlus/> </Link>
 
             <div id="mySidenav" className={` sidenav bg-white `} style={{marginRight: openNav ? "0" : "-30rem"}}>
-                <div className={` flex flex-1  justify-end pe-5`}>
+                <div className={`flex flex-1 justify-end pe-5`}>
                     <button onClick={() => {setOpenNav(false); }} className='text-gray-800 text-3xl m-0'>&times;</button>
                 </div>
                 <h1 className='text-black text-xl text-center'>Set background</h1>
                 
-                <div className='transition-all duration-700 rounded-md flex text-center mt-4 items-center justify-center p-1 mx-2 bg-gray-100' >
+                <div className='customise-board-side-bar' >
                     <div 
-                        className={` images py-1 rounded-md text-sm font-semibold text-${sideComponent === 'color' ? 'black' : 'gray-500'}
-                        bg-${sideComponent === 'color' ? 'white' : ''} flex-1 cursor-pointer
-                        transition-all ease-linear`} onClick={() => setSideComponent('color')}>
+                        className={` background-image  text-${sideComponent === 'color' ? 'black' : 'gray-500'}
+                        bg-${sideComponent === 'color' ? 'white' : ''} `} onClick={() => setSideComponent('color')}>
                         Color
                     </div>
                     <div 
-                        className={` colors py-1 rounded-md text-sm font-semibold
-                        bg-${sideComponent === 'image' ? 'white' : ''} text-${sideComponent === 'image' ? 'black' : 'gray-500'} flex-1 text-md  cursor-pointer
+                        className={` background-color 
+                        bg-${sideComponent === 'image' ? 'white' : ''} text-${sideComponent === 'image' ? 'black' : 'gray-500'} 
                         transition-all ease-linear`} onClick={() => setSideComponent('image')}>
                         Image
                     </div>
@@ -425,19 +439,17 @@ function Post() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={() => setAnimateModal(false)}
-                        className="bg-slate-900/20 backdrop-blur p-8 fixed inset-0 z-50 grid place-items-center overflow-y-scroll cursor-pointer"
+                        className="animated-modal"
                     >
                         <motion.div
                             initial={{ scale: 0, rotate: "10deg" }}
                             animate={{ scale: 1, rotate: "0deg" }}
                             exit={{ scale: 0, rotate: "0deg" }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-gradient-to-br from-[#FF6150] to-[#FF9669] text-white p-6 rounded-lg w-full max-w-lg shadow-xl cursor-default relative overflow-hidden"
+                            className="animated-mdal-div"
                         >
-                        {/* <Image src={ConfettiImage} alt='Confetti' className="opacity-20  absolute z-0 -top-10" width={900} height={900} /> */}
-                        {/* <MdOutlineCheck className="text-white/10 rotate-12 text-[250px]  absolute z-0 -top-20 -left-10" /> */}
                         <div className="relative z-10">
-                            <div className="bg-[#FF9669] w-16 h-16 mb-2 rounded-full text-3xl text-white grid place-items-center mx-auto">
+                            <div className="animated-modal-icon">
                                 <MdOutlineCheck />
                             </div>
                             <h3 className="text-3xl font-bold text-center mb-2">Background updated</h3>

@@ -82,16 +82,18 @@ function Message({decrementStep, boardData, setBoardData}) {
         </div>
 
         <div className='flex items-center justify-center mt-10 2xl:mt-32 mx-2' data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-            <button onClick={decrementStep} className='max-sm:hidden me-2 bg-gray-200 shadow-md btn btn-circle text-black' > 
+            <button onClick={decrementStep} className='decrement-step-button' > 
                 <MdArrowBackIos className='text-lg md:text-2xl ms-2' />
             </button>
             <div className=" pb-10 pt-6 bg-white w-[500px] border shadow rounded-lg"  >
                 <div className="form flex items-center justify-center flex-col" >
                     <p>4/4</p>
                     <h1 className='sm:text-md md:text-lg lg:text-2xl mt-2' >What should the title be?</h1>
-                    <input onKeyDown={handleKeyDown} className='input border-2 w-10/12 mt-5 border-gray-300 rounded-lg outline-none px-4' type="text" placeholder={`e.g ${boardData.occasion} `} value={title} name='title' onChange={(e) => setTitle(e.target.value)} required />
+                    <input onKeyDown={handleKeyDown} className='board-creator-input' type="text" 
+                        placeholder={`e.g ${boardData.occasion} `} value={title} name='title' 
+                        onChange={(e) => setTitle(e.target.value)} required />
                     <button disabled={!title ? true : false} onClick={createBoard} 
-                        className='max-sm:hidden btn glass hover:bg-[#2a9d8f] bg-[#2a9d8f] font-medium min:w-7/12 lg:w-5/12 mt-8  text-white rounded-lg shadow-lg text-lg sm:text-lg'>
+                        className='board-create-button'>
                         {isLoading ? "Creating..." : "Create board"}</button>
 
                         <div className='sm:hidden w-full flex items-center justify-center mt-6 space-x-2'>
@@ -99,7 +101,7 @@ function Message({decrementStep, boardData, setBoardData}) {
                                 <MdArrowBackIos className='text-lg md:text-2xl ms-2'/>
                             </button>
                             <button disabled={!title ? true : false} onClick={createBoard} 
-                                className='btn glass hover:bg-[#2a9d8f] bg-[#2a9d8f] font-medium min:w-7/12 lg:w-5/12 text-white rounded-lg shadow-lg text-lg sm:text-lg'>
+                                className='board-create-btton-mbl'>
                                 {isLoading ? "Creating..." : "Create board"}
                             </button>
                     </div>

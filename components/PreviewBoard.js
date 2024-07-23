@@ -4,20 +4,26 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { IoMdArrowRoundBack } from "react-icons/io";
 import axios from 'axios';
+import Loader from './Loader';
 function PreviewBoard({setPreview, occasion}){
   
   const [posts,setPosts] = useState([])
   const [imageUrl,setImageUrl] = useState([])
   const [title,setTitle] = useState('')
+  const [isLoading,setIsLoading] = useState(false)
+
   
   useEffect(()=>{
+    setIsLoading(true)
       axios.get(`${process.env.basePath}/previews/${occasion}`)
       .then((res) => {
           setPosts(res.data.posts)
           setTitle(res.data.posts[0].title)
           setImageUrl(`${process.env.basePath}/images/${res.data.backgroundImage.gif}`)
-      }).catch((err) => {
+          setIsLoading(false)
+        }).catch((err) => {
           console.log(err);
+          setIsLoading(false)
       })
     }, [])
   
@@ -26,6 +32,7 @@ function PreviewBoard({setPreview, occasion}){
     }
 
   return (
+      
     <div  style={{backgroundImage: `url(${imageUrl})`,backgroundRepeat:"no-repeat",backgroundAttachment:"fixed", backgroundSize:'cover',backgroundPosition:"center"}}>
         <Head>
           <title >{capitalizeTitle(occasion)}</title>
@@ -47,7 +54,14 @@ function PreviewBoard({setPreview, occasion}){
             <p className='text-md font-medium'>Drive employee happiness by celebrating milestones with online {occasion} posts by Praise Board</p>
           </div>
         </header>
-
+        
+        {isLoading ? 
+          <div className='flex items-center justify-center h-screen w-full'>
+            <Loader color="#2a9d8f" size="lg"/>
+          </div>
+       
+       :
+        
         <div className='' data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000" >
 
           <div className="selected-title bg-gray-300 mt-[105px] py-10">
@@ -70,10 +84,6 @@ function PreviewBoard({setPreview, occasion}){
                                        
                                         { post.image ? 
                                             ( <img className='preview-image rounded-t-lg' src={`${process.env.basePath}/images/${post.image}`} alt="Post image" />)
-                                              // <Image className='preview-image rounded-t-lg'
-                                              // sizes='(max-width: 200px) 100vw, 33vw'
-                                              // src={`${process.env.basePath}/images/${post.image}`}
-                                              // alt="Post image"  width={0} height={0}/>
                                            
                                             : post.gif ?
 
@@ -90,7 +100,7 @@ function PreviewBoard({setPreview, occasion}){
 
                                     <div className="message py-4">
                                         <p className='text-lg mx-5 text-white'>{post.message}</p>
-                                        <p className='text-sm flex flex-1 pe-4 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                                        <p className='text-sm flex flex-1 pe-4 items-end justify-end mt-4 text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
                                     </div>
 
                                 </div>
@@ -105,7 +115,10 @@ function PreviewBoard({setPreview, occasion}){
 
           </div>
         </div>
+    
+      }
     </div>
+
   )
 }
 
