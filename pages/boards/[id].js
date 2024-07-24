@@ -25,6 +25,8 @@ import useClipboard from '@/hooks/useClipboard';
 import { MdOutlineModeEdit } from "react-icons/md";
 import { MdContentCopy } from "react-icons/md";
 import Loader from '@/components/Loader';
+import Backdrop from '@/components/Backdrop';
+
 
 function Post() {
     const router = useRouter()
@@ -42,7 +44,7 @@ function Post() {
     const [animateModal, setAnimateModal] = useState(false);
     const [welcomeModal, setWelcomeModal] = useState(true);
     const [sideComponent,setSideComponent] = useState('color')
-    const [columns, setColumns] = useState(0);
+    const [isImageLoading, setIsImageLoading] = useState(false)
     const setClipboard = useClipboard();
     const inputRef = useRef(null)
 
@@ -157,7 +159,10 @@ function Post() {
     }
 
     const handleBackground = (backgroundImage) => {
+        setIsImageLoading(true)
         setImageUrl(backgroundImage)
+        setIsImageLoading(false)
+
     }
 
     const handleTitleInput = (e) => {
@@ -174,17 +179,20 @@ function Post() {
         if (inputRef.current) {
             adjustTextareaHeight(inputRef.current);
         }
-    }, [title]);
-
-    
+    }, [title]);    
 
     return (
         
-        <div className={`board-screen`} style={{backgroundImage:`url(${imageUrl ? imageUrl : uploadedImage})`}}>
+        <div className={`board-screen`} style={{backgroundImage:`url(${ imageUrl ? imageUrl : uploadedImage})`}}>
             
             <Head>
                 <title>Posts</title>
             </Head>
+
+            {isImageLoading && 
+        
+               <Backdrop/>
+            }
 
             <nav  className={`nav-bar`}>
                 
