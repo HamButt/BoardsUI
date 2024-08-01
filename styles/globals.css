@@ -86,7 +86,7 @@ html{
   @apply bg-white ps-8 pe-3 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 z-50  
 }
 .add-a-post-button{
-  @apply btn btn-sm bg-[#2a9d8f] font-normal text-white border-none hover:bg-[#2a9d8f] 
+  @apply btn btn-sm bg-[#2a9d8f] font-normal text-white border-none  hover:bg-[#34bdad]
 }
 .pop-up{
   @apply bg-white m-0 px-2 border-gray-300 h-8 border rounded-lg outline-none
@@ -122,7 +122,7 @@ html{
   @apply btn hover:bg-[#2a9d8f] bg-[#2a9d8f] text-white mt-6 border border-none px-6 sm:px-10 py-1 sm:py-2 rounded-md sm:text-xl font-light
 }
 .create-board-button{
-  @apply animate-pulse p-3 rounded-full text-2xl text-white bg-[#FF9669]  cursor-pointer tooltip tooltip-left fixed bottom-3 right-3
+  @apply animate-pulse p-3 rounded-full text-2xl btn border-none hover:bg-[#FF9669] font-medium text-white bg-[#FF9669]  cursor-pointer tooltip tooltip-left fixed bottom-3 right-3
 }
 .customise-board-side-bar{
   @apply transition-all duration-700 rounded-md flex text-center mt-4 items-center justify-center p-1 mx-2 bg-gray-100
@@ -253,23 +253,6 @@ html{
 
 .process-img{
   @apply w-32 sm:w-40
-}
-
-.separator{
-    align-items: center;
-    color: #dadcdf;
-    display: flex;
-    font-size: .9rem;
-    font-weight: 500;
-    margin: 20px 0;
-    text-align: center;
-}
-
-.separator:before, .separator:after{
-    border-bottom: 1px solid #dadcdf;
-    content: "";
-    flex: 1;
-    margin-inline: 5px;
 }
 
 .menu-items{
@@ -471,6 +454,13 @@ html{
   height: 370px;
 }
 
+/* DASHBOARD */
+
+.board:hover{
+  /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
 /* BACKGROUND */
 
 #previews {
@@ -514,7 +504,6 @@ html{
 }
 
 
-
 @keyframes shine {
   0% {
     background-position: 0% 0;
@@ -523,13 +512,22 @@ html{
     background-position: -200% 0;
   }
 }
-
+.options-button-for-small-in-user-dashboard{
+  display: none;
+}
 .css-1b00oyk-MuiLinearProgress-root.MuiLinearProgress-colorPrimary{
     background-color: #facdb9 !important;
 }
 
-
-
+@media screen and (max-width:490px) {
+    .view-board-button-for-extra-small-in-user-dashboard{
+        display: none;
+      }
+    .options-button-for-small-in-user-dashboard{
+        display: block;
+      }
+      
+}
 @media screen and (max-width:850px) {
     .post-image, .preview-posts{
         width: 300px;
@@ -537,7 +535,7 @@ html{
       .message > p{
         font-size: 14px;
       }
-    }
+}
 
 @media screen and (max-width:650px) {
   .post-image, .preview-posts{

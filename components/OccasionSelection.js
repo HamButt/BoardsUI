@@ -18,9 +18,10 @@ import Birthday from '../public/Happy-birthday-images-free-download.jpg'
 import Welcome from '../public/welcome.jpg'
 import Link from 'next/link'
 import Logo from '../public/logo.png'
-import { IoMdArrowRoundBack } from "react-icons/io";
+import axios from 'axios'
+
 function OccasionSelection({increaseStep, boardData,setBoardData}) {
-    const [boardId, setBoardId] = useState('')
+    // const [boardId, setBoardId] = useState('')
     const nextQuestion = (occasion) => {
         setBoardData(prevState => ({
             ...prevState,
@@ -29,12 +30,6 @@ function OccasionSelection({increaseStep, boardData,setBoardData}) {
         increaseStep()
     };
 
-    useEffect(()=>{
-        const id = localStorage.getItem('boardId')
-        if(id){
-            setBoardId(id)
-        }
-    },[])
     
   return (
 

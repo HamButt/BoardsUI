@@ -27,7 +27,6 @@ import { MdContentCopy } from "react-icons/md";
 import Loader from '@/components/Loader';
 import Backdrop from '@/components/Backdrop';
 
-
 function Post() {
     const router = useRouter()
     const [title,setTitle] = useState('')
@@ -55,9 +54,10 @@ function Post() {
             const res = await axios.get(`${process.env.basePath}/posts/${boardId}`)
             if(res.data.allPosts.length){
                 setPosts(res.data.allPosts.reverse())
+            }else if(!modal){
+                Confetti()
             }
             else if(modal === boardId){
-                Confetti()
                 setWelcomeModal(false)
             }
             setLoading(false);
@@ -91,7 +91,7 @@ function Post() {
         const restOfString = str.slice(1);
         return firstChar + restOfString;
     }
-
+    
 
     useEffect(()=>{
         const cookie = localStorage.getItem('Creator')
@@ -102,8 +102,13 @@ function Post() {
         fetchBoard(board_id)
         fetchPosts(board_id)
     }, [])
-
+    
+    
     useEffect(() => {
+        if (inputRef.current) {
+            adjustTextareaHeight(inputRef.current);
+        }
+
         const timer = setTimeout(() => {
             updateTitle()
         }, 3000);
@@ -129,7 +134,6 @@ function Post() {
             if(res.status === 200){
                 router.push('/boards/create')
                 localStorage.removeItem('Creator')
-                localStorage.removeItem('boardId')
                 localStorage.removeItem('title')
                 localStorage.removeItem('modal')
                 setIsLoading(false)
@@ -141,7 +145,7 @@ function Post() {
     }
 
     const copyLink = (boardId) =>{
-        setClipboard(`https://praiseboard.vercel.app/boards/${boardId}`)
+        setClipboard(`${process.env.basePath}/boards/${boardId}`)
         toast.success('Link copied'); 
     }
 
@@ -175,11 +179,6 @@ function Post() {
         textarea.style.height = `${textarea.scrollHeight}px`;
     };
 
-    useEffect(() => {
-        if (inputRef.current) {
-            adjustTextareaHeight(inputRef.current);
-        }
-    }, [title]);    
 
     return (
         
@@ -196,11 +195,20 @@ function Post() {
 
             <nav  className={`nav-bar`}>
                 
+                {userCookie ? 
+                
+                <div className="">
+                    <Link href='/boards/user/dashboard' className=''> 
+                        <motion.p whileTap={{scale:"0.9"}} className='transition-all text-lg text-[#2a9d8f] hover:bg-[#e9f0ef] rounded-lg px-2 py-1'>Dashboard</motion.p>
+                    </Link>
+                </div> 
+                : 
                 <div className="logo">
-                    <Link href='/'> 
-                        <Image src={Logo} sizes='(max-width: 200px) 100vw, 33vw' className={`m-0 p-0`} alt='Logo' width={45} height={45} />
+                    <Link href='/' className=''> 
+                        <Image src={Logo} alt='Logo' width={50} height={50}/>
                     </Link>
                 </div>
+                }
 
                 <div className={`max-sm:hidden flex items-center justify-center text-lg`}>Add posts for 
                     { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
@@ -211,7 +219,7 @@ function Post() {
                 <div className="header-buttons space-x-1 flex items-end"> 
                     
                     <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
-                        className='add-a-post-button'>
+                        className='add-a-post-button '>
                         {isNavigating ? <span className="loading loading-dots loading-md text-[#FF9669]"></span>
                             : 
                             <>
@@ -390,7 +398,7 @@ function Post() {
             
             <Link style={{ boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px"}} 
                 data-tip="Create Board" href='/boards/create'
-                className='create-board-button' > <FaPlus/> </Link>
+                className='create-board-button ' > <FaPlus/> </Link>
 
             <div id="mySidenav" className={` sidenav bg-white `} style={{marginRight: openNav ? "0" : "-30rem"}}>
                 <div className={`flex flex-1 justify-end pe-5`}>
