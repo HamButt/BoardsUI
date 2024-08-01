@@ -6,10 +6,10 @@ export function middleware(request) {
   const url = request.url;
   
   if (!cookie && url.includes('/boards/create')){
-    return NextResponse.redirect('http://localhost:3000/boards/login')
+    return NextResponse.redirect('https://praiseboard.vercel.app/boards/login')
   }
   
-  if(cookie && url === "http://localhost:3000/boards/login"){
-    return NextResponse.redirect('http://localhost:3000/boards/create')
+  if(cookie && url === "https://praiseboard.vercel.app/boards/login"){
+    return NextResponse.redirect('https://praiseboard.vercel.app/boards/create')
   }
 }
