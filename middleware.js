@@ -5,7 +5,7 @@ export function middleware(request) {
   const cookie = request.cookies.get('token');
   const url = request.url;
   
-  if (!cookie && url.includes('/boards/create') || url.includes('/boards/user/dashboard')){
+  if (!cookie && url.includes('/boards/create')){
     return NextResponse.redirect('https://praiseboard.vercel.app/boards/login')
   }
   
