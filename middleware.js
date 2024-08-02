@@ -9,7 +9,7 @@ export function middleware(request) {
     return NextResponse.redirect('http://localhost:3000/boards/login')
   }
   
-  if(cookie && url === "http://localhost:3000/boards/login"){
-    return NextResponse.redirect('http://localhost:3000/boards/create')
+  if(cookie && url === "https://praiseboard.vercel.app/boards/login"){
+    return NextResponse.redirect('https://praiseboard.vercel.app/boards/create')
   }
 }
