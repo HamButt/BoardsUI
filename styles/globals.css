@@ -307,7 +307,7 @@ html{
 }
 
 .option > p{
-    @apply mt-4 text-xl w-40 text-ellipsis overflow-hidden whitespace-nowrap text-center
+    @apply mt-4 text-xl w-52 text-ellipsis overflow-hidden whitespace-nowrap text-center
 }
 
 .occasion-img{

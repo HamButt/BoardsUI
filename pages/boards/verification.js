@@ -5,7 +5,7 @@ import Cookie from 'js-cookie'
 import Loader from '@/components/Loader'
 import axios from 'axios'
 
-function verification() {
+function Verification() {
     const router = useRouter()
     const token = router.asPath.split('=')[1]
     const [isError, setError] = useState(null)
@@ -35,19 +35,14 @@ function verification() {
 
   return (
     <div className='flex items-center justify-center h-screen w-full' >
-        {isError ? 
+        {isError && 
           <div className='flex flex-col items-center justify-center' >
             <span className='ms-2 text-2xl' > {isError} </span>
             <Link href="/" className='text-xl btn mt-2 w-[220px] bg-[#2a9d8f] hover:bg-[#34bdad] shadow-none text-white font-medium' > Go home </Link>
           </div>
-          :
-        <>
-          <Loader color="black" size="lg" />
-          <span className='ms-2' >Wait taking you to the board</span>
-        </>
           }
     </div>
   )
 }
 
-export default verification
+export default Verification
