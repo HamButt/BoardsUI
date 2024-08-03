@@ -145,7 +145,7 @@ function Post() {
     }
 
     const copyLink = (boardId) =>{
-        setClipboard(`${process.env.basePath}/boards/${boardId}`)
+        setClipboard(`${process.env.copyLinkUrl}/boards/${boardId}`)
         toast.success('Link copied'); 
     }
 
