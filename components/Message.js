@@ -72,6 +72,8 @@ function Message({decrementStep, boardData, setBoardData}) {
                 },
                 duration: Infinity,
               }); 
+        }finally{
+            setIsLoading(false)
         }
     }
 

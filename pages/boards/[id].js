@@ -145,7 +145,7 @@ function Post() {
     }
 
     const copyLink = (boardId) =>{
-        setClipboard(`${process.env.basePath}/boards/${boardId}`)
+        setClipboard(`${process.env.copyLinkUrl}/boards/${boardId}`)
         toast.success('Link copied'); 
     }
 
@@ -184,6 +184,8 @@ function Post() {
         
         <div className={`board-screen`} style={{backgroundImage:`url(${ imageUrl ? imageUrl : uploadedImage})`}}>
             
+            <Toaster theme='system' richColors={true} position="top-center" />
+            
             <Head>
                 <title>Posts</title>
             </Head>
@@ -214,7 +216,6 @@ function Post() {
                     { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
                 </div>
 
-                <Toaster theme='system' richColors={true} closeButton={true} position="center" />
 
                 <div className="header-buttons space-x-1 flex items-end"> 
                     
@@ -462,7 +463,7 @@ function Post() {
                             animate={{ scale: 1, rotate: "0deg" }}
                             exit={{ scale: 0, rotate: "0deg" }}
                             onClick={(e) => e.stopPropagation()}
-                            className="animated-mdal-div"
+                            className="animated-modal-div"
                         >
                         <div className="relative z-10">
                             <div className="animated-modal-icon">

@@ -65,13 +65,15 @@ function Dashboard() {
     }
 
     const copyLink = (boardId) =>{
-        setClipboard(`${process.env.basePath}/boards/${boardId}`)
+        setClipboard(`${process.env.copyLinkUrl}/boards/${boardId}`)
         toast.success('Link copied'); 
     }
 
   return (
     <div>
 
+        <Toaster theme='system' richColors={true} position="top-center" />
+        
         <Head>
             <title>My Boards</title>
         </Head>
@@ -100,7 +102,6 @@ function Dashboard() {
           </div>
         </header>
 
-        <Toaster theme='system' richColors={true} closeButton={true} position="top-center" />
 
         <div className='all-boards mt-32 flex items-start justify-center py-4 bg-white'>
                 

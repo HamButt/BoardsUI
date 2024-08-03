@@ -28,6 +28,12 @@ function Login() {
         }
     }
 
+    const handleKeyDown = (e) => {
+        if(e.key === "Enter"){
+            handleEmail()
+        }
+    }
+
     const googlePassportLogin = () => {
         window.open(`${process.env.basePath}/auth/google`, "_self")
     }
@@ -66,7 +72,7 @@ function Login() {
                                 <path
                                 d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                             </svg>
-                            <input className='w-full' type="email" placeholder="pb@example.com" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <input onKeyDown={handleKeyDown} className='w-full' type="email" placeholder="pb@example.com" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                         </label>
                             {error && <p className='text-red-600 text-sm mt-2' >{error}</p>}
                         <button 

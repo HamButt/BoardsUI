@@ -207,11 +207,12 @@ html{
 }
 
 .header{
-    @apply flex items-center justify-center sm:justify-between px-40 py-6
+    @apply flex items-center  justify-between px-8 sm:px-40 py-6
   }
 .login-link{
-    @apply border border-[var(--border-color)] shadow-md rounded-lg py-3 px-4 text-xl text-[var(--background-link-color)] hover:bg-[var(--background-link-color)] hover:text-white
-  }
+    @apply btn btn-md bg-white text-lg font-light border hover:border-[#2a9d8f] border-[#2a9d8f] rounded-lg hover:bg-white text-[#2a9d8f]
+}
+
 .boards-create{
     @apply border border-[var(--border-color)] shadow-md hover:bg-[var(--background-link-color)] text-xl text-[var(--background-link-color)] py-3 px-4  rounded-lg  hover:text-white
   }
