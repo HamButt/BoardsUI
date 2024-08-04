@@ -13,6 +13,7 @@ function Login() {
     const [email,setEmail] = useState(null)
     const [error,setError] = useState(null)
     const [isLoading,setIsLoading] = useState(false)
+    const [isGoogleLoading,setGoogleLoading] = useState(false)
 
     const handleKeyDown = (e) => {
         if(e.key === "Enter"){
