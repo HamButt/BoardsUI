@@ -3,7 +3,6 @@ import axios from 'axios'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import {useRouter} from 'next/navigation'
 import Logo from '../../../public/logo.png'
 import { format } from 'timeago.js';
 import Loader from '@/components/Loader'
@@ -15,34 +14,35 @@ import { DeleteModal } from '../../../components/DeleteModal'
 import { MdDeleteOutline } from "react-icons/md";
 import useClipboard from '@/hooks/useClipboard';
 import { Toaster,toast } from 'sonner';
+import { FaPlus } from "react-icons/fa6";
 
 function Dashboard() {
     const [boards,setBoards] = useState([])
     const [isLimitReached, setIsLimitReached] = useState(false)
     const [isLoading, setLoading] = useState(false)
-    const [isDeleteLoading, setIsDeleteLoading] = useState(false)
-    const [boardId,setBoardId] = useState("") 
+    const [isDeleteLoading, setIsDeleteLoading] = useState(false) 
     const setClipboard = useClipboard();
 
     useEffect(()=>{
         fetchBoards()
-        const boardid = localStorage.getItem('boardId')
-        setBoardId(boardid)
     }, [])
+    
     const fetchBoards = async () =>{
         setLoading(true)
         try {
             const email = localStorage.getItem('email')
-            const board = await axios.get(`${process.env.basePath}/users/${email}`)
-            setBoards(board.data.boards.reverse())
-            if(board.data.boards?.length >= 3){
+            const response = await axios.get(`${process.env.basePath}/users/${email}`)
+            const boards = response?.data?.boards || [];
+            setBoards(boards.reverse());
+             if (boards.length >= 3){
                 setIsLimitReached(true)
             }else{
                 setIsLimitReached(false)
             }
+           
         } catch (error) {
-            console.log(error);
             setLoading(false)
+            setIsLimitReached(false)
         }finally{
             setLoading(false)
         }
@@ -55,12 +55,13 @@ function Dashboard() {
             if(res.status === 200){
                 localStorage.removeItem('title')
                 localStorage.removeItem('modal')
-                DeleteModal()
                 await fetchBoards()
                 setIsDeleteLoading(false)
             }
         } catch (error) {
-            console.log(error);
+            setIsDeleteLoading(false)
+        } finally{
+            setIsDeleteLoading(false)
         }
     }
 
@@ -91,11 +92,11 @@ function Dashboard() {
             {
                 isLoading ? 
                     <div className='flex items-center'>
-                        <Loader text="Checking limit..." size="xs" margin="2" color="black" />
+                        <Loader text="Processing..." size="xs" margin="2" color="black" />
                     </div>
                      :
                     <Link disabled={isLimitReached ? true : false} className=' btn max-sm:btn-sm rounded-md hover:bg-[#2a9d8f] md:me-5 bg-[#2a9d8f] text-white text-2xl sm:text-lg font-medium' 
-                        href='/boards/create'>{isLimitReached ? "Max limit reached" : "Create Board"}</Link>
+                        href='/boards/create'>{isLimitReached ? "You have reached the limit" : "Create Board"}</Link>
             }
             </>
 
@@ -206,9 +207,16 @@ function Dashboard() {
                             </div>
                         )
                     })
-                    :   <div className='flex items-center justify-center h-screen'>
+                    : isLoading ?
+                        <div className='flex items-center justify-center h-screen'>
                             <Loader color="black" size="lg" margin="2" text="Fetching boards..." />
                         </div> 
+                    :
+                        <div className='flex items-center justify-center h-screen flex-col'>
+                            <p className='text-lg' >No Boards found</p>
+                            <Link className='mt-2 text-white rounded-md bg-[#2a9d8f] font-medium btn btn-md hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
+                                href='/boards/create' > <FaPlus/> Create your board</Link>
+                        </div>   
                     }
                 </div>
 
@@ -322,9 +330,16 @@ function Dashboard() {
                             </div>
                         )
                     })
-                    :   <div className='flex items-center justify-center h-screen'>
+                    : isLoading ?
+                        <div className='flex items-center justify-center h-screen'>
                             <Loader color="black" size="lg" margin="2" text="Fetching boards..." />
                         </div> 
+                    :
+                        <div className='flex items-center justify-center h-screen flex-col'>
+                            <p className='text-lg' >No Boards found</p>
+                            <Link className='mt-2 text-white rounded-md bg-[#2a9d8f] font-medium btn btn-md hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
+                                href='/boards/create' > <FaPlus/> Create your board</Link>
+                        </div>   
                     }
                 </div>
         </div>
