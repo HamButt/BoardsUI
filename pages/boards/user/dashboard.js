@@ -213,9 +213,9 @@ function Dashboard() {
                         </div> 
                     :
                         <div className='flex items-center justify-center h-screen flex-col'>
-                            <p className='text-lg' >No Boards found</p>
+                            <p className='text-lg' >No boards found. Create your board now</p>
                             <Link className='mt-2 text-white rounded-md bg-[#2a9d8f] font-medium btn btn-md hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
-                                href='/boards/create' > <FaPlus/> Create your board</Link>
+                                href='/boards/create' > <FaPlus/> Create a board</Link>
                         </div>   
                     }
                 </div>
@@ -336,9 +336,9 @@ function Dashboard() {
                         </div> 
                     :
                         <div className='flex items-center justify-center h-screen flex-col'>
-                            <p className='text-lg' >No Boards found</p>
+                            <p className='text-lg' >No boards found. Create your board now</p>
                             <Link className='mt-2 text-white rounded-md bg-[#2a9d8f] font-medium btn btn-md hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
-                                href='/boards/create' > <FaPlus/> Create your board</Link>
+                                href='/boards/create' > <FaPlus/> Create a board</Link>
                         </div>   
                     }
                 </div>
