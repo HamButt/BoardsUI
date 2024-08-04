@@ -3,7 +3,6 @@ import axios from 'axios'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import {useRouter} from 'next/navigation'
 import Logo from '../../../public/logo.png'
 import { format } from 'timeago.js';
 import Loader from '@/components/Loader'
@@ -20,7 +19,6 @@ function Dashboard() {
     const [boards,setBoards] = useState([])
     const [isLimitReached, setIsLimitReached] = useState(false)
     const [isLoading, setLoading] = useState(false)
-    const [fetchingBoards, setFetchingBoards] = useState(false)
     const [isDeleteLoading, setIsDeleteLoading] = useState(false)
     const setClipboard = useClipboard();
 
@@ -29,7 +27,6 @@ function Dashboard() {
     }, [])
     const fetchBoards = async () =>{
         setLoading(true)
-        setFetchingBoards(true)
         try {
             const email = localStorage.getItem('email')
             const response = await axios.get(`${process.env.basePath}/users/${email}`)
@@ -182,7 +179,7 @@ function Dashboard() {
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem textValue='Cookie'>
-                                                        <div className='delete' onClick={()=>document.getElementById('delete_modal').showModal()}>
+                                                        <div className='delete' onClick={()=>document.getElementById('delete_modal_in_dashboard_for_big_screens').showModal()}>
                                                             <MdDeleteOutline className='text-2xl' />  
                                                             <p className='text-sm font-semibold ps-3 '>Delete board</p>
                                                         </div>
@@ -190,7 +187,7 @@ function Dashboard() {
                                             </DropdownMenu>
                                         </Dropdown>
 
-                                        <dialog id="delete_modal" className="modal">
+                                        <dialog id="delete_modal_in_dashboard_for_big_screens" className="modal">
                                             <div className="modal-box">
                                                 <p className="py-4">Are you sure you want to delete this?</p>
                                                 <div className="modal-action">
@@ -300,7 +297,7 @@ function Dashboard() {
                                                         </Link>
                                                     </DropdownItem>
                                                     <DropdownItem textValue='Cookie'>
-                                                            <div className='delete' onClick={()=>document.getElementById('delete_modal').showModal()}>
+                                                            <div className='delete' onClick={()=>document.getElementById('delete_modal_in_dashboard_for_small_screens').showModal()}>
                                                                 <MdDeleteOutline className='text-2xl' />  
                                                                 <p className='text-sm font-semibold ps-3 '>Delete board</p>
                                                             </div>
@@ -308,7 +305,7 @@ function Dashboard() {
                                                 </DropdownMenu>
                                             </Dropdown>
 
-                                            <dialog id="delete_modal" className="modal">
+                                            <dialog id="delete_modal_in_dashboard_for_small_screens" className="modal">
                                                 <div className="modal-box">
                                                     <p className="py-4">Are you sure you want to delete this?</p>
                                                     <div className="modal-action">

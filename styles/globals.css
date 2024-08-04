@@ -83,7 +83,7 @@ html{
   @apply min-h-screen w-full bg-fixed bg-no-repeat bg-center bg-cover transition-all ease-linear
 }
 .nav-bar{
-  @apply bg-white ps-8 pe-3 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 z-50  
+  @apply bg-white  pe-3 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 z-50  
 }
 .add-a-post-button{
   @apply btn btn-sm bg-[#2a9d8f] font-normal text-white border-none  hover:bg-[#34bdad]
@@ -207,7 +207,7 @@ html{
 }
 
 .header{
-    @apply flex items-center  justify-between px-8 sm:px-40 py-6
+    @apply flex items-center justify-between px-8 sm:px-40 py-6
   }
 .login-link{
     @apply btn btn-md bg-white text-lg font-light border hover:border-[#2a9d8f] border-[#2a9d8f] rounded-lg hover:bg-white text-[#2a9d8f]
@@ -503,7 +503,6 @@ html{
   -webkit-text-fill-color: transparent;
   animation: shine 8s infinite linear;
 }
-
 
 @keyframes shine {
   0% {

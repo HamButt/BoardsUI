@@ -91,7 +91,6 @@ function Post() {
         const restOfString = str.slice(1);
         return firstChar + restOfString;
     }
-    
 
     useEffect(()=>{
         const cookie = localStorage.getItem('Creator')
@@ -181,8 +180,7 @@ function Post() {
 
 
     return (
-        <>
-        {title ?
+
             <div className={`board-screen`} style={{backgroundImage:`url(${ imageUrl ? imageUrl : uploadedImage})`}}>
                 
                 <Toaster theme='system' richColors={true} position="top-center" />
@@ -202,11 +200,11 @@ function Post() {
                     
                     <div className="">
                         <Link href='/boards/user/dashboard' className=''> 
-                            <motion.p whileTap={{scale:"0.9"}} className='transition-all text-lg text-[#2a9d8f] hover:bg-[#e9f0ef] rounded-lg px-2 py-1'>Dashboard</motion.p>
+                            <motion.p whileTap={{scale:"0.9"}} className='transition-all ps-3 text-lg text-[#2a9d8f] hover:bg-[#e9f0ef] rounded-lg sm:px-2 py-1'>Dashboard</motion.p>
                         </Link>
                     </div> 
                     : 
-                    <div className="logo">
+                    <div className="logo ps-8">
                         <Link href='/' className=''> 
                             <Image src={Logo} alt='Logo' width={50} height={50}/>
                         </Link>
@@ -216,7 +214,6 @@ function Post() {
                     <div className={`max-sm:hidden flex items-center justify-center text-lg`}>Add posts for 
                         { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
                     </div>
-
 
                     <div className="header-buttons space-x-1 flex items-end"> 
                         
@@ -482,12 +479,8 @@ function Post() {
                         </motion.div>
                     </AnimatePresence>
                 }
-            </div> :
-            <div className='flex items-center justify-center h-screen' >
-                <p>404 | page not found</p>
-            </div>
-            } 
-        </>
+            </div> 
+            
           
     )
 

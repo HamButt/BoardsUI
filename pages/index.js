@@ -139,7 +139,9 @@ export default function Home() {
   return (
     <>
     
-      {preview ? <PreviewBoard setPreview={setPreview} occasion={occasion} /> : 
+      {preview ? <PreviewBoard setPreview={setPreview} occasion={occasion} /> 
+      
+        : 
 
         <div className="hero-section">
             <Head>
@@ -147,7 +149,7 @@ export default function Home() {
             </Head>
 
             <Header/>
-          
+
             <div className="main mt-14 text-black">
               <div className="main-parent">
                 <p className="main-heading" >
@@ -193,7 +195,6 @@ export default function Home() {
                 <div className="max-w-screen-lg w-full mx-auto px-4 sm:px-6 lg:px-8 mt-6">
                   
                   <div className="flex items-center justify-evenly flex-wrap" >
-                    
 
                       {
                         previewsData.map((previewPost,index) => {
@@ -251,8 +252,6 @@ export default function Home() {
                   
           {/* <FileUploader/> */}
 
-          
-        
         </div>
     }
     </>
