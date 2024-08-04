@@ -181,7 +181,8 @@ function Post() {
 
 
     return (
-        
+        <>
+        {title ?
         <div className={`board-screen`} style={{backgroundImage:`url(${ imageUrl ? imageUrl : uploadedImage})`}}>
     
             <Toaster theme='system' richColors={true} position="top-center" />
@@ -482,7 +483,13 @@ function Post() {
                     </motion.div>
                 </AnimatePresence>
             }
-        </div>  
+        </div> 
+            :
+            <div className='flex items-center justify-center h-screen' >
+                <p>404 | page not found</p>
+            </div>
+            } 
+        </>
 
           
     )
