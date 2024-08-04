@@ -181,7 +181,7 @@ function Dashboard() {
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem textValue='Cookie'>
-                                                        <div className='delete' onClick={()=>document.getElementById('delete_modal').showModal()}>
+                                                        <div className='delete' onClick={()=>document.getElementById('delete_modal_in_dashboard_for_big_screens').showModal()}>
                                                             <MdDeleteOutline className='text-2xl' />  
                                                             <p className='text-sm font-semibold ps-3 '>Delete board</p>
                                                         </div>
@@ -189,7 +189,7 @@ function Dashboard() {
                                             </DropdownMenu>
                                         </Dropdown>
 
-                                        <dialog id="delete_modal" className="modal">
+                                        <dialog id="delete_modal_in_dashboard_for_big_screens" className="modal">
                                             <div className="modal-box">
                                                 <p className="py-4">Are you sure you want to delete this?</p>
                                                 <div className="modal-action">
@@ -297,7 +297,7 @@ function Dashboard() {
                                                         </Link>
                                                     </DropdownItem>
                                                     <DropdownItem textValue='Cookie'>
-                                                            <div className='delete' onClick={()=>document.getElementById('delete_modal').showModal()}>
+                                                            <div className='delete' onClick={()=>document.getElementById('delete_modal_in_dashboard_for_small_screens').showModal()}>
                                                                 <MdDeleteOutline className='text-2xl' />  
                                                                 <p className='text-sm font-semibold ps-3 '>Delete board</p>
                                                             </div>
@@ -305,7 +305,7 @@ function Dashboard() {
                                                 </DropdownMenu>
                                             </Dropdown>
 
-                                            <dialog id="delete_modal" className="modal">
+                                            <dialog id="delete_modal_in_dashboard_for_small_screens" className="modal">
                                                 <div className="modal-box">
                                                     <p className="py-4">Are you sure you want to delete this?</p>
                                                     <div className="modal-action">
