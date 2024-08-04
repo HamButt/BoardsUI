@@ -13,6 +13,7 @@ function Login() {
     const [email,setEmail] = useState(null)
     const [error,setError] = useState(null)
     const [isLoading,setIsLoading] = useState(false)
+    const [isGoogleLoading,setGoogleLoading] = useState(false)
     const handleEmail = async () => {
         setIsLoading(true)
         try {
@@ -35,9 +36,22 @@ function Login() {
     }
 
     const googlePassportLogin = () => {
+        setGoogleLoading(true)
         window.open(`${process.env.basePath}/auth/google`, "_self")
+        setTimeout(()=>{
+            setGoogleLoading(false)
+        }, 2000)
     }
     
+    useEffect(()=>{
+        if(isGoogleLoading){
+            toast.success('Singing you in');
+        }
+        return (() =>{
+            setGoogleLoading(false)
+        }) 
+    }, [isGoogleLoading])
+
   return (
     <>
         <Head>
@@ -51,6 +65,8 @@ function Login() {
         </div>
 
         <Toaster theme='system' richColors={true} position="top-center" />
+
+        {isGoogleLoading && <Toaster theme='system' richColors={true} position="top-center" />}
 
         <div className='mt-10 flex items-center justify-center flex-col'>
             <h1 className='text-start text-2xl sm:text-3xl'>Login to Praiseboard</h1>
