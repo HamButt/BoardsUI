@@ -77,8 +77,6 @@ function Dashboard() {
 
         <Toaster theme='system' richColors={true} position="top-center" />
         
-       <Toaster theme='system' richColors={true} position="top-center" />
-
         <Head>
             <title>Dashboard</title>
         </Head>
@@ -124,8 +122,6 @@ function Dashboard() {
 
 
         <div className={`all-boards pt-${boards.length > 0 ? '32' : ''} flex items-start justify-center py-4 bg-white`}>
-       
-
                 
                 <div className="boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px]" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                     {boards.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Praise boards</h1> : ""}
