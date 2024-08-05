@@ -20,12 +20,13 @@ function Dashboard() {
     const [boards,setBoards] = useState([])
     const [isLimitReached, setIsLimitReached] = useState(false)
     const [isLoading, setLoading] = useState(false)
-    const [isDeleteLoading, setIsDeleteLoading] = useState(false)
+    const [isDeleteLoading, setIsDeleteLoading] = useState(false) 
     const setClipboard = useClipboard();
 
     useEffect(()=>{
         fetchBoards()
     }, [])
+    
     const fetchBoards = async () =>{
         setLoading(true)
         try {
@@ -73,8 +74,11 @@ function Dashboard() {
 
     <div>
 
+
         <Toaster theme='system' richColors={true} position="top-center" />
         
+       <Toaster theme='system' richColors={true} position="top-center" />
+
         <Head>
             <title>Dashboard</title>
         </Head>
@@ -104,6 +108,7 @@ function Dashboard() {
                         <Loader text="Processing..." size="xs" margin="2" color="black" />
                     </div>
                      :
+
                     <Link style={{color: isLimitReached ? '#2a9d8f' : 'white'}}
                         className={`btn max-sm:btn-sm btn-md rounded-md text-2xl sm:text-lg font-medium 
                         hover:bg-[#34bdad] 
@@ -117,7 +122,10 @@ function Dashboard() {
         </header>
 
 
+
         <div className={`all-boards pt-${boards.length > 0 ? '32' : ''} flex items-start justify-center py-4 bg-white`}>
+       
+
                 
                 <div className="boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px]" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                     {boards.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Praise boards</h1> : ""}
@@ -219,6 +227,7 @@ function Dashboard() {
                             </div>
                         )
                     })
+
                     
                         
                     : isLoading ?
@@ -231,7 +240,7 @@ function Dashboard() {
                             <p className='text-lg text-black mt-2' >All boards you can access appear here.</p>
                             <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
                                 href='/boards/create' > <FaPlus/>Create a Praiseboard</Link>
-                        </div>   
+                        </div>
                     }
                 </div>
 
@@ -250,8 +259,14 @@ function Dashboard() {
                                 
                                 <div className="board_image" >
                                 {
-                                    formattedImage ? <Image className='rounded w-full h-[250px] object-cover' src={`${process.env.basePath}/images/${formattedImage}`} alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
-                                    :  board.unsplash_image ? <Image className='rounded  w-full h-[250px] object-cover' src={board.unsplash_image} alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                    formattedImage ? 
+                                    <Image className='rounded w-full h-[250px] object-cover' 
+                                        src={`${process.env.basePath}/images/${formattedImage}`} 
+                                        alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                    :  board.unsplash_image ? 
+                                        <Image className='rounded  w-full h-[250px] object-cover' 
+                                            src={board.unsplash_image} 
+                                            alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
                                     : <div style={{backgroundColor: board.color}} className={`rounded  w-full h-[250px] object-cover`} ></div>
                                 }
                                 </div>
@@ -347,6 +362,7 @@ function Dashboard() {
                     })
                     : isLoading ?
                         <div className='flex items-center justify-center h-screen'>
+
                             <Loader color="black" size="lg" margin="2" />
                         </div> 
                     :
@@ -356,6 +372,7 @@ function Dashboard() {
                             <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
                                 href='/boards/create' > <FaPlus/> Create a Praiseboard</Link>
                         </div>  
+
                     }
                 </div>
         </div>
