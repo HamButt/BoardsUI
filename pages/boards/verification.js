@@ -22,7 +22,7 @@ function Verification() {
    
          Cookie.set("token", user.data.token)
          localStorage.setItem('email', user.data.email)
-         router.push('/boards/create')
+         router.push('/boards/user/dashboard')
    
        } else {
          router.push('/boards/login')

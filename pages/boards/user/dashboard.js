@@ -14,6 +14,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import useClipboard from '@/hooks/useClipboard';
 import { Toaster,toast } from 'sonner';
 import { FaPlus } from "react-icons/fa6";
+import { motion } from "framer-motion";
 
 function Dashboard() {
     const [boards,setBoards] = useState([])
@@ -69,15 +70,16 @@ function Dashboard() {
     }
 
   return (
+
     <div>
 
         <Toaster theme='system' richColors={true} position="top-center" />
         
         <Head>
-            <title>All Boards</title>
+            <title>Dashboard</title>
         </Head>
 
-        <header className='fixed top-0 right-0 left-0 z-50 bg-white py-5 shadow'>
+        <header className='fixed top-0 right-0 left-0 z-50 bg-white py-3 shadow'>
           
           <div className="flex items-center justify-between px-5 sm:px-10">
 
@@ -85,25 +87,37 @@ function Dashboard() {
                 <Image className='w-[70px]' src={Logo} alt='Logo' width={0} height={0}  sizes='(max-width: 200px) 100vw, 33vw'/>
             </Link>
 
-            <>
-
+            <div className='flex items-start justify-center space-x-5' >
+                
+                <div className="">
+                    <Link href='/boards/user/dashboard' className=''> 
+                        <motion.p whileTap={{scale:"0.9"}} 
+                            className='transition-all text-lg text-[#2a9d8f] hover:bg-[#e9f0ef] rounded-md sm:px-2 py-[10px]'>Dashboard
+                        </motion.p>
+                        <p className='relative left-0 right-0 top-3 h-[4px] rounded-tl-full rounded-tr-full bg-[#2a9d8f]'></p>
+                    </Link>
+                </div> 
+                
             {
                 isLoading ? 
                     <div className='flex items-center'>
                         <Loader text="Processing..." size="xs" margin="2" color="black" />
                     </div>
                      :
-                    <Link disabled={isLimitReached ? true : false} 
-                        className={`btn max-sm:btn-sm rounded-md hover:bg-[#2a9d8f] md:me-5 bg-[#2a9d8f] text-2xl sm:text-lg font-medium text-white`} 
-                        href='/boards/create'>{isLimitReached ? "You have reached the limit" : "Create Board"}</Link>
+                    <Link style={{color: isLimitReached ? '#2a9d8f' : 'white'}}
+                        className={`btn max-sm:btn-sm btn-md rounded-md text-2xl sm:text-lg font-medium 
+                        hover:bg-[#34bdad] 
+                        ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
+                        ${isLimitReached ? 'pointer-events-none' : ''}`} 
+                        href='/boards/create'>{isLimitReached ? "You have reached the limit" : "Create a Praiseboard"}</Link>
             }
-            </>
+            </div>
 
           </div>
         </header>
 
 
-        <div className='all-boards mt-32 flex items-start justify-center py-4 bg-white'>
+        <div className={`all-boards pt-${boards.length > 0 ? '32' : ''} flex items-start justify-center py-4 bg-white`}>
                 
                 <div className="boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px]" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                     {boards.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Praise boards</h1> : ""}
@@ -130,27 +144,27 @@ function Dashboard() {
                                     
                                     <div className="details">
                                         <div className="flex">
-                                            <p className='text-xl' >{board.title}</p>
+                                            <p className='text-xl text-black' >{board.title}</p>
                                         </div>
                                         <div className='mt-2 flex items-center'>
                                             <p className='text-gray-400 text-sm font-light' >For</p>
-                                            <p className='ms-4' >{board.recipient}</p>
+                                            <p className='ms-4 text-black' >{board.recipient}</p>
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Creator</p>
-                                            <p className='ms-8' >{board.creator_name}</p>
+                                            <p className='ms-8 text-black' >{board.creator_name}</p>
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Created</p>
-                                            <p className='ms-7' >{boardCreationDate}</p>
+                                            <p className='ms-7 text-black' >{boardCreationDate}</p>
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Posts</p>
-                                            <p className='ms-12' >{board.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
+                                            <p className='ms-12 text-black' >{board.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Last post</p>
-                                            <p className='ms-6' >{board.last_post_created_at ? format(board.last_post_created_at) : "No post created"}</p>
+                                            <p className='ms-6 text-black' >{board.last_post_created_at ? format(board.last_post_created_at) : "No post created"}</p>
                                         </div>
                                     
                                     </div>
@@ -209,13 +223,14 @@ function Dashboard() {
                         
                     : isLoading ?
                         <div className='flex items-center justify-center h-screen'>
-                            <Loader color="black" size="lg" margin="2" text="Fetching boards..." />
+                            <Loader color="black" size="lg" margin="2" />
                         </div> 
                     :
                         <div className='flex items-center justify-center h-screen flex-col'>
-                            <p className='text-lg' >No boards found. Create your board now</p>
-                            <Link className='mt-2 text-white rounded-md bg-[#2a9d8f] font-medium btn btn-md hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
-                                href='/boards/create' > <FaPlus/> Create a board</Link>
+                            <h1 className='text-black text-3xl' >All Praiseboards</h1>
+                            <p className='text-lg text-black mt-2' >All boards you can access appear here.</p>
+                            <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
+                                href='/boards/create' > <FaPlus/>Create a Praiseboard</Link>
                         </div>   
                     }
                 </div>
@@ -248,27 +263,27 @@ function Dashboard() {
                                         <div className='details'>
 
                                             <div className="flex">
-                                                <p className='text-xl' >{board.title}</p>
+                                                <p className='text-xl text-black' >{board.title}</p>
                                             </div>
                                             <div className='mt-2 flex items-center'>
                                                 <p className='text-gray-400 text-sm font-light' >For</p>
-                                                <p className='ms-4' >{board.recipient}</p>
+                                                <p className='ms-4 text-black' >{board.recipient}</p>
                                             </div>
                                             <div className='mt-1 flex items-center '>
                                                 <p className='text-gray-400 text-sm font-light' >Creator</p>
-                                                <p className='ms-8' >{board.creator_name}</p>
+                                                <p className='ms-8 text-black' >{board.creator_name}</p>
                                             </div>
                                             <div className='mt-1 flex items-center '>
                                                 <p className='text-gray-400 text-sm font-light' >Created</p>
-                                                <p className='ms-7' >{boardCreationDate}</p>
+                                                <p className='ms-7 text-black' >{boardCreationDate}</p>
                                             </div>
                                             <div className='mt-1 flex items-center '>
                                                 <p className='text-gray-400 text-sm font-light' >Posts</p>
-                                                <p className='ms-12' >{board.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
+                                                <p className='ms-12 text-black' >{board.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
                                             </div>
                                             <div className='mt-1 flex items-center '>
                                                 <p className='text-gray-400 text-sm font-light' >Last post</p>
-                                                <p className='ms-6' >{board.last_post_created_at ? format(board.last_post_created_at) : "No post created"}</p>
+                                                <p className='ms-6 text-black' >{board.last_post_created_at ? format(board.last_post_created_at) : "No post created"}</p>
                                             </div>
 
                                         </div>
@@ -332,14 +347,15 @@ function Dashboard() {
                     })
                     : isLoading ?
                         <div className='flex items-center justify-center h-screen'>
-                            <Loader color="black" size="lg" margin="2" text="Fetching boards..." />
+                            <Loader color="black" size="lg" margin="2" />
                         </div> 
                     :
                         <div className='flex items-center justify-center h-screen flex-col'>
-                            <p className='text-lg' >No boards found. Create your board now</p>
-                            <Link className='mt-2 text-white rounded-md bg-[#2a9d8f] font-medium btn btn-md hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
-                                href='/boards/create' > <FaPlus/> Create a board</Link>
-                        </div> 
+                            <h1 className='text-black text-3xl' >All Praiseboards</h1>
+                            <p className='text-lg text-black mt-2' >All boards you can access appear here.</p>
+                            <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
+                                href='/boards/create' > <FaPlus/> Create a Praiseboard</Link>
+                        </div>  
                     }
                 </div>
         </div>

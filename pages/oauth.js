@@ -10,7 +10,7 @@ function Token() {
       const email = router.asPath.split('?')[2].split('=')[1];
       Cookie.set("token", token)
       localStorage.setItem('email', email)
-      router.push('/boards/create')
+      router.push('/boards/user/dashboard')
   }, [])
 
 
