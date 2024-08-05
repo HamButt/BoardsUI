@@ -198,9 +198,9 @@ function Post() {
                     
                     {userCookie ? 
                     
-                    <div className="">
+                    <div className="ps-4 sm:ps-8">
                         <Link href='/boards/user/dashboard' className=''> 
-                            <motion.p whileTap={{scale:"0.9"}} className='transition-all ps-3 text-lg text-[#2a9d8f] hover:bg-[#e9f0ef] rounded-lg sm:px-2 py-1'>Dashboard</motion.p>
+                            <motion.p whileTap={{scale:"0.9"}} className='transition-all text-lg text-[#2a9d8f] hover:bg-[#e9f0ef] rounded-lg sm:px-2 py-1'>Dashboard</motion.p>
                         </Link>
                     </div> 
                     : 
