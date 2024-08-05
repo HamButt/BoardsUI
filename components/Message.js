@@ -62,20 +62,20 @@ function Message({decrementStep, boardData, setBoardData}) {
                     origin: { y: 0.7 }
                 })
             }
-        } catch (error) {
             setIsLoading(false)
-            setError(true)
-            toast.error(error.response.data.message,{
+        } catch (error) {
+            if(error.response.status === 401){
+
+                setIsLoading(false)
+                setError(true)
+                toast.error(error.response.data.message,{
                 action: {
                     label: 'Go to dashboard',
                     onClick: () => router.push('/boards/user/dashboard'),
                 },
                 duration: Infinity,
-              }); 
-        }finally{
-            setIsLoading(false)
-        }
-    }
+            }); 
+        }}}
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && title) {
@@ -89,17 +89,16 @@ function Message({decrementStep, boardData, setBoardData}) {
 
         <NavBar/>
 
-        {isError && 
+        {isError ?
 
-            <Toaster closeButton={true} theme='system' richColors={true} position="top-center" invert={true}/>
+            <Toaster closeButton={true} theme='system' richColors={true} position="top-center" invert={true}/> : ""
         }
+
         <div className="w-full mt-10 2xl:mt-20 flex items-center justify-center">
             <div className='max-md:w-8/12 w-5/12'>
                 <BorderLinearProgress  variant="determinate" value={percent}/>
             </div>
         </div>
-
-
 
         <div className='flex items-center justify-center mt-10 2xl:mt-32 mx-2' data-offset='0' data-aos="fade"  data-aos-easing="ease-in-back" data-aos-duration="1000">
             <button onClick={decrementStep} className='decrement-step-button' > 

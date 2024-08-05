@@ -74,10 +74,7 @@ function Dashboard() {
 
     <div>
 
-
         <Toaster theme='system' richColors={true} position="top-center" />
-        
-       <Toaster theme='system' richColors={true} position="top-center" />
 
         <Head>
             <title>Dashboard</title>
@@ -93,14 +90,12 @@ function Dashboard() {
 
             <div className='flex items-start justify-center space-x-5' >
                 
-                <div className="">
-                    <Link href='/boards/user/dashboard' className=''> 
-                        <motion.p whileTap={{scale:"0.9"}} 
-                            className='transition-all text-lg text-[#2a9d8f] hover:bg-[#e9f0ef] rounded-md sm:px-2 py-[10px]'>Dashboard
-                        </motion.p>
-                        <p className='relative left-0 right-0 top-3 h-[4px] rounded-tl-full rounded-tr-full bg-[#2a9d8f]'></p>
-                    </Link>
-                </div> 
+                <Link href='/boards/user/dashboard' className=''> 
+                    <motion.p whileTap={{scale:"0.9"}} 
+                        className='transition-all text-lg text-[#2a9d8f] hover:bg-[#e9f0ef] rounded-md sm:px-2 py-[10px] border'>Dashboard
+                    </motion.p>
+                    <p className='relative left-0 right-0 top-3 h-[4px] rounded-tl-full rounded-tr-full bg-[#2a9d8f]'></p>
+                </Link>
                 
             {
                 isLoading ? 
@@ -122,9 +117,7 @@ function Dashboard() {
         </header>
 
 
-
-        <div className={`all-boards pt-${boards.length > 0 ? '32' : ''} flex items-start justify-center py-4 bg-white`}>
-       
+        <div className={`all-boards ${boards.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
 
                 
                 <div className="boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px]" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
@@ -142,9 +135,9 @@ function Dashboard() {
                                 
                                 <div className="board_image" >
                                 {
-                                    formattedImage ? <Image className='rounded mt-2 w-[180px] h-[160px]' src={`${process.env.basePath}/images/${formattedImage}`} alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
-                                    :  board.unsplash_image ? <Image className='rounded mt-2 w-[180px] h-[160px]' src={board.unsplash_image} alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
-                                    : <div style={{backgroundColor: board.color}} className={`rounded mt-2 w-[180px] h-[160px]`} ></div>
+                                    formattedImage ? <Image className='rounded mt-1 w-[180px] h-[160px]' src={`${process.env.basePath}/images/${formattedImage}`} alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                    :  board.unsplash_image ? <Image className='rounded mt-1 w-[180px] h-[160px]' src={board.unsplash_image} alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                    : <div style={{backgroundColor: board.color}} className={`rounded mt-1 w-[180px] h-[160px]`} ></div>
                                 }
                                 </div>
 
