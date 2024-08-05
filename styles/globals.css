@@ -212,7 +212,6 @@ html{
 .login-link{
     @apply btn btn-md bg-white text-lg font-light border hover:border-[#2a9d8f] border-[#2a9d8f] rounded-lg hover:bg-white text-[#2a9d8f]
 }
-
 .boards-create{
     @apply border border-[var(--border-color)] shadow-md hover:bg-[var(--background-link-color)] text-xl text-[var(--background-link-color)] py-3 px-4  rounded-lg  hover:text-white
   }
