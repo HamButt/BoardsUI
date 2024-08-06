@@ -85,16 +85,14 @@ function Dashboard() {
           <div className="flex items-center justify-between px-5 sm:px-10">
 
             <Link href='/'>
-                <Image className='w-[70px]' src={Logo} alt='Logo' width={0} height={0}  sizes='(max-width: 200px) 100vw, 33vw'/>
+                <Image className='w-[55px] sm:w-[70px]' src={Logo} alt='Logo' width={0} height={0}  sizes='(max-width: 200px) 100vw, 33vw'/>
             </Link>
 
-            <div className='flex items-start justify-center space-x-5' >
+            <div className='flex items-end sm:items-center justify-center space-x-4' >
                 
-                <Link href='/boards/user/dashboard' className=''> 
-                    <motion.p whileTap={{scale:"0.9"}} 
-                        className='transition-all text-lg text-[#2a9d8f] hover:bg-[#e9f0ef] rounded-md sm:px-2 py-[10px] border'>Dashboard
-                    </motion.p>
-                    <p className='relative left-0 right-0 top-3 h-[4px] rounded-tl-full rounded-tr-full bg-[#2a9d8f]'></p>
+                <Link href='/boards/user/dashboard' className=' transition-all rounded-md'> 
+                    <motion.p whileTap={{scale:"0.9"}} className='text-[#2a9d8f] sm:text-lg sm:font-medium '>Dashboard</motion.p>
+                    <p className='relative left-0 right-0 top-[14px] sm:top-5 h-[4px] rounded-tl-full rounded-tr-full bg-[#2a9d8f]'></p>
                 </Link>
                 
             {
@@ -103,13 +101,25 @@ function Dashboard() {
                         <Loader text="Processing..." size="xs" margin="2" color="black" />
                     </div>
                      :
+                    <>
+                    
+                        {/* FOR LARGE SCREENS */}
+                        
+                        <Link style={{color: isLimitReached ? '#2a9d8f' : 'white'}}
+                            className={`btn max-sm:hidden sm:btn-md rounded-md text-2xl sm:text-lg font-medium hover:bg-[#34bdad] 
+                            ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
+                            ${isLimitReached ? 'pointer-events-none' : ''}`} 
+                            href='/boards/create'>{isLimitReached ? "Limit exceeded" : "Create a Praiseboard"}</Link>
+                        
+                        {/* FOR SMALL SCREENS */}
 
-                    <Link style={{color: isLimitReached ? '#2a9d8f' : 'white'}}
-                        className={`btn max-sm:btn-sm btn-md rounded-md text-2xl sm:text-lg font-medium 
-                        hover:bg-[#34bdad] 
-                        ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
-                        ${isLimitReached ? 'pointer-events-none' : ''}`} 
-                        href='/boards/create'>{isLimitReached ? "You have reached the limit" : "Create a Praiseboard"}</Link>
+                        <Link style={{color: isLimitReached ? '#2a9d8f' : 'white'}}
+                            className={`btn sm:hidden btn-sm rounded-md font-medium 
+                            hover:bg-[#34bdad] 
+                            ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
+                            ${isLimitReached ? 'pointer-events-none' : ''}`} 
+                            href='/boards/create'>{isLimitReached ? "Limit exceeded" : <FaPlus/>}</Link>
+                    </>
             }
             </div>
 
@@ -118,7 +128,9 @@ function Dashboard() {
 
 
 
-        <div className={`all-boards ${boards.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
+        <div className={`all-boards sm:${boards.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
+                
+                {/* FOR LARGE SCREENS */}
                 
                 <div className="boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px]" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                     {boards.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Praise boards</h1> : ""}
@@ -174,7 +186,7 @@ function Dashboard() {
                                         <Link className='text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
                                         href={`/boards/${board._id}`} >View board</Link>
 
-                                        <Dropdown>
+                                        <Dropdown className='-mt-[2px]'>
                                             <DropdownTrigger>
                                                 <Button className={`pop-up`}>
                                                     <BsThreeDotsVertical/>
@@ -236,6 +248,8 @@ function Dashboard() {
                         </div>
                     }
                 </div>
+                
+                {/* FOR SMALL SCREENS */}
 
                 <div className="boards w-[900px] sm:hidden mx-4" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                     {boards.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Praise boards</h1> : ""}
@@ -300,7 +314,7 @@ function Dashboard() {
                                             <Link className='view-board-button-for-extra-small-in-user-dashboard text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
                                             href={`/boards/${board._id}`} >View board</Link>
 
-                                            <Dropdown>
+                                            <Dropdown className='mb-1'>
                                                 <DropdownTrigger>
                                                     <Button className={`pop-up`}>
                                                         <BsThreeDotsVertical/>
@@ -362,7 +376,7 @@ function Dashboard() {
                         <div className='flex items-center justify-center h-screen flex-col'>
                             <h1 className='text-black text-3xl' >All Praiseboards</h1>
                             <p className='text-lg text-black mt-2' >All boards you can access appear here.</p>
-                            <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
+                            <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-medium btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
                                 href='/boards/create' > <FaPlus/> Create a Praiseboard</Link>
                         </div>  
 

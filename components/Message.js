@@ -66,8 +66,8 @@ function Message({decrementStep, boardData, setBoardData}) {
         } catch (error) {
             if(error.response.status === 401){
 
-                setIsLoading(false)
                 setError(true)
+                setIsLoading(false)
                 toast.error(error.response.data.message,{
                 action: {
                     label: 'Go to dashboard',
@@ -89,9 +89,9 @@ function Message({decrementStep, boardData, setBoardData}) {
 
         <NavBar/>
 
-        {isError ?
+        {isError && 
 
-            <Toaster closeButton={true} theme='system' richColors={true} position="top-center" invert={true}/> : ""
+            <Toaster closeButton={true} theme='system' richColors={true} position="top-center" invert={true}/>
         }
 
         <div className="w-full mt-10 2xl:mt-20 flex items-center justify-center">
