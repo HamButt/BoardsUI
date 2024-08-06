@@ -128,7 +128,7 @@ function Dashboard() {
 
 
 
-        <div className={`all-boards sm:${boards.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
+        <div className={`all-boards ${boards.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
                 
                 {/* FOR LARGE SCREENS */}
                 
