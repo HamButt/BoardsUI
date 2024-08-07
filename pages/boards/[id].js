@@ -16,7 +16,6 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import { Confetti } from '../../components/Confetti'
-import { DeleteModal } from '../../components/DeleteModal';
 import { AnimatePresence, motion } from "framer-motion";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem ,Button} from "@nextui-org/react";
 import { MdOutlineCheck } from "react-icons/md";
@@ -92,7 +91,6 @@ function Post() {
         return firstChar + restOfString;
     }
     
-
     useEffect(()=>{
         const cookie = localStorage.getItem('Creator')
         const board_id = window.location.pathname.split('/').reverse()[0]
@@ -132,16 +130,22 @@ function Post() {
         try {
             const res = await axios.delete(`${process.env.basePath}/boards/${boardId}`)
             if(res.status === 200){
-                router.push('/boards/create')
-                localStorage.removeItem('Creator')
                 localStorage.removeItem('title')
                 localStorage.removeItem('modal')
+                navigateUserTo404()
                 setIsLoading(false)
-                DeleteModal()
             }
         } catch (error) {
             console.log(error);
+            setIsLoading(false)
+        }finally{
+            setIsLoading(false)
         }
+    }
+
+    const navigateUserTo404 = () => {
+        router.push('/404');
+        
     }
 
     const copyLink = (boardId) =>{
@@ -179,9 +183,10 @@ function Post() {
         textarea.style.height = `${textarea.scrollHeight}px`;
     };
 
+   
 
     return (
-        
+
         <div className={`board-screen`} style={{backgroundImage:`url(${ imageUrl ? imageUrl : uploadedImage})`}}>
     
             <Toaster theme='system' richColors={true} position="top-center" />
@@ -192,10 +197,10 @@ function Post() {
 
             {isImageLoading && 
         
-               <Backdrop/>
+                <Backdrop/>
             }
 
-            <nav  className={`nav-bar`}>
+            <nav className={`nav-bar`}>
                 
                 {userCookie ? 
                 
@@ -216,7 +221,7 @@ function Post() {
                     { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
                 </div>
 
-               
+            
 
                 <div className="header-buttons space-x-1 flex items-end"> 
                     
@@ -483,8 +488,6 @@ function Post() {
                 </AnimatePresence>
             }
         </div> 
-            
-
           
     )
 

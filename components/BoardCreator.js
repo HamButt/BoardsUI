@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect,useRef} from 'react'
 import NavBar from './NavBar'
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import { styled } from '@mui/material/styles';
@@ -7,6 +7,7 @@ import {MdArrowBackIos} from 'react-icons/md'
 function From({increaseStep, decrementStep, boardData, setBoardData}) {
     const [percent,setPercent] = React.useState(25)
     const [creatorName, setCreatorName] = React.useState('')
+    const inputRef = useRef(null)
    
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -20,8 +21,6 @@ function From({increaseStep, decrementStep, boardData, setBoardData}) {
           backgroundColor: theme.palette.mode === 'light' ? '#FF9669' : '#308fe8',
         },
       }));
-     
-      
     
     const nextQuestion = () => {
         setBoardData(prevState => ({
@@ -31,7 +30,7 @@ function From({increaseStep, decrementStep, boardData, setBoardData}) {
         increaseStep()
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         setCreatorName(boardData.creator_name);
       }, [])
 
@@ -40,6 +39,10 @@ function From({increaseStep, decrementStep, boardData, setBoardData}) {
           nextQuestion();
         }
       };
+
+      useEffect(()=>{
+        inputRef.current.focus()
+      }, [])
 
   return (
 
@@ -60,7 +63,7 @@ function From({increaseStep, decrementStep, boardData, setBoardData}) {
                 <div className="form  flex items-center justify-center flex-col" >
                     <p>2/4</p>
                     <h1 className='sm:text-md md:text-lg lg:text-2xl mt-2 mx-auto px-2' >Let people know who is this from</h1>
-                    <input onKeyDown={handleKeyDown} className='board-creator-input' 
+                    <input ref={inputRef} onKeyDown={handleKeyDown} className='board-creator-input' 
                     type="text" placeholder='Name' value={creatorName} name='creator_name' onChange={(e) => setCreatorName(e.target.value)} required />
                     <button disabled={!creatorName ? true : false}  onClick={nextQuestion} className="board-next-button mt-8 max-sm:hidden" >Next</button>
                     <div className='sm:hidden w-full flex items-center justify-center mt-6 space-x-2'>

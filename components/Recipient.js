@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect,useRef} from 'react'
 import NavBar from './NavBar'
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import { styled } from '@mui/material/styles';
@@ -7,7 +7,7 @@ import {MdArrowBackIos} from 'react-icons/md'
 function Recipient({increaseStep,decrementStep,boardData, setBoardData}) {
     const [percent,setPercent] = React.useState(55)
     const [recipient,setRecipient] = React.useState('')
-    
+    const inputRef = useRef(null)
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 12,
@@ -30,7 +30,7 @@ function Recipient({increaseStep,decrementStep,boardData, setBoardData}) {
     };
 
 
-    React.useEffect(() => {
+    useEffect(() => {
         setRecipient(boardData.recipient_name)
     }, [])
 
@@ -39,7 +39,11 @@ function Recipient({increaseStep,decrementStep,boardData, setBoardData}) {
           nextQuestion();
         }
       };
-    
+
+    useEffect(()=>{
+    inputRef.current.focus()
+    }, [])
+
   return (
     <div className='min-h-screen h-full'>
         <NavBar/>
@@ -57,7 +61,7 @@ function Recipient({increaseStep,decrementStep,boardData, setBoardData}) {
                 <div className="form flex items-center justify-center flex-col">
                     <p>3/4</p>
                     <h1 className='sm:text-md md:text-lg lg:text-2xl mt-2'>Who is the recipient?</h1>
-                    <input onKeyDown={handleKeyDown} className='board-creator-input' type="text" 
+                    <input ref={inputRef} onKeyDown={handleKeyDown} className='board-creator-input' type="text" 
                         placeholder='Name' value={recipient} name='recipient' onChange={(e) => setRecipient(e.target.value)} required />
                     <button disabled={!recipient ? true : false} onClick={nextQuestion} className='board-next-button mt-8 max-sm:hidden' >Next</button>
                     <div className='sm:hidden w-full flex items-center justify-center mt-6 space-x-2'>

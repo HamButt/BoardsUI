@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import NavBar from './NavBar'
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import { styled } from '@mui/material/styles';
@@ -6,14 +6,13 @@ import {useRouter} from 'next/router'
 import {MdArrowBackIos} from 'react-icons/md'
 import crypto from 'crypto'
 import axios from 'axios'
-import Link from 'next/link'
 import { Toaster,toast } from 'sonner';
 function Message({decrementStep, boardData, setBoardData}) {
     const router = useRouter()
     const [percent,setPercent] = useState(75)
     const [title,setTitle] = useState('')
     const [isLoading,setIsLoading] = useState(false)
-    const [isError,setError] = useState(false)
+    const inputRef = useRef(null)
    
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -64,18 +63,19 @@ function Message({decrementStep, boardData, setBoardData}) {
             }
             setIsLoading(false)
         } catch (error) {
-            if(error.response.status === 401){
+            handleError(error)
+    }
+    }
 
-                setError(true)
-                setIsLoading(false)
-                toast.error(error.response.data.message,{
-                action: {
-                    label: 'Go to dashboard',
-                    onClick: () => router.push('/boards/user/dashboard'),
-                },
-                duration: Infinity,
-            }); 
-        }}}
+    const handleError = (error) => {
+        if (error.response.status === 401) {
+          setIsLoading(false);
+          toast.success(error.response.data.message, {
+            action: <button className='text-white bg-[#FF9669] px-2 py-1 rounded' onClick={() => router.push('/boards/user/dashboard')}>Go to dashboard</button>,
+            duration: Infinity,
+        });
+        }
+      };
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && title) {
@@ -83,16 +83,17 @@ function Message({decrementStep, boardData, setBoardData}) {
         }
       };
 
+      useEffect(()=>{
+        inputRef.current.focus()
+      }, [])
 
   return (
     <div className='min-h-screen h-full'>
 
         <NavBar/>
 
-        {isError && 
 
-            <Toaster closeButton={true} theme='system' richColors={true} position="top-center" invert={true}/>
-        }
+        <Toaster closeButton richColors position="top-center" invert={true}/>
 
         <div className="w-full mt-10 2xl:mt-20 flex items-center justify-center">
             <div className='max-md:w-8/12 w-5/12'>
@@ -108,7 +109,7 @@ function Message({decrementStep, boardData, setBoardData}) {
                 <div className="form flex items-center justify-center flex-col" >
                     <p>4/4</p>
                     <h1 className='sm:text-md md:text-lg lg:text-2xl mt-2' >What should the title be?</h1>
-                    <input onKeyDown={handleKeyDown} className='board-creator-input' type="text" 
+                    <input ref={inputRef} onKeyDown={handleKeyDown} className='board-creator-input' type="text" 
                         placeholder={`e.g ${boardData.occasion} `} value={title} name='title' 
                         onChange={(e) => setTitle(e.target.value)} required />
                     <button disabled={!title ? true : false} onClick={createBoard} 

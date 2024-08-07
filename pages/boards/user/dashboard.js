@@ -15,6 +15,7 @@ import useClipboard from '@/hooks/useClipboard';
 import { Toaster,toast } from 'sonner';
 import { FaPlus } from "react-icons/fa6";
 import { motion } from "framer-motion";
+import { ImBlocked } from "react-icons/im";
 
 function Dashboard() {
     const [boards,setBoards] = useState([])
@@ -90,14 +91,14 @@ function Dashboard() {
 
             <div className='flex items-end sm:items-center justify-center space-x-4' >
                 
-                <Link href='/boards/user/dashboard' className=' transition-all rounded-md'> 
+                <Link href='/boards/user/dashboard' className='hover:bg-gray-100 sm:p-2 transition-all rounded-md'> 
                     <motion.p whileTap={{scale:"0.9"}} className='text-[#2a9d8f] sm:text-lg sm:font-medium '>Dashboard</motion.p>
                     <p className='relative left-0 right-0 top-[14px] sm:top-5 h-[4px] rounded-tl-full rounded-tr-full bg-[#2a9d8f]'></p>
                 </Link>
                 
             {
                 isLoading ? 
-                    <div className='flex items-center'>
+                    <div className='flex items-center justify-center'>
                         <Loader text="Processing..." size="xs" margin="2" color="black" />
                     </div>
                      :
@@ -105,11 +106,11 @@ function Dashboard() {
                     
                         {/* FOR LARGE SCREENS */}
                         
-                        <Link style={{color: isLimitReached ? '#2a9d8f' : 'white'}}
+                        <Link style={{color: isLimitReached ? 'black' : 'white'}}
                             className={`btn max-sm:hidden sm:btn-md rounded-md text-2xl sm:text-lg font-medium hover:bg-[#34bdad] 
                             ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
                             ${isLimitReached ? 'pointer-events-none' : ''}`} 
-                            href='/boards/create'>{isLimitReached ? "Limit exceeded" : "Create a Praiseboard"}</Link>
+                            href='/boards/create'>{isLimitReached ? "Limit exceeded"  : "Create a Praiseboard"}</Link>
                         
                         {/* FOR SMALL SCREENS */}
 
@@ -118,7 +119,7 @@ function Dashboard() {
                             hover:bg-[#34bdad] 
                             ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
                             ${isLimitReached ? 'pointer-events-none' : ''}`} 
-                            href='/boards/create'>{isLimitReached ? "Limit exceeded" : <FaPlus/>}</Link>
+                            href='/boards/create'>{isLimitReached ?  <ImBlocked className='text-black' /> : <FaPlus/>}</Link>
                     </>
             }
             </div>
@@ -147,9 +148,9 @@ function Dashboard() {
                                 
                                 <div className="board_image" >
                                 {
-                                    formattedImage ? <Image className='rounded mt-1 w-[180px] h-[160px]' src={`${process.env.basePath}/images/${formattedImage}`} alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
-                                    :  board.unsplash_image ? <Image className='rounded mt-1 w-[180px] h-[160px]' src={board.unsplash_image} alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
-                                    : <div style={{backgroundColor: board.color}} className={`rounded mt-1 w-[180px] h-[160px]`} ></div>
+                                    formattedImage ? <Image className='border rounded mt-1 w-[180px] h-[160px]' src={`${process.env.basePath}/images/${formattedImage}`} alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                    :  board.unsplash_image ? <Image className='border rounded mt-1 w-[180px] h-[160px]' src={board.unsplash_image} alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                    : <div style={{backgroundColor: board.color}} className={`border rounded mt-1 w-[180px] h-[160px]`} ></div>
                                 }
                                 </div>
 
@@ -267,14 +268,14 @@ function Dashboard() {
                                 <div className="board_image" >
                                 {
                                     formattedImage ? 
-                                    <Image className='rounded w-full h-[250px] object-cover' 
+                                    <Image className='border rounded w-full h-[250px] object-cover' 
                                         src={`${process.env.basePath}/images/${formattedImage}`} 
                                         alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
                                     :  board.unsplash_image ? 
-                                        <Image className='rounded  w-full h-[250px] object-cover' 
+                                        <Image className='border rounded  w-full h-[250px] object-cover' 
                                             src={board.unsplash_image} 
                                             alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
-                                    : <div style={{backgroundColor: board.color}} className={`rounded  w-full h-[250px] object-cover`} ></div>
+                                    : <div style={{backgroundColor: board.color}} className={`border rounded  w-full h-[250px] object-cover`} ></div>
                                 }
                                 </div>
 
