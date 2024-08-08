@@ -33,13 +33,13 @@ function Favorites() {
             setBoards(response.data.favoriteBoards)
             setLoading(false)
         } catch (error) {
-            console.log(error);
+            console.error(error)
         }
     }
 
     const deleteBoard = async (boardId) => { 
-        const userId = localStorage.getItem('userId')
         setIsDeleteLoading(true)
+        const userId = localStorage.getItem('userId')
         try {
             const res = await axios.delete(`${process.env.basePath}/favorites/api`,{
                 data: { userId, boardId },
@@ -187,9 +187,7 @@ function Favorites() {
                                             </div>
                                         </dialog>
                                     </div>
-
                                 </div>
-
                             </div>
                         )
                     })
@@ -306,16 +304,13 @@ function Favorites() {
                                             </dialog>
 
                                         </div>
-                                    
                                     </div>
 
                                     <div className='options-button-for-small-in-user-dashboard flex items-center space-x-1 mt-4 flex-1'>
                                         <Link className='text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
                                         href={`/boards/${board._id}`} >View board</Link>
                                     </div>
-
                                 </div>
-
                             </div>
                         )
                     })

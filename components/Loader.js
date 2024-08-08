@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Loader({color,size,text,margin,breakPoint}) {
+function Loader({color,size,text,margin}) {
 
     return (
         <>

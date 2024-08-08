@@ -69,6 +69,7 @@ function Login() {
         </div>
 
         <Toaster theme='system' richColors={true} position="top-center" />
+
         {isGoogleLoading && <Toaster theme='system' richColors={true} position="top-center" />}
 
 
@@ -107,6 +108,7 @@ function Login() {
 
                                 : "Send me link"
                                 }
+                                
                         </button>
                     </div>
 

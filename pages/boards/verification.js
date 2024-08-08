@@ -1,3 +1,4 @@
+'use client'
 import React, {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
@@ -14,16 +15,14 @@ function Verification() {
    }, [])
  
    const getUser = async () => {
+
      try {
        
        const user = await axios.get(`${process.env.basePath}/users/api/${token}`)
-       console.log(user);
        if(user.status === 200){
-   
          Cookie.set("token", user.data.token)
          localStorage.setItem('userId', user.data.userId)
          router.push('/boards/user/dashboard')
-   
        } else {
          router.push('/boards/login')
        }
@@ -42,9 +41,7 @@ function Verification() {
             </div>
             :
             <div className="loader">
-              <p className="text">
-                Loading...
-              </p>
+              <p className="text">Loading...</p>
             </div>
         }
     </div>

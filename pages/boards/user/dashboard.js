@@ -84,12 +84,12 @@ function Dashboard() {
                 toast.success('Board added to favorites'); 
             }
         } catch (error) {
-            console.log(error);   
+            console.error(error);   
         }
     }
   return (
 
-    <div>
+    <>
 
         <Toaster theme='system' richColors={true} position="top-center" />
 
@@ -411,7 +411,7 @@ function Dashboard() {
                 </div>
         </div>
 
-    </div>
+    </>
   )
 }
 
