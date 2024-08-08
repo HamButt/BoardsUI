@@ -41,13 +41,13 @@ function Message({decrementStep, boardData, setBoardData}) {
             title: title
         }));
         localStorage.setItem('title', title)
-        const email = localStorage.getItem('email')
+        const userId = localStorage.getItem('userId')
         const board = {
             occasion: boardData.occasion,
             creator_name: boardData.creator_name,
             recipient: boardData.recipient_name,
             title: title,
-            email:email
+            userId: userId
         }
         try {
             const res = await axios.post(`${process.env.basePath}/boards`, board)
