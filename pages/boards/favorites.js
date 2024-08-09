@@ -101,7 +101,7 @@ function Favorites() {
 
                     <Link href='/boards/user/dashboard' className='transition-all hover:bg-[#34bdad] bg-[#2a9d8f] px-2 py-1 sm:p-2 rounded-md'> 
                         <motion.button whileTap={{scale:"0.9"}} 
-                        className='text-white border-none sm:text-lg sm:font-medium '>Dashboard</motion.button>
+                        className='text-white border-none sm:text-lg font-medium '>Dashboard</motion.button>
                     </Link>
 
                 </div>

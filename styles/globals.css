@@ -300,11 +300,11 @@ html{
 }
 
 .option{
-    @apply w-64 py-10 mx-2 cursor-pointer mt-3 bg-white hover:bg-[#dadcdf] p-5 flex flex-col items-center justify-between shadow-md rounded-lg
+    @apply w-72 h-80 mx-2 cursor-pointer mt-3 bg-white hover:bg-[#dadcdf] flex flex-col items-center justify-between shadow-md rounded-lg
 }
 
 .option > p{
-    @apply mt-4 text-xl w-52 text-ellipsis overflow-hidden whitespace-nowrap text-center
+    @apply  py-6 text-xl w-52 text-ellipsis overflow-hidden whitespace-nowrap text-center
 }
 
 .occasion-img{
