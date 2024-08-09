@@ -67,7 +67,7 @@ function Favorites() {
 
     useEffect(()=>{
 
-        toast.info('Removing board from favorites'); 
+        isDeleteLoading && toast.info('Removing board from favorites'); 
 
     }, [isDeleteLoading])
 
