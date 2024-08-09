@@ -108,7 +108,7 @@ function Favorites() {
             </div>
         </header>
 
-        <div className={`all-boards ${boards.length > 0 ? 'sm:pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
+        <div className={`all-boards ${boards.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
                 
                 <div className="boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px]" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                     {boards.length ? <h1 className='text-2xl'>All Favorite boards</h1> : ""}

@@ -114,7 +114,8 @@ function Dashboard() {
                     <p className='relative left-0 right-0 top-[14px] sm:top-5 h-[4px] rounded-tl-full rounded-tr-full bg-[#2a9d8f]'></p>
                 </Link>
 
-                <Link href='/boards/favorites' className=' transition-all hover:bg-[#34bdad] bg-[#2a9d8f] px-2 py-1 sm:p-2 rounded-md'> 
+                <Link href='/boards/favorites' 
+                    className='btn max-sm:btn-sm transition-all hover:bg-[#34bdad] bg-[#2a9d8f] font-medium px-2 py-1 sm:p-2 border-none shadow-none rounded-md'> 
                     <motion.button whileTap={{scale:"0.9"}} 
                     className='text-white border-none sm:text-lg sm:font-medium'>Favorites</motion.button>
                 </Link>
@@ -137,7 +138,7 @@ function Dashboard() {
                         {/* FOR LARGE SCREENS */}
                         
                         <Link style={{color: isLimitReached ? 'black' : 'white'}}
-                            className={`btn max-sm:hidden sm:btn-md rounded-md text-2xl sm:text-lg font-medium hover:bg-[#34bdad] 
+                            className={`btn max-sm:hidden sm:btn-md rounded-md text-2xl sm:text-lg font-medium hover:bg-[#34bdad] border-none shadow-none
                             ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
                             ${isLimitReached ? 'pointer-events-none' : ''}`} 
                             href='/boards/create'>{isLimitReached ? "Limit exceeded"  : "Create a Praiseboard"}</Link>
