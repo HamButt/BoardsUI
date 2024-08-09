@@ -97,25 +97,26 @@ function Dashboard() {
             <title>Dashboard</title>
         </Head>
 
-        <header className='fixed top-0 right-0 left-0 z-50 bg-white py-3 shadow'>
+        <header className='transition-all fixed top-0 right-0 left-0 z-50 bg-white py-3 shadow'>
           
-          <div className="flex items-center justify-between px-5 sm:px-10">
+          <div className="flex items-center justify-between ps-5 pe-2 sm:ps-10 sm:pe-4">
 
             <Link href='/'>
                 <Image className='w-[55px] sm:w-[70px]' src={Logo} alt='Logo' width={0} height={0}  sizes='(max-width: 200px) 100vw, 33vw'/>
             </Link>
 
-            <div className='flex items-end sm:items-center justify-center space-x-4' >
+            <div className='flex items-end sm:items-center justify-center space-x-2'>
                 
-                <Link href='/boards/favorites' className='text-[#2a9d8f] sm:text-lg transition-all hover:bg-gray-100 sm:p-2 rounded-md'> 
+
+                <Link href='/boards/user/dashboard' className='transition-all sm:hover:bg-gray-100 sm:p-2 rounded-md'> 
                     <motion.button whileTap={{scale:"0.9"}} 
-                    className='text-[#2a9d8f] border-none sm:text-lg sm:font-medium m-0 pt-0'>Favorites</motion.button>
+                    className='text-[#2a9d8f] border-none sm:text-lg sm:font-medium'>Dashboard</motion.button>
+                    <p className='relative left-0 right-0 top-[14px] sm:top-5 h-[4px] rounded-tl-full rounded-tr-full bg-[#2a9d8f]'></p>
                 </Link>
 
-                <Link href='/boards/user/dashboard' className='transition-all hover:bg-gray-100 sm:p-2 rounded-md'> 
+                <Link href='/boards/favorites' className=' transition-all hover:bg-[#34bdad] bg-[#2a9d8f] px-2 py-1 sm:p-2 rounded-md'> 
                     <motion.button whileTap={{scale:"0.9"}} 
-                    className='text-[#2a9d8f] border-none sm:text-lg sm:font-medium m-0 pt-0'>Dashboard</motion.button>
-                    <p className='relative left-0 right-0 top-[14px] sm:top-5 h-[4px] rounded-tl-full rounded-tr-full bg-[#2a9d8f]'></p>
+                    className='text-white border-none sm:text-lg sm:font-medium'>Favorites</motion.button>
                 </Link>
                 
             {
@@ -221,15 +222,15 @@ function Dashboard() {
                                                     </div>
                                                 </DropdownItem>
                                                 <DropdownItem textValue='Customise'>
-                                                    <Link href={`/boards/${board._id}`} className='customise '>
+                                                    <Link href={`/boards/${board._id}`} className='customise'>
                                                         <CiEdit  className="text-black text-[22px] cursor-pointer" />
                                                         <p className='text-sm font-semibold ps-2 text-black '>Customise board</p>
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem textValue='Add to favorites'>
-                                                    <div onClick={() => addToFavorite(board._id)} className='add-to-favorite '>
+                                                    <div onClick={() => addToFavorite(board._id)} className='add-to-favorite'>
                                                         <HeartIcon/>
-                                                        <p className='text-sm font-semibold ps-2 text-black '>Add to favorites</p>
+                                                        <p className='text-sm font-semibold ps-2 text-black'>Add to favorites</p>
                                                     </div>
                                                 </DropdownItem>
                                                 <DropdownItem textValue='Cookie'>
@@ -360,6 +361,12 @@ function Dashboard() {
                                                             <p className='text-sm font-semibold ps-2 text-black '>Customise board</p>
                                                         </Link>
                                                     </DropdownItem>
+                                                    <DropdownItem textValue='Add to favorites'>
+                                                        <div onClick={() => addToFavorite(board._id)} className='add-to-favorite '>
+                                                            <HeartIcon/>
+                                                            <p className='text-sm font-semibold ps-2 text-black '>Add to favorites</p>
+                                                        </div>
+                                                    </DropdownItem>
                                                     <DropdownItem textValue='Cookie'>
                                                             <div className='delete' onClick={()=>document.getElementById('delete_modal_in_dashboard_for_small_screens').showModal()}>
                                                                 <MdDeleteOutline className='text-2xl' />  
@@ -400,7 +407,7 @@ function Dashboard() {
                             <Loader color="black" size="lg" margin="2" />
                         </div> 
                     :
-                        <div className='flex items-center justify-center h-screen flex-col'>
+                        <div className='flex items-center justify-center h-screen flex-col text-center'>
                             <h1 className='text-black text-3xl' >All Praiseboards</h1>
                             <p className='text-lg text-black mt-2' >All boards you can access appear here.</p>
                             <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-medium btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 

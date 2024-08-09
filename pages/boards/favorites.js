@@ -71,25 +71,26 @@ function Favorites() {
             <title>Favorite Boards</title>
         </Head>
 
-        <header className='fixed top-0 right-0 left-0 z-50 bg-white py-3 shadow'>
+        <header className='transition-all fixed top-0 right-0 left-0 z-50 bg-white py-3 shadow'>
             
-            <div className="flex items-center justify-between px-5 sm:px-10">
+            <div className="flex items-center justify-between ps-5 pe-2 sm:ps-10 sm:pe-4">
 
                 <Link href='/'>
                     <Image className='w-[55px] sm:w-[70px]' src={Logo} alt='Logo' width={0} height={0}  sizes='(max-width: 200px) 100vw, 33vw'/>
                 </Link>
 
-                <div className='flex items-end sm:items-center justify-center space-x-4' >
+                <div className='flex items-end sm:items-center justify-center space-x-3' >
                     
-                    <Link href='/boards/user/dashboard' className='transition-all hover:bg-gray-100 sm:p-2 rounded-md'> 
+
+                    <Link href='/boards/favorites' className='transition-all sm:hover:bg-gray-100 sm:p-2 rounded-md'> 
                         <motion.button whileTap={{scale:"0.9"}} 
-                        className='text-[#2a9d8f] border-none sm:text-lg sm:font-medium m-0 pt-0'>Dashboard</motion.button>
+                        className='text-[#2a9d8f] border-none sm:text-lg sm:font-medium'>Favorites</motion.button>
+                        <p className='relative left-0 right-0 top-[15px] sm:top-5 h-[4px] rounded-tl-full rounded-tr-full bg-[#2a9d8f]'></p>
                     </Link>
 
-                    <Link href='/boards/favorites' className=' transition-all hover:bg-gray-100 sm:p-2 rounded-md'> 
+                    <Link href='/boards/user/dashboard' className='transition-all hover:bg-[#34bdad] bg-[#2a9d8f] px-2 py-1 sm:p-2 rounded-md'> 
                         <motion.button whileTap={{scale:"0.9"}} 
-                        className='text-[#2a9d8f]  border-none sm:text-lg sm:font-medium m-0 pt-0'>Favorites</motion.button>
-                        <p className='relative left-0 right-0 top-[14px] sm:top-5 h-[4px] rounded-tl-full rounded-tr-full bg-[#2a9d8f]'></p>
+                        className='text-white border-none sm:text-lg sm:font-medium '>Dashboard</motion.button>
                     </Link>
                     
 
@@ -201,7 +202,7 @@ function Favorites() {
                             <h1 className='text-black text-3xl' >No favorite boards</h1>
                             <p className='text-lg text-black mt-2' >All favorite boards you can access appear here.</p>
                             <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
-                                href='/boards/create' > <FaPlus/>Create a Praiseboard</Link>
+                                href='/boards/create'><FaPlus/>Create a Praiseboard</Link>
                         </div>
                     }
                 </div>
@@ -320,7 +321,7 @@ function Favorites() {
                         </div> 
                     :
 
-                        <div className='flex items-center justify-center h-screen flex-col'>
+                        <div className='flex items-center justify-center h-screen flex-col text-center'>
                             <h1 className='text-black text-3xl' >No favorite boards</h1>
                             <p className='text-lg text-black mt-2' >All favorite boards you can access appear here.</p>
                             <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
