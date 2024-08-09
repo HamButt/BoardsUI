@@ -49,7 +49,9 @@ function Favorites() {
                 localStorage.removeItem('modal')
                 await getBoards()
                 setIsDeleteLoading(false)
-                toast.success('Board removed from favorites'); 
+                setTimeout(()=>{
+                    toast.success('Board removed from favorites'); 
+                },1000)
             }
         } catch (error) {
             setIsDeleteLoading(false)
@@ -63,9 +65,17 @@ function Favorites() {
         toast.success('Link copied'); 
     }
 
+    useEffect(()=>{
+
+        toast.info('Removing board from favorites'); 
+
+    }, [isDeleteLoading])
+
   return (
     <>
         <Toaster theme='system' richColors={true} position="top-center" />
+
+        {isDeleteLoading ? <Toaster theme='system' richColors={true} position="top-center"/> : ""}
 
         <Head>
             <title>Favorite Boards</title>
@@ -80,7 +90,6 @@ function Favorites() {
                 </Link>
 
                 <div className='flex items-end sm:items-center justify-center space-x-3' >
-                    
 
                     <Link href='/boards/favorites' className='transition-all sm:hover:bg-gray-100 sm:p-2 rounded-md'> 
                         <motion.button whileTap={{scale:"0.9"}} 
@@ -92,7 +101,6 @@ function Favorites() {
                         <motion.button whileTap={{scale:"0.9"}} 
                         className='text-white border-none sm:text-lg sm:font-medium '>Dashboard</motion.button>
                     </Link>
-                    
 
                 </div>
             </div>
@@ -181,7 +189,7 @@ function Favorites() {
                                                 <p className="py-4">Are you sure you want to remove this from favorites?</p>
                                                 <div className="modal-action">
                                                     <form method="dialog">
-                                                        <button onClick={() => deleteBoard(board._id)} className="btn hover:bg-red-500 bg-red-500 text-white">{isDeleteLoading ? "Processing..." : " Yes I'm sure"}</button>
+                                                        <button onClick={() => deleteBoard(board._id)} className="btn hover:bg-red-500 bg-red-500 text-white">Yes I'm sure</button>
                                                         <button className="btn ms-2 bg-green-500 hover:bg-green-500 text-white">No I'm not</button>
                                                     </form>
                                                 </div>
@@ -297,7 +305,7 @@ function Favorites() {
                                                     <p className="py-4">Are you sure you want to remove this from favorites?</p>
                                                     <div className="modal-action">
                                                         <form method="dialog">
-                                                            <button onClick={() => deleteBoard(board._id)} className="btn hover:bg-red-500 bg-red-500 text-white">{isDeleteLoading ? "Processing..." : " Yes I'm sure"}</button>
+                                                            <button onClick={() => deleteBoard(board._id)} className="btn hover:bg-red-500 bg-red-500 text-white">Yes I'm sure</button>
                                                             <button className="btn ms-2 bg-green-500 hover:bg-green-500 text-white">No I'm not</button>
                                                         </form>
                                                     </div>
