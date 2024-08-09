@@ -121,9 +121,16 @@ function Dashboard() {
                 
             {
                 isLoading ? 
-                    <div className='flex items-center justify-center'>
-                        <Loader text="Processing..." size="xs" margin="2" color="black" />
+                <>
+
+                    <div className='max-sm:hidden flex items-center justify-center'>
+                        <Loader text="Processing..." size="xs" margin="2" color="#FF9669" />
                     </div>
+
+                    <div className='sm:hidden flex items-center justify-center'>
+                        <Loader size="xs" margin="2" color="#FF9669" />
+                    </div>
+                </>
                      :
                     <>
                     
@@ -154,7 +161,7 @@ function Dashboard() {
 
                 {/* FOR LARGE SCREENS */}
                 
-                <div className="boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px]" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+                <div className={`boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px] `} data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                     {boards.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Praise boards</h1> : ""}
                     {boards.length > 0 ? boards.map((board,index)=> {
                         
@@ -265,7 +272,7 @@ function Dashboard() {
                         
                     : isLoading ?
                         <div className='flex items-center justify-center h-screen'>
-                            <Loader color="black" size="lg" margin="2" />
+                            <Loader color="#FF9669" size="lg" margin="2" />
                         </div> 
                     :
                         <div className='flex items-center justify-center h-screen flex-col'>
@@ -280,7 +287,7 @@ function Dashboard() {
                 {/* FOR SMALL SCREENS */}
 
                 <div className="boards w-[900px] sm:hidden mx-4" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                    {boards.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Praise boards</h1> : ""}
+                    {boards.length ? <h1 className='text-xl'>All Praise boards</h1> : ""}
                     {boards.length > 0 ? boards.map((board,index)=> {
                         
                         const formattedImage = board.uploaded_image ? Buffer.from(board.uploaded_image) : null
@@ -404,7 +411,7 @@ function Dashboard() {
                     : isLoading ?
                         <div className='flex items-center justify-center h-screen'>
 
-                            <Loader color="black" size="lg" margin="2" />
+                            <Loader color="#FF9669" size="lg" margin="2" />
                         </div> 
                     :
                         <div className='flex items-center justify-center h-screen flex-col text-center'>

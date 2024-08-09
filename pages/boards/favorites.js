@@ -66,8 +66,10 @@ function Favorites() {
     }
 
     useEffect(()=>{
-
-        isDeleteLoading && toast.info('Removing board from favorites'); 
+        const promise = () => new Promise((resolve) => setTimeout(() => resolve({ name: 'Sonner' }), 2000));
+        isDeleteLoading && toast.promise(promise, {
+            loading: 'Removing board from favorites',
+        }); 
 
     }, [isDeleteLoading])
 
@@ -106,10 +108,10 @@ function Favorites() {
             </div>
         </header>
 
-        <div className={`all-boards ${boards.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
+        <div className={`all-boards ${boards.length > 0 ? 'sm:pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
                 
                 <div className="boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px]" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                    {boards.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Favorite boards</h1> : ""}
+                    {boards.length ? <h1 className='text-2xl'>All Favorite boards</h1> : ""}
                     {boards.length > 0 ? boards.map((board,index)=> {
                         
                         const formattedImage = board.uploaded_image ? Buffer.from(board.uploaded_image) : null
@@ -216,7 +218,7 @@ function Favorites() {
                 </div>
 
                 <div className="boards w-[900px] sm:hidden mx-4" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                    {boards.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Favorite boards</h1> : ""}
+                    {boards.length ? <h1 className='text-xl'>All Favorite boards</h1> : ""}
                     {boards.length > 0 ? boards.map((board,index)=> {
                         
                         const formattedImage = board.uploaded_image ? Buffer.from(board.uploaded_image) : null
