@@ -18,11 +18,6 @@ import Birthday from '../public/Happy-birthday-images-free-download.jpg'
 import Welcome from '../public/welcome.jpg'
 import Link from 'next/link'
 import Logo from '../public/logo.png'
-import IndependenceDay from '../public/independence-day.jpg'
-import EidulFitr from '../public/eid-ul-fitr.jpg'
-import EidulAdha from '../public/Eid-ul-Adha.jpg'
-
-import axios from 'axios'
 
 function OccasionSelection({increaseStep, boardData,setBoardData}) {
     const nextQuestion = (occasion) => {
