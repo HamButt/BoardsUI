@@ -19,6 +19,7 @@ function Favorites() {
     const [boards,setBoards] = useState([])
     const [isLoading, setLoading] = useState(false)
     const [isDeleteLoading, setIsDeleteLoading] = useState(false) 
+    const [boardIdToRemove, setBoardIdToRemove] = useState(null)
     const setClipboard = useClipboard();
 
     useEffect(()=>{
@@ -37,7 +38,7 @@ function Favorites() {
         }
     }
 
-    const deleteBoard = async (boardId) => { 
+    const removeBoard = async (boardId) => { 
         setIsDeleteLoading(true)
         const userId = localStorage.getItem('userId')
         try {
@@ -45,8 +46,6 @@ function Favorites() {
                 data: { userId, boardId },
               })
             if(res.status === 200){
-                localStorage.removeItem('title')
-                localStorage.removeItem('modal')
                 await getBoards()
                 setIsDeleteLoading(false)
                 setTimeout(()=>{
@@ -178,7 +177,7 @@ function Favorites() {
                                                     </div>
                                                 </DropdownItem>
                                                 <DropdownItem textValue='Cookie'>
-                                                        <div className='delete' onClick={()=>document.getElementById('delete_modal_in_favorites_for_big_screens').showModal()}>
+                                                        <div className='delete' onClick={()=>{setBoardIdToRemove(board._id);document.getElementById('delete_modal_in_favorites_for_big_screens').showModal()}}>
                                                             <MdDeleteOutline className='text-2xl' />  
                                                             <p className='text-sm font-semibold ps-3 '>Remove from favorites</p>
                                                         </div>
@@ -191,7 +190,7 @@ function Favorites() {
                                                 <p className="py-4">Are you sure you want to remove this from favorites?</p>
                                                 <div className="modal-action">
                                                     <form method="dialog">
-                                                        <button onClick={() => deleteBoard(board._id)} className="btn hover:bg-red-500 bg-red-500 text-white">Yes I'm sure</button>
+                                                        <button onClick={() => removeBoard(boardIdToRemove)} className="btn hover:bg-red-500 bg-red-500 text-white">Yes I'm sure</button>
                                                         <button className="btn ms-2 bg-green-500 hover:bg-green-500 text-white">No I'm not</button>
                                                     </form>
                                                 </div>
@@ -294,7 +293,7 @@ function Favorites() {
                                                         </div>
                                                     </DropdownItem>
                                                     <DropdownItem textValue='Delete'>
-                                                            <div className='delete' onClick={()=>document.getElementById('delete_modal_in_favorites_for_small_screens').showModal()}>
+                                                            <div className='delete' onClick={()=>{setBoardIdToRemove(board._id);document.getElementById('delete_modal_in_favorites_for_small_screens').showModal()}}>
                                                                 <MdDeleteOutline className='text-2xl' />  
                                                                 <p className='text-sm font-semibold ps-3 '>Remove from favorites</p>
                                                             </div>
@@ -307,7 +306,7 @@ function Favorites() {
                                                     <p className="py-4">Are you sure you want to remove this from favorites?</p>
                                                     <div className="modal-action">
                                                         <form method="dialog">
-                                                            <button onClick={() => deleteBoard(board._id)} className="btn hover:bg-red-500 bg-red-500 text-white">Yes I'm sure</button>
+                                                            <button onClick={() => removeBoard(boardIdToRemove)} className="btn hover:bg-red-500 bg-red-500 text-white">Yes I'm sure</button>
                                                             <button className="btn ms-2 bg-green-500 hover:bg-green-500 text-white">No I'm not</button>
                                                         </form>
                                                     </div>

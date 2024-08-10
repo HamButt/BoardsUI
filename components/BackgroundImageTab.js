@@ -7,6 +7,7 @@ import {  motion } from "framer-motion";
 import Image from 'next/image';
 import { MdDelete } from "react-icons/md";
 import Loader from './Loader';
+import { Toaster,toast } from 'sonner';
 
 function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, setOpenNav, setSideComponent,setAnimateModal, fetchBoard, handleBackground}) {
   const [imageData, setImageData] = useState([]);
@@ -21,6 +22,7 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
   const [previewImageComponent, setImagePreviewComponent] = useState(false)
   const [imageLoading, setImageLoading] = useState(false)
   const [deleteLoader, setDeleteLoader] = useState(false)
+  const [imageMessage, setImageMessage] = useState(false)
   const borderColor = loading ? 'border-[#FF9669]' : 'border-gray-600';
   
   const unsplashParams = {
@@ -57,12 +59,11 @@ const fetchImages = async () => {
   try {
     setImagePage((imgPg) => imgPg + 1 )
     const response = await axios.get(process.env.unsplashUrl, { params: unsplashParams })
-    setImageData(response.data.results)
-    console.log(response.data.results);
+    const images = response?.data?.results || [] 
+    images.length > 0 ? setImageData(images) : setImageMessage(true)
   } catch (error) {
-      console.error('Error:', error)
+      toast.error(error.response.data)
   }
-  
  }
 
 const updateBackground = async () => {
@@ -83,11 +84,12 @@ const updateBackground = async () => {
             "Content-Type": "multipart/form-data"
             }
           })
+
           if(res.status === 200){
 
             setOpenNav(false)
             setSideComponent('color')
-            
+
             if(uploadedImagePreview || image){
               await fetchBoard(boardId)
             }
@@ -102,13 +104,14 @@ const updateBackground = async () => {
       
 }
 
-useEffect( ()=>{
+useEffect(() => {
 
   image && uploadImage()
   
 }, [image])
 
-  const uploadImage = async () => {
+
+const uploadImage = async () => {
     setImagePreviewComponent(true)
     setImageLoading(true)
     const formData = new FormData();
@@ -149,10 +152,14 @@ const handleUploadFiles = (e) => {
   }
 };
 
+useEffect(()=>{
+  imageMessage && toast.info("No more images for your result")
+}, [imageMessage])
 
   return (
 
     <div data-offset='0' data-aos="fade-left"  data-aos-easing="ease-in-back" data-aos-duration="300">
+
         <div className='h-full'>
 
           {uploadImageCompo ? 
@@ -251,9 +258,9 @@ const handleUploadFiles = (e) => {
                                   )})
                               : imageSearchValue && !imageData ? <div className='mt-2 font-semibold text-sm'>Searching...</div> 
                               : <div className='mt-2 font-semibold text-sm' >No images found for "{imageSearchValue}"</div>}
-                              {imageData.length > 0 && 
+                              {imageData.length > 0 ?
                                 <motion.button whileTap={{ scale: 0.9 }} onClick={fetchImages} 
-                                className='unsplash-load-more-button'>Load more</motion.button>}
+                                className='unsplash-load-more-button'>Load more</motion.button> : ""}
                       </div>
                 }
 

@@ -23,6 +23,7 @@ function Dashboard() {
     const [isLimitReached, setIsLimitReached] = useState(false)
     const [isLoading, setLoading] = useState(false)
     const [isDeleteLoading, setIsDeleteLoading] = useState(false) 
+    const [boardIdToDelete, setBoardIdToDelete] = useState(null);
     const setClipboard = useClipboard();
 
     useEffect(()=>{
@@ -36,17 +37,11 @@ function Dashboard() {
             const response = await axios.get(`${process.env.basePath}/users/${userId}`)
             const boards = response?.data?.boards || [];
             setBoards(boards.reverse());
-             if (boards.length >= 3){
-                setIsLimitReached(true)
-            }else{
-                setIsLimitReached(false)
-            }
-           
+            boards.length >= 3 ? setIsLimitReached(true) : setIsLimitReached(false)
+            setLoading(false)
         } catch (error) {
             setLoading(false)
             setIsLimitReached(false)
-        }finally{
-            setLoading(false)
         }
     }
 
@@ -59,10 +54,12 @@ function Dashboard() {
                 localStorage.removeItem('modal')
                 await fetchBoards()
                 setIsDeleteLoading(false)
+                setTimeout(()=>{
+                    toast.success('Board deleted'); 
+                },1000)
             }
-        } catch (error) {
             setIsDeleteLoading(false)
-        } finally{
+        } catch (error) {
             setIsDeleteLoading(false)
         }
     }
@@ -87,15 +84,26 @@ function Dashboard() {
             console.error(error);   
         }
     }
+
+    useEffect(()=>{
+        const promise = () => new Promise((resolve) => setTimeout(() => resolve({ name: 'Sonner' }), 2000));
+        isDeleteLoading && toast.promise(promise, {
+            loading: 'Deleting board',
+        }); 
+    }, [isDeleteLoading])
+
   return (
 
     <>
 
-        <Toaster theme='system' richColors={true} position="top-center" />
-
         <Head>
             <title>Dashboard</title>
         </Head>
+        
+        <Toaster theme='system' richColors={true} position="top-center" />
+
+        {isDeleteLoading ? <Toaster theme='system' richColors={true} position="top-center" /> : ""}
+
 
         <header className='transition-all fixed top-0 right-0 left-0 z-50 bg-white py-3 shadow'>
           
@@ -156,6 +164,7 @@ function Dashboard() {
             </div>
 
           </div>
+
         </header>
 
         <div className={`all-boards ${boards.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
@@ -177,8 +186,18 @@ function Dashboard() {
                                 
                                 <div className="board_image" >
                                 {
-                                    formattedImage ? <Image className='border rounded mt-1 w-[180px] h-[160px]' src={`${process.env.basePath}/images/${formattedImage}`} alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
-                                    :  board.unsplash_image ? <Image className='border rounded mt-1 w-[180px] h-[160px]' src={board.unsplash_image} alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                    formattedImage ? 
+
+                                        <Image className='border rounded mt-1 w-[180px] h-[160px]' 
+                                        src={`${process.env.basePath}/images/${formattedImage}`} alt='board' 
+                                        width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
+
+                                    :  board.unsplash_image ? 
+
+                                        <Image className='border rounded mt-1 w-[180px] h-[160px]' 
+                                            src={board.unsplash_image} alt='board' 
+                                            width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
+
                                     : <div style={{backgroundColor: board.color}} className={`border rounded mt-1 w-[180px] h-[160px]`} ></div>
                                 }
                                 </div>
@@ -242,7 +261,9 @@ function Dashboard() {
                                                     </div>
                                                 </DropdownItem>
                                                 <DropdownItem textValue='Cookie'>
-                                                        <div className='delete' onClick={()=>document.getElementById('delete_modal_in_dashboard_for_big_screens').showModal()}>
+                                                        <div className='delete' 
+                                                            
+                                                            onClick={()=>{setBoardIdToDelete(board._id); document.getElementById('delete_modal_in_dashboard_for_big_screens').showModal()}}>
                                                             <MdDeleteOutline className='text-2xl' />  
                                                             <p className='text-sm font-semibold ps-3 '>Delete board</p>
                                                         </div>
@@ -255,7 +276,8 @@ function Dashboard() {
                                                 <p className="py-4">Are you sure you want to delete this?</p>
                                                 <div className="modal-action">
                                                     <form method="dialog">
-                                                        <button onClick={() => deleteBoard(board._id)} className="btn hover:bg-red-500 bg-red-500 text-white">{isDeleteLoading ? "Processing..." : " Yes I'm sure"}</button>
+                                                        <button onClick={() => deleteBoard(boardIdToDelete)} 
+                                                            className="btn hover:bg-red-500 bg-red-500 text-white">Yes I'm sure</button>
                                                         <button className="btn ms-2 bg-green-500 hover:bg-green-500 text-white">No I'm not</button>
                                                     </form>
                                                 </div>
@@ -268,8 +290,6 @@ function Dashboard() {
                             </div>
                         )
                     })
-
-                    
                         
                     : isLoading ?
                         <div className='flex items-center justify-center h-screen'>
@@ -376,8 +396,9 @@ function Dashboard() {
                                                         </div>
                                                     </DropdownItem>
                                                     <DropdownItem textValue='Cookie'>
-                                                            <div className='delete' onClick={()=>document.getElementById('delete_modal_in_dashboard_for_small_screens').showModal()}>
-                                                                <MdDeleteOutline className='text-2xl' />  
+                                                    
+                                                            <div className='delete' onClick={()=>{setBoardIdToDelete(board._id);document.getElementById('delete_modal_in_dashboard_for_small_screens').showModal()}}>
+                                                                <MdDeleteOutline className='text-2xl'/>  
                                                                 <p className='text-sm font-semibold ps-3 '>Delete board</p>
                                                             </div>
                                                     </DropdownItem>
@@ -389,23 +410,20 @@ function Dashboard() {
                                                     <p className="py-4">Are you sure you want to delete this?</p>
                                                     <div className="modal-action">
                                                         <form method="dialog">
-                                                            <button onClick={() => deleteBoard(board._id)} className="btn hover:bg-red-500 bg-red-500 text-white">{isDeleteLoading ? "Processing..." : " Yes I'm sure"}</button>
+                                                            <button onClick={() => deleteBoard(boardIdToDelete)} className="btn hover:bg-red-500 bg-red-500 text-white">Yes I'm sure</button>
                                                             <button className="btn ms-2 bg-green-500 hover:bg-green-500 text-white">No I'm not</button>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </dialog>
                                         </div>
-                                    
                                     </div>
 
                                     <div className='options-button-for-small-in-user-dashboard flex items-center space-x-1 mt-4 flex-1'>
                                         <Link className='text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
                                         href={`/boards/${board._id}`} >View board</Link>
                                     </div>
-
                                 </div>
-
                             </div>
                         )
                     })
@@ -424,6 +442,7 @@ function Dashboard() {
 
                     }
                 </div>
+
         </div>
 
     </>

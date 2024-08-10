@@ -304,11 +304,11 @@ html{
 }
 
 .option > p{
-    @apply  py-6 text-xl w-52 text-ellipsis overflow-hidden whitespace-nowrap text-center
+    @apply py-4 text-xl w-52 text-ellipsis overflow-hidden whitespace-nowrap text-center
 }
 
 .occasion-img{
-    @apply object-cover w-full h-full
+    @apply w-full h-full
 }
 
 /* DRAWER */
@@ -494,6 +494,15 @@ html{
 
 .occasion-title {
   background: linear-gradient(to right, hsl(0, 0%, 100%) 5%, rgb(7, 235, 204) 10%, hsl(0, 0%, 100%) 5%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 8s infinite linear;
+}
+
+#occasion-heading {
+  background: linear-gradient(to right, hsl(0, 0%, 100%) 5%, #FF9669 10%, hsl(0, 0%, 100%) 5%);
+  /* background: linear-gradient(to right, hsl(0, 0%, 100%) 5%, rgb(7, 235, 204) 10%, hsl(0, 0%, 100%) 5%); */
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

@@ -1,3 +1,4 @@
+'use client'
 import React , {useEffect, useState} from 'react'
 import Image from 'next/image'
 import Farewell from '../public/farewell.jpg'
@@ -22,9 +23,7 @@ import IndependenceDay from '../public/independence-day.jpg'
 import EidulFitr from '../public/eid-ul-fitr.jpg'
 import EidulAdha from '../public/Eid-ul-Adha.jpg'
 
-import axios from 'axios'
-
-function OccasionSelection({increaseStep, boardData,setBoardData}) {
+function OccasionSelection({increaseStep,setBoardData}) {
     const nextQuestion = (occasion) => {
         setBoardData(prevState => ({
             ...prevState,
@@ -48,10 +47,10 @@ function OccasionSelection({increaseStep, boardData,setBoardData}) {
         </div>
 
          <div data-offset='0' data-aos="fade-up" data-aos-easing="ease-in-back" data-aos-duration="1000">
-                <h1 className='text-center text-3xl mt-6 text-white'>Select an Occasion</h1>
+                <h1 id='occasion-heading' className='text-center text-3xl sm:text-4xl mt-6 text-white'>Select an Occasion</h1>
                 <div className=" flex items-start justify-center flex-wrap py-2">
                     
-                    {/* <div onClick={() => nextQuestion("Independence")} className="option">
+                    <div onClick={() => nextQuestion("Independence")} className="option">
                         <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
                             <Image  sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={IndependenceDay} alt="Thankyou" width={10} height={10} />
                         </div>
@@ -68,7 +67,8 @@ function OccasionSelection({increaseStep, boardData,setBoardData}) {
                             <Image  sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={EidulAdha} alt="Thankyou" width={10} height={10} />
                         </div>
                         <p>Eid ul Adha</p>
-                    </div> */}
+                    </div>
+
                     <div onClick={() => nextQuestion("Thankyou")} className="option">
                         <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
                             <Image  sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Thankyou} alt="Thankyou" width={10} height={10} />
