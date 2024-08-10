@@ -51,19 +51,19 @@ function OccasionSelection({increaseStep, boardData,setBoardData}) {
                 <h1 id='occasion-heading' className='text-center text-3xl sm:text-4xl mt-6 text-white'>Select an Occasion</h1>
                 <div className=" flex items-start justify-center flex-wrap py-2">
                     
-                    <div onClick={() => nextQuestion("Independence")} className="option">
+                    <div onClick={() => nextQuestion("Independence Day")} className="option">
                         <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
                             <Image  sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={IndependenceDay} alt="Thankyou" width={10} height={10} />
                         </div>
                         <p>Independence Day</p>
                     </div>
-                    <div onClick={() => nextQuestion("Eid-ul-fitr")} className="option">
+                    <div onClick={() => nextQuestion("Eid ul Fitr")} className="option">
                         <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
                             <Image  sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={EidulFitr} alt="Thankyou" width={10} height={10} />
                         </div>
                         <p>Eid ul Fitr</p>
                     </div>
-                    <div onClick={() => nextQuestion("Eid-ul-Adha")} className="option">
+                    <div onClick={() => nextQuestion("Eid ul Adha")} className="option">
                         <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
                             <Image  sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={EidulAdha} alt="Thankyou" width={10} height={10} />
                         </div>

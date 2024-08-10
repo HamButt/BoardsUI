@@ -1,6 +1,6 @@
 import React from 'react'
 import {motion} from 'framer-motion'
-function SplashImages({setSplashImage,setImageComponent,setImageSection,imageSearchValue,imageData,getImagesFromUnsplash,error}) {
+function SplashImages({setSplashImage,setImageComponent,setImageSection,imageSearchValue,imageData,getImagesFromUnsplash,error,isFetching}) {
   return (
     <div className='text-center'>
         <div style={{maxHeight:"300px"}} className="mt-2 gifs mx-10 my-1 flex flex-wrap overflow-auto items-start justify-evenly">
@@ -16,8 +16,8 @@ function SplashImages({setSplashImage,setImageComponent,setImageSection,imageSea
                 : error  ? "" :  <div className='mt-2 font-semibold' >No images found for "{imageSearchValue}"</div>
                 }
         </div>
-            { imageData.length > 0 && <motion.button whileTap={{ scale: 0.9 }} 
-                onClick={getImagesFromUnsplash} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>Load more</motion.button>}
+            { imageData.length > 0 && <motion.button disabled={isFetching ? true : false} whileTap={{ scale: 0.9 }} 
+                onClick={getImagesFromUnsplash} className='mt-2 border text-sm my-1 px-2 py-1 rounded-md border-black text-black'>{isFetching ? "Loading..." : "Load more"}</motion.button>}
     </div>
   )
 }

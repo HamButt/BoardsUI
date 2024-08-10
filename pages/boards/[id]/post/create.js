@@ -57,6 +57,8 @@ function CreatePost() {
     const [imageData, setImageData] = useState([]);
     const [error, setError] = useState(false);
     const [openErrorModal, setOpenErrorModal] = useState(false);
+    const [isFetching, setFetching] = useState(false);
+    const [isFetchingGIfs, setFetchingGifs] = useState(false);
     const [gifOffset, setGifOffset] = useState(0);
     let limit = 12;
     let offset = gifOffset;
@@ -84,13 +86,15 @@ function CreatePost() {
 
 
     const getGifsFromGiphy = async () => {
+        setFetchingGifs(true)
         setGifOffset((prevOffset) => prevOffset + limit)
         const gifUrl = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.apiKey}&q=${gifSearchValue}&limit=${limit}&offset=${offset}&rating=g&lang=en`;
         try {
             const response = await axios.get(gifUrl)
             setGifData(response.data.data)
+            setFetchingGifs(false)
         } catch (error) {
-            console.log("error",error);
+            setFetchingGifs(false)
             setError(error.response)}
     }
     
@@ -117,6 +121,7 @@ function CreatePost() {
 
     const getImagesFromUnsplash = async () =>{
 
+        setFetching(true)
         const unsplashParams = {
             query: imageSearchValue,
             page:  imagePage,
@@ -129,10 +134,10 @@ function CreatePost() {
         try {
             const response = await axios.get(process.env.unsplashUrl, { params: unsplashParams  })
             setImageData(response.data.results)
-            
+            setFetching(false)
         } catch (error) {
             setError(error.response.data.errors[0])
-            console.log("Error",error);
+            setFetching(false)
         }
     }
 
@@ -362,6 +367,7 @@ function CreatePost() {
                                 imageSearchValue={imageSearchValue} 
                                 imageData={imageData} 
                                 getImagesFromUnsplash={getImagesFromUnsplash}
+                                isFetching={isFetching}
                             />
                         
                         }
@@ -394,7 +400,15 @@ function CreatePost() {
 
                         {
                             gifSection && gifSearchValue &&
-                                <Giphy gifSearchValue={gifSearchValue} gifData={gifData} setGif={setGif} setGIFComponent={setGIFComponent} setGifSection={setGifSection} getGifsFromGiphy={getGifsFromGiphy} />
+                                <Giphy 
+                                    gifSearchValue={gifSearchValue} 
+                                    gifData={gifData} 
+                                    setGif={setGif} 
+                                    setGIFComponent={setGIFComponent} 
+                                    setGifSection={setGifSection} 
+                                    getGifsFromGiphy={getGifsFromGiphy} 
+                                    isFetchingGIfs={isFetchingGIfs}
+                                />
                             
                         }
 

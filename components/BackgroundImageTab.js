@@ -23,6 +23,7 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
   const [imageLoading, setImageLoading] = useState(false)
   const [deleteLoader, setDeleteLoader] = useState(false)
   const [imageMessage, setImageMessage] = useState(false)
+  const [isFetching, setFetching] = useState(false)
   const borderColor = loading ? 'border-[#FF9669]' : 'border-gray-600';
   
   const unsplashParams = {
@@ -55,12 +56,13 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
 }, [imageSearchValue])
 
 const fetchImages = async () => {
-
+  setFetching(true)
   try {
     setImagePage((imgPg) => imgPg + 1 )
     const response = await axios.get(process.env.unsplashUrl, { params: unsplashParams })
     const images = response?.data?.results || [] 
     images.length > 0 ? setImageData(images) : setImageMessage(true)
+    setFetching(false)
   } catch (error) {
       toast.error(error.response.data)
   }
@@ -258,9 +260,9 @@ useEffect(()=>{
                                   )})
                               : imageSearchValue && !imageData ? <div className='mt-2 font-semibold text-sm'>Searching...</div> 
                               : <div className='mt-2 font-semibold text-sm' >No images found for "{imageSearchValue}"</div>}
-                              {imageData.length > 0 ?
-                                <motion.button whileTap={{ scale: 0.9 }} onClick={fetchImages} 
-                                className='unsplash-load-more-button'>Load more</motion.button> : ""}
+                              {imageData.length > 0 &&
+                                <motion.button disabled={isFetching ? true : false} whileTap={{ scale: 0.9 }} onClick={fetchImages} 
+                                className='unsplash-load-more-button'>{isFetching ? "Loading..." : "Load more"}</motion.button>}
                       </div>
                 }
 
