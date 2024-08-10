@@ -23,7 +23,8 @@ import IndependenceDay from '../public/independence-day.jpg'
 import EidulFitr from '../public/eid-ul-fitr.jpg'
 import EidulAdha from '../public/Eid-ul-Adha.jpg'
 
-function OccasionSelection({increaseStep,setBoardData}) {
+
+function OccasionSelection({increaseStep, boardData,setBoardData}) {
     const nextQuestion = (occasion) => {
         setBoardData(prevState => ({
             ...prevState,
