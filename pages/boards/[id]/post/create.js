@@ -391,8 +391,9 @@ function CreatePost() {
                         }
 
                         {
-                            videoLink && videoInputHandling && <iframe className='mt-2' width="450" height="253" src={videoLink} ></iframe>  
+                            videoLink && videoInputHandling && <iframe className='mt-4 rounded-md' width="450" height="253" src={videoLink} ></iframe>  
                         }
+
 
                         {
                             gif && <SelectedGif setGif={setGif} setGIFComponent={setGIFComponent} setGifSection={setGifSection} gif={gif} />
