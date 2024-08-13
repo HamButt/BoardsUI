@@ -243,7 +243,7 @@ export default function Home() {
                 <h1 className="text-2xl">Pages</h1>
                 <div className=" flex flex-col">
                   <Link className="text-lg" href='/boards/create'>» Create Board</Link>
-                  <Link className="text-lg" href='how-to' >» How to create board</Link>
+                  <Link className="text-lg" href='#how-to' >» How to create board</Link>
                 </div>
               </div>
                 <Image src={Logo} width={60} height={60} alt="Logo"/>
