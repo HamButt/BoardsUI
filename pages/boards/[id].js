@@ -25,6 +25,10 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import { MdContentCopy } from "react-icons/md";
 import Loader from '@/components/Loader';
 import Backdrop from '@/components/Backdrop';
+import { GetPostsApi } from '../../apis/GetPostsApi';
+import { GetBoardApi } from '../../apis/GetBoardApi';
+import { DeleteBoardApi } from '../../apis/DeleteBoardApi';
+import { UpdateTitleApi } from '../../apis/UpdateTitleApi';
 
 function Post() {
     const router = useRouter()
@@ -49,9 +53,8 @@ function Post() {
     const fetchPosts = async (boardId) => {
         setLoading(true);
         const modal = localStorage.getItem('modal')
-        try {
-            const res = await axios.get(`${process.env.basePath}/posts/${boardId}`)
-            if(res.data.allPosts.length){
+            const res = await GetPostsApi(boardId)
+            if(res.data.allPosts.length > 0){
                 setPosts(res.data.allPosts.reverse())
             }else if(!modal){
                 Confetti()
@@ -59,30 +62,24 @@ function Post() {
             else if(modal === boardId){
                 setWelcomeModal(false)
             }
-            setLoading(false);
-        } catch (error) {
-            console.log(error);
-        }
+        setLoading(false);
     }
 
-     const fetchBoard = async (boardId) =>{
-        try {
-            const res = await axios.get(`${process.env.basePath}/boards/${boardId}`)
-            const board = res.data.board
-            const capitilizeTitle = capitalizeTitle(board.title)
-            setTitle(capitilizeTitle)
-            setRecipient(board.recipient)
-            if(board.uploaded_image){
-                const boardImage = Buffer.from(board.uploaded_image.data)
-                setUploadedImage(`${process.env.basePath}/images/${boardImage}`)
-            }else if(board.unsplash_image){
-                setImageUrl(board.unsplash_image)
-            }else{
-                document.body.style.backgroundColor = board.color
-            }
-        } catch (error) {
-            console.log(error);
+     const fetchBoard = async (boardId) => {
+        const res = await GetBoardApi(boardId)
+        const board = res.data.board
+        const capitilizeTitle = capitalizeTitle(board.title)
+        setTitle(capitilizeTitle)
+        setRecipient(board.recipient)
+        if(board.uploaded_image){
+            const boardImage = Buffer.from(board.uploaded_image.data)
+            setUploadedImage(`${process.env.basePath}/images/${boardImage}`)
+        }else if(board.unsplash_image){
+            setImageUrl(board.unsplash_image)
+        }else{
+            document.body.style.backgroundColor = board.color
         }
+        
     }
 
     function capitalizeTitle(str) {
@@ -116,7 +113,7 @@ function Post() {
 
     const updateTitle = async () => {
         try {
-            const res = await axios.patch(`${process.env.basePath}/boards/${title}`, {boardId})
+            const res = await UpdateTitleApi(title,boardId)
             if (res.status === 200) {
                 setTitle(title);
             }
@@ -125,22 +122,15 @@ function Post() {
         }
     }
 
-    const deleteBoard = async () =>{
+    const deleteBoard = async () => {
         setIsLoading(true)
-        try {
-            const res = await axios.delete(`${process.env.basePath}/boards/${boardId}`)
+            const res = await DeleteBoardApi(boardId)
             if(res.status === 200){
                 localStorage.removeItem('title')
                 localStorage.removeItem('modal')
                 navigateUserTo404()
                 setIsLoading(false)
             }
-        } catch (error) {
-            console.log(error);
-            setIsLoading(false)
-        }finally{
-            setIsLoading(false)
-        }
     }
 
     const navigateUserTo404 = () => {
@@ -170,7 +160,6 @@ function Post() {
         setIsImageLoading(true)
         setImageUrl(backgroundImage)
         setIsImageLoading(false)
-
     }
 
     const handleTitleInput = (e) => {

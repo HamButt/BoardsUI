@@ -17,6 +17,8 @@ import { FaPlus } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { ImBlocked } from "react-icons/im";
 import HeartIcon from '@/Icons/HeartIcon'
+import { GetDashboardBoardsApi } from '../../../apis/GetDashboardBoardsApi'
+import { DeleteBoardApi } from '@/apis/DeleteBoardApi'
 
 function Dashboard() {
     const [boards,setBoards] = useState([])
@@ -32,23 +34,18 @@ function Dashboard() {
     
     const fetchBoards = async () =>{
         setLoading(true)
-        try {
             const userId = localStorage.getItem('userId')
-            const response = await axios.get(`${process.env.basePath}/users/${userId}`)
+            const response = await GetDashboardBoardsApi(userId, setLoading)
             const boards = response?.data?.boards || [];
             setBoards(boards.reverse());
             boards.length >= 3 ? setIsLimitReached(true) : setIsLimitReached(false)
-            setLoading(false)
-        } catch (error) {
-            setLoading(false)
-            setIsLimitReached(false)
-        }
+        setLoading(false)
     }
 
     const deleteBoard = async (boardId) => { 
         setIsDeleteLoading(true)
         try {
-            const res = await axios.delete(`${process.env.basePath}/boards/${boardId}`)
+            const res = await DeleteBoardApi(boardId)
             if(res.status === 200){
                 localStorage.removeItem('title')
                 localStorage.removeItem('modal')

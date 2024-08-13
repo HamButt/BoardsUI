@@ -7,6 +7,7 @@ import Head from 'next/head'
 import Logo from '../../public/logo.png'
 import { Toaster,toast } from 'sonner';
 import Loader from '@/components/Loader'
+import {EmailLogin} from '../../apis/EmailLoginApi'
 
 function Login() {
     
@@ -23,16 +24,13 @@ function Login() {
     
     const handleEmail = async () => {
         setIsLoading(true)
-        try {
-            const res = await axios.post(`${process.env.basePath}/users/login`, {email})
-            if(res.status === 200){
-                toast.success('Email sent, check your inbox'); 
-                setError("")
-            }
-        } catch (error) {
-            setError(error.response.data.error)
-        } finally{
+        const res = await EmailLogin(email)
+        if(res.status === 200){
+            toast.success('Email sent, check your inbox'); 
+            setError("")
             setIsLoading(false)
+        }else{
+            setError(res.response.data.error)
         }
     }
 

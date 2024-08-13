@@ -5,8 +5,8 @@ import { styled } from '@mui/material/styles';
 import {useRouter} from 'next/router'
 import {MdArrowBackIos} from 'react-icons/md'
 import crypto from 'crypto'
-import axios from 'axios'
 import { Toaster,toast } from 'sonner';
+import {CreateBoardApi} from '../apis/CreateBoardApi';
 function Message({decrementStep, boardData, setBoardData}) {
     const router = useRouter()
     const [percent,setPercent] = useState(75)
@@ -31,7 +31,6 @@ function Message({decrementStep, boardData, setBoardData}) {
         const salt = crypto.randomBytes(16).toString('hex');
         const hash = crypto.createHmac('sha256', salt).update(boardData.creator_name).digest('hex');
         window.localStorage.setItem('Creator', hash)
-        
     }
     
     const createBoard = async () => {
@@ -49,8 +48,7 @@ function Message({decrementStep, boardData, setBoardData}) {
             title: title,
             userId: userId
         }
-        try {
-            const res = await axios.post(`${process.env.basePath}/boards`, board)
+            const res = await CreateBoardApi(board, setIsLoading)
             if(res.status === 200){
                 convertCookieIntoHash()
                 localStorage.setItem('boardId', res.data.board._id)
@@ -60,18 +58,18 @@ function Message({decrementStep, boardData, setBoardData}) {
                     spread: 50,
                     origin: { y: 0.7 }
                 })
+                setIsLoading(false)
+            }else{
+                handleError(res)
             }
-            setIsLoading(false)
-        } catch (error) {
-            handleError(error)
-    }
+        
     }
 
     const handleError = (error) => {
+        setIsLoading(false);
         if (error.response.status === 401) {
-          setIsLoading(false);
-          toast.success(error.response.data.message, {
-            action: <button className='text-white bg-[#FF9669] px-2 py-1 rounded' onClick={() => router.push('/boards/user/dashboard')}>Go to dashboard</button>,
+          toast.error(error.response.data.message, {
+            action: <button className='text-white bg-[#2a9d8f] px-2 py-1 rounded' onClick={() => router.push('/boards/user/dashboard')}>Go to dashboard</button>,
             duration: Infinity,
         });
         }
@@ -93,7 +91,7 @@ function Message({decrementStep, boardData, setBoardData}) {
         <NavBar/>
 
 
-        <Toaster closeButton richColors position="top-center" invert={true}/>
+        <Toaster richColors position="top-center" invert={true}/>
 
         <div className="w-full mt-10 2xl:mt-20 flex items-center justify-center">
             <div className='max-md:w-8/12 w-5/12'>
