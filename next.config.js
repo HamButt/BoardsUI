@@ -8,17 +8,13 @@ module.exports = (phase) => {
     reactStrictMode: false,
     images: { unoptimized: true },
     env: {
-      basePath: isDev ? 'http://localhost:5000' : 'https://boards-backend.up.railway.app',
-      apiKey: 'USPpc8CLH2FQgxdjzStX3hgyE8jbRF6D',
-      clientId: 'IXEohvKJtIcp7LM0qE7-mQaHXBdHZDPUKwY5dodFB6s',
-      unsplashUrl: 'https://api.unsplash.com/search/photos',
+      basePath: isDev ? 'http://localhost:5000' : 'https://boards-backend.up.railway.app'
     },
   images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'boards-backend.up.railway.app',
-        // port: '5000',
         pathname: '/images/**',
       },
       {
