@@ -185,25 +185,12 @@ function Dashboard() {
                                 <div className="board_image" >
                                 {
                                     formattedImage ? 
-
-                                        <>
-                                        {
-                                            formattedImage ? 
-                                        
-                                                <Image 
-                                                    className='border rounded mt-1 w-[180px] h-[160px]' 
-                                                    src={`${process.env.basePath}/images/${formattedImage}`} alt='board' 
-                                                    width={0} height={0} 
-                                                    sizes='(max-width: 200px) 100vw, 33vw'/>
-                                            :
-                                            
-                                                <Image 
-                                                    className='border rounded mt-1 w-[180px] h-[160px]' 
-                                                    src={LoadingImage} alt='board' 
-                                                    width={0} height={0} 
-                                                    sizes='(max-width: 200px) 100vw, 33vw'/>
-                                            }
-                                                </>
+                                        <Image 
+                                            className='border rounded mt-1 w-[180px] h-[160px]' 
+                                            src={`${process.env.basePath}/images/${formattedImage}`} alt='board' 
+                                            width={0} height={0} 
+                                            sizes='(max-width: 200px) 100vw, 33vw'/>
+                                           
 
                                     :  board.unsplash_image ? 
 
@@ -211,10 +198,8 @@ function Dashboard() {
                                             className='border rounded mt-1 w-[180px] h-[160px]' 
                                             src={board.unsplash_image} alt='board' 
                                             width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
-                                        
 
-
-                                    : <div style={{backgroundColor: board.color}} className={`border rounded mt-1 w-[180px] h-[160px]`} ></div>
+                                    :   <div style={{backgroundColor: board.color}} className={`border rounded mt-1 w-[180px] h-[160px]`} ></div>
                                 }
 
                                 </div>
@@ -340,21 +325,13 @@ function Dashboard() {
                                 <div className="board_image" >
                                 {
                                     formattedImage ? 
-                                    <>
-                                        { formattedImage ?
                                             
-                                            <Image className='border rounded w-full h-[250px] object-cover' 
-                                                src={`${process.env.basePath}/images/${formattedImage}`} 
-                                                alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
-                                        :
-                                            <Image className='border rounded w-full h-[250px] object-cover' 
-                                                src={LoadingImage} alt='board' 
-                                                width={0} height={0} 
-                                                sizes='(max-width: 200px) 100vw, 33vw'/>
+                                        <Image className='border rounded w-full h-[250px] object-cover' 
+                                            src={`${process.env.basePath}/images/${formattedImage}`} 
+                                            alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
 
-                                        }
-                                    </>
                                     :  board.unsplash_image ? 
+                                    
                                         <Image className='border rounded  w-full h-[250px] object-cover' 
                                             src={board.unsplash_image} 
                                             alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
@@ -452,12 +429,12 @@ function Dashboard() {
                                         href={`/boards/${board._id}`} >View board</Link>
                                     </div>
                                 </div>
+
                             </div>
                         )
                     })
                     : isLoading ?
                         <div className='flex items-center justify-center h-screen'>
-
                             <Loader color="#FF9669" size="lg" margin="2" />
                         </div> 
                     :
