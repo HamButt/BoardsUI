@@ -80,7 +80,7 @@ html{
 /* BOARD SCREEN */
 
 .board-screen{
-  @apply min-h-screen w-full bg-fixed bg-no-repeat bg-center bg-cover transition-all ease-linear
+  @apply min-h-screen h-full w-full bg-fixed bg-no-repeat bg-center bg-cover transition-all ease-linear
 }
 .nav-bar{
   @apply bg-white pe-3 py-3 flex flex-wrap items-center justify-between fixed top-0 right-0 left-0 z-50  
@@ -107,7 +107,7 @@ html{
   @apply col-span-12 md:col-span-6 w-[330px] sm:w-[450px] md:w-[380px] lg:w-[320px] xl:w-[410px]  lg:col-span-4 mt-3 bg-[#2a9d8f] mx-2 rounded-lg shadow-md
 }
 .welcome-modal{
-  @apply w-full h-screen flex items-start mt-10 2xl:mt-32 justify-center
+  @apply w-full flex items-start mt-10 2xl:mt-32 justify-center
 }
 .welcome-modal-child{
   @apply bg-white flex text-center items-center shadow-lg rounded-md justify-start flex-col mx-2

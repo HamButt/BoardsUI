@@ -281,7 +281,9 @@ function Post() {
                     <div className='flex items-center justify-center h-screen'>
                         <Loader color="#FF9669" size="lg"/>
                     </div>
-                    :
+                    
+                :
+                
                 <div>
                 
                     <div  className="mt-14 bg-gray-300 max-sm:py-3 py-6 "  data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
