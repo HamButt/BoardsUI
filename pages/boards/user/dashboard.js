@@ -195,7 +195,8 @@ function Dashboard() {
                                                     src={`${process.env.basePath}/images/${formattedImage}`} alt='board' 
                                                     width={0} height={0} 
                                                     sizes='(max-width: 200px) 100vw, 33vw'/>
-                                                :
+                                            :
+                                            
                                                 <Image 
                                                     className='border rounded mt-1 w-[180px] h-[160px]' 
                                                     src={LoadingImage} alt='board' 
@@ -345,7 +346,7 @@ function Dashboard() {
                                             <Image className='border rounded w-full h-[250px] object-cover' 
                                                 src={`${process.env.basePath}/images/${formattedImage}`} 
                                                 alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
-                                                :
+                                        :
                                             <Image className='border rounded w-full h-[250px] object-cover' 
                                                 src={LoadingImage} alt='board' 
                                                 width={0} height={0} 

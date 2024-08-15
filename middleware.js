@@ -4,20 +4,21 @@ export function middleware(request) {
   const cookie = request.cookies.get('token')
   const url = request.url
   
-  if (!cookie && url === 'https://praiseboard.vercel.app/boards/create'){
-      return NextResponse.redirect('https://praiseboard.vercel.app/boards/login')
+  if (!cookie && url === 'http://localhost:3000/boards/create'){
+      return NextResponse.redirect('http://localhost:3000/boards/login')
   }
   
-  if(cookie && url === 'https://praiseboard.vercel.app/boards/login'){
-    return NextResponse.redirect('https://praiseboard.vercel.app/boards/user/dashboard')
+  if(!cookie && url === 'http://localhost:3000/boards/user/dashboard'){
+    return NextResponse.redirect('http://localhost:3000/boards/login')
   }
 
-  if(!cookie && url === 'https://praiseboard.vercel.app/boards/user/dashboard'){
-    return NextResponse.redirect('https://praiseboard.vercel.app/boards/login')
+  if(!cookie && url === 'http://localhost:3000/boards/favorites'){
+    return NextResponse.redirect('http://localhost:3000/boards/login')
+  }
+  
+  if(cookie && url === 'http://localhost:3000/boards/login'){
+    return NextResponse.redirect('http://localhost:3000/boards/user/dashboard')
   }
 
-  if(!cookie && url === 'https://praiseboard.vercel.app/boards/favorites'){
-    return NextResponse.redirect('https://praiseboard.vercel.app/boards/login')
-  }
 
 }

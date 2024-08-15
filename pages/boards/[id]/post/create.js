@@ -84,7 +84,6 @@ function CreatePost() {
        
     }, [gifSearchValue])
 
-
     const getGifsFromGiphy = async () => {
         setFetchingGifs(true)
         setGifOffset((prevOffset) => prevOffset + limit)
@@ -97,7 +96,6 @@ function CreatePost() {
             setFetchingGifs(false)
             setError(error.response)}
     }
-    
 
     useEffect(()=>{
         if(imageSearchValue){
@@ -347,13 +345,14 @@ function CreatePost() {
                         
                         {
                             splashImage && 
-                                <PreviewSplashImage 
-                                    error={error} 
-                                    splashImage={splashImage} 
-                                    setSplashImage={setSplashImage} 
-                                    setImageComponent={setImageComponent} 
-                                    setImageSection={setImageSection}  
-                                />
+                                
+                            <PreviewSplashImage 
+                                error={error} 
+                                splashImage={splashImage} 
+                                setSplashImage={setSplashImage} 
+                                setImageComponent={setImageComponent} 
+                                setImageSection={setImageSection}  
+                            />
                         }
 
                         { 
@@ -422,7 +421,10 @@ function CreatePost() {
                             placeholder='Enter your name or post anonymously' value={creator} 
                             onChange={(e) => setCreator(e.target.value)}  />
                         <textarea style={{resize:"none"}} value={message} rows={4}
-                            className='message-textarea textarea textarea-bordered' type="text" name='message' required placeholder='(Required) Add a message...' onChange={(e) => setMessage(e.target.value)}  ></textarea>
+                            className='message-textarea textarea textarea-bordered' 
+                            type="text" name='message' required placeholder='(Required) Add a message...' 
+                            onChange={(e) => setMessage(e.target.value)}  >
+                        </textarea>
                         <motion.button whileTap={{scale: !message ? "1" : "0.9"}} disabled={!message ? true : false} onClick={createPost} 
                             style={{backgroundColor: !message ? "rgb(189, 185, 185)" : "#2a9d8f"}}
                             className={`create-post-btn`}>{isLoading ? "Creating..." : "Create post"}

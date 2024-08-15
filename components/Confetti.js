@@ -1,6 +1,3 @@
-
-
-
 export const Confetti = () => {
     const duration = 5 * 1000, 
     animationEnd = Date.now() + duration,
