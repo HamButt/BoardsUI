@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Logo from '../../../public/logo.png'
 import { format } from 'timeago.js';
 import Loader from '@/components/Loader'
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem ,Button} from "@nextui-org/react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { CiEdit } from "react-icons/ci";
 import { MdContentCopy } from "react-icons/md";
@@ -18,7 +18,8 @@ import { motion } from "framer-motion";
 import { ImBlocked } from "react-icons/im";
 import HeartIcon from '@/Icons/HeartIcon'
 import { GetDashboardBoardsApi } from '../../../apis/GetDashboardBoardsApi'
-import { DeleteBoardApi } from '@/apis/DeleteBoardApi'
+import { DeleteBoardApi } from '../../../apis/DeleteBoardApi'
+import LoadingImage from '../../../public/loading.gif'
 
 function Dashboard() {
     const [boards,setBoards] = useState([])
@@ -31,7 +32,7 @@ function Dashboard() {
     useEffect(()=>{
         fetchBoards()
     }, [])
-    
+   
     const fetchBoards = async () =>{
         setLoading(true)
             const userId = localStorage.getItem('userId')
@@ -185,18 +186,36 @@ function Dashboard() {
                                 {
                                     formattedImage ? 
 
-                                        <Image className='border rounded mt-1 w-[180px] h-[160px]' 
-                                        src={`${process.env.basePath}/images/${formattedImage}`} alt='board' 
-                                        width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                        <>
+                                        {
+                                            formattedImage ? 
+                                        
+                                                <Image 
+                                                    className='border rounded mt-1 w-[180px] h-[160px]' 
+                                                    src={`${process.env.basePath}/images/${formattedImage}`} alt='board' 
+                                                    width={0} height={0} 
+                                                    sizes='(max-width: 200px) 100vw, 33vw'/>
+                                                :
+                                                <Image 
+                                                    className='border rounded mt-1 w-[180px] h-[160px]' 
+                                                    src={LoadingImage} alt='board' 
+                                                    width={0} height={0} 
+                                                    sizes='(max-width: 200px) 100vw, 33vw'/>
+                                            }
+                                                </>
 
                                     :  board.unsplash_image ? 
 
-                                        <Image className='border rounded mt-1 w-[180px] h-[160px]' 
+                                        <Image 
+                                            className='border rounded mt-1 w-[180px] h-[160px]' 
                                             src={board.unsplash_image} alt='board' 
                                             width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                        
+
 
                                     : <div style={{backgroundColor: board.color}} className={`border rounded mt-1 w-[180px] h-[160px]`} ></div>
                                 }
+
                                 </div>
 
                                 <div className='flex items-start justify-between flex-1 ms-6'>
@@ -320,9 +339,20 @@ function Dashboard() {
                                 <div className="board_image" >
                                 {
                                     formattedImage ? 
-                                    <Image className='border rounded w-full h-[250px] object-cover' 
-                                        src={`${process.env.basePath}/images/${formattedImage}`} 
-                                        alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                    <>
+                                        { formattedImage ?
+                                            
+                                            <Image className='border rounded w-full h-[250px] object-cover' 
+                                                src={`${process.env.basePath}/images/${formattedImage}`} 
+                                                alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                                :
+                                            <Image className='border rounded w-full h-[250px] object-cover' 
+                                                src={LoadingImage} alt='board' 
+                                                width={0} height={0} 
+                                                sizes='(max-width: 200px) 100vw, 33vw'/>
+
+                                        }
+                                    </>
                                     :  board.unsplash_image ? 
                                         <Image className='border rounded  w-full h-[250px] object-cover' 
                                             src={board.unsplash_image} 
@@ -344,19 +374,19 @@ function Dashboard() {
                                                 <p className='text-gray-400 text-sm font-light' >For</p>
                                                 <p className='ms-4 text-black' >{board.recipient}</p>
                                             </div>
-                                            <div className='mt-1 flex items-center '>
+                                            <div className='mt-1 flex items-center'>
                                                 <p className='text-gray-400 text-sm font-light' >Creator</p>
                                                 <p className='ms-8 text-black' >{board.creator_name}</p>
-                                            </div>
-                                            <div className='mt-1 flex items-center '>
+                                              </div>
+                                            <div className='mt-1 flex items-center'>
                                                 <p className='text-gray-400 text-sm font-light' >Created</p>
                                                 <p className='ms-7 text-black' >{boardCreationDate}</p>
                                             </div>
-                                            <div className='mt-1 flex items-center '>
+                                            <div className='mt-1 flex items-center'>
                                                 <p className='text-gray-400 text-sm font-light' >Posts</p>
                                                 <p className='ms-12 text-black' >{board.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
                                             </div>
-                                            <div className='mt-1 flex items-center '>
+                                            <div className='mt-1 flex items-center'>
                                                 <p className='text-gray-400 text-sm font-light' >Last post</p>
                                                 <p className='ms-6 text-black' >{board.last_post_created_at ? format(board.last_post_created_at) : "No post created"}</p>
                                             </div>
