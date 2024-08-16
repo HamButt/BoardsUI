@@ -124,7 +124,10 @@ function Favorites() {
                                 
                                 <div className="board_image" >
                                 {
-                                    formattedImage ? <Image className='border rounded mt-1 w-[180px] h-[160px]' src={`${process.env.basePath}/images/${formattedImage}`} alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                    formattedImage ? 
+                                    <Image className='border rounded mt-1 w-[180px] h-[160px]' 
+                                        src={`${process.env.basePath}/images/${formattedImage}`}
+                                        alt='board'/>
                                     :  board.unsplash_image ? <Image className='border rounded mt-1 w-[180px] h-[160px]' src={board.unsplash_image} alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
                                     : <div style={{backgroundColor: board.color}} className={`border rounded mt-1 w-[180px] h-[160px]`} ></div>
                                 }
@@ -232,9 +235,9 @@ function Favorites() {
                                 <div className="board_image" >
                                 {
                                     formattedImage ? 
-                                    <Image className='border rounded w-full h-[250px] object-cover' 
+                                    <img className='border rounded w-full h-[250px] object-cover' 
                                         src={`${process.env.basePath}/images/${formattedImage}`} 
-                                        alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                        alt='board' />
                                     :  board.unsplash_image ? 
                                         <Image className='border rounded  w-full h-[250px] object-cover' 
                                             src={board.unsplash_image} 

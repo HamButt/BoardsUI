@@ -185,11 +185,10 @@ function Dashboard() {
                                     {
                                         formattedImage ? 
                                         
-                                            <Image 
+                                            <img 
                                                 className='border rounded mt-1 w-[180px] h-[160px]' 
-                                                src={`https://boards-backend.up.railway.app/images/${formattedImage}`} alt='board' 
-                                                width={0} height={0} 
-                                                sizes='(max-width: 200px) 100vw, 33vw'/>
+                                                src={`${process.env.basePath}/images/${formattedImage}`} alt='board' 
+                                                />
 
                                         :  board.unsplash_image ? 
 
@@ -326,9 +325,9 @@ function Dashboard() {
                                 {
                                     formattedImage ? 
                                             
-                                        <Image className='border rounded w-full h-[250px] object-cover' 
+                                        <img className='border rounded w-full h-[250px] object-cover' 
                                             src={`${process.env.basePath}/images/${formattedImage}`} 
-                                            alt='board' width={0} height={0} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                            alt='board' />
 
                                     :  board.unsplash_image ? 
 
