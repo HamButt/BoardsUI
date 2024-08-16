@@ -125,7 +125,7 @@ function Favorites() {
                                 <div className="board_image" >
                                 {
                                     formattedImage ? 
-                                    <Image className='border rounded mt-1 w-[180px] h-[160px]' 
+                                    <img className='border rounded mt-1 w-[180px] h-[160px]' 
                                         src={`${process.env.basePath}/images/${formattedImage}`}
                                         alt='board'/>
                                     :  board.unsplash_image ? <Image className='border rounded mt-1 w-[180px] h-[160px]' src={board.unsplash_image} alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
