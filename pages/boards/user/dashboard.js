@@ -169,7 +169,7 @@ function Dashboard() {
                 {/* FOR LARGE SCREENS */}
                 
                 <div className={`boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px] `} data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                    {boards.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Praise boards</h1> : ""}
+                    {boards.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Praise Boards</h1> : ""}
                     {boards.length > 0 ? boards.map((board,index)=> {
                         
                         const formattedImage = board.uploaded_image ? Buffer.from(board.uploaded_image) : null
@@ -298,7 +298,7 @@ function Dashboard() {
                         </div> 
                     :
                         <div className='flex items-center justify-center h-screen flex-col'>
-                            <h1 className='text-black text-3xl' >All Praiseboards</h1>
+                            <h1 className='text-black text-3xl' >All Praise Boards</h1>
                             <p className='text-lg text-black mt-2' >All boards you can access appear here.</p>
                             <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
                                 href='/boards/create' > <FaPlus/>Create a Praiseboard</Link>
@@ -309,7 +309,7 @@ function Dashboard() {
                 {/* FOR SMALL SCREENS */}
 
                 <div className="boards w-[900px] sm:hidden mx-4" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                    {boards.length ? <h1 className='text-xl'>All Praise boards</h1> : ""}
+                    {boards.length ? <h1 className='text-xl'>All Praise Boards</h1> : ""}
                     {boards.length > 0 ? boards.map((board,index)=> {
                         
                         const formattedImage = board.uploaded_image ? Buffer.from(board.uploaded_image) : null
@@ -440,7 +440,7 @@ function Dashboard() {
                         </div> 
                     :
                         <div className='flex items-center justify-center h-screen flex-col text-center'>
-                            <h1 className='text-black text-3xl' >All Praiseboards</h1>
+                            <h1 className='text-black text-3xl' >All Praise Boards</h1>
                             <p className='text-lg text-black mt-2' >All boards you can access appear here.</p>
                             <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-medium btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
                                 href='/boards/create' > <FaPlus/> Create a Praiseboard</Link>

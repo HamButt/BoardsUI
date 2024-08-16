@@ -110,7 +110,7 @@ function Favorites() {
         <div className={`all-boards ${boards.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
                 
                 <div className="boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px]" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                    {boards.length ? <h1 className='text-2xl'>All Favorite boards</h1> : ""}
+                    {boards.length ? <h1 className='text-2xl'>All Favorite Boards</h1> : ""}
                     {boards.length > 0 ? boards.map((board,index)=> {
                         
                         const formattedImage = board.uploaded_image ? Buffer.from(board.uploaded_image) : null
@@ -208,7 +208,7 @@ function Favorites() {
                         </div> 
                     :
                         <div className='flex items-center justify-center h-screen flex-col'>
-                            <h1 className='text-black text-3xl' >No favorite boards</h1>
+                            <h1 className='text-black text-3xl' >No favorite Boards</h1>
                             <p className='text-lg text-black mt-2' >All favorite boards you can access appear here.</p>
                             <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
                                 href='/boards/create'><FaPlus/>Create a Praiseboard</Link>
@@ -217,7 +217,7 @@ function Favorites() {
                 </div>
 
                 <div className="boards w-[900px] sm:hidden mx-4" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                    {boards.length ? <h1 className='text-xl'>All Favorite boards</h1> : ""}
+                    {boards.length ? <h1 className='text-xl'>All Favorite Boards</h1> : ""}
                     {boards.length > 0 ? boards.map((board,index)=> {
                         
                         const formattedImage = board.uploaded_image ? Buffer.from(board.uploaded_image) : null
@@ -331,7 +331,7 @@ function Favorites() {
                     :
 
                         <div className='flex items-center justify-center h-screen flex-col text-center'>
-                            <h1 className='text-black text-3xl' >No favorite boards</h1>
+                            <h1 className='text-black text-3xl' >No favorite Boards</h1>
                             <p className='text-lg text-black mt-2' >All favorite boards you can access appear here.</p>
                             <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
                                 href='/boards/create' > <FaPlus/>Create a Praiseboard</Link>
