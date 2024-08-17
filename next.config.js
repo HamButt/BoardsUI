@@ -9,6 +9,9 @@ module.exports = (phase) => {
     images: { unoptimized: true },
     env: {
       basePath: isDev ? 'http://localhost:5000' : 'https://boards-backend.up.railway.app',
+      apiKey: 'USPpc8CLH2FQgxdjzStX3hgyE8jbRF6D',
+      clientId: 'IXEohvKJtIcp7LM0qE7-mQaHXBdHZDPUKwY5dodFB6s',
+      unsplashUrl: 'https://api.unsplash.com/search/photos',
       copyLinkUrl: isDev ? 'http://localhost:3000' : 'https://praiseboard.vercel.app'
     },
   images: {
