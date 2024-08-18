@@ -30,6 +30,7 @@ function Login() {
             setError("")
             setIsLoading(false)
         }else{
+            setIsLoading(false)
             setError(res.response.data.error)
         }
     }
