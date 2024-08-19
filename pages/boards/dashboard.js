@@ -15,7 +15,7 @@ function Dashboard() {
     const getBoardStats = async () => {
         
         const response = await axios.get(`${process.env.basePath}/stats`)
-        setBoards(response.data.boards.reverse())
+        setBoards(response.data.boards)
     }
 
   return (
