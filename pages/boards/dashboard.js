@@ -15,8 +15,7 @@ function Dashboard() {
     const getBoardStats = async () => {
         
         const response = await axios.get(`${process.env.basePath}/stats`)
-        setBoards(response.data.boards)
-
+        setBoards(response.data.boards.reverse())
     }
 
   return (
@@ -27,7 +26,7 @@ function Dashboard() {
         </Head>
 
         <h1 className='ms-3 text-2xl font-mono font-semibold'>Dashboard</h1>
-        
+
         <div className='flex items-center justify-center mt-3' >
 
             <div className=" w-full mx-5">
@@ -50,7 +49,7 @@ function Dashboard() {
                     : 
                     (
                     <tr>
-                        <td colSpan="2">
+                        <td>
                             <div className='flex items-center justify-center text-center ms-40 w-full'>
                                 <Loader color="#FF9669" size="lg" />
                             </div>
