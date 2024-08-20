@@ -6,16 +6,11 @@ import Head from "next/head";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa6";
 import PreviewBoard from "@/components/PreviewBoard";
-import PreviewRetirementGif from '../assests/preview-assets/retirement.gif'
-import PreviewThankyouGif from '../assests/preview-assets/thankyou.gif'
-import PreviewGraduationGif from '../assests/preview-assets/congrats.gif'
-import PreviewBirthdayGif from '../assests/preview-assets/birthdaygif.gif'
-import PreviewFarewellGif from '../assests/preview-assets/farewell.gif'
-import PreviewNewYearGif from '../assests/preview-assets/newyear.gif'
 import { FiExternalLink } from "react-icons/fi";
 import Logo from '../public/logo.png'
 import useMeasure from "react-use-measure";
 import { useDragControls, useMotionValue, useAnimate, motion} from "framer-motion";
+import {PreviewBirthdayGif, PreviewThankyouGif, PreviewGraduationGif, PreviewFarewellGif, PreviewNewYearGif, PreviewRetirementGif} from '../components/LandingPageGifs'
 // import { FileUploader } from "../components/Fileuploader";
 import Steps from "../components/Timeline";
 import { FaPlus } from "react-icons/fa6";

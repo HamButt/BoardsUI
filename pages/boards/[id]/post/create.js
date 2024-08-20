@@ -2,33 +2,14 @@
 import React, {useEffect, useState} from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { IoMdArrowRoundBack } from "react-icons/io";
-// import { FileUploader } from "react-drag-drop-files"; 
 import Head from 'next/head'
 import {useRouter} from 'next/navigation'
-import { IoImages } from "react-icons/io5";
-import { PiGifFill } from "react-icons/pi";
-import { MdDelete } from "react-icons/md";
-import { FaYoutube } from "react-icons/fa6";
 import Logo from '../../../../public/logo.png'
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem ,Button} from "@nextui-org/react";
-import { MdDriveFolderUpload } from "react-icons/md";
-import { RiStackFill } from "react-icons/ri";
-import { IoIosArrowDown  } from "react-icons/io";
-import { BsCloudUpload } from "react-icons/bs";
 import { AnimatePresence, motion } from "framer-motion";
-import { FiAlertCircle } from "react-icons/fi";
 import axios from 'axios' 
-import UploadImage from '@/components/UploadImage';
-import SearchImage from '@/components/SearchImage';
-import PreviewSplashImage from '@/components/PreviewSplashImage';
-import SplashImages from '@/components/SplashImages';
-import Error from '@/components/Error';
-import GifUpload from '@/components/GifUpload';
-import GifSearch from '@/components/GifSearch';
-import UploadYoutubeVideo from '@/components/UploadYoutubeVideo';
-import SelectedGif from '@/components/SelectedGif';
-import Giphy from '@/components/Giphy';
+import { IoMdArrowRoundBack, IoImages, PiGifFill, FaYoutube, MdDriveFolderUpload, RiStackFill, IoIosArrowDown, FiAlertCircle } from '../../../../components/PostIcons'
+import { UploadImage, SearchImage, PreviewSplashImage, SplashImages, Error, GifUpload, GifSearch, UploadYoutubeVideo, SelectedGif, Giphy } from '../../../../components/PostComponents'
 
 
 function CreatePost() {

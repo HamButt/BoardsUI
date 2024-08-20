@@ -1,34 +1,23 @@
 'use client'
 import React , {useEffect, useState, useRef} from 'react'
-import axios from 'axios';
 import Link from 'next/link'
 import Image from 'next/image'
 import Head from 'next/head'
 import {useRouter} from 'next/router'
 import { Toaster,toast } from 'sonner';
-import { CiEdit } from "react-icons/ci";
-import BackgroundImageTab from '../../components/BackgroundImageTab';
-import BackgroundColorTab from '../../components/BackgroundColorTab';
 import ConfettiImage from '../../public/confetti.jpg'
 import Logo from '../../public/logo.png'
 import 'animate.css';
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { MdDeleteOutline } from "react-icons/md";
-import { FaPlus } from "react-icons/fa6";
-import { Confetti } from '../../components/Confetti'
 import { AnimatePresence, motion } from "framer-motion";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem ,Button} from "@nextui-org/react";
-import { MdOutlineCheck } from "react-icons/md";
-import { IoMdClose } from "react-icons/io";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import useClipboard from '@/hooks/useClipboard';
-import { MdOutlineModeEdit } from "react-icons/md";
-import { MdContentCopy } from "react-icons/md";
-import Loader from '@/components/Loader';
-import Backdrop from '@/components/Backdrop';
 import { GetPostsApi } from '../../apis/GetPostsApi';
 import { GetBoardApi } from '../../apis/GetBoardApi';
 import { DeleteBoardApi } from '../../apis/DeleteBoardApi';
 import { UpdateTitleApi } from '../../apis/UpdateTitleApi';
+import BackgroundImageTab from '../../components/BackgroundImageTab';
+import BackgroundColorTab from '../../components/BackgroundColorTab';
+import { BsThreeDotsVertical, MdDeleteOutline, FaPlus, MdOutlineCheck, IoMdClose, MdOutlineModeEdit, MdContentCopy, CiEdit, Confetti, Loader, Backdrop } from '../../components/BoardIcons'
 
 function Post() {
     const router = useRouter()
