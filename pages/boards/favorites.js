@@ -15,11 +15,15 @@ import { MdDeleteOutline } from "react-icons/md";
 import { MdContentCopy } from "react-icons/md";
 import { Toaster,toast } from 'sonner';
 import useClipboard from '@/hooks/useClipboard';
+import { FiHeart } from "react-icons/fi";
+import { GetDashboardBoardsApi } from '../../apis/GetDashboardBoardsApi'
+
 function Favorites() {
     const [boards,setBoards] = useState([])
     const [isLoading, setLoading] = useState(false)
     const [isDeleteLoading, setIsDeleteLoading] = useState(false) 
     const [boardIdToRemove, setBoardIdToRemove] = useState(null)
+    const [isLimitReached, setIsLimitReached] = useState(false)
     const setClipboard = useClipboard();
 
     useEffect(()=>{
@@ -72,6 +76,19 @@ function Favorites() {
 
     }, [isDeleteLoading])
 
+    useEffect(()=>{
+        fetchBoards()
+    }, [])
+   
+    const fetchBoards = async () =>{
+        setLoading(true)
+            const userId = localStorage.getItem('userId')
+            const response = await GetDashboardBoardsApi(userId, setLoading)
+            const boards = response?.data?.boards || [];
+            boards.length >= 3 ? setIsLimitReached(true) : setIsLimitReached(false)
+        setLoading(false)
+    }
+
   return (
     <>
         <Toaster theme='system' richColors={true} position="top-center" />
@@ -100,7 +117,7 @@ function Favorites() {
 
                     <Link href='/boards/user/dashboard' className='transition-all hover:bg-[#34bdad] bg-[#2a9d8f] px-2 py-1 sm:p-2 rounded-md'> 
                         <motion.button whileTap={{scale:"0.9"}} 
-                        className='text-white border-none sm:text-lg font-medium '>Dashboard</motion.button>
+                        className='text-white border-none sm:text-lg font-medium'>Dashboard</motion.button>
                     </Link>
 
                 </div>
@@ -188,6 +205,10 @@ function Favorites() {
                                             </DropdownMenu>
                                         </Dropdown>
 
+                                        <div>
+                                            <FiHeart className="text-3xl text-red-600 fill-red-600"/>
+                                        </div>
+
                                         <dialog id="delete_modal_in_favorites_for_big_screens" className="modal">
                                             <div className="modal-box">
                                                 <p className="py-4">Are you sure you want to remove this from favorites?</p>
@@ -213,8 +234,11 @@ function Favorites() {
                         <div className='flex items-center justify-center h-screen flex-col'>
                             <h1 className='text-black text-3xl' >No favorite Boards</h1>
                             <p className='text-lg text-black mt-2' >All favorite boards you can access appear here.</p>
-                            <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
-                                href='/boards/create'><FaPlus/>Create a Praiseboard</Link>
+                            <Link style={{color: isLimitReached ? 'black' : 'white'}}
+                                className={`btn max-sm:hidden sm:btn-md rounded-md text-2xl mt-3 sm:text-lg font-medium hover:bg-[#34bdad] border-none shadow-none
+                                ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
+                                ${isLimitReached ? 'pointer-events-none' : ''}`} 
+                                href='/boards/create'>{isLimitReached ? "Limit exceeded, Can't create board"  : "Create a Praiseboard"}</Link>
                         </div>
                     }
                 </div>
@@ -303,6 +327,10 @@ function Favorites() {
                                                     </DropdownItem>
                                                 </DropdownMenu>
                                             </Dropdown>
+
+                                            <div>
+                                                <FiHeart className="text-3xl text-red-600 fill-red-600"/>
+                                            </div>
 
                                             <dialog id="delete_modal_in_favorites_for_small_screens" className="modal">
                                                 <div className="modal-box">
