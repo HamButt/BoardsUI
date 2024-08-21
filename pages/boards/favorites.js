@@ -328,9 +328,9 @@ function Favorites() {
                                                 </DropdownMenu>
                                             </Dropdown>
 
-                                            <div>
+                                            <>
                                                 <FiHeart className="text-3xl text-red-600 fill-red-600"/>
-                                            </div>
+                                            </>
 
                                             <dialog id="delete_modal_in_favorites_for_small_screens" className="modal">
                                                 <div className="modal-box">
@@ -361,14 +361,15 @@ function Favorites() {
                         </div> 
                     :
 
-                        <div className='flex items-center justify-center h-screen flex-col text-center'>
+                    <div className='flex items-center justify-center h-screen flex-col'>
                             <h1 className='text-black text-3xl' >No favorite Boards</h1>
                             <p className='text-lg text-black mt-2' >All favorite boards you can access appear here.</p>
-                            <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
-                                href='/boards/create' > <FaPlus/>Create a Praiseboard</Link>
+                            <Link style={{color: isLimitReached ? 'black' : 'white'}}
+                                className={`btn max-sm:hidden sm:btn-md rounded-md text-2xl mt-3 sm:text-lg font-medium hover:bg-[#34bdad] border-none shadow-none
+                                ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
+                                ${isLimitReached ? 'pointer-events-none' : ''}`} 
+                                href='/boards/create'>{isLimitReached ? "Limit exceeded, Can't create board"  : "Create a Praiseboard"}</Link>
                         </div>
-                        
-
                     }
                 </div>
         </div>
