@@ -17,6 +17,12 @@ module.exports = (phase) => {
   images: {
     remotePatterns: [
       {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: "5000",
+        pathname: '/images/**',
+      },
+      {
         protocol: 'https',
         hostname: 'boards-backend.up.railway.app',
         pathname: '/images/**',

@@ -235,7 +235,7 @@ function Favorites() {
                             <h1 className='text-black text-3xl' >No favorite Boards</h1>
                             <p className='text-lg text-black mt-2' >All favorite boards you can access appear here.</p>
                             <Link style={{color: isLimitReached ? 'black' : 'white'}}
-                                className={`btn max-sm:hidden sm:btn-md rounded-md text-2xl mt-3 sm:text-lg font-medium hover:bg-[#34bdad] border-none shadow-none
+                                className={`btn sm:btn-md rounded-md text-2xl mt-3 sm:text-lg font-medium hover:bg-[#34bdad] border-none shadow-none
                                 ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
                                 ${isLimitReached ? 'pointer-events-none' : ''}`} 
                                 href='/boards/create'>{isLimitReached ? "Limit exceeded, Can't create board"  : "Create a Praiseboard"}</Link>
@@ -361,11 +361,11 @@ function Favorites() {
                         </div> 
                     :
 
-                    <div className='flex items-center justify-center h-screen flex-col'>
+                    <div className='flex items-center justify-center h-screen flex-col text-center'>
                             <h1 className='text-black text-3xl' >No favorite Boards</h1>
                             <p className='text-lg text-black mt-2' >All favorite boards you can access appear here.</p>
                             <Link style={{color: isLimitReached ? 'black' : 'white'}}
-                                className={`btn max-sm:hidden sm:btn-md rounded-md text-2xl mt-3 sm:text-lg font-medium hover:bg-[#34bdad] border-none shadow-none
+                                className={`btn btn-md rounded-md mt-3 text-lg font-medium hover:bg-[#34bdad] border-none shadow-none
                                 ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
                                 ${isLimitReached ? 'pointer-events-none' : ''}`} 
                                 href='/boards/create'>{isLimitReached ? "Limit exceeded, Can't create board"  : "Create a Praiseboard"}</Link>
