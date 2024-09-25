@@ -124,12 +124,11 @@ function Post() {
 
     const navigateUserTo404 = () => {
         router.push('/404');
-        
     }
 
     const copyLink = (boardId) =>{
         setClipboard(`${process.env.copyLinkUrl}/boards/${boardId}`)
-        toast.success('Link copied'); 
+        toast.success('Board link copied'); 
     }
 
     const navigationToPage = () => {
@@ -196,8 +195,6 @@ function Post() {
                 <div className={`max-sm:hidden flex items-center justify-center text-lg`}>Add posts for 
                     { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
                 </div>
-
-            
 
                 <div className="header-buttons space-x-1 flex items-end"> 
                     
@@ -278,16 +275,13 @@ function Post() {
                             </div>
                         </div>
                     </dialog>
-                
                 </div>
-
             </nav>
 
-            
-                {loading ? 
-                    <div className='flex items-center justify-center h-screen'>
-                        <Loader color="#FF9669" size="lg"/>
-                    </div>
+            {loading ? 
+                <div className='flex items-center justify-center h-screen'>
+                    <Loader color="#FF9669" size="lg"/>
+                </div>
                     
                 :
                 
@@ -320,58 +314,56 @@ function Post() {
                                                             
                                 return (
                                         <div key={post._id} className="user-posts"  >
-                                        {
-                                            formattedImage || post.giphy || post.video || post.unsplashImage ? 
-                                        
-                                        <div>
+                                            {
+                                                formattedImage || post.giphy || post.video || post.unsplashImage ? 
                                             
-                                            <div className="post w-full" >
+                                                <div>
+                                                    
+                                                    <div className="post w-full" >
+                                                        
+                                                        { formattedImage ?
+                                                            
+                                                                <Image sizes='(max-width: 200px) 100vw, 33vw' 
+                                                                    className='post-uploaded-image rounded-t-lg w-full' 
+                                                                    src={`${process.env.basePath}/images/${formattedImage}`} 
+                                                                    alt="Post image" width={0} height={0}/>
+                                                            
+                                                            : post.giphy ?
+
+                                                                <img 
+                                                                    fetchPriority="high" 
+                                                                    className='post-gif rounded-t-lg' 
+                                                                    src={post.giphy} alt="GIF" /> 
+                                                            
+                                                            : post.unsplashImage ?
+
+                                                                <Image 
+                                                                    sizes='(max-width: 200px) 100vw, 33vw' 
+                                                                    fetchPriority="high" 
+                                                                    className='object-cover rounded-t-lg unsplash-image' 
+                                                                    src={post.unsplashImage} alt="unsplashImage" width={0} height={0}/>
+                                                            : 
+                                                                <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
+                                                        }
+                                                    </div>
+
+                                                    <div className="message py-3">
+                                                        <p className='text-lg sm:text-xl mx-5 text-white'>{post.message}</p>
+                                                        <p className='text-sm flex pe-4 flex-1 items-end justify-end mt-5 text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                                                    </div>
+                                                </div>
                                                 
-                                                { formattedImage ?
-                                                    
-                                                        <Image sizes='(max-width: 200px) 100vw, 33vw' 
-                                                            className='post-uploaded-image rounded-t-lg w-full' 
-                                                            src={`${process.env.basePath}/images/${formattedImage}`} 
-                                                            alt="Post image" width={0} height={0}/>
-                                                    
-                                                    : post.giphy ?
-
-                                                        <img 
-                                                            fetchPriority="high" 
-                                                            className='post-gif rounded-t-lg' 
-                                                            src={post.giphy} alt="GIF" /> 
-                                                    
-                                                    : post.unsplashImage ?
-
-                                                        <Image 
-                                                            sizes='(max-width: 200px) 100vw, 33vw' 
-                                                            fetchPriority="high" 
-                                                            className='object-cover rounded-t-lg unsplash-image' 
-                                                            src={post.unsplashImage} alt="unsplashImage" width={0} height={0}/>
-                                                    
-                                                    : 
-                                                        <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
-                                                }
-                                            </div>
-
-                                            <div className="message py-3">
-                                                <p className='text-lg sm:text-xl mx-5 text-white'>{post.message}</p>
-                                                <p className='text-sm flex pe-4 flex-1 items-end justify-end mt-5 text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
-                                            </div>
-                                                    
-                                        </div>
-                                        
-                                        : 
-                                        
-                                        <div className="ps-4 px-3 py-6 bg-[#2a9d8f] rounded-lg shadow-md">
-                                            <p className='text-md sm:text-lg text-white'>{post.message}</p>
-                                            <p className='text-sm flex flex-1 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
-                                        </div>
+                                                : 
+                                                
+                                                <div className="ps-4 px-3 py-6 bg-[#2a9d8f] rounded-lg shadow-md">
+                                                    <p className='text-md sm:text-lg text-white'>{post.message}</p>
+                                                    <p className='text-sm flex flex-1 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                                                </div>
 
                                             }
                                         </div> 
-                                )
-                            })}
+                                        )
+                                })}
                             </div>
 
                             : welcomeModal ? 
