@@ -42,15 +42,15 @@ function Post() {
     const fetchPosts = async (boardId) => {
         setLoading(true);
         const modal = localStorage.getItem('modal')
-            const res = await GetPostsApi(boardId)
-            if(res.data.allPosts.length > 0){
-                setPosts(res.data.allPosts.reverse())
-            }else if(!modal){
-                Confetti()
-            }
-            else if(modal === boardId){
-                setWelcomeModal(false)
-            }
+        const res = await GetPostsApi(boardId)
+        if(res.data.allPosts.length > 0){
+            setPosts(res.data.allPosts.reverse())
+        }else if(!modal){
+            Confetti()
+        }
+        else if(modal === boardId){
+            setWelcomeModal(false)
+        }
         setLoading(false);
     }
 
@@ -69,7 +69,6 @@ function Post() {
         }else{
             document.body.style.backgroundColor = board.color
         }
-        
     }
 
     function capitalizeTitle(str) {
@@ -258,7 +257,7 @@ function Post() {
                                     <button className="text-[16px] mt-2 text-black" >Email</button>
                                 </motion.div>
                                 <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={() => {
-                                    window.open(`https://wa.me/?text=${process.env.copyLinkUrl}/boards/${boardId}`, '_blank');}}>
+                                    window.open(`https://wa.me/?text=${process.env.copyLinkUrl}/boards/${boardId}`, '_blank')}}>
                                     <FaWhatsapp className='text-[22px]' />
                                     <button className="whatsapp-button text-[16px] mt-2 text-black"> 
                                         WhatsApp
