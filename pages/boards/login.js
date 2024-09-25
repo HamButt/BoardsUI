@@ -105,7 +105,7 @@ function Login() {
                                     <Loader color="white" size="xs" margin="2" text="Sending..." />
                                 </div>
 
-                                : "Send me link"
+                                : "Send"
                                 }
                                 
                         </button>

@@ -17,7 +17,7 @@ import { DeleteBoardApi } from '../../apis/DeleteBoardApi';
 import { UpdateTitleApi } from '../../apis/UpdateTitleApi';
 import BackgroundImageTab from '../../components/BackgroundImageTab';
 import BackgroundColorTab from '../../components/BackgroundColorTab';
-import { BsThreeDotsVertical, MdDeleteOutline, FaPlus, MdOutlineCheck, IoMdClose, MdOutlineModeEdit, MdContentCopy, CiEdit, Confetti, Loader, Backdrop } from '../../components/BoardIcons'
+import { BsThreeDotsVertical, MdDeleteOutline, FaPlus, MdOutlineCheck, IoMdClose, MdOutlineModeEdit, IoLinkOutline , CiEdit, Confetti, Loader, Backdrop, IoShareOutline, HiOutlineMail,FaWhatsapp } from '../../components/BoardIcons'
 
 function Post() {
     const router = useRouter()
@@ -54,9 +54,10 @@ function Post() {
         setLoading(false);
     }
 
-     const fetchBoard = async (boardId) => {
+    const fetchBoard = async (boardId) => {
         const res = await GetBoardApi(boardId)
         const board = res.data.board
+        console.log(board)
         const capitilizeTitle = capitalizeTitle(board.title)
         setTitle(capitilizeTitle)
         setRecipient(board.recipient)
@@ -161,8 +162,6 @@ function Post() {
         textarea.style.height = `${textarea.scrollHeight}px`;
     };
 
-   
-
     return (
 
         <div className={`board-screen`} style={{backgroundImage:`url(${ imageUrl ? imageUrl : uploadedImage})`}}>
@@ -221,33 +220,53 @@ function Post() {
                         </DropdownTrigger>
                         <DropdownMenu variant="faded" aria-label="Static Actions" className='py-2 mt-1 shadow-xl bg-white rounded-md'>
                             <DropdownItem textValue='Copy'>
-                                <div className='copy  ' onClick={() => copyLink(boardId)}>
-                                    <MdContentCopy className="text-black share-button text-[17px] cursor-pointer"  />
-                                    <p className='text-sm font-semibold ps-3 text-black ' >Copy board link</p>
+                                <div className='copy' onClick={()=>document.getElementById('share-board').showModal()}>
+                                    <IoShareOutline className="text-black share-button text-[22px] cursor-pointer" />
+                                    <button className="text-sm font-semibold ps-3 text-black text-[14px] " >Share board</button>
                                 </div>
                             </DropdownItem>
                             <DropdownItem textValue='Customise'>
                                 <div onClick={() => {setOpenNav(true)}} className='customise '>
                                     <CiEdit  className="text-black share-button text-[22px] cursor-pointer" />
-                                    <p className='text-sm font-semibold ps-2 text-black '>Customise board</p>
+                                    <p className='text-sm font-semibold ps-2 text-black text-[14px]'>Customise board</p>
                                 </div>
                             </DropdownItem>
-                            {/* <DropdownItem textValue='view background'>
-                                <Link target='_blank' href={`/boards/my-background/${boardId}`} className='view-background bg-[#2a9d8f] flex items-center justify-start  mt-2 cursor-pointer rounded-md p-2'>
-                                    <GrFormView  className="text-white share-button text-[22px] cursor-pointer" />
-                                    <p className='text-sm  ps-2 text-white '>View background</p>
-                                </Link>
-                            </DropdownItem> */}
                             <DropdownItem textValue='Cookie'>
                                 { userCookie && 
                                     <div className='delete' onClick={()=>document.getElementById('delete_modal').showModal()}>
                                         <MdDeleteOutline className='text-2xl' />  
-                                        <p className='text-sm font-semibold ps-3 '>Delete board</p>
+                                        <p className='text-sm font-semibold ps-3'>Delete board</p>
                                     </div>
                                 }
                             </DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
+                    
+                    <dialog id="share-board" className="modal">
+                        <div className="modal-box">
+                            <form method="dialog">
+                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                            </form>
+                            <h3 className="text-xl text-black">Share {recipient}'s board | {title} </h3>
+                            <div className="mt-5 flex items-center justify-center space-x-3" >
+                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={() => copyLink(boardId)}>
+                                    <IoLinkOutline className='text-[22px]' />
+                                    <button className="text-[16px] mt-2 text-black" >Copy link</button>
+                                </motion.div>
+                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={(e) => {window.open(`mailto:?body=${process.env.copyLinkUrl}/boards/${boardId}`)}}>
+                                    <HiOutlineMail className='text-[22px]' />
+                                    <button className="text-[16px] mt-2 text-black" >Email</button>
+                                </motion.div>
+                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={() => {
+                                    window.open(`https://wa.me/?text=${process.env.copyLinkUrl}/boards/${boardId}`, '_blank');}}>
+                                    <FaWhatsapp className='text-[22px]' />
+                                    <button className="whatsapp-button text-[16px] mt-2 text-black"> 
+                                        WhatsApp
+                                    </button>
+                                </motion.div>
+                            </div>
+                        </div>
+                    </dialog>
 
                     <dialog id="delete_modal" className="modal">
                         <div className="modal-box">

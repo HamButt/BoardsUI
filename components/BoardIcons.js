@@ -9,6 +9,10 @@ import { MdContentCopy } from "react-icons/md";
 import { Confetti } from '../components/Confetti'
 import Loader from '../components/Loader';
 import Backdrop from '../components/Backdrop';
+import { IoShareOutline } from "react-icons/io5";
+import { HiOutlineMail } from "react-icons/hi";
+import { FaWhatsapp } from "react-icons/fa6";
+import { IoLinkOutline } from "react-icons/io5";
 
 export {
     CiEdit,
@@ -18,8 +22,11 @@ export {
     MdOutlineCheck,
     IoMdClose,
     MdOutlineModeEdit,
-    MdContentCopy,
+    IoLinkOutline,
     Confetti,
     Loader,
-    Backdrop
+    Backdrop,
+    IoShareOutline,
+    HiOutlineMail,
+    FaWhatsapp
 }
