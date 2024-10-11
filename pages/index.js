@@ -103,7 +103,7 @@ export default function Home() {
 
     if (!isErasing) {
       // Writing mode
-      if (displayedText.length < categories[currentCategoryIndex].length) {
+      if (displayedText?.length < categories[currentCategoryIndex]?.length) {
         timeoutId = setTimeout(() => {
           setDisplayedText(categories[currentCategoryIndex].substring(0, displayedText.length + 1));
         }, 100); // Speed of writing each letter
@@ -114,13 +114,13 @@ export default function Home() {
       }
     } else {
       // Erasing mode
-      if (displayedText.length > 0) {
+      if (displayedText?.length > 0) {
         timeoutId = setTimeout(() => {
-          setDisplayedText(categories[currentCategoryIndex].substring(0, displayedText.length - 1));
+          setDisplayedText(categories[currentCategoryIndex].substring(0, displayedText?.length - 1));
         }, 100); // Speed of erasing each letter
       } else {
         setIsErasing(false);
-        setCurrentCategoryIndex((prevIndex) => (prevIndex + 1) % categories.length);
+        setCurrentCategoryIndex((prevIndex) => (prevIndex + 1) % categories?.length);
       }
     }
 
@@ -192,14 +192,14 @@ export default function Home() {
                   <div className="flex items-center justify-evenly flex-wrap" >
 
                       {
-                        previewsData.map((previewPost,index) => {
+                        previewsData?.map((previewPost,index) => {
                           return (
                           <div key={previewPost.id} className="image-container rounded-box">
                             <Image src={previewPost.gif} sizes='(max-width: 200px) 100vw, 33vw'  
                               alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
 
                             <div className="overlay">
-                                <motion.button whileTap={{scale:0.9}} onClick={() => {setOpen(true); setDrawer({event: previewPost.event, gif: previewPost.gif}) }}
+                                <motion.button whileTap={{scale:0.9}} onClick={() => {setOpen(true); setDrawer({event: previewPost?.event, gif: previewPost?.gif}) }}
                                   className="overlay-button btn border outline-none rounded-lg text-lg font-semibold hover:shadow-xl" 
                                   >Preview <FiExternalLink /> </motion.button>
                             </div>
@@ -221,8 +221,8 @@ export default function Home() {
 
             <DragCloseDrawer open={open} setOpen={setOpen}>
               <div className="flex flex-col items-center justify-center text-black space-y-8 bg-gray-800 mt-4">
-                  <p className="sm:mt-0 text-2xl sm:text-4xl font-semibold text-white">Preview {drawer.event} posts</p>
-                  <Image src={drawer.gif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
+                  <p className="sm:mt-0 text-2xl sm:text-4xl font-semibold text-white">Preview {drawer?.event} posts</p>
+                  <Image src={drawer?.gif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
                     width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
                   <motion.button 
                     whileTap={{scale:0.9}} 
