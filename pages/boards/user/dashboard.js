@@ -38,7 +38,7 @@ function Dashboard() {
             const response = await GetDashboardBoardsApi(userId, setLoading)
             const boards = response?.data?.boards || [];
             setBoards(boards.reverse());
-            boards.length >= 3 ? setIsLimitReached(true) : setIsLimitReached(false)
+            boards?.length >= 3 ? setIsLimitReached(true) : setIsLimitReached(false)
         setLoading(false)
     }
 
@@ -74,7 +74,7 @@ function Dashboard() {
                 boardId, userId
             }
             const response = await axios.put(`${process.env.basePath}/favorites`, favoriteBoard)
-            if(response.status === 200){
+            if(response?.status === 200){
                 toast.success('Board added to favorites'); 
             }
         } catch (error) {
@@ -146,7 +146,7 @@ function Dashboard() {
                             className={`btn max-sm:hidden sm:btn-md rounded-md text-2xl sm:text-lg font-medium hover:bg-[#34bdad] border-none shadow-none
                             ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
                             ${isLimitReached ? 'pointer-events-none' : ''}`} 
-                            href='/boards/create'>{isLimitReached ? "Limit exceeded"  : "Create a Praiseboard"}</Link>
+                            href='/boards/create'>{isLimitReached ? "Limit exceeded"  : "New board"} <FaPlus/></Link>
                         
                         {/* FOR SMALL SCREENS */}
 
@@ -164,22 +164,22 @@ function Dashboard() {
 
         </header>
 
-        <div className={`all-boards ${boards.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
+        <div className={`all-boards ${boards?.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
 
                 {/* FOR LARGE SCREENS */}
                 
                 <div className={`boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px] `} data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                    {boards.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Praise Boards</h1> : ""}
-                    {boards.length > 0 ? boards.map((board,index)=> {
+                    {boards?.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Praise Boards</h1> : ""}
+                    {boards?.length > 0 ? boards.map((board,index)=> {
                         
-                        const formattedImage = board.uploaded_image ? Buffer.from(board.uploaded_image) : null
-                        const date = new Date(board.created_at);
+                        const formattedImage = board?.uploaded_image ? Buffer.from(board?.uploaded_image) : null
+                        const date = new Date(board?.created_at);
                         const options = { year: 'numeric', month: 'long', day: 'numeric' };
                         const boardCreationDate = date.toLocaleDateString('en-US', options);
                         
                         return (
                         
-                            <div  className="board border transition-all board mt-3 rounded-lg flex items-start w-full py-4 px-3" key={board._id}>
+                            <div  className="board border transition-all board mt-3 rounded-lg flex items-start w-full py-4 px-3" key={board?._id}>
                                 
                                 <div className="board_image" >
                                     {
@@ -190,14 +190,14 @@ function Dashboard() {
                                                 src={`${process.env.basePath}/images/${formattedImage}`} alt='board' 
                                                 />
 
-                                        :  board.unsplash_image ? 
+                                        :  board?.unsplash_image ? 
 
                                             <Image 
                                                 className='border rounded mt-1 w-[180px] h-[160px]' 
-                                                src={board.unsplash_image} alt='board' 
+                                                src={board?.unsplash_image} alt='board' 
                                                 width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
 
-                                        :   <div style={{backgroundColor: board.color}} className={`border rounded mt-1 w-[180px] h-[160px]`} ></div>
+                                        :   <div style={{backgroundColor: board?.color}} className={`border rounded mt-1 w-[180px] h-[160px]`} ></div>
                                     }
 
                                 </div>
@@ -206,34 +206,34 @@ function Dashboard() {
                                     
                                     <div className="details">
                                         <div className="flex">
-                                            <p className='text-xl text-black' >{board.title}</p>
+                                            <p className='text-xl text-black' >{board?.title}</p>
                                         </div>
                                         <div className='mt-2 flex items-center'>
                                             <p className='text-gray-400 text-sm font-light' >For</p>
-                                            <p className='ms-4 text-black' >{board.recipient}</p>
+                                            <p className='ms-4 text-black' >{board?.recipient}</p>
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Creator</p>
-                                            <p className='ms-8 text-black' >{board.creator_name}</p>
+                                            <p className='ms-8 text-black' >{board?.creator_name}</p>
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Created</p>
-                                            <p className='ms-7 text-black' >{boardCreationDate}</p>
+                                            <p className='ms-7 text-black' >{board?.CreationDate}</p>
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Posts</p>
-                                            <p className='ms-12 text-black' >{board.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
+                                            <p className='ms-12 text-black' >{board?.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board?._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Last post</p>
-                                            <p className='ms-6 text-black' >{board.last_post_created_at ? format(board.last_post_created_at) : "No post created"}</p>
+                                            <p className='ms-6 text-black' >{board?.last_post_created_at ? format(board?.last_post_created_at) : "No post created"}</p>
                                         </div>
                                     
                                     </div>
 
                                     <div className='flex items-center space-x-1'>
                                         <Link className='text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
-                                        href={`/boards/${board._id}`} >View board</Link>
+                                        href={`/boards/${board?._id}`} >View board</Link>
 
                                         <Dropdown className='-mt-[2px]'>
                                             <DropdownTrigger>
@@ -243,19 +243,19 @@ function Dashboard() {
                                             </DropdownTrigger>
                                             <DropdownMenu variant="faded" aria-label="Static Actions" className='py-2 border shadow-sm bg-white rounded-md'>
                                                 <DropdownItem textValue='Copy'>
-                                                    <div className='copy' onClick={() => copyLink(board._id)}>
+                                                    <div className='copy' onClick={() => copyLink(board?._id)}>
                                                         <MdContentCopy className="text-black share-button text-[17px] cursor-pointer"  />
                                                         <p className='text-sm font-semibold ps-3 text-black' >Copy board link</p>
                                                     </div>
                                                 </DropdownItem>
                                                 <DropdownItem textValue='Customise'>
-                                                    <Link href={`/boards/${board._id}`} className='customise'>
+                                                    <Link href={`/boards/${board?._id}`} className='customise'>
                                                         <CiEdit  className="text-black text-[22px] cursor-pointer" />
                                                         <p className='text-sm font-semibold ps-2 text-black '>Customise board</p>
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem textValue='Add to favorites'>
-                                                    <div onClick={() => addToFavorite(board._id)} className='add-to-favorite'>
+                                                    <div onClick={() => addToFavorite(board?._id)} className='add-to-favorite'>
                                                         <HeartIcon/>
                                                         <p className='text-sm font-semibold ps-2 text-black'>Add to favorites</p>
                                                     </div>
@@ -263,7 +263,7 @@ function Dashboard() {
                                                 <DropdownItem textValue='Cookie'>
                                                         <div className='delete' 
                                                             
-                                                            onClick={()=>{setBoardIdToDelete(board._id); document.getElementById('delete_modal_in_dashboard_for_big_screens').showModal()}}>
+                                                            onClick={()=>{setBoardIdToDelete(board?._id); document.getElementById('delete_modal_in_dashboard_for_big_screens').showModal()}}>
                                                             <MdDeleteOutline className='text-2xl' />  
                                                             <p className='text-sm font-semibold ps-3 '>Delete board</p>
                                                         </div>
@@ -308,11 +308,11 @@ function Dashboard() {
                 {/* FOR SMALL SCREENS */}
 
                 <div className="boards w-[900px] sm:hidden mx-4" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                    {boards.length ? <h1 className='text-xl'>All Praise Boards</h1> : ""}
-                    {boards.length > 0 ? boards.map((board,index)=> {
+                    {boards?.length ? <h1 className='text-xl'>All Praise Boards</h1> : ""}
+                    {boards?.length > 0 ? boards?.map((board,index)=> {
                         
-                        const formattedImage = board.uploaded_image ? Buffer.from(board.uploaded_image) : null
-                        const date = new Date(board.created_at);
+                        const formattedImage = board?.uploaded_image ? Buffer.from(board?.uploaded_image) : null
+                        const date = new Date(board?.created_at);
                         const options = { year: 'numeric', month: 'long', day: 'numeric' };
                         const boardCreationDate = date.toLocaleDateString('en-US', options);
                         
@@ -329,13 +329,13 @@ function Dashboard() {
                                             src={`${process.env.basePath}/images/${formattedImage}`} 
                                             alt='board' />
 
-                                    :  board.unsplash_image ? 
+                                    :  board?.unsplash_image ? 
 
                                         <Image className='border rounded w-full h-[250px] object-cover' 
-                                            src={board.unsplash_image} 
+                                            src={board?.unsplash_image} 
                                             alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
 
-                                    : <div style={{backgroundColor: board.color}} className={`border rounded  w-full h-[250px] object-cover`} ></div>
+                                    : <div style={{backgroundColor: board?.color}} className={`border rounded  w-full h-[250px] object-cover`} ></div>
                                 }
                                 </div>
 
@@ -346,15 +346,15 @@ function Dashboard() {
                                         <div className='details'>
 
                                             <div className="flex">
-                                                <p className='text-xl text-black' >{board.title}</p>
+                                                <p className='text-xl text-black' >{board?.title}</p>
                                             </div>
                                             <div className='mt-2 flex items-center'>
                                                 <p className='text-gray-400 text-sm font-light' >For</p>
-                                                <p className='ms-4 text-black' >{board.recipient}</p>
+                                                <p className='ms-4 text-black' >{board?.recipient}</p>
                                             </div>
                                             <div className='mt-1 flex items-center'>
                                                 <p className='text-gray-400 text-sm font-light' >Creator</p>
-                                                <p className='ms-8 text-black' >{board.creator_name}</p>
+                                                <p className='ms-8 text-black' >{board?.creator_name}</p>
                                               </div>
                                             <div className='mt-1 flex items-center'>
                                                 <p className='text-gray-400 text-sm font-light' >Created</p>
@@ -362,18 +362,18 @@ function Dashboard() {
                                             </div>
                                             <div className='mt-1 flex items-center'>
                                                 <p className='text-gray-400 text-sm font-light' >Posts</p>
-                                                <p className='ms-12 text-black' >{board.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
+                                                <p className='ms-12 text-black' >{board?.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board?._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
                                             </div>
                                             <div className='mt-1 flex items-center'>
                                                 <p className='text-gray-400 text-sm font-light' >Last post</p>
-                                                <p className='ms-6 text-black' >{board.last_post_created_at ? format(board.last_post_created_at) : "No post created"}</p>
+                                                <p className='ms-6 text-black' >{board?.last_post_created_at ? format(board?.last_post_created_at) : "No post created"}</p>
                                             </div>
 
                                         </div>
                                         
                                         <div className=' flex items-center space-x-1'>
                                             <Link className='view-board-button-for-extra-small-in-user-dashboard text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
-                                            href={`/boards/${board._id}`} >View board</Link>
+                                            href={`/boards/${board?._id}`} >View board</Link>
 
                                             <Dropdown className='mb-1'>
                                                 <DropdownTrigger>
@@ -383,26 +383,26 @@ function Dashboard() {
                                                 </DropdownTrigger>
                                                 <DropdownMenu variant="faded" aria-label="Static Actions" className='py-2 border shadow-sm bg-white rounded-md'>
                                                     <DropdownItem textValue='Copy'>
-                                                        <div className='copy' onClick={() => copyLink(board._id)}>
+                                                        <div className='copy' onClick={() => copyLink(board?._id)}>
                                                             <MdContentCopy className="text-black share-button text-[17px] cursor-pointer"  />
                                                             <p className='text-sm font-semibold ps-3 text-black' >Copy board link</p>
                                                         </div>
                                                     </DropdownItem>
                                                     <DropdownItem textValue='Customise'>
-                                                        <Link href={`/boards/${board._id}`} className='customise '>
+                                                        <Link href={`/boards/${board?._id}`} className='customise '>
                                                             <CiEdit  className="text-black share-button text-[22px] cursor-pointer" />
                                                             <p className='text-sm font-semibold ps-2 text-black '>Customise board</p>
                                                         </Link>
                                                     </DropdownItem>
                                                     <DropdownItem textValue='Add to favorites'>
-                                                        <div onClick={() => addToFavorite(board._id)} className='add-to-favorite '>
+                                                        <div onClick={() => addToFavorite(board?._id)} className='add-to-favorite '>
                                                             <HeartIcon/>
                                                             <p className='text-sm font-semibold ps-2 text-black '>Add to favorites</p>
                                                         </div>
                                                     </DropdownItem>
                                                     <DropdownItem textValue='Cookie'>
                                                     
-                                                            <div className='delete' onClick={()=>{setBoardIdToDelete(board._id);document.getElementById('delete_modal_in_dashboard_for_small_screens').showModal()}}>
+                                                            <div className='delete' onClick={()=>{setBoardIdToDelete(board?._id);document.getElementById('delete_modal_in_dashboard_for_small_screens').showModal()}}>
                                                                 <MdDeleteOutline className='text-2xl'/>  
                                                                 <p className='text-sm font-semibold ps-3 '>Delete board</p>
                                                             </div>
@@ -426,7 +426,7 @@ function Dashboard() {
 
                                     <div className='options-button-for-small-in-user-dashboard flex items-center space-x-1 mt-4 flex-1'>
                                         <Link className='text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
-                                        href={`/boards/${board._id}`} >View board</Link>
+                                        href={`/boards/${board?._id}`} >View board</Link>
                                     </div>
                                 </div>
 

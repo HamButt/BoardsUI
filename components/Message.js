@@ -29,7 +29,7 @@ function Message({decrementStep, boardData, setBoardData}) {
 
     const convertCookieIntoHash = () => {
         const salt = crypto.randomBytes(16).toString('hex');
-        const hash = crypto.createHmac('sha256', salt).update(boardData.creator_name).digest('hex');
+        const hash = crypto.createHmac('sha256', salt).update(boardData?.creator_name).digest('hex');
         window.localStorage.setItem('Creator', hash)
     }
     
@@ -42,17 +42,17 @@ function Message({decrementStep, boardData, setBoardData}) {
         localStorage.setItem('title', title)
         const userId = localStorage.getItem('userId')
         const board = {
-            occasion: boardData.occasion,
-            creator_name: boardData.creator_name,
-            recipient: boardData.recipient_name,
+            occasion: boardData?.occasion,
+            creator_name: boardData?.creator_name,
+            recipient: boardData?.recipient_name,
             title: title,
             userId: userId
         }
             const res = await CreateBoardApi(board, setIsLoading)
             if(res.status === 200){
                 convertCookieIntoHash()
-                localStorage.setItem('boardId', res.data.board._id)
-                router.push(`/boards/${res.data.board._id}`)
+                localStorage.setItem('boardId', res?.data?.board?._id)
+                router.push(`/boards/${res?.data?.board?._id}`)
                 confetti({
                     particleCount: 200,
                     spread: 50,
@@ -67,8 +67,8 @@ function Message({decrementStep, boardData, setBoardData}) {
 
     const handleError = (error) => {
         setIsLoading(false);
-        if (error.response.status === 401) {
-          toast.error(error.response.data.message, {
+        if (error?.response?.status === 401) {
+          toast.error(error?.response?.data?.message, {
             action: <button className='text-white bg-[#2a9d8f] px-2 py-1 rounded' onClick={() => router.push('/boards/user/dashboard')}>Go to dashboard</button>,
             duration: Infinity,
         });

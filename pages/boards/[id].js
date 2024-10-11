@@ -19,6 +19,7 @@ import BackgroundImageTab from '../../components/BackgroundImageTab';
 import BackgroundColorTab from '../../components/BackgroundColorTab';
 import { BsThreeDotsVertical, MdDeleteOutline, FaPlus, MdOutlineCheck, IoMdClose, MdOutlineModeEdit, IoLinkOutline , CiEdit, Confetti, Loader, Backdrop, IoShareOutline, HiOutlineMail,FaWhatsapp } from '../../components/BoardIcons'
 
+
 function Post() {
     const router = useRouter()
     const [title,setTitle] = useState('')
@@ -43,8 +44,8 @@ function Post() {
         setLoading(true);
         const modal = localStorage.getItem('modal')
         const res = await GetPostsApi(boardId)
-        if(res.data.allPosts.length > 0){
-            setPosts(res.data.allPosts.reverse())
+        if(res?.data?.allPosts?.length > 0){
+            setPosts(res?.data?.allPosts?.reverse())
         }else if(!modal){
             Confetti()
         }
@@ -56,18 +57,17 @@ function Post() {
 
     const fetchBoard = async (boardId) => {
         const res = await GetBoardApi(boardId)
-        const board = res.data.board
-        console.log(board)
-        const capitilizeTitle = capitalizeTitle(board.title)
+        const board = res?.data?.board
+        const capitilizeTitle = capitalizeTitle(board?.title)
         setTitle(capitilizeTitle)
-        setRecipient(board.recipient)
-        if(board.uploaded_image){
-            const boardImage = Buffer.from(board.uploaded_image.data)
+        setRecipient(board?.recipient)
+        if(board?.uploaded_image){
+            const boardImage = Buffer.from(board?.uploaded_image?.data)
             setUploadedImage(`${process.env.basePath}/images/${boardImage}`)
-        }else if(board.unsplash_image){
-            setImageUrl(board.unsplash_image)
+        }else if(board?.unsplash_image){
+            setImageUrl(board?.unsplash_image)
         }else{
-            document.body.style.backgroundColor = board.color
+            document.body.style.backgroundColor = board?.color
         }
     }
 
@@ -157,7 +157,7 @@ function Post() {
 
     const adjustTextareaHeight = (textarea) => {
         textarea.style.height = 'auto';
-        textarea.style.height = `${textarea.scrollHeight}px`;
+        textarea.style.height = `${textarea?.scrollHeight}px`;
     };
 
     return (
@@ -198,7 +198,7 @@ function Post() {
 
                 <div className="header-buttons space-x-1 flex items-end"> 
                     
-                    <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
+                    <Link onClick={navigationToPage} href={`/boards/${boardId ?? router?.query.id}/post/create`} 
                         className='add-a-post-button '>
                         {isNavigating ? <span className="loading loading-dots loading-md text-[#FF9669]"></span>
                             : 
@@ -245,7 +245,7 @@ function Post() {
                             </form>
                             <h3 className="text-xl text-black">Share {recipient}'s board | {title} </h3>
                             <div className="mt-5 flex items-center justify-center space-x-3" >
-                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={() => copyLink(boardId)}>
+                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={() => {copyLink(boardId); document.getElementById('share-board').close()}}>
                                     <IoLinkOutline className='text-[22px]' />
                                     <button className="text-[16px] mt-2 text-black" >Copy link</button>
                                 </motion.div>
@@ -305,17 +305,17 @@ function Post() {
                                 
                     <div className="posts-section flex items-center justify-center" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
 
-                        {posts.length > 0 ? 
+                        {posts?.length > 0 ? 
 
                             <div className="board-posts grid grid-cols-12 py-2 place-items-start" >
-                                {posts.map((post,index) => {
+                                {posts?.map((post,index) => {
                                 
-                                const formattedImage = post.image ? Buffer.from(post.image.data) : null
+                                const formattedImage = post?.image ? Buffer.from(post?.image?.data) : null
                                                             
                                 return (
-                                        <div key={post._id} className="user-posts"  >
+                                        <div key={post?._id} className="user-posts"  >
                                             {
-                                                formattedImage || post.giphy || post.video || post.unsplashImage ? 
+                                                formattedImage || post?.giphy || post?.video || post?.unsplashImage ? 
                                             
                                                 <div>
                                                     
@@ -328,36 +328,36 @@ function Post() {
                                                                     src={`${process.env.basePath}/images/${formattedImage}`} 
                                                                     alt="Post image" width={0} height={0}/>
                                                             
-                                                            : post.giphy ?
+                                                            : post?.giphy ?
 
                                                                 <img 
                                                                     fetchPriority="high" 
                                                                     className='post-gif rounded-t-lg' 
-                                                                    src={post.giphy} alt="GIF" /> 
+                                                                    src={post?.giphy} alt="GIF" /> 
                                                             
-                                                            : post.unsplashImage ?
+                                                            : post?.unsplashImage ?
 
                                                                 <Image 
                                                                     sizes='(max-width: 200px) 100vw, 33vw' 
                                                                     fetchPriority="high" 
                                                                     className='object-cover rounded-t-lg unsplash-image' 
-                                                                    src={post.unsplashImage} alt="unsplashImage" width={0} height={0}/>
+                                                                    src={post?.unsplashImage} alt="unsplashImage" width={0} height={0}/>
                                                             : 
-                                                                <iframe className='youtube-video rounded-t-lg' src={post.video} ></iframe>
+                                                                <iframe className='youtube-video rounded-t-lg' src={post?.video} ></iframe>
                                                         }
                                                     </div>
 
                                                     <div className="message py-3">
-                                                        <p className='text-lg sm:text-xl mx-5 text-white'>{post.message}</p>
-                                                        <p className='text-sm flex pe-4 flex-1 items-end justify-end mt-5 text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                                                        <p className='text-lg sm:text-xl mx-5 text-white'>{post?.message}</p>
+                                                        <p className='text-sm flex pe-4 flex-1 items-end justify-end mt-5 text-white'>{post?.creator ? `Added by ${post?.creator}` : "Anonymous"}</p>
                                                     </div>
                                                 </div>
                                                 
                                                 : 
                                                 
                                                 <div className="ps-4 px-3 py-6 bg-[#2a9d8f] rounded-lg shadow-md">
-                                                    <p className='text-md sm:text-lg text-white'>{post.message}</p>
-                                                    <p className='text-sm flex flex-1 items-end justify-end mt-4  text-white'>{post.creator ? `Added by ${post.creator}` : "Anonymous"}</p>
+                                                    <p className='text-md sm:text-lg text-white'>{post?.message}</p>
+                                                    <p className='text-sm flex flex-1 items-end justify-end mt-4  text-white'>{post?.creator ? `Added by ${post?.creator}` : "Anonymous"}</p>
                                                 </div>
 
                                             }
@@ -374,7 +374,7 @@ function Post() {
                                     <div className="mt-5">
                                         <h3 className="font-bold text-lg sm:text-2xl px-3">Welcome to the praise board of</h3>
                                         <p className="font-semibold mt-1 text-lg sm:text-xl capitalize">{recipient}</p>
-                                        <Link onClick={navigationToPage} href={`/boards/${boardId ?? router.query.id}/post/create`} 
+                                        <Link onClick={navigationToPage} href={`/boards/${boardId ?? router?.query?.id}/post/create`} 
                                             className='add-your-post-cta'>
                                             
                                             {isNavigating ? 

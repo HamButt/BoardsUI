@@ -1,3 +1,4 @@
+'use client'
 import axios from 'axios';
 import React, { useState } from 'react'
 import { ColorPicker, useColor } from "react-color-palette";
@@ -27,7 +28,7 @@ function BackgroundColorTab({setImageUrl, boardId, setUploadedImage, setOpenNav,
       }
       try {
         const res = await axios.post(`${process.env.basePath}/boards/updateBackground`, formData )
-        if(res.status === 200){
+        if(res?.status === 200){
               setAnimateModal(true)
               setOpenNav(false)
         }
@@ -39,29 +40,26 @@ function BackgroundColorTab({setImageUrl, boardId, setUploadedImage, setOpenNav,
              
     }
 
-
   return (
 
     <div data-offset='0' data-aos="fade-right"  data-aos-easing="ease-in-back" data-aos-duration="300">
-        <h1 className='text-black text-lg text-center'>Select your background color</h1>
+      <h1 className='text-black text-lg text-center'>Select your background color</h1>
         
-        <div className='mt-2'>
+      <div className='mt-2'>
             <ColorPicker hideInput={["rgb", "hsv"]} color={color} onChange={setColor} />
-        </div>
+      </div>
         
         
-        <div className="flex items-center justify-center space-x-4">
-            <motion.button whileTap={{scale:0.9}}  className={`border ${borderColor} p-3 rounded-md text-sm font-semibold text-gray-600 mt-3`} onClick={changeBackground}>
-            { loading ? 
-
-              <div className='flex items-center'>
-                <Loader color="#FF9669" size="xs" margin="2" text="Saving..."/>
-              </div>
-
+      <div className="flex items-center justify-center space-x-4">
+        <motion.button whileTap={{scale:0.9}}  className={`border ${borderColor} p-3 rounded-md text-sm font-semibold text-gray-600 mt-3`} onClick={changeBackground}>
+          { loading ? 
+            <div className='flex items-center'>
+              <Loader color="#FF9669" size="xs" margin="2" text="Saving..."/>
+            </div>
               : "Apply changes"
-              }
-             </motion.button>
-        </div>
+          }
+        </motion.button>
+      </div>
     </div>
 
   )

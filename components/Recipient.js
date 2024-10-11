@@ -31,7 +31,7 @@ function Recipient({increaseStep,decrementStep,boardData, setBoardData}) {
 
 
     useEffect(() => {
-        setRecipient(boardData.recipient_name)
+        setRecipient(boardData?.recipient_name)
     }, [])
 
     const handleKeyDown = (e) => {

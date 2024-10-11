@@ -35,7 +35,7 @@ function Favorites() {
         try {
             const userId = localStorage.getItem('userId')
             const response = await axios.get(`${process.env.basePath}/favorites/${userId}`)
-            setBoards(response.data.favoriteBoards)
+            setBoards(response?.data?.favoriteBoards)
             setLoading(false)
         } catch (error) {
             console.error(error)
@@ -85,7 +85,7 @@ function Favorites() {
             const userId = localStorage.getItem('userId')
             const response = await GetDashboardBoardsApi(userId, setLoading)
             const boards = response?.data?.boards || [];
-            boards.length >= 3 ? setIsLimitReached(true) : setIsLimitReached(false)
+            boards?.length >= 3 ? setIsLimitReached(true) : setIsLimitReached(false)
         setLoading(false)
     }
 
@@ -127,17 +127,17 @@ function Favorites() {
         <div className={`all-boards ${boards.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
                 
                 <div className="boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px]" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                    {boards.length ? <h1 className='text-2xl'>All Favorite Boards</h1> : ""}
-                    {boards.length > 0 ? boards.map((board,index)=> {
+                    {boards?.length ? <h1 className='text-2xl'>All Favorite Boards</h1> : ""}
+                    {boards?.length > 0 ? boards?.map((board,index)=> {
                         
-                        const formattedImage = board.uploaded_image ? Buffer.from(board.uploaded_image) : null
-                        const date = new Date(board.created_at);
+                        const formattedImage = board?.uploaded_image ? Buffer.from(board?.uploaded_image) : null
+                        const date = new Date(board?.created_at);
                         const options = { year: 'numeric', month: 'long', day: 'numeric' };
                         const boardCreationDate = date.toLocaleDateString('en-US', options);
                         
                         return (
                         
-                            <div  className="board border transition-all board mt-3 rounded-lg flex items-start w-full py-4 px-3" key={board._id}>
+                            <div  className="board border transition-all board mt-3 rounded-lg flex items-start w-full py-4 px-3" key={board?._id}>
                                 
                                 <div className="board_image" >
                                 {
@@ -145,8 +145,8 @@ function Favorites() {
                                     <img className='border rounded mt-1 w-[180px] h-[160px]' 
                                         src={`${process.env.basePath}/images/${formattedImage}`}
                                         alt='board'/>
-                                    :  board.unsplash_image ? <Image className='border rounded mt-1 w-[180px] h-[160px]' src={board.unsplash_image} alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
-                                    : <div style={{backgroundColor: board.color}} className={`border rounded mt-1 w-[180px] h-[160px]`} ></div>
+                                    :  board?.unsplash_image ? <Image className='border rounded mt-1 w-[180px] h-[160px]' src={board?.unsplash_image} alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
+                                    : <div style={{backgroundColor: board?.color}} className={`border rounded mt-1 w-[180px] h-[160px]`} ></div>
                                 }
                                 </div>
 
@@ -154,15 +154,15 @@ function Favorites() {
                                     
                                     <div className="details">
                                         <div className="flex">
-                                            <p className='text-xl text-black' >{board.title}</p>
+                                            <p className='text-xl text-black' >{board?.title}</p>
                                         </div>
                                         <div className='mt-2 flex items-center'>
                                             <p className='text-gray-400 text-sm font-light' >For</p>
-                                            <p className='ms-4 text-black' >{board.recipient}</p>
+                                            <p className='ms-4 text-black' >{board?.recipient}</p>
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Creator</p>
-                                            <p className='ms-8 text-black' >{board.creator_name}</p>
+                                            <p className='ms-8 text-black' >{board?.creator_name}</p>
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Created</p>
@@ -170,18 +170,18 @@ function Favorites() {
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Posts</p>
-                                            <p className='ms-12 text-black' >{board.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
+                                            <p className='ms-12 text-black' >{board?.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board?._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Last post</p>
-                                            <p className='ms-6 text-black' >{board.last_post_created_at ? format(board.last_post_created_at) : "No post created"}</p>
+                                            <p className='ms-6 text-black' >{board?.last_post_created_at ? format(board?.last_post_created_at) : "No post created"}</p>
                                         </div>
                                     
                                     </div>
 
                                     <div className='flex items-center space-x-1'>
                                         <Link className='text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
-                                        href={`/boards/${board._id}`} >View board</Link>
+                                        href={`/boards/${board?._id}`} >View board</Link>
 
                                         <Dropdown className='-mt-[2px]'>
                                             <DropdownTrigger>
@@ -191,13 +191,13 @@ function Favorites() {
                                             </DropdownTrigger>
                                             <DropdownMenu variant="faded" aria-label="Static Actions" className='py-2 border shadow-sm bg-white rounded-md'>
                                                 <DropdownItem textValue='Copy'>
-                                                    <div className='copy' onClick={() => copyLink(board._id)}>
+                                                    <div className='copy' onClick={() => copyLink(board?._id)}>
                                                         <MdContentCopy className="text-black share-button text-[17px] cursor-pointer"  />
                                                         <p className='text-sm font-semibold ps-3 text-black' >Copy board link</p>
                                                     </div>
                                                 </DropdownItem>
                                                 <DropdownItem textValue='Cookie'>
-                                                        <div className='delete' onClick={()=>{setBoardIdToRemove(board._id);document.getElementById('delete_modal_in_favorites_for_big_screens').showModal()}}>
+                                                        <div className='delete' onClick={()=>{setBoardIdToRemove(board?._id);document.getElementById('delete_modal_in_favorites_for_big_screens').showModal()}}>
                                                             <MdDeleteOutline className='text-2xl' />  
                                                             <p className='text-sm font-semibold ps-3 '>Remove from favorites</p>
                                                         </div>
@@ -244,17 +244,17 @@ function Favorites() {
                 </div>
 
                 <div className="boards w-[900px] sm:hidden mx-4" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                    {boards.length ? <h1 className='text-xl'>All Favorite Boards</h1> : ""}
-                    {boards.length > 0 ? boards.map((board,index)=> {
+                    {boards?.length ? <h1 className='text-xl'>All Favorite Boards</h1> : ""}
+                    {boards?.length > 0 ? boards?.map((board,index)=> {
                         
-                        const formattedImage = board.uploaded_image ? Buffer.from(board.uploaded_image) : null
-                        const date = new Date(board.created_at);
+                        const formattedImage = board?.uploaded_image ? Buffer.from(board?.uploaded_image) : null
+                        const date = new Date(board?.created_at);
                         const options = { year: 'numeric', month: 'long', day: 'numeric' };
                         const boardCreationDate = date.toLocaleDateString('en-US', options);
                         
                         return (
                         
-                            <div  className="board border transition-all board mt-3 rounded-lg w-full py-4 px-3" key={board._id}>
+                            <div  className="board border transition-all board mt-3 rounded-lg w-full py-4 px-3" key={board?._id}>
                                 
                                 <div className="board_image" >
                                 {
@@ -262,11 +262,11 @@ function Favorites() {
                                     <img className='border rounded w-full h-[250px] object-cover' 
                                         src={`${process.env.basePath}/images/${formattedImage}`} 
                                         alt='board' />
-                                    :  board.unsplash_image ? 
+                                    :  board?.unsplash_image ? 
                                         <Image className='border rounded  w-full h-[250px] object-cover' 
-                                            src={board.unsplash_image} 
+                                            src={board?.unsplash_image} 
                                             alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
-                                    : <div style={{backgroundColor: board.color}} className={`border rounded  w-full h-[250px] object-cover`} ></div>
+                                    : <div style={{backgroundColor: board?.color}} className={`border rounded  w-full h-[250px] object-cover`} ></div>
                                 }
                                 </div>
 
@@ -277,15 +277,15 @@ function Favorites() {
                                         <div className='details'>
 
                                             <div className="flex">
-                                                <p className='text-xl text-black' >{board.title}</p>
+                                                <p className='text-xl text-black' >{board?.title}</p>
                                             </div>
                                             <div className='mt-2 flex items-center'>
                                                 <p className='text-gray-400 text-sm font-light' >For</p>
-                                                <p className='ms-4 text-black' >{board.recipient}</p>
+                                                <p className='ms-4 text-black' >{board?.recipient}</p>
                                             </div>
                                             <div className='mt-1 flex items-center '>
                                                 <p className='text-gray-400 text-sm font-light' >Creator</p>
-                                                <p className='ms-8 text-black' >{board.creator_name}</p>
+                                                <p className='ms-8 text-black' >{board?.creator_name}</p>
                                             </div>
                                             <div className='mt-1 flex items-center '>
                                                 <p className='text-gray-400 text-sm font-light' >Created</p>
@@ -293,18 +293,18 @@ function Favorites() {
                                             </div>
                                             <div className='mt-1 flex items-center '>
                                                 <p className='text-gray-400 text-sm font-light' >Posts</p>
-                                                <p className='ms-12 text-black' >{board.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
+                                                <p className='ms-12 text-black' >{board?.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board?._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
                                             </div>
                                             <div className='mt-1 flex items-center '>
                                                 <p className='text-gray-400 text-sm font-light' >Last post</p>
-                                                <p className='ms-6 text-black' >{board.last_post_created_at ? format(board.last_post_created_at) : "No post created"}</p>
+                                                <p className='ms-6 text-black' >{board?.last_post_created_at ? format(board?.last_post_created_at) : "No post created"}</p>
                                             </div>
 
                                         </div>
                                         
                                         <div className=' flex items-center space-x-1'>
                                             <Link className='view-board-button-for-extra-small-in-user-dashboard text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
-                                            href={`/boards/${board._id}`} >View board</Link>
+                                            href={`/boards/${board?._id}`} >View board</Link>
 
                                             <Dropdown className='mb-1'>
                                                 <DropdownTrigger>
@@ -314,13 +314,13 @@ function Favorites() {
                                                 </DropdownTrigger>
                                                 <DropdownMenu variant="faded" aria-label="Static Actions" className='py-2 border shadow-sm bg-white rounded-md'>
                                                     <DropdownItem textValue='Copy'>
-                                                        <div className='copy' onClick={() => copyLink(board._id)}>
+                                                        <div className='copy' onClick={() => copyLink(board?._id)}>
                                                             <MdContentCopy className="text-black share-button text-[17px] cursor-pointer"  />
                                                             <p className='text-sm font-semibold ps-3 text-black' >Copy board link</p>
                                                         </div>
                                                     </DropdownItem>
                                                     <DropdownItem textValue='Delete'>
-                                                            <div className='delete' onClick={()=>{setBoardIdToRemove(board._id);document.getElementById('delete_modal_in_favorites_for_small_screens').showModal()}}>
+                                                            <div className='delete' onClick={()=>{setBoardIdToRemove(board?._id);document.getElementById('delete_modal_in_favorites_for_small_screens').showModal()}}>
                                                                 <MdDeleteOutline className='text-2xl' />  
                                                                 <p className='text-sm font-semibold ps-3 '>Remove from favorites</p>
                                                             </div>
@@ -349,7 +349,7 @@ function Favorites() {
 
                                     <div className='options-button-for-small-in-user-dashboard flex items-center space-x-1 mt-4 flex-1'>
                                         <Link className='text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
-                                        href={`/boards/${board._id}`} >View board</Link>
+                                        href={`/boards/${board?._id}`} >View board</Link>
                                     </div>
                                 </div>
                             </div>

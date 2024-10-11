@@ -8,7 +8,31 @@ import { Farewell, Easter, Love, Valentine, Wedding, Christmas,
         } from '../components/OccasionImages'
 
 
+const occasions = [
+    { name: "Independence Day", image: IndependenceDay, alt: "Independence Day" },
+    { name: "Eid ul Fitr", image: EidulFitr, alt: "Eid ul Fitr" },
+    { name: "Eid ul Adha", image: EidulAdha, alt: "Eid ul Adha" },
+    { name: "Thankyou", image: Thankyou, alt: "Thankyou" },
+    { name: "Retirement", image: Retirement, alt: "Retirement" },
+    { name: "Birthday and Celebrations", image: Birthday, alt: "Birthday" },
+    { name: "Welcome & Onboarding", image: Welcome, alt: "Welcome" },
+    { name: "Farewell", image: Farewell, alt: "Farewell" },
+    { name: "Love", image: Love, alt: "Love" },
+    { name: "Valentines Day", image: Valentine, alt: "Valentines Day" },
+    { name: "Wedding & Anniversary", image: Wedding, alt: "Wedding & Anniversary" },
+    { name: "Easter", image: Easter, alt: "Easter" },
+    { name: "Merry Christmas", image: Christmas, alt: "Christmas" },
+    { name: "Happy Fathers Day", image: Fathersday, alt: "Fathers Day" },
+    { name: "Happy Mothers Day", image: Mothersday, alt: "Mothers Day" },
+    { name: "Congratulations!", image: Congratulations, alt: "Congratulations" },
+    { name: "Graduation", image: Graduation, alt: "Graduation" },
+    { name: "New Baby", image: NewBaby, alt: "New Baby" },
+    { name: "New Year", image: NewYear, alt: "New Year" },
+];
+        
+
 function OccasionSelection({increaseStep, boardData,setBoardData}) {
+    
     const nextQuestion = (occasion) => {
         setBoardData(prevState => ({
             ...prevState,
@@ -32,125 +56,24 @@ function OccasionSelection({increaseStep, boardData,setBoardData}) {
         </div>
 
          <div data-offset='0' data-aos="fade-up" data-aos-easing="ease-in-back" data-aos-duration="1000">
-                <h1 id='occasion-heading' className='text-center text-3xl sm:text-4xl mt-6 text-white'>Select an Occasion</h1>
-                <div className=" flex items-start justify-center flex-wrap py-2">
-                    
-                    <div onClick={() => nextQuestion("Independence Day")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image  sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={IndependenceDay} alt="Thankyou" width={10} height={10} />
+            <h1 id='occasion-heading' className='text-center text-3xl sm:text-4xl mt-6 text-white'>Select an Occasion</h1>
+            <div className=" flex items-start justify-center flex-wrap py-2">
+                {occasions.map((occasion) => (
+                    <div key={occasion.name} onClick={() => nextQuestion(occasion.name)} className="option">
+                        <div className="rounded-tr-md rounded-tl-md overflow-hidden w-full h-full">
+                            <Image
+                            sizes="(max-width: 200px) 100vw, 33vw"
+                            className="occasion-img"
+                            src={occasion.image}
+                            alt={occasion.alt}
+                            width={10}
+                            height={10}
+                            />
                         </div>
-                        <p>Independence Day</p>
+                        <p>{occasion.name}</p>
                     </div>
-                    <div onClick={() => nextQuestion("Eid ul Fitr")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image  sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={EidulFitr} alt="Thankyou" width={10} height={10} />
-                        </div>
-                        <p>Eid ul Fitr</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Eid ul Adha")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image  sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={EidulAdha} alt="Thankyou" width={10} height={10} />
-                        </div>
-                        <p>Eid ul Adha</p>
-                    </div>
-
-                    <div onClick={() => nextQuestion("Thankyou")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image  sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Thankyou} alt="Thankyou" width={10} height={10} />
-                        </div>
-                        <p>Thankyou</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Retirement")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Retirement} alt="Retirement" width={10} height={10}/>
-                        </div>
-                        <p>Retirement</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Birthday and Celebrations")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Birthday} alt="Birthday" width={10} height={10}/>
-                        </div>
-                        <p>Birthdays</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Welcome & Onboarding")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Welcome} alt="Welcome" width={10} height={10} />
-                        </div>
-                        <p >Welcome</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Farewell")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Farewell} alt="Farewell" width={10} height={10} />
-                        </div>
-                        <p>Farewell</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Love")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Love} alt="Love" width={10} height={10} />
-                        </div>
-                        <p>Love</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Valentines Day")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Valentine} alt="Valentine" width={10} height={10} />
-                        </div>
-                        <p>Valentines</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Wedding & Anniversary")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Wedding} alt="Four" width={10} height={10} />
-                        </div>
-                        <p>Wedding & Anniversary</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Easter")} className="option ">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Easter} alt="Four" width={10} height={10} />
-                        </div>
-                        <p>Easter</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Merry Christmas")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Christmas} alt="Four" width={10} height={10} />
-                        </div>
-                        <p>Christmas</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Happy Fathers Day")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Fathersday} alt="Four" width={10} height={10} />
-                        </div>
-                        <p>Happy Fathers day</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Happy Mothers Day")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Mothersday} alt="Four" width={10} height={10} />
-                        </div>
-                        <p>Happy Mothers day</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Congratulations!")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Congratulations} alt="Four" width={10} height={10} />
-                        </div>
-                        <p>Congratulations</p>
-                    </div>
-                    <div onClick={() => nextQuestion("Graduation")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={Graduation} alt="Graduation" width={10} height={10} />
-                        </div>
-                        <p>Graduation</p>
-                    </div>
-                    <div onClick={() => nextQuestion("New Baby")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={NewBaby} alt="Four" width={10} height={10} />
-                        </div>
-                        <p>New Baby</p>
-                    </div>
-                    <div onClick={() => nextQuestion("New Year")} className="option">
-                        <div className='rounded-tr-md rounded-tl-md overflow-hidden w-full h-full'>
-                            <Image sizes='(max-width: 200px) 100vw, 33vw' className="occasion-img" src={NewYear} alt="NewYear" width={10} height={10} />
-                        </div>
-                        <p>New Year</p>
-                    </div>
-                </div>
+                ))}
+            </div>
         </div>
         
     </div>
