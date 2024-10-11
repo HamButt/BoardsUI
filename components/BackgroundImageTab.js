@@ -61,10 +61,10 @@ const fetchImages = async () => {
     setImagePage((imgPg) => imgPg + 1 )
     const response = await axios.get(process.env.unsplashUrl, { params: unsplashParams })
     const images = response?.data?.results || [] 
-    images.length > 0 ? setImageData(images) : setImageMessage(true)
+    images?.length > 0 ? setImageData(images) : setImageMessage(true)
     setFetching(false)
   } catch (error) {
-      toast.error(error.response.data)
+      toast.error(error?.response?.data)
   }
  }
 
@@ -87,7 +87,7 @@ const updateBackground = async () => {
             }
           })
 
-          if(res.status === 200){
+          if(res?.status === 200){
 
             setOpenNav(false)
             setSideComponent('color')
@@ -125,7 +125,7 @@ const uploadImage = async () => {
           "Content-Type": "multipart/form-data"
           }
         })
-        setUploadedImagePreview(`${process.env.basePath}/images/${res.data.uploadedImage}`)
+        setUploadedImagePreview(`${process.env.basePath}/images/${res?.data?.uploadedImage}`)
         setImageLoading(false)
     } catch (error) {
       console.error(error);
@@ -136,8 +136,8 @@ const deleteImage = async () => {
   setDeleteLoader(true)
   try {
     
-    const response = await axios.post(`${process.env.basePath}/boards/delete`, {image: image.name})
-    if(response.status === 200){
+    const response = await axios.post(`${process.env.basePath}/boards/delete`, {image: image?.name})
+    if(response?.status === 200){
       setDeleteLoader(false)
       setUploadedImagePreview("");
       setImagePreviewComponent(false);
@@ -247,20 +247,20 @@ useEffect(()=>{
                 {
                   imageSection && imageSearchValue &&
                       <div style={{maxHeight:"220px"}} className="unsplash-image-section">
-                        {imageData.length > 0 && <p className='text-sm text-black'>Select image and apply changes</p>}
+                        {imageData?.length > 0 && <p className='text-sm text-black'>Select image and apply changes</p>}
                       
-                          {imageSearchValue && imageData.length ?  
-                              imageData.map((img, index) => { 
+                          {imageSearchValue && imageData?.length ?  
+                              imageData?.map((img, index) => { 
                                   return(
                                       <div key={index} className='mx-1 mt-2 cursor-pointer' style={{width:"90px", height:"115px"}} 
-                                          onClick={() => handleBackground(img.urls.full)}>
-                                          <img style={{ border: img.urls.full === imageUrl ? "2px solid black" : "none"}}  
-                                            className={`unsplash-section-image`} src={img.urls.small} alt="IMAGE URL" />
+                                          onClick={() => handleBackground(img?.urls?.full)}>
+                                          <img style={{ border: img?.urls?.full === imageUrl ? "2px solid black" : "none"}}  
+                                            className={`unsplash-section-image`} src={img?.urls?.small} alt="IMAGE URL" />
                                       </div> 
                                   )})
                               : imageSearchValue && !imageData ? <div className='mt-2 font-semibold text-sm'>Searching...</div> 
                               : <div className='mt-2 font-semibold text-sm' >No images found for "{imageSearchValue}"</div>}
-                              {imageData.length > 0 &&
+                              {imageData?.length > 0 &&
                                 <motion.button disabled={isFetching ? true : false} whileTap={{ scale: 0.9 }} onClick={fetchImages} 
                                 className='unsplash-load-more-button'>{isFetching ? "Loading..." : "Load more"}</motion.button>}
                       </div>

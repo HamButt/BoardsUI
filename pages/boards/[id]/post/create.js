@@ -112,10 +112,10 @@ function CreatePost() {
         setImagePage((imgPg) => imgPg + 1 )
         try {
             const response = await axios.get(process.env.unsplashUrl, { params: unsplashParams  })
-            setImageData(response.data.results)
+            setImageData(response?.data?.results)
             setFetching(false)
         } catch (error) {
-            setError(error.response.data.errors[0])
+            setError(error?.response?.data?.errors[0])
             setFetching(false)
         }
     }
@@ -165,7 +165,7 @@ function CreatePost() {
         } catch (error) {
             console.log(err)
             if(err.response.status === 403){
-                setOpenErrorModal(err.response.data.message)
+                setOpenErrorModal(err?.response?.data?.message)
                 setIsLoading(false)
             }
         }
@@ -183,9 +183,9 @@ function CreatePost() {
         const selectImage = document.getElementsByClassName('upload-image')[0]
         const selectGif = document.getElementsByClassName('upload-gif')[0]
         if(selectImage){
-            selectImage.textContent = `Image saved - (${image.name})`
+            selectImage.textContent = `Image saved - (${image?.name})`
         }else if(selectGif){
-            selectGif.textContent = `GIF saved - (${image.name})`
+            selectGif.textContent = `GIF saved - (${image?.name})`
         }
 
         const board_id = window.location.pathname.split('/')[2]
@@ -193,7 +193,7 @@ function CreatePost() {
 
         axios.get(`${process.env.basePath}/boards/${board_id}`)
         .then((res) => {
-            setTitle(res.data.board.occasion)
+            setTitle(res?.data?.board?.occasion)
         }).catch((err) => {
             console.log(err);
         })
@@ -352,7 +352,7 @@ function CreatePost() {
                         
                         }
 
-                        {!imageData.length > 0 && error && <Error error={error} /> }
+                        {!imageData?.length > 0 && error && <Error error={error} /> }
 
 
                         {

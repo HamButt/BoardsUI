@@ -31,7 +31,7 @@ function From({increaseStep, decrementStep, boardData, setBoardData}) {
     };
 
     useEffect(() => {
-        setCreatorName(boardData.creator_name);
+        setCreatorName(boardData?.creator_name);
       }, [])
 
       const handleKeyDown = (e) => {
