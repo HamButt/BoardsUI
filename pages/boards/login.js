@@ -9,6 +9,7 @@ import { Toaster,toast } from 'sonner';
 import Loader from '@/components/Loader'
 import {EmailLogin} from '../../apis/EmailLoginApi'
 
+
 function Login() {
     
     const [email,setEmail] = useState(null)
@@ -25,13 +26,13 @@ function Login() {
     const handleEmail = async () => {
         setIsLoading(true)
         const res = await EmailLogin(email)
-        if(res.status === 200){
+        if(res?.status === 200){
             toast.success('Email sent, check your inbox'); 
             setError("")
             setIsLoading(false)
         }else{
             setIsLoading(false)
-            setError(res.response.data.error)
+            setError(res?.response?.data?.error)
         }
     }
 

@@ -7,8 +7,8 @@ function Token() {
   const router = useRouter()
 
   useEffect(()=>{
-      const token = router.asPath.split('?')[1].split('=')[1];
-      const userId = router.asPath.split('?')[2].split('=')[1];
+      const token = router?.asPath?.split('?')[1]?.split('=')[1];
+      const userId = router?.asPath?.split('?')[2]?.split('=')[1];
       Cookie.set("token", token)
       localStorage.setItem('userId', userId)
       router.push('/boards/user/dashboard')

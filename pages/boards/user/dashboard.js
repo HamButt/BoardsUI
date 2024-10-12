@@ -144,9 +144,8 @@ function Dashboard() {
                         
                         <Link style={{color: isLimitReached ? 'black' : 'white'}}
                             className={`btn max-sm:hidden sm:btn-md rounded-md text-2xl sm:text-lg font-medium hover:bg-[#34bdad] border-none shadow-none
-                            ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
-                            ${isLimitReached ? 'pointer-events-none' : ''}`} 
-                            href='/boards/create'>{isLimitReached ? "Limit exceeded"  : "New board"} <FaPlus/></Link>
+                            ${isLimitReached ? "bg-gray-100 pointer-events-none" : "bg-[#2a9d8f]"} `} 
+                            href='/boards/create'>{isLimitReached ? "Limit exceeded"  : <span className="flex items-center" >New board <FaPlus className="text-[15px] ms-1 font-semibold" /> </span>} </Link>
                         
                         {/* FOR SMALL SCREENS */}
 

@@ -26,6 +26,7 @@ function Post() {
     const [imageUrl,setImageUrl] = useState(null)
     const [uploadedImage,setUploadedImage] = useState(null)
     const [boardId,setBoardId] = useState('')
+    const [publicBoardId,setPublicBoardId] = useState('')
     const [posts,setPosts] = useState([])
     const [userCookie,setUserCookie] = useState('')
     const [recipient,setRecipient] = useState('')
@@ -58,6 +59,8 @@ function Post() {
     const fetchBoard = async (boardId) => {
         const res = await GetBoardApi(boardId)
         const board = res?.data?.board
+        setPublicBoardId(board?.publicBoardId)
+        
         const capitilizeTitle = capitalizeTitle(board?.title)
         setTitle(capitilizeTitle)
         setRecipient(board?.recipient)
@@ -72,8 +75,8 @@ function Post() {
     }
 
     function capitalizeTitle(str) {
-        const firstChar = str.charAt(0).toUpperCase();
-        const restOfString = str.slice(1);
+        const firstChar = str?.charAt(0).toUpperCase();
+        const restOfString = str?.slice(1);
         return firstChar + restOfString;
     }
     
@@ -94,7 +97,7 @@ function Post() {
         }
 
         const timer = setTimeout(() => {
-            updateTitle()
+                boardId && updateTitle()
         }, 3000);
     
         return () => clearTimeout(timer);
@@ -103,7 +106,7 @@ function Post() {
     const updateTitle = async () => {
         try {
             const res = await UpdateTitleApi(title,boardId)
-            if (res.status === 200) {
+            if (res?.status === 200) {
                 setTitle(title);
             }
         } catch (error) {
@@ -114,7 +117,7 @@ function Post() {
     const deleteBoard = async () => {
         setIsLoading(true)
             const res = await DeleteBoardApi(boardId)
-            if(res.status === 200){
+            if(res?.status === 200){
                 localStorage.removeItem('title')
                 localStorage.removeItem('modal')
                 navigateUserTo404()
@@ -198,7 +201,7 @@ function Post() {
 
                 <div className="header-buttons space-x-1 flex items-end"> 
                     
-                    <Link onClick={navigationToPage} href={`/boards/${boardId ?? router?.query.id}/post/create`} 
+                    <Link onClick={navigationToPage} href={`/boards/${boardId ?? router?.query?.id}/post/create`} 
                         className='add-a-post-button '>
                         {isNavigating ? <span className="loading loading-dots loading-md text-[#FF9669]"></span>
                             : 
@@ -245,7 +248,7 @@ function Post() {
                             </form>
                             <h3 className="text-xl text-black">Share {recipient}'s board | {title} </h3>
                             <div className="mt-5 flex items-center justify-center space-x-3" >
-                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={() => {copyLink(boardId); document.getElementById('share-board').close()}}>
+                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={() => {copyLink(publicBoardId); document.getElementById('share-board').close()}}>
                                     <IoLinkOutline className='text-[22px]' />
                                     <button className="text-[16px] mt-2 text-black" >Copy link</button>
                                 </motion.div>
