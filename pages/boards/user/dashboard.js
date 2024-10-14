@@ -217,7 +217,7 @@ function Dashboard() {
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Created</p>
-                                            <p className='ms-7 text-black' >{board?.CreationDate}</p>
+                                            <p className='ms-7 text-black' >{boardCreationDate}</p>
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Posts</p>

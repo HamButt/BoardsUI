@@ -26,7 +26,6 @@ function Post() {
     const [imageUrl,setImageUrl] = useState(null)
     const [uploadedImage,setUploadedImage] = useState(null)
     const [boardId,setBoardId] = useState('')
-    const [publicBoardId,setPublicBoardId] = useState('')
     const [posts,setPosts] = useState([])
     const [userCookie,setUserCookie] = useState('')
     const [recipient,setRecipient] = useState('')
@@ -59,7 +58,6 @@ function Post() {
     const fetchBoard = async (boardId) => {
         const res = await GetBoardApi(boardId)
         const board = res?.data?.board
-        setPublicBoardId(board?.publicBoardId)
         
         const capitilizeTitle = capitalizeTitle(board?.title)
         setTitle(capitilizeTitle)
@@ -85,9 +83,10 @@ function Post() {
         const board_id = window.location.pathname.split('/').reverse()[0]
         setUserCookie(cookie)
         setBoardId(board_id)
-        
+
         fetchBoard(board_id)
         fetchPosts(board_id)
+        
     }, [])
     
     
@@ -248,7 +247,7 @@ function Post() {
                             </form>
                             <h3 className="text-xl text-black">Share {recipient}'s board | {title} </h3>
                             <div className="mt-5 flex items-center justify-center space-x-3" >
-                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={() => {copyLink(publicBoardId); document.getElementById('share-board').close()}}>
+                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={() => {copyLink(boardId); document.getElementById('share-board').close()}}>
                                     <IoLinkOutline className='text-[22px]' />
                                     <button className="text-[16px] mt-2 text-black" >Copy link</button>
                                 </motion.div>

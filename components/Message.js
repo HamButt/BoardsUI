@@ -59,7 +59,6 @@ function Message({decrementStep, boardData, setBoardData}) {
                 spread: 50,
                 origin: { y: 0.7 }
             })
-                setIsLoading(false)
             }else{
                 handleError(res)
             }
