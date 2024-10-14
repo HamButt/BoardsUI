@@ -153,15 +153,14 @@ function CreatePost() {
                  headers:{
                      "Content-Type": "multipart/form-data"
              }})
-                 if(res?.status === 200){
+                if(res?.status === 200){
                     confetti({
                          particleCount: 200,
                          spread: 50,
                          origin: { y: 0.7 }
-                     })
+                    })
                     router.push(`/boards/${boardId}`)
-                    setIsLoading(false);
-                 }
+                }
         } catch (error) {
             if(error?.response?.status === 403){
                 setOpenErrorModal(error?.response?.data?.message)

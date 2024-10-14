@@ -59,16 +59,17 @@ function Post() {
         const res = await GetBoardApi(boardId)
         const board = res?.data?.board
         
-        const capitilizeTitle = capitalizeTitle(board?.title)
+        
+        const capitilizeTitle = capitalizeTitle(board[0]?.title)
         setTitle(capitilizeTitle)
-        setRecipient(board?.recipient)
-        if(board?.uploaded_image){
-            const boardImage = Buffer.from(board?.uploaded_image?.data)
+        setRecipient(board[0]?.recipient)
+        if(board[0]?.uploaded_image){
+            const boardImage = Buffer.from(board[0]?.uploaded_image?.data)
             setUploadedImage(`${process.env.basePath}/images/${boardImage}`)
-        }else if(board?.unsplash_image){
-            setImageUrl(board?.unsplash_image)
+        }else if(board[0]?.unsplash_image){
+            setImageUrl(board[0]?.unsplash_image)
         }else{
-            document.body.style.backgroundColor = board?.color
+            document.body.style.backgroundColor = board[0]?.color
         }
     }
 
@@ -115,13 +116,13 @@ function Post() {
 
     const deleteBoard = async () => {
         setIsLoading(true)
-            const res = await DeleteBoardApi(boardId)
-            if(res?.status === 200){
-                localStorage.removeItem('title')
-                localStorage.removeItem('modal')
-                navigateUserTo404()
-                setIsLoading(false)
-            }
+        const res = await DeleteBoardApi(boardId)
+        if(res?.status === 200){
+            localStorage.removeItem('title')
+            localStorage.removeItem('modal')
+            navigateUserTo404()
+        }
+        setIsLoading(false)
     }
 
     const navigateUserTo404 = () => {
