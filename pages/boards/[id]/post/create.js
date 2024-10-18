@@ -31,6 +31,8 @@ function CreatePost() {
     const [videoLink, setVideoLink] = useState('');
     const [gifSearchValue, setGifSearchValue] = useState('');
     const [imageSearchValue, setImageSearchValue] = useState('');
+    const [uploadImagePreview, setUploadImagePreview] = useState('');
+    const [uploadGifPreview, setUploadGIfPreview] = useState('');
     const [debounceTimerForImage, setDebounceTimerForImage] = useState(0);
     const [debounceTimerForGIf, setDebounceTimerForGIf] = useState(0);
     const [imagePage, setImagePage] = useState(1);
@@ -47,7 +49,7 @@ function CreatePost() {
     
     useEffect(()=>{
         
-        if(gifSearchValue){
+        if(gifSearchValue && !gif){
             setGifSection(true)
             clearTimeout(debounceTimerForGIf);
             const newDebounceTimer = setTimeout(() => {
@@ -79,7 +81,7 @@ function CreatePost() {
     }
 
     useEffect(()=>{
-        if(imageSearchValue){
+        if(imageSearchValue  && !splashImage){
             setImageSection(true)
             clearTimeout(debounceTimerForImage);
             const newDebounceTimer = setTimeout(() => {
@@ -169,33 +171,48 @@ function CreatePost() {
         }
     }
 
-    const handleUploadFiles = (e) => {
+    const handleUploadImages = (e) => {
         const file = e.target.files[0];
         if (file) {
-          setImage(file);
+            const imageUrl = URL.createObjectURL(file)
+            setUploadImagePreview(imageUrl)
+            setImage(file);
+        }
+      };
+
+    const handleUploadGifs = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const gifUrl = URL.createObjectURL(file)
+            setUploadGIfPreview(gifUrl)
+            setImage(file);
         }
       };
 
     useEffect(()=>{
         
-        const selectImage = document.getElementsByClassName('upload-image')[0]
-        const selectGif = document.getElementsByClassName('upload-gif')[0]
+        const selectImage = document.getElementsByClassName('upload-image-section')[0]
+        const selectGif = document.getElementsByClassName('upload-gif-section')[0]
         if(selectImage){
             selectImage.textContent = `Image saved - (${image?.name})`
         }else if(selectGif){
             selectGif.textContent = `GIF saved - (${image?.name})`
         }
 
+    }, [image])
+    
+    
+    useEffect(()=>{
         const board_id = window.location.pathname.split('/')[2]
         setBoardId(board_id)
 
         axios.get(`${process.env.basePath}/boards/${board_id}`)
         .then((res) => {
-            setTitle(res?.data?.board?.occasion)
+            setTitle(res?.data?.board[0]?.occasion)
         }).catch((err) => {
             console.log(err);
         })
-    }, [image])
+    }, [])
 
   return (
 
@@ -242,10 +259,17 @@ function CreatePost() {
                                             <MdDriveFolderUpload className='text-xl text-indigo-600' />
                                             <p className='text-sm font-semibold ps-3' 
                                                 onClick={() => {
-                                                    setImageComponent('upload'); setImageSection(false); 
-                                                    setGIFComponent("");  setVideoComponent(false); 
-                                                    setGifSection(false); setGif(false); 
-                                                    setVideoInputHandling(false);setGifData("")}} >Upload image</p>
+                                                    setImageComponent('upload'); 
+                                                    setImageSection(false); 
+                                                    setGIFComponent("");  
+                                                    setVideoComponent(false); 
+                                                    setGifSection(false); 
+                                                    setGif(false); 
+                                                    setVideoInputHandling(false);
+                                                    setGifData(""); 
+                                                    setSplashImage(null);
+                                                    setUploadGIfPreview(null)
+                                                }} >Upload image</p>
                                         </div>
                                     </DropdownItem>
                                     <DropdownItem textValue='Search'>
@@ -253,10 +277,16 @@ function CreatePost() {
                                             <RiStackFill className='text-xl text-indigo-600' />
                                             <p className='text-sm font-semibold ps-3' 
                                                 onClick={() => { 
-                                                    setImageComponent('search'); setGIFComponent("");
-                                                    setVideoComponent(false); setGifSection(false);
-                                                    setGif(false); setVideoInputHandling(false);
-                                                    setGifData("")}}>Search with unsplash</p>
+                                                    setImageComponent('search'); 
+                                                    setGIFComponent("");
+                                                    setVideoComponent(false); 
+                                                    setGifSection(false);
+                                                    setGif(false); 
+                                                    setVideoInputHandling(false);
+                                                    setUploadGIfPreview(null);
+                                                    setGifData(""); 
+                                                    setUploadImagePreview('')
+                                                }}>Search with unsplash</p>
                                         </div>
                                     </DropdownItem>
                                 </DropdownMenu>
@@ -276,10 +306,17 @@ function CreatePost() {
                                             <MdDriveFolderUpload className='text-xl text-pink-600' />
                                             <p className='text-sm font-semibold ps-3' 
                                                 onClick={() => {
-                                                    setGIFComponent('upload'); setImageComponent("");
-                                                    setImageSection(false);  setVideoComponent(false);
-                                                    setGifSection(false); setGif(false); 
-                                                    setVideoInputHandling(false); setImageData("")}} >Upload GIF</p>
+                                                    setGIFComponent('upload'); 
+                                                    setImageComponent("");
+                                                    setImageSection(false);  
+                                                    setVideoComponent(false);
+                                                    setGifSection(false); 
+                                                    setGif(false); 
+                                                    setSplashImage(null);
+                                                    setUploadImagePreview('');
+                                                    setVideoInputHandling(false); 
+                                                    setImageData("")
+                                                }} >Upload GIF</p>
                                         </div>
                                     </DropdownItem>
                                     <DropdownItem textValue='Search'>
@@ -287,18 +324,37 @@ function CreatePost() {
                                             <RiStackFill className='text-xl text-pink-600' />
                                             <p className='text-sm font-semibold ps-3' 
                                                 onClick={() => {
-                                                    setGIFComponent('search'); setImageComponent("");
-                                                    setImageSection(false); setVideoComponent(false); 
-                                                    setGifSection(false); setGif(false); setVideoInputHandling(false);
-                                                    setImageData("")}}>Search with giphy</p>
+                                                    setGIFComponent('search'); 
+                                                    setImageComponent("");
+                                                    setImageSection(false); 
+                                                    setVideoComponent(false); 
+                                                    setSplashImage(null);
+                                                    setGifSection(false); 
+                                                    setGif(false); 
+                                                    setVideoInputHandling(false);
+                                                    setUploadImagePreview('');
+                                                    setImageData("")
+                                                }}>Search with giphy</p>
                                         </div>
                                     </DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                                 
-                            <Button onClick={() => { setGIFComponent("");setImageData("");setGifData(''); setImageComponent("");  
-                                setImageSection(false); setVideoComponent(!videoComponent); setGifSection(false); setGif(false);
-                                setVideoInputHandling(false)}} className="youtube-btn"> 
+                            <Button onClick={() => { 
+                                setGIFComponent("");
+                                setImageData("");
+                                setGifData('');
+                                setImageComponent("");
+                                setUploadImagePreview('');
+                                setUploadGIfPreview(null);
+                                setImageSection(false);
+                                setVideoComponent(!videoComponent);
+                                setGifSection(false);
+                                setGif(false);
+                                setVideoInputHandling(false); 
+                                setSplashImage(null)
+                                }} 
+                                className="youtube-btn"> 
                                 <FaYoutube  className='text-lg md:text-[16px] text-red-700' />
                                 <span className='text-sm md:text-[15px] ms-2 p-0'>Add a video</span> 
                             </Button>
@@ -312,7 +368,11 @@ function CreatePost() {
                             { 
 
                                 imageComponent === "upload" ?
-                                    <UploadImage handleUploadFiles={handleUploadFiles} />
+                                    <UploadImage 
+                                        handleUploadFiles={handleUploadImages} 
+                                        uploadImagePreview={uploadImagePreview} 
+                                        setUploadImagePreview={setUploadImagePreview}
+                                        />
                             : 
                             
                                 imageComponent === "search" ? 
@@ -355,7 +415,7 @@ function CreatePost() {
 
                         {
                             GIFCompnent === "upload" ? 
-                                <GifUpload handleUploadFiles={handleUploadFiles} />
+                                <GifUpload handleUploadFiles={handleUploadGifs} uploadGifPreview={uploadGifPreview} setUploadGIfPreview={setUploadGIfPreview}/>
                             : 
 
                             GIFCompnent === "search" ? 
@@ -404,9 +464,9 @@ function CreatePost() {
                             type="text" name='message' required placeholder='(Required) Add a message...' 
                             onChange={(e) => setMessage(e.target.value)}  >
                         </textarea>
-                        <motion.button whileTap={{scale: !message ? "1" : "0.9"}} disabled={!message ? true : false} onClick={createPost} 
-                            style={{backgroundColor: !message ? "rgb(189, 185, 185)" : "#2a9d8f"}}
-                            className={`create-post-btn`}>{isLoading ? "Creating..." : "Create post"}
+                        <motion.button whileTap={{scale: !message ? "1" : "0.9"}} disabled={!message || isLoading ? true : false} onClick={createPost} 
+                            style={{backgroundColor: !message || isLoading ? "rgb(189, 185, 185)" : "#2a9d8f"}}
+                            className={`create-post-btn ${isLoading ? 'bg-rgb(189, 185, 185) pointer-events-none' : 'bg-[#2a9d8f]'}`}>{isLoading ? "Creating..." : "Create post"}
                         </motion.button>
                     </div>
                     

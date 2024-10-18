@@ -150,10 +150,8 @@ function Dashboard() {
                         {/* FOR SMALL SCREENS */}
 
                         <Link style={{color: isLimitReached ? '#2a9d8f' : 'white'}}
-                            className={`btn sm:hidden btn-sm rounded-md font-medium 
-                            hover:bg-[#34bdad] 
-                            ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
-                            ${isLimitReached ? 'pointer-events-none' : ''}`} 
+                            className={`btn sm:hidden btn-sm rounded-md font-medium hover:bg-[#34bdad] 
+                            ${isLimitReached ? "bg-gray-100 pointer-events-none" : "bg-[#2a9d8f]"}`} 
                             href='/boards/create'>{isLimitReached ?  <ImBlocked className='text-black' /> : <FaPlus/>}</Link>
                     </>
             }
