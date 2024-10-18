@@ -7,6 +7,7 @@ import {MdArrowBackIos} from 'react-icons/md'
 import crypto from 'crypto'
 import { Toaster,toast } from 'sonner';
 import {CreateBoardApi} from '../apis/CreateBoardApi';
+
 function Message({decrementStep, boardData, setBoardData}) {
     const router = useRouter()
     const [percent,setPercent] = useState(75)
@@ -48,17 +49,16 @@ function Message({decrementStep, boardData, setBoardData}) {
             title: title,
             userId: userId
         }
-            const res = await CreateBoardApi(board, setIsLoading)
-            if(res.status === 200){
-                convertCookieIntoHash()
-                localStorage.setItem('boardId', res?.data?.board?._id)
-                router.push(`/boards/${res?.data?.board?._id}`)
-                confetti({
-                    particleCount: 200,
-                    spread: 50,
-                    origin: { y: 0.7 }
-                })
-                setIsLoading(false)
+        const res = await CreateBoardApi(board, setIsLoading)
+        if(res?.status === 200){
+            convertCookieIntoHash()
+            localStorage.setItem('boardId', res?.data?.board?._id)
+            router.push(`/boards/${res?.data?.board?._id}`)
+            confetti({
+                particleCount: 200,
+                spread: 50,
+                origin: { y: 0.7 }
+            })
             }else{
                 handleError(res)
             }

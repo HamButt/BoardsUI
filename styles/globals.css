@@ -272,7 +272,7 @@ html{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100%;
+    /* width: 100%; */
     margin-top: 15px;
     height: 150px;
     align-items: center;
@@ -300,7 +300,7 @@ html{
 }
 
 .option{
-    @apply w-72 h-80 mx-2 cursor-pointer mt-3 bg-white hover:bg-[#dadcdf] flex flex-col items-center justify-between shadow-md rounded-lg
+    @apply w-72 h-80 mx-2 cursor-pointer mt-3 hover:bg-white bg-[#dadcdf] flex flex-col items-center justify-between shadow-md rounded-lg
 }
 
 .option > p{

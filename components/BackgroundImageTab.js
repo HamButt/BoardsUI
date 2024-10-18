@@ -20,8 +20,6 @@ function BackgroundImageTab({setImageUrl, boardId, imageUrl, setUploadedImage, s
   const [loading, setLoading] = React.useState(false)
   const [uploadedImagePreview, setUploadedImagePreview] = useState("");
   const [previewImageComponent, setImagePreviewComponent] = useState(false)
-  const [imageLoading, setImageLoading] = useState(false)
-  const [deleteLoader, setDeleteLoader] = useState(false)
   const [imageMessage, setImageMessage] = useState(false)
   const [isFetching, setFetching] = useState(false)
   const borderColor = loading ? 'border-[#FF9669]' : 'border-gray-600';
@@ -108,48 +106,21 @@ const updateBackground = async () => {
 
 useEffect(() => {
 
-  image && uploadImage()
-  
-}, [image])
+    return () => {
+      URL.revokeObjectURL(uploadedImagePreview);
+    };
+}, [uploadedImagePreview])
 
 
-const uploadImage = async () => {
-    setImagePreviewComponent(true)
-    setImageLoading(true)
-    const formData = new FormData();
-    formData.append('uploaded_image', image)
-    try {
-      
-      const res = await axios.post(`${process.env.basePath}/boards/upload`, formData ,{
-        headers:{
-          "Content-Type": "multipart/form-data"
-          }
-        })
-        setUploadedImagePreview(`${process.env.basePath}/images/${res?.data?.uploadedImage}`)
-        setImageLoading(false)
-    } catch (error) {
-      console.error(error);
-    }
-}
 
-const deleteImage = async () => {
-  setDeleteLoader(true)
-  try {
-    
-    const response = await axios.post(`${process.env.basePath}/boards/delete`, {image: image?.name})
-    if(response?.status === 200){
-      setDeleteLoader(false)
-      setUploadedImagePreview("");
-      setImagePreviewComponent(false);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
 
 const handleUploadFiles = (e) => {
+  setImagePreviewComponent(true)
   const file = e.target.files[0];
+
   if (file) {
+    const PreviewimageUrl = URL.createObjectURL(file);
+    setUploadedImagePreview(PreviewimageUrl)
     setImage(file);
   }
 };
@@ -175,22 +146,12 @@ useEffect(()=>{
                   
                       <div className="mt-3 h-full">
                           <p className='text-center text-lg font-semibold text-black'>Preview your image</p>
-                          
-                          { imageLoading ? 
-                          
-                              <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
-                                <Loader color="#FF9669" size="md" text="Loading preview" margin="2" font="md" />
-                              </div>
-                              : 
-                              <>
-                                <button onClick={() => {deleteImage()}} className='bg-black relative top-9 left-2 p-1 rounded-lg'>
-                                    <MdDelete className=' text-white text-lg hover:text-gray-400'/>
-                                </button>
-                                <Image src={uploadedImagePreview} className='rounded-lg' alt='Your image' width={300} height={300} /> 
-                              </>
-                            }
+                          <button className='bg-black relative top-9 left-2 p-1 rounded-lg' onClick={() => {setImagePreviewComponent(false)}}>
+                              <MdDelete className=' text-white text-lg hover:text-gray-400'/>
+                          </button>
+                          <Image src={uploadedImagePreview} className='rounded-lg' alt='Your image' width={300} height={300} /> 
                       </div>
-                      : !previewImageComponent ?
+                      : 
                       <>
                           <p className='font-light text-md text-black mt-2 text-center'>Please upload image that are appropriate for all audiences. We reserve the right to remove content without notice!</p>
                           <label htmlFor="file" className="labelFile border-2 border-gray-300 rounded-lg px-4 "><span><BsCloudUpload className="text-2xl" /></span>
@@ -202,14 +163,6 @@ useEffect(()=>{
                           <input accept='.png,.jpg,.jpeg' className="upload-input" name="uploaded_image" id="file" type="file" onChange={handleUploadFiles} />
                       </>
                       
-                      : deleteLoader ?  
-                      
-                          <div className='flex items-end justify-center mt-10 py-20 flex-1 ' >
-                              <Loader color="#FF9669" size="md" />
-                              <span className='text-md ms-2 text-[#FF9669]' >Deleting preview</span> 
-                          </div>
-
-                      : ""
                       }
                 </div> 
 

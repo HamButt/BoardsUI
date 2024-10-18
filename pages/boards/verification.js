@@ -19,15 +19,15 @@ function Verification() {
      try {
        
        const user = await axios.get(`${process.env.basePath}/users/api/${token}`)
-       if(user.status === 200){
-         Cookie.set("token", user.data.token)
-         localStorage.setItem('userId', user.data.userId)
+       if(user?.status === 200){
+         Cookie.set("token", user?.data?.token)
+         localStorage.setItem('userId', user?.data?.userId)
          router.push('/boards/user/dashboard')
        } else {
          router.push('/boards/login')
        }
      } catch (error) {
-       setError(error.response.data.message)
+       setError(error?.response?.data?.message)
      }
    }
 

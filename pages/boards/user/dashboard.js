@@ -144,17 +144,14 @@ function Dashboard() {
                         
                         <Link style={{color: isLimitReached ? 'black' : 'white'}}
                             className={`btn max-sm:hidden sm:btn-md rounded-md text-2xl sm:text-lg font-medium hover:bg-[#34bdad] border-none shadow-none
-                            ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
-                            ${isLimitReached ? 'pointer-events-none' : ''}`} 
-                            href='/boards/create'>{isLimitReached ? "Limit exceeded"  : "New board"} <FaPlus/></Link>
+                            ${isLimitReached ? "bg-gray-100 pointer-events-none" : "bg-[#2a9d8f]"} `} 
+                            href='/boards/create'>{isLimitReached ? "Limit exceeded"  : <span className="flex items-center" >New board <FaPlus className="text-[15px] ms-1 font-semibold" /> </span>} </Link>
                         
                         {/* FOR SMALL SCREENS */}
 
                         <Link style={{color: isLimitReached ? '#2a9d8f' : 'white'}}
-                            className={`btn sm:hidden btn-sm rounded-md font-medium 
-                            hover:bg-[#34bdad] 
-                            ${isLimitReached ? "bg-gray-100" : "bg-[#2a9d8f]"} 
-                            ${isLimitReached ? 'pointer-events-none' : ''}`} 
+                            className={`btn sm:hidden btn-sm rounded-md font-medium hover:bg-[#34bdad] 
+                            ${isLimitReached ? "bg-gray-100 pointer-events-none" : "bg-[#2a9d8f]"}`} 
                             href='/boards/create'>{isLimitReached ?  <ImBlocked className='text-black' /> : <FaPlus/>}</Link>
                     </>
             }
@@ -218,7 +215,7 @@ function Dashboard() {
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Created</p>
-                                            <p className='ms-7 text-black' >{board?.CreationDate}</p>
+                                            <p className='ms-7 text-black' >{boardCreationDate}</p>
                                         </div>
                                         <div className='mt-1 flex items-center '>
                                             <p className='text-gray-400 text-sm font-light' >Posts</p>
