@@ -170,7 +170,7 @@ function Post() {
             <Toaster theme='system' richColors={true} position="top-center" />
     
             <Head>
-                <title>Posts</title>
+                <title>Board</title>
             </Head>
 
             {isImageLoading && 
@@ -217,7 +217,7 @@ function Post() {
                                 <BsThreeDotsVertical/>
                             </Button>
                         </DropdownTrigger>
-                        <DropdownMenu variant="faded" aria-label="Static Actions" className='py-2 mt-1 shadow-xl bg-white rounded-md'>
+                        <DropdownMenu variant="faded" aria-label="Static Actions" className='py-2 mt-1 shadow-xl bg-white dark:bg-white rounded-md'>
                             <DropdownItem textValue='Copy'>
                                 <div className='copy' onClick={()=>document.getElementById('share-board').showModal()}>
                                     <IoShareOutline className="text-black share-button text-[22px] cursor-pointer" />
@@ -290,7 +290,7 @@ function Post() {
                 
                 <div>
                 
-                    <div  className="mt-14 bg-gray-300 max-sm:py-3 py-6 "  data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+                    <div  className="mt-14 bg-gray-300 dark:bg-gray-300 max-sm:py-3 py-6 "  data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                         <div className='sm:hidden text-black text-md flex items-center justify-center py-3'>Add posts for 
                             { recipient ? <p className='ms-1 capitalize'> { recipient } </p> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
                         </div>
@@ -400,7 +400,7 @@ function Post() {
                 data-tip="Create Board" href='/boards/create'
                 className='create-board-button ' > <FaPlus/> </Link>
 
-            <div id="mySidenav" className={` sidenav bg-white `} style={{marginRight: openNav ? "0" : "-30rem"}}>
+            <div id="mySidenav" className={` sidenav bg-white dark:bg-white `} style={{marginRight: openNav ? "0" : "-30rem"}}>
                 <div className={`flex flex-1 justify-end pe-5`}>
                     <button onClick={() => {setOpenNav(false); }} className='text-gray-800 text-3xl m-0'>&times;</button>
                 </div>
@@ -409,12 +409,12 @@ function Post() {
                 <div className='customise-board-side-bar' >
                     <div 
                         className={` background-image  text-${sideComponent === 'color' ? 'black' : 'gray-500'}
-                        bg-${sideComponent === 'color' ? 'white' : ''} `} onClick={() => setSideComponent('color')}>
+                        ${sideComponent === 'color' ? 'bg-white dark:bg-white' : ''} `} onClick={() => setSideComponent('color')}>
                         Color
                     </div>
                     <div 
                         className={` background-color 
-                        bg-${sideComponent === 'image' ? 'white' : ''} text-${sideComponent === 'image' ? 'black' : 'gray-500'} 
+                        ${sideComponent === 'image' ? 'bg-white dark:bg-white' : ''} text-${sideComponent === 'image' ? 'black' : 'gray-500'} 
                         transition-all ease-linear`} onClick={() => setSideComponent('image')}>
                         Image
                     </div>

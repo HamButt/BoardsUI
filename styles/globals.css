@@ -68,10 +68,10 @@ html{
   @apply max-sm:hidden me-2 bg-gray-200 shadow-md btn btn-circle text-black
 }
 .board-creator-input{
-  @apply input border-2 w-10/12 mt-5 border-gray-300 rounded-lg outline-none px-4
+  @apply input border-2 w-10/12 mt-5 border-gray-300 bg-white dark:bg-white rounded-lg outline-none px-4
 }
 .board-create-button{
-  @apply max-sm:hidden btn glass hover:bg-[#2a9d8f] bg-[#2a9d8f] font-medium lg:w-5/12 mt-8  text-white rounded-lg shadow-lg text-lg sm:text-lg
+  @apply max-sm:hidden btn glass hover:bg-[#2a9d8f] bg-[#2a9d8f] font-medium lg:w-5/12 mt-8 text-white rounded-lg shadow-lg text-lg sm:text-lg
 }
 .board-create-btton-mbl{
   @apply btn glass hover:bg-[#2a9d8f] bg-[#2a9d8f] font-medium lg:w-5/12 text-white rounded-lg shadow-lg text-lg sm:text-lg

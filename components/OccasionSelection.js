@@ -45,7 +45,7 @@ function OccasionSelection({increaseStep, boardData,setBoardData}) {
 
     <div>
         
-        <div className='text-center py-5 bg-white'>
+        <div className='text-center py-5 bg-white dark:bg-white'>
             <header>
                 <div className="logo flex items-center justify-center">
                     <Link href='/' className="">

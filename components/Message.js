@@ -7,6 +7,7 @@ import {MdArrowBackIos} from 'react-icons/md'
 import crypto from 'crypto'
 import { Toaster,toast } from 'sonner';
 import {CreateBoardApi} from '../apis/CreateBoardApi';
+import Loader from '../components/Loader';
 
 function Message({decrementStep, boardData, setBoardData}) {
     const router = useRouter()
@@ -103,7 +104,7 @@ function Message({decrementStep, boardData, setBoardData}) {
             <button onClick={decrementStep} className='decrement-step-button' > 
                 <MdArrowBackIos className='text-lg md:text-2xl ms-2' />
             </button>
-            <div className=" pb-10 pt-6 bg-white w-[500px] border shadow rounded-lg"  >
+            <div className=" pb-10 pt-6 bg-white dark:bg-white w-[500px] border shadow rounded-lg"  >
                 <div className="form flex items-center justify-center flex-col" >
                     <p>4/4</p>
                     <h1 className='sm:text-md md:text-lg lg:text-2xl mt-2' >What should the title be?</h1>
@@ -112,15 +113,27 @@ function Message({decrementStep, boardData, setBoardData}) {
                         onChange={(e) => setTitle(e.target.value)} required />
                     <button disabled={!title ? true : false} onClick={createBoard} 
                         className='board-create-button'>
-                        {isLoading ? "Creating..." : "Create board"}</button>
+                        {isLoading ? 
+                         
+                        <div className='flex items-center'>
+                            <Loader color="#FF9669" size="xs" margin="2" text="Creating..."/>
+                        </div>
+                        : "Create board"}
+                        
+                        </button>
 
                         <div className='sm:hidden w-full flex items-center justify-center mt-6 space-x-2'>
-                            <button onClick={decrementStep} className=' bg-gray-200 shadow-md btn btn-circle text-black'> 
+                            <button onClick={decrementStep} className=' bg-gray-200 dark:bg-gray-200 shadow-md btn btn-circle text-black'> 
                                 <MdArrowBackIos className='text-lg md:text-2xl ms-2'/>
                             </button>
                             <button disabled={!title ? true : false} onClick={createBoard} 
                                 className='board-create-btton-mbl'>
-                                {isLoading ? "Creating..." : "Create board"}
+                                {isLoading ? 
+                                
+                                <div className='flex items-center'>
+                                    <Loader color="#FF9669" size="xs" margin="2" text="Creating..."/>
+                                </div>
+                                : "Create board"}
                             </button>
                     </div>
                 </div> 

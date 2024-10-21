@@ -1,3 +1,4 @@
+'use client'
 import React, {useEffect,useState} from 'react'
 import axios from 'axios'
 import Head from 'next/head'
@@ -28,6 +29,7 @@ function Dashboard() {
     const [boardIdToDelete, setBoardIdToDelete] = useState(null);
     const setClipboard = useClipboard();
 
+    
     useEffect(()=>{
         fetchBoards()
     }, [])
@@ -102,7 +104,7 @@ function Dashboard() {
         {isDeleteLoading ? <Toaster theme='system' richColors={true} position="top-center" /> : ""}
 
 
-        <header className='transition-all fixed top-0 right-0 left-0 z-50 bg-white py-3 shadow'>
+        <header className='transition-all fixed top-0 right-0 left-0 z-50 bg-white dark:bg-white py-3 shadow'>
           
           <div className="flex items-center justify-between ps-5 pe-2 sm:ps-10 sm:pe-4">
 
@@ -161,47 +163,187 @@ function Dashboard() {
 
         </header>
 
-        <div className={`all-boards ${boards?.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
+        <div className={`all-boards ${boards?.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white dark:bg-white`}>
 
-                {/* FOR LARGE SCREENS */}
-                
-                <div className={`boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px] `} data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                    {boards?.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Praise Boards</h1> : ""}
-                    {boards?.length > 0 ? boards.map((board,index)=> {
-                        
-                        const formattedImage = board?.uploaded_image ? Buffer.from(board?.uploaded_image) : null
-                        const date = new Date(board?.created_at);
-                        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                        const boardCreationDate = date.toLocaleDateString('en-US', options);
-                        
-                        return (
-                        
-                            <div  className="board border transition-all board mt-3 rounded-lg flex items-start w-full py-4 px-3" key={board?._id}>
+            {/* FOR LARGE SCREENS */}
+            
+            <div className={`boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px] `} data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+                {boards?.length ? <h1 className='text-lg md:text-xl xl:text-2xl'>All Praise Boards</h1> : ""}
+                {boards?.length > 0 ? boards?.map((board,index)=> {
+                    
+                    const formattedImage = board?.uploaded_image ? Buffer.from(board?.uploaded_image) : null
+                    const date = new Date(board?.created_at);
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    const boardCreationDate = date.toLocaleDateString('en-US', options);
+                    
+                    return (
+                    
+                        <div  className="board border transition-all board mt-3 rounded-lg flex items-start w-full py-4 px-3" key={board?._id}>
+                            
+                            <div className="board_image" >
+                                {
+                                    formattedImage ? 
+                                    
+                                        <img 
+                                            className='border rounded mt-1 w-[180px] h-[160px]' 
+                                            src={`${process.env.basePath}/images/${formattedImage}`} alt='board' 
+                                            />
+
+                                    :  board?.unsplash_image ? 
+
+                                        <Image 
+                                            className='border rounded mt-1 w-[180px] h-[160px]' 
+                                            src={board?.unsplash_image} alt='board' 
+                                            width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
+
+                                    :   <div style={{backgroundColor: board?.color}} className={`border rounded mt-1 w-[180px] h-[160px]`} ></div>
+                                }
+
+                            </div>
+
+                            <div className='flex items-start justify-between flex-1 ms-6'>
                                 
-                                <div className="board_image" >
-                                    {
-                                        formattedImage ? 
-                                        
-                                            <img 
-                                                className='border rounded mt-1 w-[180px] h-[160px]' 
-                                                src={`${process.env.basePath}/images/${formattedImage}`} alt='board' 
-                                                />
-
-                                        :  board?.unsplash_image ? 
-
-                                            <Image 
-                                                className='border rounded mt-1 w-[180px] h-[160px]' 
-                                                src={board?.unsplash_image} alt='board' 
-                                                width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
-
-                                        :   <div style={{backgroundColor: board?.color}} className={`border rounded mt-1 w-[180px] h-[160px]`} ></div>
-                                    }
-
+                                <div className="details">
+                                    <div className="flex">
+                                        <p className='text-xl text-black' >{board?.title}</p>
+                                    </div>
+                                    <div className='mt-2 flex items-center'>
+                                        <p className='text-gray-400 text-sm font-light' >For</p>
+                                        <p className='ms-4 text-black' >{board?.recipient}</p>
+                                    </div>
+                                    <div className='mt-1 flex items-center '>
+                                        <p className='text-gray-400 text-sm font-light' >Creator</p>
+                                        <p className='ms-8 text-black' >{board?.creator_name}</p>
+                                    </div>
+                                    <div className='mt-1 flex items-center '>
+                                        <p className='text-gray-400 text-sm font-light' >Created</p>
+                                        <p className='ms-7 text-black' >{boardCreationDate}</p>
+                                    </div>
+                                    <div className='mt-1 flex items-center '>
+                                        <p className='text-gray-400 text-sm font-light' >Posts</p>
+                                        <p className='ms-12 text-black' >{board?.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board?._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
+                                    </div>
+                                    <div className='mt-1 flex items-center '>
+                                        <p className='text-gray-400 text-sm font-light' >Last post</p>
+                                        <p className='ms-6 text-black' >{board?.last_post_created_at ? format(board?.last_post_created_at) : "No post created"}</p>
+                                    </div>
+                                
                                 </div>
 
-                                <div className='flex items-start justify-between flex-1 ms-6'>
+                                <div className='flex items-center space-x-1'>
+                                    <Link className='text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
+                                    href={`/boards/${board?._id}`} >View board</Link>
+
+                                    <Dropdown className='-mt-[2px]'>
+                                        <DropdownTrigger>
+                                            <Button className={`pop-up`}>
+                                                <BsThreeDotsVertical/>
+                                            </Button>
+                                        </DropdownTrigger>
+                                        <DropdownMenu variant="faded" aria-label="Static Actions" className='py-2 border shadow-sm bg-white rounded-md'>
+                                            <DropdownItem textValue='Copy'>
+                                                <div className='copy' onClick={() => copyLink(board?._id)}>
+                                                    <MdContentCopy className="text-black share-button text-[17px] cursor-pointer"  />
+                                                    <p className='text-sm font-semibold ps-3 text-black' >Copy board link</p>
+                                                </div>
+                                            </DropdownItem>
+                                            <DropdownItem textValue='Customise'>
+                                                <Link href={`/boards/${board?._id}`} className='customise'>
+                                                    <CiEdit  className="text-black text-[22px] cursor-pointer" />
+                                                    <p className='text-sm font-semibold ps-2 text-black '>Customise board</p>
+                                                </Link>
+                                            </DropdownItem>
+                                            <DropdownItem textValue='Add to favorites'>
+                                                <div onClick={() => addToFavorite(board?._id)} className='add-to-favorite'>
+                                                    <HeartIcon/>
+                                                    <p className='text-sm font-semibold ps-2 text-black'>Add to favorites</p>
+                                                </div>
+                                            </DropdownItem>
+                                            <DropdownItem textValue='Cookie'>
+                                                    <div className='delete' 
+                                                        
+                                                        onClick={()=>{setBoardIdToDelete(board?._id); document.getElementById('delete_modal_in_dashboard_for_big_screens').showModal()}}>
+                                                        <MdDeleteOutline className='text-2xl' />  
+                                                        <p className='text-sm font-semibold ps-3 '>Delete board</p>
+                                                    </div>
+                                            </DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
+
+                                    <dialog id="delete_modal_in_dashboard_for_big_screens" className="modal">
+                                        <div className="modal-box">
+                                            <p className="py-4">Are you sure you want to delete this?</p>
+                                            <div className="modal-action">
+                                                <form method="dialog">
+                                                    <button onClick={() => deleteBoard(boardIdToDelete)} 
+                                                        className="btn hover:bg-red-500 bg-red-500 text-white">Yes I'm sure</button>
+                                                    <button className="btn ms-2 bg-green-500 hover:bg-green-500 text-white">No I'm not</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </dialog>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    )
+                })
+                    
+                : isLoading ?
+                    <div className='flex items-center justify-center h-screen'>
+                        <Loader color="#FF9669" size="lg" margin="2" />
+                    </div> 
+                :
+                    <div className='flex items-center justify-center h-screen flex-col'>
+                        <h1 className='text-black text-3xl' >All Praise Boards</h1>
+                        <p className='text-lg text-black mt-2' >All boards you can access appear here.</p>
+                        <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
+                            href='/boards/create' > <FaPlus/>Create a Praiseboard</Link>
+                    </div>
+                }
+            </div>
+            
+            {/* FOR SMALL SCREENS */}
+
+            <div className="boards w-[900px] sm:hidden mx-4" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
+                {boards?.length ? <h1 className='text-xl'>All Praise Boards</h1> : ""}
+                {boards?.length > 0 ? boards?.map((board,index)=> {
+                    
+                    const formattedImage = board?.uploaded_image ? Buffer.from(board?.uploaded_image) : null
+                    const date = new Date(board?.created_at);
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    const boardCreationDate = date.toLocaleDateString('en-US', options);
+                    
+                    return (
+                    
+                        <div  className="board border transition-all board mt-3 rounded-lg w-full py-4 px-3" key={board._id}>
+                            
+                            <div className="board_image" >
+
+                            {
+                                formattedImage ? 
+                                        
+                                    <img className='border rounded w-full h-[250px] object-cover' 
+                                        src={`${process.env.basePath}/images/${formattedImage}`} 
+                                        alt='board' />
+
+                                :  board?.unsplash_image ? 
+
+                                    <Image className='border rounded w-full h-[250px] object-cover' 
+                                        src={board?.unsplash_image} 
+                                        alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
+
+                                : <div style={{backgroundColor: board?.color}} className={`border rounded  w-full h-[250px] object-cover`} ></div>
+                            }
+                            </div>
+
+                            <div className=''>
+                                
+                                <div className="mt-4 flex items-start justify-between flex-1">
                                     
-                                    <div className="details">
+                                    <div className='details'>
+
                                         <div className="flex">
                                             <p className='text-xl text-black' >{board?.title}</p>
                                         </div>
@@ -209,30 +351,30 @@ function Dashboard() {
                                             <p className='text-gray-400 text-sm font-light' >For</p>
                                             <p className='ms-4 text-black' >{board?.recipient}</p>
                                         </div>
-                                        <div className='mt-1 flex items-center '>
+                                        <div className='mt-1 flex items-center'>
                                             <p className='text-gray-400 text-sm font-light' >Creator</p>
                                             <p className='ms-8 text-black' >{board?.creator_name}</p>
-                                        </div>
-                                        <div className='mt-1 flex items-center '>
+                                            </div>
+                                        <div className='mt-1 flex items-center'>
                                             <p className='text-gray-400 text-sm font-light' >Created</p>
                                             <p className='ms-7 text-black' >{boardCreationDate}</p>
                                         </div>
-                                        <div className='mt-1 flex items-center '>
+                                        <div className='mt-1 flex items-center'>
                                             <p className='text-gray-400 text-sm font-light' >Posts</p>
                                             <p className='ms-12 text-black' >{board?.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board?._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
                                         </div>
-                                        <div className='mt-1 flex items-center '>
+                                        <div className='mt-1 flex items-center'>
                                             <p className='text-gray-400 text-sm font-light' >Last post</p>
                                             <p className='ms-6 text-black' >{board?.last_post_created_at ? format(board?.last_post_created_at) : "No post created"}</p>
                                         </div>
-                                    
-                                    </div>
 
-                                    <div className='flex items-center space-x-1'>
-                                        <Link className='text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
+                                    </div>
+                                    
+                                    <div className=' flex items-center space-x-1'>
+                                        <Link className='view-board-button-for-extra-small-in-user-dashboard text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
                                         href={`/boards/${board?._id}`} >View board</Link>
 
-                                        <Dropdown className='-mt-[2px]'>
+                                        <Dropdown className='mb-1'>
                                             <DropdownTrigger>
                                                 <Button className={`pop-up`}>
                                                     <BsThreeDotsVertical/>
@@ -246,204 +388,64 @@ function Dashboard() {
                                                     </div>
                                                 </DropdownItem>
                                                 <DropdownItem textValue='Customise'>
-                                                    <Link href={`/boards/${board?._id}`} className='customise'>
-                                                        <CiEdit  className="text-black text-[22px] cursor-pointer" />
+                                                    <Link href={`/boards/${board?._id}`} className='customise '>
+                                                        <CiEdit  className="text-black share-button text-[22px] cursor-pointer" />
                                                         <p className='text-sm font-semibold ps-2 text-black '>Customise board</p>
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem textValue='Add to favorites'>
-                                                    <div onClick={() => addToFavorite(board?._id)} className='add-to-favorite'>
+                                                    <div onClick={() => addToFavorite(board?._id)} className='add-to-favorite '>
                                                         <HeartIcon/>
-                                                        <p className='text-sm font-semibold ps-2 text-black'>Add to favorites</p>
+                                                        <p className='text-sm font-semibold ps-2 text-black '>Add to favorites</p>
                                                     </div>
                                                 </DropdownItem>
                                                 <DropdownItem textValue='Cookie'>
-                                                        <div className='delete' 
-                                                            
-                                                            onClick={()=>{setBoardIdToDelete(board?._id); document.getElementById('delete_modal_in_dashboard_for_big_screens').showModal()}}>
-                                                            <MdDeleteOutline className='text-2xl' />  
+                                                
+                                                        <div className='delete' onClick={()=>{setBoardIdToDelete(board?._id);document.getElementById('delete_modal_in_dashboard_for_small_screens').showModal()}}>
+                                                            <MdDeleteOutline className='text-2xl'/>  
                                                             <p className='text-sm font-semibold ps-3 '>Delete board</p>
                                                         </div>
                                                 </DropdownItem>
                                             </DropdownMenu>
                                         </Dropdown>
 
-                                        <dialog id="delete_modal_in_dashboard_for_big_screens" className="modal">
+                                        <dialog id="delete_modal_in_dashboard_for_small_screens" className="modal">
                                             <div className="modal-box">
                                                 <p className="py-4">Are you sure you want to delete this?</p>
                                                 <div className="modal-action">
                                                     <form method="dialog">
-                                                        <button onClick={() => deleteBoard(boardIdToDelete)} 
-                                                            className="btn hover:bg-red-500 bg-red-500 text-white">Yes I'm sure</button>
+                                                        <button onClick={() => deleteBoard(boardIdToDelete)} className="btn hover:bg-red-500 bg-red-500 text-white">Yes I'm sure</button>
                                                         <button className="btn ms-2 bg-green-500 hover:bg-green-500 text-white">No I'm not</button>
                                                     </form>
                                                 </div>
                                             </div>
                                         </dialog>
                                     </div>
-
                                 </div>
 
+                                <div className='options-button-for-small-in-user-dashboard flex items-center space-x-1 mt-4 flex-1'>
+                                    <Link className='text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
+                                    href={`/boards/${board?._id}`} >View board</Link>
+                                </div>
                             </div>
-                        )
-                    })
-                        
-                    : isLoading ?
-                        <div className='flex items-center justify-center h-screen'>
-                            <Loader color="#FF9669" size="lg" margin="2" />
-                        </div> 
-                    :
-                        <div className='flex items-center justify-center h-screen flex-col'>
-                            <h1 className='text-black text-3xl' >All Praise Boards</h1>
-                            <p className='text-lg text-black mt-2' >All boards you can access appear here.</p>
-                            <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-light btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
-                                href='/boards/create' > <FaPlus/>Create a Praiseboard</Link>
+
                         </div>
-                    }
-                </div>
-                
-                {/* FOR SMALL SCREENS */}
+                    )
+                })
+                : isLoading ?
+                    <div className='flex items-center justify-center h-screen'>
+                        <Loader color="#FF9669" size="lg" margin="2" />
+                    </div> 
+                :
+                    <div className='flex items-center justify-center h-screen flex-col text-center'>
+                        <h1 className='text-black text-3xl' >All Praise Boards</h1>
+                        <p className='text-lg text-black mt-2' >All boards you can access appear here.</p>
+                        <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-medium btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
+                            href='/boards/create' > <FaPlus/> Create a Praiseboard</Link>
+                    </div>  
 
-                <div className="boards w-[900px] sm:hidden mx-4" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
-                    {boards?.length ? <h1 className='text-xl'>All Praise Boards</h1> : ""}
-                    {boards?.length > 0 ? boards?.map((board,index)=> {
-                        
-                        const formattedImage = board?.uploaded_image ? Buffer.from(board?.uploaded_image) : null
-                        const date = new Date(board?.created_at);
-                        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                        const boardCreationDate = date.toLocaleDateString('en-US', options);
-                        
-                        return (
-                        
-                            <div  className="board border transition-all board mt-3 rounded-lg w-full py-4 px-3" key={board._id}>
-                                
-                                <div className="board_image" >
-
-                                {
-                                    formattedImage ? 
-                                            
-                                        <img className='border rounded w-full h-[250px] object-cover' 
-                                            src={`${process.env.basePath}/images/${formattedImage}`} 
-                                            alt='board' />
-
-                                    :  board?.unsplash_image ? 
-
-                                        <Image className='border rounded w-full h-[250px] object-cover' 
-                                            src={board?.unsplash_image} 
-                                            alt='board' width={260} height={260} sizes='(max-width: 200px) 100vw, 33vw'/>
-
-                                    : <div style={{backgroundColor: board?.color}} className={`border rounded  w-full h-[250px] object-cover`} ></div>
-                                }
-                                </div>
-
-                                <div className=''>
-                                    
-                                    <div className="mt-4 flex items-start justify-between flex-1">
-                                        
-                                        <div className='details'>
-
-                                            <div className="flex">
-                                                <p className='text-xl text-black' >{board?.title}</p>
-                                            </div>
-                                            <div className='mt-2 flex items-center'>
-                                                <p className='text-gray-400 text-sm font-light' >For</p>
-                                                <p className='ms-4 text-black' >{board?.recipient}</p>
-                                            </div>
-                                            <div className='mt-1 flex items-center'>
-                                                <p className='text-gray-400 text-sm font-light' >Creator</p>
-                                                <p className='ms-8 text-black' >{board?.creator_name}</p>
-                                              </div>
-                                            <div className='mt-1 flex items-center'>
-                                                <p className='text-gray-400 text-sm font-light' >Created</p>
-                                                <p className='ms-7 text-black' >{boardCreationDate}</p>
-                                            </div>
-                                            <div className='mt-1 flex items-center'>
-                                                <p className='text-gray-400 text-sm font-light' >Posts</p>
-                                                <p className='ms-12 text-black' >{board?.post} <span className='text-xs' >(Max-30)</span> <Link href={`/boards/${board?._id}/post/create`} className='text-sm text-[#2a9d8f]' >add new post</Link> </p>
-                                            </div>
-                                            <div className='mt-1 flex items-center'>
-                                                <p className='text-gray-400 text-sm font-light' >Last post</p>
-                                                <p className='ms-6 text-black' >{board?.last_post_created_at ? format(board?.last_post_created_at) : "No post created"}</p>
-                                            </div>
-
-                                        </div>
-                                        
-                                        <div className=' flex items-center space-x-1'>
-                                            <Link className='view-board-button-for-extra-small-in-user-dashboard text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
-                                            href={`/boards/${board?._id}`} >View board</Link>
-
-                                            <Dropdown className='mb-1'>
-                                                <DropdownTrigger>
-                                                    <Button className={`pop-up`}>
-                                                        <BsThreeDotsVertical/>
-                                                    </Button>
-                                                </DropdownTrigger>
-                                                <DropdownMenu variant="faded" aria-label="Static Actions" className='py-2 border shadow-sm bg-white rounded-md'>
-                                                    <DropdownItem textValue='Copy'>
-                                                        <div className='copy' onClick={() => copyLink(board?._id)}>
-                                                            <MdContentCopy className="text-black share-button text-[17px] cursor-pointer"  />
-                                                            <p className='text-sm font-semibold ps-3 text-black' >Copy board link</p>
-                                                        </div>
-                                                    </DropdownItem>
-                                                    <DropdownItem textValue='Customise'>
-                                                        <Link href={`/boards/${board?._id}`} className='customise '>
-                                                            <CiEdit  className="text-black share-button text-[22px] cursor-pointer" />
-                                                            <p className='text-sm font-semibold ps-2 text-black '>Customise board</p>
-                                                        </Link>
-                                                    </DropdownItem>
-                                                    <DropdownItem textValue='Add to favorites'>
-                                                        <div onClick={() => addToFavorite(board?._id)} className='add-to-favorite '>
-                                                            <HeartIcon/>
-                                                            <p className='text-sm font-semibold ps-2 text-black '>Add to favorites</p>
-                                                        </div>
-                                                    </DropdownItem>
-                                                    <DropdownItem textValue='Cookie'>
-                                                    
-                                                            <div className='delete' onClick={()=>{setBoardIdToDelete(board?._id);document.getElementById('delete_modal_in_dashboard_for_small_screens').showModal()}}>
-                                                                <MdDeleteOutline className='text-2xl'/>  
-                                                                <p className='text-sm font-semibold ps-3 '>Delete board</p>
-                                                            </div>
-                                                    </DropdownItem>
-                                                </DropdownMenu>
-                                            </Dropdown>
-
-                                            <dialog id="delete_modal_in_dashboard_for_small_screens" className="modal">
-                                                <div className="modal-box">
-                                                    <p className="py-4">Are you sure you want to delete this?</p>
-                                                    <div className="modal-action">
-                                                        <form method="dialog">
-                                                            <button onClick={() => deleteBoard(boardIdToDelete)} className="btn hover:bg-red-500 bg-red-500 text-white">Yes I'm sure</button>
-                                                            <button className="btn ms-2 bg-green-500 hover:bg-green-500 text-white">No I'm not</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </dialog>
-                                        </div>
-                                    </div>
-
-                                    <div className='options-button-for-small-in-user-dashboard flex items-center space-x-1 mt-4 flex-1'>
-                                        <Link className='text-white rounded-md bg-[#2a9d8f] font-medium btn btn-sm hover:bg-[#34bdad] border-none shadow-none hover:border-none' 
-                                        href={`/boards/${board?._id}`} >View board</Link>
-                                    </div>
-                                </div>
-
-                            </div>
-                        )
-                    })
-                    : isLoading ?
-                        <div className='flex items-center justify-center h-screen'>
-                            <Loader color="#FF9669" size="lg" margin="2" />
-                        </div> 
-                    :
-                        <div className='flex items-center justify-center h-screen flex-col text-center'>
-                            <h1 className='text-black text-3xl' >All Praise Boards</h1>
-                            <p className='text-lg text-black mt-2' >All boards you can access appear here.</p>
-                            <Link className='mt-4 text-white text-xl rounded-md bg-[#2a9d8f] shadow font-medium btn btn-md hover:bg-[#34bdad] border-none hover:border-none' 
-                                href='/boards/create' > <FaPlus/> Create a Praiseboard</Link>
-                        </div>  
-
-                    }
-                </div>
+                }
+            </div>
 
         </div>
 

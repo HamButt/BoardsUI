@@ -99,7 +99,7 @@ function Favorites() {
             <title>Favorite Boards</title>
         </Head>
 
-        <header className='transition-all fixed top-0 right-0 left-0 z-50 bg-white py-3 shadow'>
+        <header className='transition-all fixed top-0 right-0 left-0 z-50 bg-white dark:bg-white py-3 shadow'>
             
             <div className="flex items-center justify-between ps-5 pe-2 sm:ps-10 sm:pe-4">
 
@@ -124,7 +124,7 @@ function Favorites() {
             </div>
         </header>
 
-        <div className={`all-boards ${boards.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white`}>
+        <div className={`all-boards ${boards.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white dark:bg-white`}>
                 
                 <div className="boards max-sm:hidden min-w-[600px] max-lg:mx-2 w-[900px]" data-offset='0' data-aos="fade-down"  data-aos-easing="ease-in-back" data-aos-duration="1000">
                     {boards?.length ? <h1 className='text-2xl'>All Favorite Boards</h1> : ""}

@@ -57,7 +57,7 @@ function Recipient({increaseStep,decrementStep,boardData, setBoardData}) {
             <button onClick={decrementStep} className='decrement-step-button' > 
                 <MdArrowBackIos className='text-lg md:text-2xl ms-2' />
             </button>
-            <div className=" pb-10 pt-6 bg-white w-[500px]  border shadow rounded-lg">
+            <div className=" pb-10 pt-6 bg-white dark:bg-white w-[500px]  border shadow rounded-lg">
                 <div className="form flex items-center justify-center flex-col">
                     <p>3/4</p>
                     <h1 className='sm:text-md md:text-lg lg:text-2xl mt-2'>Who is the recipient?</h1>
@@ -65,7 +65,7 @@ function Recipient({increaseStep,decrementStep,boardData, setBoardData}) {
                         placeholder='Name' value={recipient} name='recipient' onChange={(e) => setRecipient(e.target.value)} required />
                     <button disabled={!recipient ? true : false} onClick={nextQuestion} className='board-next-button mt-8 max-sm:hidden' >Next</button>
                     <div className='sm:hidden w-full flex items-center justify-center mt-6 space-x-2'>
-                        <button onClick={decrementStep} className=' bg-gray-200 shadow-md btn btn-circle text-black' > 
+                        <button onClick={decrementStep} className=' bg-gray-200 dark:bg-gray-200 shadow-md btn btn-circle text-black' > 
                             <MdArrowBackIos className='text-lg md:text-2xl ms-2' />
                         </button>
                         <button disabled={!recipient ? true : false} onClick={nextQuestion} className='board-next-button' >Next</button>
