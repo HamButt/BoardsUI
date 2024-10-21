@@ -18,9 +18,7 @@ function Token() {
   return (
     <div className='flex items-center justify-center h-screen w-full' >
       
-      <div className="loader">
-        <p className="text">Loading...</p>
-      </div>
+      <p className="text">Authorizing......</p>
 
     </div>
   )

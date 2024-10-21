@@ -1,7 +1,7 @@
 'use client'
 import Header from "../components/Header";
 import Image from "next/image";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa6";
@@ -15,6 +15,8 @@ import {PreviewBirthdayGif, PreviewThankyouGif, PreviewGraduationGif, PreviewFar
 import Steps from "../components/Timeline";
 import { FaPlus } from "react-icons/fa6";
 import Confetti from '../public/confetti.jpg'
+import {Card} from '../components/LogoAnimation'
+import Loader from '../components/Loader';
 
 const DragCloseDrawer = ({ open, setOpen, children }) => {
 
@@ -82,6 +84,8 @@ const DragCloseDrawer = ({ open, setOpen, children }) => {
     </>
   );
 };
+
+
 export default function Home() {
   const categories = ['Birthday!', 'Welcome!', 'New year!', 'Easter!', 'ThankYou!', 'Love!', 'Farewell!', 'Congrats!'];
   const [preview,setPreview] = React.useState(false);
@@ -95,10 +99,11 @@ export default function Home() {
   const [displayedText, setDisplayedText] = useState('');
   const [isErasing, setIsErasing] = useState(false);
   const [handleNavigating, setHandleNavigating] = useState(false);
+  const [isUserfirstTime, SetUserFirstTime] = useState(true);
   
 
 
-  React.useEffect(() => {
+  useEffect(() => {
     let timeoutId;
 
     if (!isErasing) {
@@ -131,123 +136,145 @@ export default function Home() {
     setHandleNavigating(true)
 }
 
+useEffect(()=>{
+  const isUserNotFirstTime = localStorage.getItem('userNotFirstTime')
+  
+  if(isUserNotFirstTime){
+    SetUserFirstTime(false)
+  }else{
+    const hash = Math.random()
+    localStorage.setItem('userNotFirstTime', hash)
+  }
+}, [])
+
   return (
     <>
     
-      {preview ? <PreviewBoard setPreview={setPreview} occasion={occasion} /> 
+      {isUserfirstTime ?
+        <Card SetUserFirstTime={SetUserFirstTime} isUserfirstTime={isUserfirstTime}/>
+        :
+       <>
+        {preview ? <PreviewBoard setPreview={setPreview} occasion={occasion} /> 
       
-        : 
+          : 
 
-        <div className="hero-section">
-            <Head>
-              <title>Home</title>
-            </Head>
+          <div className="hero-section">
 
-            <Header/>
+              <Head>
+                <title>Home</title>
+              </Head>
 
-            <div className="main mt-14 text-black">
-              <div className="main-parent">
-                <p className="main-heading" >
-                  Celebrate your team members and people you admire
-                </p>
-                <p className="text-lg sm:text-2xl max-sm:font-semibold mt-5 max-sm:px-5">Beautiful personalized online boards to celebrate your team and friends </p>
-                <Link onClick={navigationToPage} rel="stylesheet" id="board-creation-link" 
-                  className="main-cta" href="/boards/create">
-                  {handleNavigating ? <span className="loading loading-dots loading-lg"></span>
-                        : 
-                        <>
-                            Create Board - it's free
-                            <span className="animate-pulse"><FaArrowRight /></span>
-                        </>
-                        }
-                </Link>
-              </div>
-            </div>
+              <Header/>
 
-            <div id="how-to" >
-              <h1 className="how-to-heading">How to create a board</h1>
-                <div className="mx-3 flex items-center justify-evenly flex-wrap">
-                    <div className="how-to-image-div">
-                      <Image src={Confetti} alt="Confetti" className="how-to-img" width={1000} height={1000}/>
-                      <p className="how-to-p-1" >Create group memories with personalized recognition cards and leave a lasting impression!</p>
-                      <p className="how-to-p-2" >Personalized occasions with praise board for every 
-                        <span className="text-xl sm:text-2xl md:text-3xl font-semibold text-[#2a9d8f]" > {displayedText} </span>
-                      </p>
-                      <Link rel="stylesheet" className="how-to-cta" 
-                        href="/boards/create" > <FaPlus /> Create your board 
-                      </Link>
-                    </div>
-                    <Steps/>                
-                </div>
-            </div>          
-
-            <div id="previews">
-                <div className="text-center max-md:px-2 max-sm:px-2">
-                    <h1 className="previews-heading">Praise board for every occasion</h1>
-                    <p className="previews-p">Uncover the potential of what we can design for you</p>
-                </div>
-                
-                <div className="max-w-screen-lg w-full mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-                  
-                  <div className="flex items-center justify-evenly flex-wrap" >
-
-                      {
-                        previewsData?.map((previewPost,index) => {
-                          return (
-                          <div key={previewPost.id} className="image-container rounded-box">
-                            <Image src={previewPost.gif} sizes='(max-width: 200px) 100vw, 33vw'  
-                              alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
-
-                            <div className="overlay">
-                                <motion.button whileTap={{scale:0.9}} onClick={() => {setOpen(true); setDrawer({event: previewPost?.event, gif: previewPost?.gif}) }}
-                                  className="overlay-button btn border outline-none rounded-lg text-lg font-semibold hover:shadow-xl" 
-                                  >Preview <FiExternalLink /> </motion.button>
-                            </div>
-                          </div>
-                          )
-                        })
+              <div className="main mt-14 text-black">
+                <div className="main-parent">
+                  <p className="main-heading" >
+                    Celebrate your team members and people you admire
+                  </p>
+                  <p className="text-lg sm:text-2xl max-sm:font-semibold mt-5 max-sm:px-5">Beautiful personalized online boards to celebrate your team and friends </p>
+                  <Link onClick={navigationToPage} rel="stylesheet" id="board-creation-link" 
+                    className="main-cta" href="/boards/create">
+                    {handleNavigating ? <span className="loading loading-dots loading-lg"></span>
+                          : 
+                          <>
+                              Create Board - it's free
+                              <span className="animate-pulse"><FaArrowRight /></span>
+                          </>
                       }
+                  </Link>
+                </div>
+              </div>
 
+              <div id="how-to" >
+                <h1 className="how-to-heading">How to create a board</h1>
+                  <div className="mx-3 flex items-center justify-evenly flex-wrap">
+                      <div className="how-to-image-div">
+                        <Image src={Confetti} alt="Confetti" className="how-to-img" width={1000} height={1000}/>
+                        <p className="how-to-p-1" >Create group memories with personalized recognition cards and leave a lasting impression!</p>
+                        <p className="how-to-p-2" >Personalized occasions with praise board for every 
+                          <span className="text-xl sm:text-2xl md:text-3xl font-semibold text-[#2a9d8f]" > {displayedText} </span>
+                        </p>
+                        <Link rel="stylesheet" className="how-to-cta" 
+                          href="/boards/create" > <FaPlus /> Create your board 
+                        </Link>
+                      </div>
+                      <Steps/>                
+                  </div>
+              </div>          
+
+              <div id="previews">
+                  <div className="text-center max-md:px-2 max-sm:px-2">
+                      <h1 className="previews-heading">Praise board for every occasion</h1>
+                      <p className="previews-p">Uncover the potential of what we can design for you</p>
+                  </div>
+                  
+                  <div className="max-w-screen-lg w-full mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+                    
+                    <div className="flex items-center justify-evenly flex-wrap" >
+
+                        {previewsData?.length > 0 ?
+                          previewsData?.map((previewPost,index) => {
+                            return (
+                            <div key={previewPost.id} className="image-container rounded-box">
+                              <Image src={previewPost.gif} sizes='(max-width: 200px) 100vw, 33vw'  
+                                alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
+
+                              <div className="overlay">
+                                  <motion.button whileTap={{scale:0.9}} onClick={() => {setOpen(true); setDrawer({event: previewPost?.event, gif: previewPost?.gif}) }}
+                                    className="overlay-button btn border outline-none rounded-lg text-lg font-semibold hover:shadow-xl" 
+                                    >Preview <FiExternalLink /> </motion.button>
+                              </div>
+                            </div>
+                            )
+                          })
+
+                        : <div className='flex items-center'>
+                            <Loader color="#FF9669" size="sm" margin="2"/>
+                          </div>
+            }
+
+                    </div>
+                  </div>
+
+                  <Link rel="stylesheet" 
+                    href="/boards/create" 
+                    className="mt-12 btn bg-[#2a9d8f] sm:btn-lg text-md sm:text-xl font-medium text-white border hover:bg-transparent hover:text-[#2a9d8f] hover:border-[#2a9d8f]" 
+                    > <FaPlus /> Create a Praise board 
+                  </Link>
+              
+              </div>
+
+              <DragCloseDrawer open={open} setOpen={setOpen}>
+                <div className="flex flex-col items-center justify-center text-black space-y-8 bg-gray-800 mt-4">
+                    <p className="sm:mt-0 text-2xl sm:text-4xl font-semibold text-white">Preview {drawer?.event} posts</p>
+                    <Image src={drawer?.gif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
+                      width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
+                    <motion.button 
+                      whileTap={{scale:0.9}} 
+                      className="preview-button" 
+                      onClick={() => {setPreview(true); setOccasion(drawer.event)}}>Preview<FiExternalLink /> 
+                    </motion.button>
+                </div>
+              </DragCloseDrawer>
+
+              <footer>
+                <div className="footer text-black py-10 flex items-start bg-white justify-evenly">
+                  <div className="pages ">
+                  <h1 className="text-2xl">Pages</h1>
+                  <div className=" flex flex-col">
+                    <Link className="text-lg" href='/boards/create'>» Create Board</Link>
+                    <Link className="text-lg" href='#how-to' >» How to create board</Link>
                   </div>
                 </div>
+                  <Image src={Logo} width={60} height={60} alt="Logo"/>
+                  </div>
+              </footer>
+                    
+            {/* <FileUploader/> */}
 
-                <Link rel="stylesheet" 
-                  href="/boards/create" 
-                  className="mt-12 btn bg-[#2a9d8f] sm:btn-lg text-md sm:text-xl font-medium text-white border hover:bg-transparent hover:text-[#2a9d8f] hover:border-[#2a9d8f]" 
-                  > <FaPlus /> Create a Praise board 
-                </Link>
-            
-            </div>
-
-            <DragCloseDrawer open={open} setOpen={setOpen}>
-              <div className="flex flex-col items-center justify-center text-black space-y-8 bg-gray-800 mt-4">
-                  <p className="sm:mt-0 text-2xl sm:text-4xl font-semibold text-white">Preview {drawer?.event} posts</p>
-                  <Image src={drawer?.gif} sizes='(max-width: 200px) 100vw, 33vw' alt="RetirementImage"
-                    width={0} height={0} className="img border-4 p-1 border-white rounded-box"/>
-                  <motion.button 
-                    whileTap={{scale:0.9}} 
-                    className="preview-button" 
-                    onClick={() => {setPreview(true); setOccasion(drawer.event)}}>Preview<FiExternalLink /> 
-                  </motion.button>
-              </div>
-            </DragCloseDrawer>
-
-            <footer>
-              <div className="footer text-black py-10 flex items-start bg-white justify-evenly">
-                <div className="pages ">
-                <h1 className="text-2xl">Pages</h1>
-                <div className=" flex flex-col">
-                  <Link className="text-lg" href='/boards/create'>» Create Board</Link>
-                  <Link className="text-lg" href='#how-to' >» How to create board</Link>
-                </div>
-              </div>
-                <Image src={Logo} width={60} height={60} alt="Logo"/>
-                </div>
-            </footer>
-                  
-          {/* <FileUploader/> */}
-
-        </div>
+          </div>
+        }
+      </>
     }
     </>
   );

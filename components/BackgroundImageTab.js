@@ -146,7 +146,7 @@ useEffect(()=>{
                   
                       <div className="mt-3 h-full">
                           <p className='text-center text-lg font-semibold text-black'>Preview your image</p>
-                          <button className='bg-black relative top-9 left-2 p-1 rounded-lg' onClick={() => {setImagePreviewComponent(false)}}>
+                          <button className='bg-black dark:bg-black relative top-9 left-2 p-1 rounded-lg' onClick={() => {setImagePreviewComponent(false)}}>
                               <MdDelete className=' text-white text-lg hover:text-gray-400'/>
                           </button>
                           <Image src={uploadedImagePreview} className='rounded-lg' alt='Your image' width={300} height={300} /> 

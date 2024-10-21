@@ -40,9 +40,7 @@ function Verification() {
               <Link href="/" className='text-xl btn mt-2 w-[220px] bg-[#2a9d8f] hover:bg-[#34bdad] shadow-none text-white font-medium' > Go home </Link>
             </div>
             :
-            <div className="loader">
-              <p className="text">Loading...</p>
-            </div>
+            <p className="text">Authorization...</p>
         }
     </div>
   )
