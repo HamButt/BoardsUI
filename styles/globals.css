@@ -26,13 +26,13 @@ html{
   @apply text-2xl sm:text-3xl md:text-5xl xl:text-6xl font-bold px-5 lg:leading-[50px] xl:leading-[65px]
 }
 .main-cta{
-  @apply mt-8 btn bg-[#2a9d8f] btn-md sm:btn-lg  sm:text-xl font-medium text-white hover:bg-white border hover:text-[#2a9d8f] hover:border-[#2a9d8f]
+  @apply mt-8 btn bg-[#2a9d8f] btn-md sm:btn-lg rounded-md sm:text-xl font-medium text-white hover:bg-white border hover:text-[#2a9d8f] hover:border-[#2a9d8f]
 }
 #how-to{
   @apply mt-20 rounded-lg mx-6 text-center bg-emerald-100 py-16
 }
 .how-to-heading{
-  @apply text-4xl sm:text-5xl my-3 text-black font-semibold
+  @apply text-4xl sm:text-5xl my-3 text-black font-semibold text-center
 }
 .how-to-image-div{
   @apply relative px-2 w-[580px] flex items-start text-start justify-start flex-col
@@ -50,7 +50,7 @@ html{
   @apply mt-6 btn bg-[#2a9d8f] btn-md sm:btn-lg sm:text-xl font-medium text-white border hover:bg-transparent hover:text-[#2a9d8f] hover:border-[#2a9d8f]
 }
 #previews{
-  @apply mt-16 py-16 flex items-center justify-center flex-col rounded-lg
+  @apply py-16 flex items-center justify-center flex-col rounded-lg
 }
 .previews-heading{
   @apply text-3xl sm:text-5xl my-4 text-black font-semibold
