@@ -116,7 +116,7 @@ function Message({decrementStep, boardData, setBoardData}) {
                         {isLoading ? 
                          
                         <div className='flex items-center'>
-                            <Loader color="#FF9669" size="xs" margin="2" text="Creating..."/>
+                            <Loader color="#eeee" size="xs" margin="2" text="Creating..."/>
                         </div>
                         : "Create board"}
                         
@@ -131,7 +131,7 @@ function Message({decrementStep, boardData, setBoardData}) {
                                 {isLoading ? 
                                 
                                 <div className='flex items-center'>
-                                    <Loader color="#FF9669" size="xs" margin="2" text="Creating..."/>
+                                    <Loader color="#eeee" size="xs" margin="2" text="Creating..."/>
                                 </div>
                                 : "Create board"}
                             </button>

@@ -468,9 +468,10 @@ function CreatePost() {
                             style={{backgroundColor: !message || isLoading ? "rgb(189, 185, 185)" : "#2a9d8f"}}
                             className={`create-post-btn ${isLoading ? 'bg-rgb(189, 185, 185) pointer-events-none' : 'bg-[#2a9d8f]'}`}>{isLoading ? 
                             <div className='flex items-center'>
-                                <Loader color="#FF9669" size="xs" margin="2" text="Creating..."/>
+                                <Loader color="#eeee" size="xs" margin="2" text="Creating..."/>
                             </div>
-                             : "Create post"}
+                             : "Create post"
+                            }
                         </motion.button>
                     </div>
                     

@@ -174,8 +174,7 @@ useEffect(()=>{
                   { loading ? 
 
                     <div className='flex items-center'>
-                      <Loader color="#FF9669" size="xs" />
-                      <span className="text-[#FF9669] ms-2">Saving...</span>
+                      <Loader margin="2"  color="#FF9669" size="xs" text="saving..." />
                     </div>
 
                     : "Apply changes"
