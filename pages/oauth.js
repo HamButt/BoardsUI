@@ -2,6 +2,7 @@
 import React, {useEffect} from 'react'
 import Cookie from 'js-cookie'
 import {useRouter} from 'next/router'
+import Head from 'next/head'
 
 function Token() {
   const router = useRouter()
@@ -16,9 +17,11 @@ function Token() {
 
 
   return (
-    <div className='flex items-center justify-center h-screen w-full' >
-      
-      <p className="text">Authorizing......</p>
+    <div className='flex items-center justify-center h-screen w-full bg-white dark:bg-white' >
+        <Head>
+          <title>Verification</title>
+        </Head>
+      <p className="text">Authorizing...</p>
 
     </div>
   )

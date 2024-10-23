@@ -2,6 +2,7 @@
 import React, {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
+import Head from 'next/head'
 import Cookie from 'js-cookie'
 import axios from 'axios'
 
@@ -33,7 +34,10 @@ function Verification() {
 
 
   return (
-    <div className='flex items-center justify-center h-screen w-full' >
+    <div className='flex items-center justify-center h-screen w-full bg-white dark:bg-white' >
+        <Head>
+          <title>Verification</title>
+        </Head>
         {isError ?
             <div className='flex flex-col items-center justify-center' >
               <span className='ms-2 text-2xl' > {isError} </span>

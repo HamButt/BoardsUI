@@ -254,39 +254,41 @@ function CreatePost() {
                                     </Button>
                                 </DropdownTrigger>
                                 <DropdownMenu variant="faded" aria-label="Static Actions" className='bg-white rounded-md border shadow-xl py-2'>
-                                    <DropdownItem textValue='Upload'>
+                                    <DropdownItem textValue='Upload'
+                                            onClick={() => {
+                                                setImageComponent('upload'); 
+                                                setImageSection(false); 
+                                                setGIFComponent("");  
+                                                setVideoComponent(false); 
+                                                setGifSection(false); 
+                                                setGif(false); 
+                                                setVideoInputHandling(false);
+                                                setGifData(""); 
+                                                setSplashImage(null);
+                                                setUploadGIfPreview(null)
+                                            }} 
+                                                >
                                         <div className='upload-image'>
                                             <MdDriveFolderUpload className='text-xl text-indigo-600' />
-                                            <p className='text-sm font-semibold ps-3' 
-                                                onClick={() => {
-                                                    setImageComponent('upload'); 
-                                                    setImageSection(false); 
-                                                    setGIFComponent("");  
-                                                    setVideoComponent(false); 
-                                                    setGifSection(false); 
-                                                    setGif(false); 
-                                                    setVideoInputHandling(false);
-                                                    setGifData(""); 
-                                                    setSplashImage(null);
-                                                    setUploadGIfPreview(null)
-                                                }} >Upload image</p>
+                                            <p className='text-sm font-semibold ps-3'>Upload image</p>
                                         </div>
                                     </DropdownItem>
-                                    <DropdownItem textValue='Search'>
-                                        <div className='search-image'>
+                                    <DropdownItem textValue='Search'
+                                            onClick={() => { 
+                                                setImageComponent('search'); 
+                                                setGIFComponent("");
+                                                setVideoComponent(false); 
+                                                setGifSection(false);
+                                                setGif(false); 
+                                                setVideoInputHandling(false);
+                                                setUploadGIfPreview(null);
+                                                setGifData(""); 
+                                                setUploadImagePreview('')
+                                                }}>
+                                        <div className='search-image' 
+                                               >
                                             <RiStackFill className='text-xl text-indigo-600' />
-                                            <p className='text-sm font-semibold ps-3' 
-                                                onClick={() => { 
-                                                    setImageComponent('search'); 
-                                                    setGIFComponent("");
-                                                    setVideoComponent(false); 
-                                                    setGifSection(false);
-                                                    setGif(false); 
-                                                    setVideoInputHandling(false);
-                                                    setUploadGIfPreview(null);
-                                                    setGifData(""); 
-                                                    setUploadImagePreview('')
-                                                }}>Search with unsplash</p>
+                                            <p className='text-sm font-semibold ps-3' >Search with unsplash</p>
                                         </div>
                                     </DropdownItem>
                                 </DropdownMenu>
@@ -301,11 +303,8 @@ function CreatePost() {
                                     </Button>
                                 </DropdownTrigger>
                                 <DropdownMenu aria-label="Static Actions" className='bg-white rounded-md border shadow-xl py-2'>
-                                    <DropdownItem textValue='Upload'>
-                                        <div className='upload-gif'>
-                                            <MdDriveFolderUpload className='text-xl text-pink-600' />
-                                            <p className='text-sm font-semibold ps-3' 
-                                                onClick={() => {
+                                    <DropdownItem textValue='Upload'   
+                                            onClick={() => {
                                                     setGIFComponent('upload'); 
                                                     setImageComponent("");
                                                     setImageSection(false);  
@@ -316,14 +315,15 @@ function CreatePost() {
                                                     setUploadImagePreview('');
                                                     setVideoInputHandling(false); 
                                                     setImageData("")
-                                                }} >Upload GIF</p>
+                                                }} >
+                                        <div className='upload-gif'>
+                                            <MdDriveFolderUpload className='text-xl text-pink-600' />
+                                            <p className='text-sm font-semibold ps-3' 
+                                              >Upload GIF</p>
                                         </div>
                                     </DropdownItem>
-                                    <DropdownItem textValue='Search'>
-                                        <div className='search-gif'>
-                                            <RiStackFill className='text-xl text-pink-600' />
-                                            <p className='text-sm font-semibold ps-3' 
-                                                onClick={() => {
+                                    <DropdownItem textValue='Search'
+                                            onClick={() => {
                                                     setGIFComponent('search'); 
                                                     setImageComponent("");
                                                     setImageSection(false); 
@@ -334,7 +334,11 @@ function CreatePost() {
                                                     setVideoInputHandling(false);
                                                     setUploadImagePreview('');
                                                     setImageData("")
-                                                }}>Search with giphy</p>
+                                                }}>
+                                        <div className='search-gif'>
+                                            <RiStackFill className='text-xl text-pink-600' />
+                                            <p className='text-sm font-semibold ps-3' 
+                                               >Search with giphy</p>
                                         </div>
                                     </DropdownItem>
                                 </DropdownMenu>
@@ -448,7 +452,6 @@ function CreatePost() {
                                     getGifsFromGiphy={getGifsFromGiphy} 
                                     isFetchingGIfs={isFetchingGIfs}
                                 />
-                            
                         }
 
                     </div>
@@ -456,11 +459,11 @@ function CreatePost() {
 
                     <div className="inputs text-center mx-10 mt-6">
                         <input 
-                            type="text" className="input input-bordered border-2 w-full" 
+                            type="text" className="input input-bordered border-2 w-full bg-white dark:bg-white" 
                             placeholder='Enter your name or post anonymously' value={creator} 
                             onChange={(e) => setCreator(e.target.value)}  />
                         <textarea style={{resize:"none"}} value={message} rows={4}
-                            className='message-textarea textarea textarea-bordered' 
+                            className='message-textarea textarea textarea-bordered bg-white dark:bg-white' 
                             type="text" name='message' required placeholder='(Required) Add a message...' 
                             onChange={(e) => setMessage(e.target.value)}  >
                         </textarea>

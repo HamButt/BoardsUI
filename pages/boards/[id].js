@@ -224,42 +224,44 @@ function Post() {
                                     <button className="text-sm font-semibold ps-3 text-black text-[14px] " >Share board</button>
                                 </div>
                             </DropdownItem>
+                        { userCookie &&
                             <DropdownItem textValue='Customise'>
                                 <div onClick={() => {setOpenNav(true)}} className='customise '>
                                     <CiEdit  className="text-black share-button text-[22px] cursor-pointer" />
                                     <p className='text-sm font-semibold ps-2 text-black text-[14px]'>Customise board</p>
                                 </div>
                             </DropdownItem>
+                        }
+                        { userCookie && 
                             <DropdownItem textValue='Cookie'>
-                                { userCookie && 
                                     <div className='delete' onClick={()=>document.getElementById('delete_modal').showModal()}>
                                         <MdDeleteOutline className='text-2xl' />  
                                         <p className='text-sm font-semibold ps-3'>Delete board</p>
                                     </div>
-                                }
                             </DropdownItem>
+                            }
                         </DropdownMenu>
                     </Dropdown>
                     
-                    <dialog id="share-board" className="modal">
-                        <div className="modal-box">
+                    <dialog id="share-board" className="modal ">
+                        <div className="modal-box bg-white dark:bg-white">
                             <form method="dialog">
-                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-white">✕</button>
                             </form>
-                            <h3 className="text-xl text-black">Share {recipient}'s board | {title} </h3>
-                            <div className="mt-5 flex items-center justify-center space-x-3" >
-                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={() => {copyLink(boardId); document.getElementById('share-board').close()}}>
-                                    <IoLinkOutline className='text-[22px]' />
-                                    <button className="text-[16px] mt-2 text-black" >Copy link</button>
+                            <h3 className="text-xl text-black dark:text-white">Share {recipient}'s board | {title} </h3>
+                            <div className="mt-5 flex items-center justify-center space-x-3 bg-white dark:bg-white" >
+                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 dark:border-white cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={() => {copyLink(boardId); document.getElementById('share-board').close()}}>
+                                    <IoLinkOutline className='text-[22px] text-black dark:text-white' />
+                                    <button className="text-[16px] mt-2 text-black dark:text-white" >Copy link</button>
                                 </motion.div>
-                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={(e) => {window.open(`mailto:?body=${process.env.copyLinkUrl}/boards/${boardId}`)}}>
-                                    <HiOutlineMail className='text-[22px]' />
-                                    <button className="text-[16px] mt-2 text-black" >Email</button>
+                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 dark:border-white cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={(e) => {window.open(`mailto:?body=${process.env.copyLinkUrl}/boards/${boardId}`)}}>
+                                    <HiOutlineMail className='text-[22px] text-black dark:text-white' />
+                                    <button className="text-[16px] mt-2 text-black dark:text-white" >Email</button>
                                 </motion.div>
-                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={() => {
+                                <motion.div whileTap={{scale:0.9, transition: { duration: 1 }}} className="border-2 dark:border-white cursor-pointer rounded-md hover:border-[#FF9669] w-36 py-7 flex items-center flex-col" onClick={() => {
                                     window.open(`https://wa.me/?text=${process.env.copyLinkUrl}/boards/${boardId}`, '_blank')}}>
-                                    <FaWhatsapp className='text-[22px]' />
-                                    <button className="whatsapp-button text-[16px] mt-2 text-black"> 
+                                    <FaWhatsapp className='text-[22px] text-black dark:text-white' />
+                                    <button className="whatsapp-button text-[16px] mt-2 text-black dark:text-white"> 
                                         WhatsApp
                                     </button>
                                 </motion.div>
@@ -298,9 +300,9 @@ function Post() {
                         <div className="text-center editable-element flex items-center justify-center">
                             <div className="title max-sm:w-[300px] sm:w-[500px] md:w-[600px] lg:w-[800px]">
                             
-                                <textarea style={{resize:"none"}}  ref={inputRef} type="text" value={title} name='title' onChange={handleTitleInput} 
-                                className='title-teaxtarea' rows={1} spellCheck={true}></textarea>
-                                <button onClick={focusOnInput} className="edit-button"> <MdOutlineModeEdit/> </button>
+                                <textarea style={{resize:"none"}} disabled={userCookie ? false : true} ref={inputRef} type="text" value={title} name='title' onChange={handleTitleInput} 
+                                className={`title-teaxtarea ${!userCookie ? 'cursor-auto' : 'cursor-pointer'}`} rows={1} spellCheck={true}></textarea>
+                                <button onClick={focusOnInput} className={`edit-button ${!userCookie ? 'cursor-auto' : 'cursor-pointer'}`} disabled={userCookie ? false : true}> <MdOutlineModeEdit/> </button>
                                 
                             </div>
                         </div>

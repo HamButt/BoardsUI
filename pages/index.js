@@ -11,7 +11,6 @@ import Logo from '../public/logo.png'
 import {PreviewBirthdayGif, PreviewThankyouGif, PreviewGraduationGif, PreviewFarewellGif, PreviewNewYearGif, PreviewRetirementGif} from '../components/LandingPageGifs'
 // import { FileUploader } from "../components/Fileuploader";
 import { FaPlus } from "react-icons/fa6";
-import {Card} from '../components/LogoAnimation'
 import Loader from '../components/Loader';
 import { TextParallaxContentExample } from "../components/OnscrollAnimator";
 import ShuffleHero from '../components/ShuffleHero'

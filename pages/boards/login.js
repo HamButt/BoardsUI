@@ -57,12 +57,12 @@ function Login() {
   
 
   return (
-    <>
+    <div className="bg-white dark:bg-white">
         <Head>
             <title>Login</title>
         </Head>
 
-        <div className="flex items-center justify-center mt-5">
+        <div className="flex items-center justify-center pt-5 bg-white dark:bg-white">
             <Link href='/'>
                 <Image className='w-[70px]' src={Logo} alt='Logo' width={0} height={0}  sizes='(max-width: 200px) 100vw, 33vw'/>
             </Link>
@@ -73,7 +73,7 @@ function Login() {
         {isGoogleLoading && <Toaster theme='system' richColors={true} position="top-center" />}
 
 
-        <div className='mt-10 flex items-center justify-center flex-col'>
+        <div className='mt-10 flex items-center justify-center flex-col bg-white dark:bg-white'>
             <h1 className='text-start text-2xl sm:text-3xl'>Login to Praiseboard</h1>
             <div className='max-sm:mx-2 sm:w-[480px]'>
 
@@ -82,7 +82,7 @@ function Login() {
 
                     <div className="custom-login">
                         <p className="py-4">Enter your email below</p>
-                        <label className="input input-bordered flex items-center gap-2 w-full">
+                        <label className="input input-bordered flex items-center gap-2 w-full bg-white dark:bg-white">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 16 16"
@@ -133,7 +133,7 @@ function Login() {
             
         </div>
 
-    </>
+    </div>
   )
 }
 
