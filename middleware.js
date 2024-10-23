@@ -6,23 +6,23 @@ export function middleware(request) {
   const pathname = url.pathname;
   
   if (!cookie && pathname === '/boards/create'){
-      return NextResponse.redirect('http://localhost:3000/boards/login')
+      return NextResponse.redirect('https://praiseboard.vercel.app/boards/login')
   }
   
   if(!cookie && pathname === '/boards/user/dashboard'){
-    return NextResponse.redirect('http://localhost:3000/boards/login')
+    return NextResponse.redirect('https://praiseboard.vercel.app/boards/login')
   }
 
   if(!cookie && pathname === '/boards/dashboard'){
-    return NextResponse.redirect('http://localhost:3000/boards/login')
+    return NextResponse.redirect('https://praiseboard.vercel.app/boards/login')
   }
 
   if(!cookie && pathname === '/boards/favorites'){
-    return NextResponse.redirect('http://localhost:3000/boards/login')
+    return NextResponse.redirect('https://praiseboard.vercel.app/boards/login')
   }
   
   if(cookie && pathname === '/boards/login'){
-    return NextResponse.redirect('http://localhost:3000/boards/user/dashboard')
+    return NextResponse.redirect('https://praiseboard.vercel.app/boards/user/dashboard')
   }
 
   return NextResponse.next();
