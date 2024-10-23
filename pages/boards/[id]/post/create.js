@@ -256,36 +256,35 @@ function CreatePost() {
                                 </DropdownTrigger>
                                 <DropdownMenu variant="faded" aria-label="Static Actions" className='bg-white rounded-md border shadow-xl py-2'>
                                     <DropdownItem textValue='Upload'
-                                            onClick={() => {
-                                                setImageComponent('upload'); 
-                                                setImageSection(false); 
-                                                setGIFComponent("");  
-                                                setVideoComponent(false); 
-                                                setGifSection(false); 
-                                                setGif(false); 
-                                                setVideoInputHandling(false);
-                                                setGifData(""); 
-                                                setSplashImage(null);
-                                                setUploadGIfPreview(null)
-                                            }} 
-                                                >
+                                        onClick={() => {
+                                            setImageComponent('upload'); 
+                                            setImageSection(false); 
+                                            setGIFComponent("");  
+                                            setVideoComponent(false); 
+                                            setGifSection(false); 
+                                            setGif(false); 
+                                            setVideoInputHandling(false);
+                                            setGifData(""); 
+                                            setSplashImage(null);
+                                            setUploadGIfPreview(null)
+                                        }} >
                                         <div className='upload-image'>
                                             <MdDriveFolderUpload className='text-xl text-indigo-600' />
                                             <p className='text-sm font-semibold ps-3'>Upload image</p>
                                         </div>
                                     </DropdownItem>
                                     <DropdownItem textValue='Search'
-                                            onClick={() => { 
-                                                setImageComponent('search'); 
-                                                setGIFComponent("");
-                                                setVideoComponent(false); 
-                                                setGifSection(false);
-                                                setGif(false); 
-                                                setVideoInputHandling(false);
-                                                setUploadGIfPreview(null);
-                                                setGifData(""); 
-                                                setUploadImagePreview('')
-                                                }}>
+                                        onClick={() => { 
+                                            setImageComponent('search'); 
+                                            setGIFComponent("");
+                                            setVideoComponent(false); 
+                                            setGifSection(false);
+                                            setGif(false); 
+                                            setVideoInputHandling(false);
+                                            setUploadGIfPreview(null);
+                                            setGifData(""); 
+                                            setUploadImagePreview('')
+                                        }}>
                                         <div className='search-image' 
                                                >
                                             <RiStackFill className='text-xl text-indigo-600' />
@@ -305,18 +304,18 @@ function CreatePost() {
                                 </DropdownTrigger>
                                 <DropdownMenu aria-label="Static Actions" className='bg-white rounded-md border shadow-xl py-2'>
                                     <DropdownItem textValue='Upload'   
-                                            onClick={() => {
-                                                    setGIFComponent('upload'); 
-                                                    setImageComponent("");
-                                                    setImageSection(false);  
-                                                    setVideoComponent(false);
-                                                    setGifSection(false); 
-                                                    setGif(false); 
-                                                    setSplashImage(null);
-                                                    setUploadImagePreview('');
-                                                    setVideoInputHandling(false); 
-                                                    setImageData("")
-                                                }} >
+                                        onClick={() => {
+                                            setGIFComponent('upload'); 
+                                            setImageComponent("");
+                                            setImageSection(false);  
+                                            setVideoComponent(false);
+                                            setGifSection(false); 
+                                            setGif(false); 
+                                            setSplashImage(null);
+                                            setUploadImagePreview('');
+                                            setVideoInputHandling(false); 
+                                            setImageData("")
+                                        }} >
                                         <div className='upload-gif'>
                                             <MdDriveFolderUpload className='text-xl text-pink-600' />
                                             <p className='text-sm font-semibold ps-3' 
@@ -324,22 +323,21 @@ function CreatePost() {
                                         </div>
                                     </DropdownItem>
                                     <DropdownItem textValue='Search'
-                                            onClick={() => {
-                                                    setGIFComponent('search'); 
-                                                    setImageComponent("");
-                                                    setImageSection(false); 
-                                                    setVideoComponent(false); 
-                                                    setSplashImage(null);
-                                                    setGifSection(false); 
-                                                    setGif(false); 
-                                                    setVideoInputHandling(false);
-                                                    setUploadImagePreview('');
-                                                    setImageData("")
-                                                }}>
+                                        onClick={() => {
+                                            setGIFComponent('search'); 
+                                            setImageComponent("");
+                                            setImageSection(false); 
+                                            setVideoComponent(false); 
+                                            setSplashImage(null);
+                                            setGifSection(false); 
+                                            setGif(false); 
+                                            setVideoInputHandling(false);
+                                            setUploadImagePreview('');
+                                            setImageData("")
+                                        }}>
                                         <div className='search-gif'>
                                             <RiStackFill className='text-xl text-pink-600' />
-                                            <p className='text-sm font-semibold ps-3' 
-                                               >Search with giphy</p>
+                                            <p className='text-sm font-semibold ps-3' >Search with giphy</p>
                                         </div>
                                     </DropdownItem>
                                 </DropdownMenu>
