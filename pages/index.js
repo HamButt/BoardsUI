@@ -28,24 +28,18 @@ export default function Home() {
     event: "",
     gif: null
   });
+  const [isClient, setIsClient] = useState(false);
+
+useEffect(() => {
+  setIsClient(true);
+}, []);
 
   const [handleNavigating, setHandleNavigating] = useState(false);
-  const [isUserfirstTime, SetUserFirstTime] = useState(true);
   
   const navigationToPage = () => {
     setHandleNavigating(true)
 }
 
-useEffect(()=>{
-  const isUserNotFirstTime = localStorage.getItem('userNotFirstTime')
-  
-  if(isUserNotFirstTime){
-    SetUserFirstTime(false)
-  }else{
-    const hash = Math.random()
-    localStorage.setItem('userNotFirstTime', hash)
-  }
-}, [])
 
   return (
     <>
@@ -61,6 +55,9 @@ useEffect(()=>{
               </Head>
 
               <Header/>
+
+              
+              
 
               <div className="main mt-14 text-black">
                 <div className="main-parent">
@@ -96,15 +93,15 @@ useEffect(()=>{
                     
                     <div className="flex items-center justify-evenly flex-wrap" >
 
-                        {previewsData?.length > 0 ?
-                          previewsData?.map((previewPost,index) => {
+                        {isClient && previewsData.length > 0 ?
+                          previewsData.map((previewPost,index) => {
                             return (
                             <div key={previewPost.id} className="image-container rounded-box">
                               <Image src={previewPost.gif} sizes='(max-width: 200px) 100vw, 33vw'  
                                 alt="RetirementImage" width={0} height={0} className="img rounded-box"/>
 
                               <div className="overlay">
-                                  <motion.button whileTap={{scale:0.9}} onClick={() => {setOpen(true); setDrawer({event: previewPost?.event, gif: previewPost?.gif}) }}
+                                  <motion.button whileTap={{scale:0.9}} onClick={() => {setOpen(true); setDrawer({event: previewPost.event, gif: previewPost.gif}) }}
                                     className="overlay-button btn border outline-none rounded-lg text-lg font-semibold hover:shadow-xl" 
                                     >Preview <FiExternalLink /> </motion.button>
                               </div>
@@ -115,7 +112,7 @@ useEffect(()=>{
                         : <div className='flex items-center'>
                             <Loader color="#FF9669" size="sm" margin="2"/>
                           </div>
-            }
+                      }
 
                     </div>
                   </div>
@@ -132,6 +129,7 @@ useEffect(()=>{
                 <ShuffleHero/>
               </div>
 
+
               <DragCloseDrawer open={open} setOpen={setOpen}>
                 <div className="flex flex-col items-center justify-center text-black space-y-8 bg-gray-800 mt-4">
                     <p className="sm:mt-0 text-2xl sm:text-4xl font-semibold text-white">Preview {drawer?.event} posts</p>
@@ -145,8 +143,10 @@ useEffect(()=>{
                 </div>
               </DragCloseDrawer>
 
+              <span className="divider m-0 p-0"></span>
+
               <footer>
-                <div className="footer text-black py-10 flex items-start bg-white justify-evenly">
+                <div className="footer text-black py-10 flex items-start justify-evenly">
                   <div className="pages ">
                   <h1 className="text-2xl">Pages</h1>
                   <div className=" flex flex-col">
@@ -154,7 +154,7 @@ useEffect(()=>{
                     <Link className="text-lg" href='#how-to' >» How to create a board</Link>
                   </div>
                 </div>
-                  <Image src={Logo} width={60} height={60} alt="Logo"/>
+                {isClient && <Image src={Logo} width={60} height={60} alt="Logo"/>}
                   </div>
               </footer>
                     

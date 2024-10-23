@@ -10,6 +10,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import axios from 'axios' 
 import { IoMdArrowRoundBack, IoImages, PiGifFill, FaYoutube, MdDriveFolderUpload, RiStackFill, IoIosArrowDown, FiAlertCircle } from '../../../../components/PostIcons'
 import { UploadImage, SearchImage, PreviewSplashImage, SplashImages, Error, GifUpload, GifSearch, UploadYoutubeVideo, SelectedGif, Giphy } from '../../../../components/PostComponents'
+import Loader from '../../../../components/Loader'
 
 
 function CreatePost() {
