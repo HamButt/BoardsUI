@@ -163,7 +163,7 @@ function Dashboard() {
 
         </header>
 
-        <div className={`all-boards ${boards?.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white dark:bg-white`}>
+        <div className={`all-boards ${boards?.length > 0 ? 'pt-32' : ''} flex items-start justify-center py-4 bg-white h-screen dark:bg-white`}>
 
             {/* FOR LARGE SCREENS */}
             

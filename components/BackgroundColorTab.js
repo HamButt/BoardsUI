@@ -1,6 +1,6 @@
 'use client'
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import {  motion } from "framer-motion";
@@ -11,7 +11,7 @@ function BackgroundColorTab({setImageUrl, boardId, setUploadedImage, setOpenNav,
     const [loading, setLoading] = useState(false)
     const borderColor = loading ? 'border-[#FF9669]' : 'border-gray-600';
 
-    React.useEffect(()=>{
+    useEffect(()=>{
         if(color.hex !== "#000000"){
             setImageUrl("")
             setUploadedImage("")

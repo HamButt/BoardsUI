@@ -1,3 +1,4 @@
+'use client'
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Link from 'next/link'
@@ -18,7 +19,7 @@ const ShuffleHero = () => {
     const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
     const [displayedText, setDisplayedText] = useState('');
     const [isErasing, setIsErasing] = useState(false);
-     const categories = ['Birthday!', 'Welcome!', 'New year!', 'Easter!', 'ThankYou!', 'Love!', 'Farewell!', 'Congrats!'];
+     const categories = ['Happy Birthday!', 'Welcome & onboarding!', 'New year!', 'Christmas!', 'ThankYou!', 'Valentine!', 'Retirement!', 'Congratulations!'];
 
   useEffect(() => {
     let timeoutId;
@@ -82,42 +83,15 @@ const shuffle = (array) => {
 };
 
 const squareData = [
-  {
-    id: 1,
-    src: onBoarding.src
-  },
-  {
-    id: 2,
-    src: Congratulations.src
-  },
-  {
-    id: 3,
-    src: NewYear.src
-  },
-  {
-    id: 4,
-    src: Thaknyou.src
-  },
-  {
-    id: 5,
-    src: Hbirthday.src
-  },
-  {
-    id: 6,
-    src: Retirement.src
-  },
-  {
-    id: 7,
-    src: Christmas.src
-  },
-  {
-    id: 8,
-    src: Graduation.src
-  },
-  {
-    id: 9,
-    src: Valentines.src
-  }
+  { id: 1, src: onBoarding.src},
+  { id: 2, src: Congratulations.src},
+  { id: 3, src: NewYear.src},
+  { id: 4, src: Thaknyou.src},
+  { id: 5, src: Hbirthday.src},
+  { id: 6, src: Retirement.src },
+  { id: 7, src: Christmas.src },
+  { id: 8, src: Graduation.src },
+  { id: 9, src: Valentines.src }
 ];
 
 const generateSquares = () => {
@@ -126,11 +100,8 @@ const generateSquares = () => {
       key={sq.id}
       layout
       transition={{ duration: 1.5, type: "spring" }}
-      className="w-full h-full"
-      style={{
-        backgroundImage: `url(${sq.src})`,
-        backgroundSize: "cover",
-      }}
+      className="w-full h-full flex items-end justify-end"
+      style={{backgroundImage: `url(${sq?.src})`, backgroundSize: "cover"}}
     >
     </motion.div>
   ));
@@ -141,17 +112,19 @@ const ShuffleGrid = () => {
   const [squares, setSquares] = useState(generateSquares());
 
   useEffect(() => {
-    shuffleSquares();
+    const timeoutRef = setTimeout(() => {
+      setSquares(generateSquares());
+    }, 3000);
 
-    return () => clearTimeout(timeoutRef.current);
-  }, []);
+    return () => clearTimeout(timeoutRef);
+  }, [squares]);
 
   const shuffleSquares = () => {
     setSquares(generateSquares());
 
     timeoutRef.current = setTimeout(shuffleSquares, 3000);
-  };
-
+  }
+ 
   return (
     <div className="grid grid-cols-3 grid-rows-3 h-[450px] gap-1">
       {squares.map((sq) => sq)}

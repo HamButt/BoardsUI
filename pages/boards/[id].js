@@ -22,10 +22,11 @@ import { BsThreeDotsVertical, MdDeleteOutline, FaPlus, MdOutlineCheck, IoMdClose
 
 function Post() {
     const router = useRouter()
+    
+    const [boardId,setBoardId] = useState('')
     const [title,setTitle] = useState('')
     const [imageUrl,setImageUrl] = useState(null)
     const [uploadedImage,setUploadedImage] = useState(null)
-    const [boardId,setBoardId] = useState('')
     const [posts,setPosts] = useState([])
     const [userCookie,setUserCookie] = useState('')
     const [recipient,setRecipient] = useState('')
@@ -50,6 +51,7 @@ function Post() {
             Confetti()
         }
         else if(modal === boardId){
+    
             setWelcomeModal(false)
         }
         setLoading(false);
@@ -78,15 +80,17 @@ function Post() {
         const restOfString = str?.slice(1);
         return firstChar + restOfString;
     }
-    
-    useEffect(()=>{
-        const cookie = localStorage.getItem('Creator')
-        const board_id = window.location.pathname.split('/').reverse()[0]
-        setUserCookie(cookie)
-        setBoardId(board_id)
 
-        fetchBoard(board_id)
-        fetchPosts(board_id)
+    useEffect(()=>{
+        const board_id = window.location.pathname.split('/').reverse()[0]
+        if(board_id){
+            const cookie = localStorage.getItem('Creator')
+            const {query : {id}} = router
+            setUserCookie(cookie)
+            fetchBoard(board_id)
+            fetchPosts(board_id)
+            setBoardId(board_id)
+        }
         
     }, [])
     
@@ -136,6 +140,11 @@ function Post() {
 
     const navigationToPage = () => {
         setIsNavigating(true)
+        if(boardId){
+            router.push(`/boards/${boardId || router?.query?.id}/post/create`, {
+                shallow: true,
+        })
+    }
     }
 
     const handleWelcomeModal = () => {
@@ -162,6 +171,7 @@ function Post() {
         textarea.style.height = 'auto';
         textarea.style.height = `${textarea?.scrollHeight}px`;
     };
+
 
     return (
 
@@ -201,7 +211,7 @@ function Post() {
 
                 <div className="header-buttons space-x-1 flex items-end"> 
                     
-                    <Link onClick={navigationToPage} href={`/boards/${boardId ?? router?.query?.id}/post/create`} 
+                    {boardId ? <button onClick={navigationToPage}
                         className='add-a-post-button '>
                         {isNavigating ? <span className="loading loading-dots loading-md text-[#FF9669]"></span>
                             : 
@@ -209,7 +219,7 @@ function Post() {
                                 <FaPlus /> Add a post
                             </>
                             }
-                    </Link>
+                    </button> : <div className="skeleton h-5 w-32 ms-2 rounded-md"></div>}
                     
                     <Dropdown>
                         <DropdownTrigger>
@@ -336,7 +346,6 @@ function Post() {
                                                             : post?.giphy ?
 
                                                                 <img 
-                                                                    fetchPriority="high" 
                                                                     className='post-gif rounded-t-lg' 
                                                                     src={post?.giphy} alt="GIF" /> 
                                                             
@@ -344,7 +353,6 @@ function Post() {
 
                                                                 <Image 
                                                                     sizes='(max-width: 200px) 100vw, 33vw' 
-                                                                    fetchPriority="high" 
                                                                     className='object-cover rounded-t-lg unsplash-image' 
                                                                     src={post?.unsplashImage} alt="unsplashImage" width={0} height={0}/>
                                                             : 
@@ -379,13 +387,13 @@ function Post() {
                                     <div className="mt-5">
                                         <h3 className="font-bold text-lg sm:text-2xl px-3">Welcome to the praise board of</h3>
                                         <p className="font-semibold mt-1 text-lg sm:text-xl capitalize">{recipient}</p>
-                                        <Link onClick={navigationToPage} href={`/boards/${boardId ?? router?.query?.id}/post/create`} 
+                                        <button onClick={navigationToPage}
                                             className='add-your-post-cta'>
                                             
                                             {isNavigating ? 
                                                 <span className="loading loading-dots loading-md lg:loading-lg text-[#FF9669]"></span>
                                             : "Add your post"}
-                                        </Link>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

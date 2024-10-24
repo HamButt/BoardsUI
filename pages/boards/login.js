@@ -57,7 +57,7 @@ function Login() {
   
 
   return (
-    <div className="bg-white dark:bg-white">
+    <div className="bg-white dark:bg-white h-screen">
         <Head>
             <title>Login</title>
         </Head>
@@ -117,7 +117,7 @@ function Login() {
                             <span className="w-full border-t"></span>
                         </div>
                         <div className="relative flex justify-center text-xs uppercase" >
-                            <span className="bg-white text-sm px-2 text-muted-foreground">Or</span>
+                            <span className="bg-white dark:bg-white text-sm px-2 text-muted-foreground">Or</span>
                         </div>
                     </div>
 

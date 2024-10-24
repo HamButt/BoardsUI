@@ -70,7 +70,7 @@ function Message({decrementStep, boardData, setBoardData}) {
         setIsLoading(false);
         if (error?.response?.status === 401) {
           toast.error(error?.response?.data?.message, {
-            action: <button className='text-white bg-[#2a9d8f] px-2 py-1 rounded' onClick={() => router.push('/boards/user/dashboard')}>Go to dashboard</button>,
+            action: <button className='text-[#2a9d8f]' onClick={() => router.push('/boards/user/dashboard')}>Go to dashboard</button>,
             duration: Infinity,
         });
         }

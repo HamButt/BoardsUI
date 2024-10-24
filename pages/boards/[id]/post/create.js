@@ -157,12 +157,12 @@ function CreatePost() {
                      "Content-Type": "multipart/form-data"
              }})
                 if(res?.status === 200){
+                    router.push(`/boards/${boardId}`)
                     confetti({
                          particleCount: 200,
                          spread: 50,
                          origin: { y: 0.7 }
                     })
-                    router.push(`/boards/${boardId}`)
                 }
         } catch (error) {
             if(error?.response?.status === 403){
@@ -468,7 +468,8 @@ function CreatePost() {
                         </textarea>
                         <motion.button whileTap={{scale: !message ? "1" : "0.9"}} disabled={!message || isLoading ? true : false} onClick={createPost} 
                             style={{backgroundColor: !message || isLoading ? "rgb(189, 185, 185)" : "#2a9d8f"}}
-                            className={`create-post-btn ${isLoading ? 'bg-rgb(189, 185, 185) pointer-events-none' : 'bg-[#2a9d8f]'}`}>{isLoading ? 
+                            className={`create-post-btn ${isLoading ? 'bg-rgb(189, 185, 185) pointer-events-none' : 'bg-[#2a9d8f]'}`}>
+                            { isLoading ? 
                             <div className='flex items-center'>
                                 <Loader color="#eeee" size="xs" margin="2" text="Creating..."/>
                             </div>
